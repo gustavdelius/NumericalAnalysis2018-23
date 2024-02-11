@@ -5,7 +5,7 @@ project:
     browser: true
 
 book:
-  title: "Numerical Analysis"
+  title: "Numerical Analysis 2018-23"
   author: 
     - name: Gustav Delius
       email: gustav.delius@york.ac.uk
@@ -15,19 +15,16 @@ book:
   date: today
   license: CC BY-NC-SA
   downloads: pdf
-  repo-url: https://github.com/gustavdelius/NumericalAnalysis/
-  repo-branch: master
+  repo-url: https://github.com/gustavdelius/NumericalAnalysis2018-23/
+  repo-branch: main
   repo-actions: edit
   twitter-card: true
   open-graph: true
   sidebar:
     tools: 
       - icon: mortarboard-fill
-        href: https://maths.york.ac.uk/moodle/course/view.php?id=2497
+        href: https://maths.york.ac.uk/moodle/course/view.php?id=2528
         text: Moodle page
-      - icon: bug-fill
-        href: https://forms.gle/w17c19vWnM7wpLpz7
-        text: Submit a correction
   chapters:
     - index.qmd
     - chapter02.qmd
