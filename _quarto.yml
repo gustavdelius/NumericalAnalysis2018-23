@@ -1,0 +1,68 @@
+project:
+  type: book
+  output-dir: docs
+  preview: 
+    browser: true
+
+book:
+  title: "Numerical Analysis"
+  author: 
+    - name: Gustav Delius
+      email: gustav.delius@york.ac.uk
+      affiliation:
+      - name: Department of Mathematics, University of York
+    
+  date: today
+  license: CC BY-NC-SA
+  downloads: pdf
+  repo-url: https://github.com/gustavdelius/NumericalAnalysis/
+  repo-branch: master
+  repo-actions: edit
+  twitter-card: true
+  open-graph: true
+  sidebar:
+    tools: 
+      - icon: mortarboard-fill
+        href: https://maths.york.ac.uk/moodle/course/view.php?id=2497
+        text: Moodle page
+      - icon: bug-fill
+        href: https://forms.gle/w17c19vWnM7wpLpz7
+        text: Submit a correction
+  chapters:
+    - index.qmd
+    - chapter02.qmd
+    - chapter03.qmd
+    - chapter04.qmd
+    - chapter05.qmd
+    - chapter06.qmd
+    - chapter07.qmd
+    - chapter08.qmd
+    - chapter09.qmd
+    - ivp.qmd
+    - bvp.qmd
+    - pde.qmd
+  appendices:
+    - appendix.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    link-external-newwindow: true
+  pdf:
+    documentclass: scrreprt
+    papersize: a4
+    execute:
+      echo: false
+    
+toc: true
+number-sections: true
+crossref:
+  eq-prefix: Eq.
+fig-align: left
+
+execute:
+  cache: true
+  freeze: auto

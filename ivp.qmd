@@ -1,0 +1,2633 @@
+# Initial Value Problems {#sec-ivp}
+
+## Introduction {#sec-ivpintro}
+
+The topic of this and the next chapter is to find *approximate
+solutions* to *ordinary differential equations*.
+
+Let us briefly recall what an ordinary differential equation (ODE) is. A
+rather arbitrarily chosen example for an ODE (here, of second order) is
+$$
+y''(x) +  4 y'(x) + \sqrt[3]{y(x)} + \cos(x) = 0.
+$$ {#eq-odeexample}
+Equations like
+this are normally satisfied by many functions $y(x)$: the problem has
+many solutions. In order to specify a uniquely solvable problem, one
+needs to fix *initial values*, i.e., the value of $y$ and its first
+derivative at some point, say, at $x=0$:
+$$
+y''(x) +  4 y'(x) + \sqrt[3]{y(x)} + \cos(x) = 0, \quad y(0)=1,\; y'(0)=-2.
+$$ {#eq-ivpexample}
+This is a so-called *initial-value problem* (IVP). Another variant is to
+specify the value of $y(x)$, but not of its derivative, at two different
+points:
+$$
+y''(x) +  4 y'(x) + \sqrt[3]{y(x)} + \cos(x) = 0, \quad y(0)=2,\; y(1)=1.
+$$ {#eq-bvpexample}
+This is called a *boundary value problem* (BVP).
+
+Both IVPs and BVPs have a unique solution (under certain mathematical
+conditions). However, while one can show on abstract grounds that these
+solutions exist, it is often not practicable to find an explicit
+expression for them. The best one can hope for is to approximate the
+solution numerically. This is exactly our topic: to find approximation
+algorithms for the solutions of IVPs (this chapter) and BVPs (in Chapter -@sec-bvp).
+
+## Euler's Method {#sec-euler}
+
+For studying initial value problems (IVPs) for ordinary differential
+equations, let us start with the
+simplest known approximation scheme: *Euler's method*. We will focus on
+direct computations here, and defer more in-depth discussions of the
+mathematical foundations to later.
+
+We consider an IVP for a first-order equation, of the form
+$$
+ y'(x) = f(x,y(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha.
+$$ {#eq-ivpeuler}
+Here
+$a$, $b$ and $\alpha$ are some real numbers, and $f$ is a function
+$\mathbb{R}^2 \to \mathbb{R}$. (For a concrete example, see
+@exm-eulerivp below.) Under certain conditions on $f$
+--- to be discussed in @sec-ivpfundam --- one knows that the problem has a unique
+solution; that is, that there is exactly one function $y(x)$ defined on
+$[a,b]$ which satisfies
+@eq-ivpeuler. We often call $y(x)$ the *exact solution* of
+the IVP. However, it is often difficult or even impossible to find an
+explicit expression for $y(x)$. Our aim here is to approximate the
+solution numerically.
+
+### The method
+
+![Euler's method](figures/euler.png){#fig-euler width=80%}
+
+The idea behind Euler's method is as follows (see @fig-euler for a visualization):
+We pick $N \in \mathbb{N}$, and divide the interval $[a,b]$ into $N$
+subintervals of equal length, $h = (b-a)/N$. The end points of these
+intervals are 
+$$
+x_i = a + i h, \quad i = 0,\ldots,N.
+$$ {#eq-eulermesh}
+
+[Terminology: $N$
+is called the **number of steps** and $h$ is called the **step size**. The
+points $x_0,\ldots,x_N\in[a,b]$ are referred to as **mesh points**.]{.aside}
+
+We will approximate the exact solution $y$ only at the mesh points
+$x_i$; that is, we are looking for numbers $w_0,\ldots,w_N$ such that
+$y(x_i) \approx w_i$.
+
+The first approximation $w_0$ is easy to choose: We know that $y$
+satisfies the initial condition, $y(x_0) = y(a) = \alpha$. Thus we set
+$w_0:=\alpha$; this is even exact.
+
+For finding $w_1 \approx y(x_1)$, we use linear approximation:
+$$
+\begin{split}
+   y(x_1) &= y(x_0+h) \approx y(x_0) + h y'(x_0) \\
+   &\overset{(*)}{=} y(x_0) + h f(x_0,y(x_0)) = w_0 + hf(x_0,w_0).
+\end{split}
+$$ {#eq-linapprox}
+For the equality $(*)$, we have used that $y$ satisfies the ODE
+@eq-ivpeuler.
+
+In the same way, we can find an approximation for $y(x_2)$:
+$$
+\begin{split}
+   y(x_2) &= y(x_1+h) \approx y(x_1) + h y'(x_1) \\
+   &\overset{(*)}{=} y(x_1) + h f(x_1,y(x_1)) \overset{(\circ)}{\approx} w_1 + hf(x_1,w_1).
+\end{split}
+$$ {#eq-linapprox2}
+Our approximation value is $w_2 := w_1 + hf(x_1,w_1)$. Note that we have
+used another approximation step $(\circ)$, using that
+$y(x_1)\approx w_1$ and that $f$ is sufficiently smooth; we will come
+back to this point in @sec-onestep. We can continue the scheme for $w_3$, $w_4$,
+etc.: 
+$$
+ w_0 := \alpha,
+$$ {#eq-eulerdiff0}
+$$
+ w_1 := w_0 + h f(x_0,w_0),
+$$ {#eq-eulerdiff1}
+$$
+ w_2 := w_1 + h f(x_1,w_1),
+$$ {#eq-eulerdiff2}
+$$
+\vdots
+$$
+$$
+ w_{i+1} := w_i + h f(x_i,w_i).
+$$ {#eq-eulerdiffeq}
+So the $w_i$ are defined recursively.
+Eq. @eq-eulerdiffeq is called the **difference equation** of Euler's method.
+
+::: {#exm-eulerivp}
+
+Let us consider the IVP 
+$$
+  y'(x) = y(x)-x^2+1,  \quad 0 \leq x \leq 1, \quad y(0) = \frac{1}{2}.
+$$ {#eq-eulerivpexample}
+In this case, the exact solution can be found using an integrating factor. It is
+
+$$
+  y(x) = (x+1)^2-\frac{1}{2} e^x.
+$$ {#eq-eulerexact} 
+This will allow us to compare the approximation with the exact solution.
+[It is generally a good idea to test one's numerical method on an example where one
+already knows the exact solution]{.aside}
+
+We choose $N=10$ steps, i.e., $h=1/10$. Here we shall only compute the
+first two steps. By @eq-eulerdiff0, we certainly have
+$$
+x_0 = 0, \quad w_0=\frac{1}{2}.
+$$ {#eq-eulerdiff0b}
+This allows us to compute the approximation $w_1$ at the mesh point $x_1=1/10$, namely, by
+@eq-eulerdiff1,
+$$
+\begin{split}
+w_1&=w_0+h f(x_0,w_0)
+ = w_0 + h (w_0-x_0^2+1)\\
+&= \frac{1}{2} + \frac{1}{10} \left(\frac{1}{2}-0+1\right) = \frac{1}{2} + \frac{3}{20}\\
+&= \frac{13}{20}.
+\end{split}
+$$ {#eq-eulerdiff1b}
+Continuing the iteration to $x_2=2/10$, we have by @eq-eulerdiff2 that
+$$
+\begin{split}
+  w_2&=w_1+h f(x_1,w_1)
+ = w_1 + h (w_1-x_1^2+1)
+ \\
+ &= \frac{13}{20} + \frac{1}{10} \left(\frac{13}{20}-\left(\frac{1}{10}\right)^2+1 \right)
+= \frac{13}{20} + \frac{1}{10} \cdot \frac{174}{100}\\
+&= \frac{407}{500}.
+\end{split}
+$$ {#eq-eulerdiff2b}
+
+Continuing further, we would obtain the values shown in @tbl-eulerapp.
+The values of the exact solution @eq-eulerexact, evaluated to 9 decimals, are added for
+comparison. The last column, the error bound, will be discussed shortly.
+
+::: center
+
+   $i$  $x_i$   $w_i$         $y(x_i)$      $|y(x_i)-w_i|$   error bound
+  ----- ------- ------------- ------------- ---------------- --------------
+    0   0       0.5           0.5           0                0
+    1   0.1     0.65          0.657414541   0.007414541      0.0078878189
+    2   0.2     0.814         0.829298621   0.015298621      0.0166052069
+    3   0.3     0.9914        1.015070596   0.023670596      0.0262394106
+    4   0.4     1.18154       1.214087651   0.032547651      0.0368868524
+    5   0.5     1.383694      1.425639364   0.041945364      0.0486540953
+    6   0.6     1.5970634     1.648940600   0.051877200      0.0616589100
+    7   0.7     1.82076974    1.883123646   0.062353906      0.0760314530
+    8   0.8     2.053846714   2.127229536   0.073382822      0.0919155696
+    9   0.9     2.295231385   2.380198444   0.084967059      0.1094702333
+   10   1.0     2.543754524   2.640859086   0.097104562      0.1288711371
+
+  : Approximation values and errors for Euler's Method {#tbl-eulerapp}
+
+:::
+
+:::
+
+### Error bounds {#sec-eulererror}
+
+Denote the error at step $i$ of Euler's method by
+$$
+\varepsilon_i=y(x_i)-w_i.
+$$ {#eq-eulererr}
+Clearly $\varepsilon_0=0$. We can represent
+$\varepsilon_1$ as follows: assuming the second derivative $y''$ exists
+on $(a,b)$, we can use Taylor's theorem to give
+$$
+y(x_1)=y(x_0+h)=y(x_0)+hy'(x_0)+\frac{h^2y''(\xi_1)}{2}
+$$ {#eq-eulertaylor}
+for some
+$\xi_1\in(x_0,x_1)$. Now, $y$ is a solution to the IVP so
+$y(x_0)=y(a)=\alpha=w_0$ and
+$y'(x_0)=f(x_0,y(x_0))=f(x_0,\alpha)=f(x_0,w_0)$ and, by definition of
+$w_1$, 
+$$
+y(x_0)+hy'(x_0)=w_0+hf(x_0,w_0)=w_1.
+$$ {#eq-eulerw1}
+Substituting this gives
+$$
+y(x_1)=w_1+\frac{h^2y''(\xi_1)}{2}.
+$$ {#eq-eulererr1}
+So the error after one step can be written as 
+$$
+\varepsilon_1=y(x_1)-w_1=\frac{h^2y''(\xi_1)}{2}.
+$$ {#eq-eulererr2}
+Although we do not know what $y''(\xi_1)$ is, this does show how the
+error depends on the step length: it behaves like a multiple of $h^2$.
+
+We can now make an optimistic guess: if every step contributes a
+multiple of $h^2$, then the total error at the end, after $N$ steps,
+will be some multiple of $Nh^2=(Nh)h=(b-a)h$. As $h\to 0$, this tends to
+zero (whatever the unknown constants are) so the approximate solution
+converges to the exact solution. It turns out that this is basically
+correct, although much more careful reasoning is needed, as we shall see
+when we look at the error after the second step.
+
+We can try to analyse the second step in the same way as the first step:
+use Taylor's Theorem to write
+$$
+y(x_2)=y(x_1+h)=y(x_1)+hy'(x_1)+\frac{h^2y''(\xi_2)}{2}
+$$ {#eq-eulertaylor2}
+and use the
+fact that $y$ is a solution of the DE to substitute
+$y'(x_1)=f(x_1,y(x_1))$: 
+$$
+y(x_2)=y(x_1)+hf(x_1,y(x_1))+\frac{h^2y''(\xi_2)}{2}.
+$$ {#eq-eulertaylor}
+At this point,
+things look different: in the first step, we had $y(x_0)=y(a)=\alpha$,
+but here we do not have $y(x_1)=w_1$: the first step starts at
+$(x_0,w_0)=(a,\alpha)$, which lies exactly on the solution curve, but
+the second step starts at $(x_1,w_1)$, which does not lie on the
+solution curve. However, $w_1$ is an approximation to $y(x_1)$, and we
+have an expression for the error, namely $\varepsilon_1$. Substituting
+$y(x_1)=w_1+\varepsilon_1$ gives
+$$
+y(x_2)=w_1+\varepsilon_1+hf(x_1,w_1+\varepsilon_1)+\frac{h^2y''(\xi_2)}{2}.
+$$ {#eq-eulererr2}
+Now, $w_1+hf(x_1,w_1+\varepsilon_1)$ is very similar to the formula for
+$w_2$: the only difference is that it has $w_1+\varepsilon_1$, instead
+of $w_1$. As we did for for $y(x_1)$, we can think of this as being an
+approximation plus an error:
+$$
+\underbrace{f(x_1,w_1+\varepsilon_1)}_{\text{exact}}=\underbrace{f(x_1,w_1)}_{\text{approx}}+
+\underbrace{[f(x_1,w_1+\varepsilon_1)-f(x_1,w_1)]}_{\text{error}}
+$$ {#eq-eulerlipstart0}
+leading to
+$$
+y(x_2)=\varepsilon_1+\underbrace{w_1+hf(x_1,w_1)}_{=w_2}+h[f(x_1,w_1+\varepsilon_1)-f(x_1,w_1)]\frac{h^2y''(\xi_2)}{2},
+$$ {#eq-eulererr3}
+which, as intended, forces $w_2$ to appear:
+$$
+y(x_2)=\varepsilon_1+w_2+h[f(x_1,w_1+\varepsilon_1)-f(x_1,w_1)]+\frac{h^2y''(\xi_2)}{2}.
+$$ {#eq-eulererr4}
+Subtracting $w_2$ from both sides gives
+$$
+\varepsilon_2=\varepsilon_1+h[f(x_1,w_1+\varepsilon_1)-f(x_1,w_1)]+\frac{h^2y''(\xi_2)}{2}.
+$$ {#eq-eulererr5}
+This describes the error at step 2 as the sum of three terms which can
+be thought of as:
+
+-   $\varepsilon_1$, the error carried forward from step 1;
+
+-   $h[f(x_1,w_1+\varepsilon_1)-f(x_1,w_1)]$, the error caused by
+    starting at $(x_1,w_1)$, which is not on the solution curve;
+
+-   $h^2y''(\xi_2)/2$, the error built into Euler's method by the
+    approximation $y(x+h)\approx y(x)+hy'(x)$.
+
+This analysis works for every step: we have
+$$
+\varepsilon_{i+1}=\varepsilon_i+h[f(x_i,w_i+\varepsilon_i)-f(x_i,w_i)]+\frac{h^2y''(\xi_{i+1})}{2},
+$$ {#eq-eulererr6}
+where $\xi_{i+1}\in(x_i,x_{i+1})$. This is a recurrence relation for $\varepsilon_i$,
+and $\varepsilon_0=0$. Now, we need to ask how large the different
+contributions can be. For the truncation error inherent in Euler's
+method, we simply assume that there is a constant $M$ such that
+$|y''(x)|\leq M$ for all $x\in[a,b]$. For the error associated with
+starting away from solution curve, we use Taylor's Theorem yet again:
+assuming $f$ is differentiable in the second variable, we can write
+$$
+f(x_i,w_i+\varepsilon_i)-f(x_i,w_i)=\varepsilon_i\frac{\partial}{\partial z}f(x_i,z)\bigg|_{z=\eta_i}
+$$ {#eq-eulerlipstart}
+for some $\eta_i\in(w_i,w_i+\varepsilon_i)$. 
+We now make the assumption that there is a constant $L$ such that
+$$
+\left|\frac{\partial}{\partial z}f(x,z)\right|\leq L
+$$ {#eq-ldef}
+for all $x\in[a,b]$ and all $z$. This leads to
+$$
+|h[f(x_i,w_i+\varepsilon_i)-f(x_i,w_i)]|=h|f(x_i,w_i+\varepsilon_i)-f(x_i,w_i)|\leq hL|\varepsilon_i|.
+$$ {#eq-eulerlip}
+Using the triangle inequality on the formula for $\varepsilon_{i+1}$, we have
+$$
+\begin{split}
+|\varepsilon_{i+1}|&\leq|\varepsilon_i|+Lh|\varepsilon_i|+\frac{Mh^2}{2}=(1+Lh)|\varepsilon_i|+\frac{Mh^2}{2}\\
+&=(1+Lh)|\varepsilon_i|+h\tau(h),
+\end{split}
+$$ {#eq-eulererr7}
+where $\tau(h)=Mh/2$ (this is just a convenient abbreviation, which
+makes the final answer look tidy). We can apply this estimate
+repeatedly, starting off with $\varepsilon_0=0$, to find an estimate for
+the error after any number of steps. 
+$$
+\begin{aligned}
+|\varepsilon_0| &= 0 \\
+|\varepsilon_1| &\leq h\tau(h) \\
+|\varepsilon_2| &\leq (1+Lh)|\varepsilon_1|+h\tau(h) \\
+         &\leq [(1+Lh)+1]h\tau(h) \\
+|\varepsilon_3| &\leq (1+Lh)|\varepsilon_2|+h\tau(h) \\
+         &\leq [(1+Lh)^2+(1+Lh)+1]h\tau(h) \\
+         &\vdots \\
+|\varepsilon_n| &\leq [(1+Lh)^{n-1}+(1+Lh)^{n-2}+\dots+1]h\tau(h).
+\end{aligned}
+$$ {#eq-eulererr8}
+This final formula can be proved by induction. This is a
+geometric sum, so we can use the standard formula to give for
+$1\leq n\leq N$
+$$
+|\varepsilon_n|\leq h\tau(h)\sum_{i=0}^{n-1}(1+Lh)^i=h\tau(h)\frac{(1+Lh)^n-1}{Lh}
+$$ {#eq-eulererr9}
+and the $h$ terms in the numerator and denominator cancel (this is why
+the abbreviated the Taylor's Theorem estimate as $h\tau(h)$). The
+dependency on $n$ is awkward here, so we use the fact that $1+x\leq e^x$
+for all $x$ to replace $1+Lh$ by $e^{Lh}$:
+$$
+|\varepsilon_n|\leq\frac{\tau(h)}{L}(e^{Lhn}-1)''
+$$ {#eq-eulererr10}
+Now, $hn$ is the
+distance from $x_0=a$ to $x_n$, so
+$$
+|\varepsilon_n|\leq\frac{\tau(h)}{L}(e^{L(x_n-a)}-1).
+$$ {#eq-eulererr11}
+The RHS increases exponentially as $x_n$ increases, with the maximum value at $x_n=b$, 
+so we can finally conclude that
+$$
+|\varepsilon_N|\leq\frac{\tau(h)}{L}(e^{L(x_n-a)}-1)\leq\frac{\tau(h)}{L}(e^{L(b-a)}-1).
+$$ {#eq-eulergloberr}
+
+In all cases, we see that the error is bounded above by a multiple of
+$\tau(h)$, which is itself a multiple of $h$ (because $\tau(h)=Mh/2$). The
+multiplier depends on the width of the interval on which we solve the
+equation but, crucially, if we fix the interval then the multiplier does not change
+as we decrease the step size. The error therefore tends to zero as
+$h\to 0$ (equivalently, as $N\to\infty$), so the approximate solution
+converges to the exact solution.
+
+::: {#exm-errorbounds}
+
+### Example for error bounds
+
+Let us reconsider @exm-eulerivp, with $f(x,y)= y-x^2+1$, and compute
+the error bounds. We have $\partial f / \partial y = 1$, so we have
+$L=1$ -- see @eq-ldef. For the constant $M$, we use the fact that we know
+the exact solution: $y(x)=(x+1)^2-e^x/2$. This gives us
+$y''(x)=2-e^x/2$, which, on the interval $[0,1]$, is bounded by $3/2$
+(its value at $0$). So $M = 3/2$. Inserting, this gives us
+$$
+|y(x_i)-w_i| \leq \frac{3}{40} \big( e^{(x_i-a)} - 1 \big).
+$$
+These
+bounds are included in @tbl-eulerapp. You can see that the actual errors are indeed
+below the bounds, but not very much, particularly for small $x$.
+
+:::
+
+Of course, using the exact solution in the error bounds can be
+considered "cheating" to some extent, since the exact solution of the
+ODE is in general unknown. There are methods for obtaining estimates for
+the constant $M$ even if $y(x)$ is not explicitly known, but we will not
+discuss them at this point.
+
+
+
+### Local truncation error.
+
+We see from @tbl-eulerapp that the $w_i$ approximate the exact solution
+quite reasonably in our example, though the error grows as $i$
+increases. We will now try to obtain theoretical bounds on the
+approximation error, and thus see how fast the method must converge.
+
+The approximation error builds up with each step of the computation. Let
+us first, for fixed $i\in\{0,\ldots,N-1\}$, have a look at the error
+that we make in step $i+1$ (when we compute $w_{i+1}$ from $w_i$). For
+simplification, suppose for a moment that the approximation value $w_i$
+was actually *exact:* $y(x_i)=w_i$. Under this assumption, we have
+$$
+y(x_{i+1})-w_{i+1} = y(x_{i+1}) - w_i - h f(x_i,w_i)
+  = y(x_{i+1}) - y(x_i) - h f(x_i,y(x_i)).
+$$
+Of course, the assumption
+$y(x_i)=w_i$ is *not* exactly true, in general. However, one takes this
+as a motivation to define the *local truncation error* of the Euler
+method: 
+$$
+ \tau_{i+1} := \frac{1}{h} \Big\lvert y(x_{i+1}) - y(x_i) - h f\big(x_i,y(x_i)\big) \Big\rvert.
+$$ {#eq-lteeuler}
+
+We will see the use of this expression later. Let us try to find an
+estimate for it.
+
+To that end, we analyze the "linear approximation" of
+Eq. @eq-linapprox a bit more in detail. We suppose that the
+exact solution $y(x)$ is twice differentiable. Then, we expand it in a
+Taylor expansion at the point $x_i$, 
+$$
+   y(x_{i+1}) = y(x_i) + h y'(x_i) + \frac{1}{2} h^2  y''(\xi)
+$$ {#eq-eulertaylor}
+ where
+$\xi \in [x_i,x_{i+1}]$ is some intermediate point. Using
+$y'(x_i) = f(x_i,y(x_i))$, and inserting into
+@eq-lteeuler, we have
+$$
+\tau_{i+1} = \frac{1}{h} \cdot \frac{1}{2} h^2  \big\lvert y''(\xi) \big\rvert.
+$$
+Thus, 
+$$
+ \tau_{i+1} \leq \frac{h}{2} \sup_{x \in [a,b]}\big\lvert y''(x) \big\rvert.
+$$ {#eq-lteest}
+
+This is a rather simple estimate for the local truncation error. It is
+proportional to $h$; one says that the Euler method is *of order O(h)*.
+It may seem a bit hard to apply, since $y''(x)$ is in general unknown.
+See however below.
+
+### Global error
+
+Let us now see how we can find an estimate for the *global error*,
+$$
+\epsilon_i := \lvert y(x_{i})-w_i  \rvert.
+$$
+For this, we try to find
+a recursion relation, i.e., an estimate of $\epsilon_{i+1}$ in terms of
+$\epsilon_i$. The triangle inequality yields, 
+$$
+\begin{aligned}
+  \epsilon_{i+1} &= \lvert y(x_{i+1})-w_{i+1} - y(x_{i}) + w_i + y(x_i) - w_i \rvert \\
+& \leq \lvert y(x_{i+1})-w_{i+1} - y(x_{i}) + w_i  \rvert
+  + \lvert y(x_i) - w_i  \rvert \\
+& = \lvert y(x_{i+1})-w_{i+1} - y(x_{i}) + w_i  \rvert
+  + \epsilon_i.
+\end{aligned}
+$$
+We want to relate this to the local truncation error
+@eq-lteeuler. In fact, another application of the triangle
+inequality gives 
+$$
+  + \epsilon_i + h \tau_{i+1}.
+$$ {#eq-eulerlipstart}
+ Using the difference equation
+@eq-eulerdiffeq -- which defined the approximation values
+$w_i$ --, we obtain
+$$
+\epsilon_{i+1} \leq  \epsilon_i + h \tau_{i+1} + h \lvert f(x_{i},y(x_i))-f(x_i,w_i)  \rvert.
+$$
+For handling the rightmost term, we apply Taylor's theorem to the
+function $f$ with respect to the second variable:
+$$
+f(x_{i},y(x_i))-f(x_i,w_i) = (y(x_i)-w_i) \frac{\partial f}{\partial y}(x_i,\eta_i)
+$$
+with some $\eta_i\in\mathbb{R}$. This finally gives
+
+$$
+   = (1+hL) \epsilon_i + h \tau,
+$$ {#eq-epsrecur}
+ where 
+$$
+\quad \tau := \max_i \tau_i .
+$$
+ (We assume here that
+$\partial f  / \partial y$ is a bounded function -- more on this in
+@sec-onestep.) Finally, we apply the recursion relation
+@eq-epsrecur iteratively, starting from the observation that
+$\epsilon_0 = |\alpha-\alpha|=0$. 
+$$
+\begin{aligned}
+ \epsilon_0 &= 0,& \\
+ \epsilon_1 &\leq (1+hL) \epsilon_0  + h \tau \leq h\tau,\\
+ \epsilon_2 &\leq (1+hL) \epsilon_1  + h \tau
+    \leq ((1+hL)+1) h\tau,\\
+ \epsilon_3 &\leq (1+hL) \epsilon_2  + h \tau
+    \leq ((1+hL)^2+(1+hL)+1) h\tau,\\
+& \quad \vdots\notag \\
+ \epsilon_i &\leq h \tau \sum_{k=0}^{i-1} (1+hL)^k .
+\end{aligned}
+$$
+We can simplify this expression by summing the geometric
+sum: 
+$$
+\epsilon_i \leq h \tau \frac{(1+hL)^i-1}{(1+hL)-1}
+   = \frac{\tau}{L} \big((1+hL)^i-1\big).
+$$
+For further simplification,
+we use the inequality $1+t \leq e^t$ $(t \geq 0)$ with $t=hL$ and get
+$$
+\epsilon_i \leq \frac{\tau}{L} \big(e^{ihL}-1\big) =
+  \frac{\tau}{L} \big(e^{(x_i-a)L}-1\big).
+$$
+As a last step, we insert
+the estimate @eq-lteest for the local truncation error, and obtain with
+$M := \sup_{x \in [a,b]} \lvert y''(x) \rvert$,
+
+$$
+  \epsilon_i \leq \frac{Mh}{2L} \big(e^{(x_i-a)L}-1\big).
+$$ {#eq-eulergloberr}
+This completes our estimate for the global error.
+
+**Main message:** Because the local truncation error of the method is
+$O(h)$, the global error is also $O(h)$. We will see later that this
+behaviour persists for more complicated approximation schemes -- the
+local truncation error determines the global error, as far as the
+behaviour in $h$ is concerned. (Note however that the constants $M$ and
+$L$ depend on estimates on the derivatives of $f$, which could be
+large.)
+
+
+
+With the Euler method, we have an approximation algorithm for the
+generic initial value problem
+@eq-ivpeuler, which works for any sufficiently smooth $f$.
+We have found an explicit estimate
+@eq-eulergloberr for the approximation error, which in
+particular shows that the approximation values converge to the exact
+solution, $w_i \to y(x_i)$ as $h \to 0$.
+
+However, the Euler method as presented here has two main shortcomings:
+
+First, the convergence is rather slow - only of order $O(h)$. One would
+need to choose the step size $h$ very small in order to arrive at a
+useful approximation. Decreasing $h$ means, first of all, an increase in
+computation time. But also, small values of $h$ make the difference
+equation @eq-eulerdiffeq prone to roundoff errors; limits in floating
+point precision limit the usable range for $h$. (For more details on the
+influence of roundoff errors on the approximation result, see for
+example [@Burden_Faires Theorem 5.10].)
+
+Second, we have formulated the method for a *first-order* ODE. Most
+applications, however, use higher-order ODEs (usually second-order),
+systems of first-order ODEs, or indeed a combination of both. Our
+approximation methods needs to be generalized to these cases in order to
+be useful in practice.
+
+Next we will introduce the generalizations needed for handling
+higher-order ODEs and systems of ODEs.
+In most textbooks, you will find this generalization only in later
+    chapters, for example in Sec. 5.9 of [@Burden_Faires], or not at all.
+    However, here I take the viewpoint that, while treating systems of
+    ODEs is not really difficult, it is so important that it should be
+    introduced right in the beginning!
+As we shall see, this can be
+boiled down to almost no more than a little change in notation.
+
+
+### Systems of ODEs
+
+A generic initial value problem for a system of $m$ first-order ODEs
+would look as follows: 
+$$
+\begin{aligned}
+ y_1\,'(x) &= f_1(x,y_1(x),\ldots,y_m(x)), \\
+ &\vdots\\
+ y_m\,'(x) &= f_m(x,y_1(x),\ldots,y_m(x)),
+\end{aligned}
+$$ {#eq-odesysexplicit}
+for $x$ in some interval $[a,b]$, with initial values
+$$
+y_1(a) = \alpha_1, \ldots, y_m(a) = \alpha_m.
+$$ {#eq-odesysivp}
+ Here $a$, $b$, $\alpha_1,\ldots,\alpha_m$ are
+given constants, and $f_1,\ldots,f_m$ are functions from
+$\mathbb{R}\times \mathbb{R}^m$ to $\mathbb{R}$. The exact solution of
+the system would consist of functions
+$y_1,\ldots,y_m:[a,b] \to \mathbb{R}$.
+
+The idea of handling these ODE systems mainly involves rewriting them in
+a convenient way. To that end, let us introduce the vectors
+$$
+\begin{aligned}
+  \boldsymbol{\alpha}&= \left(\alpha_1,\ldots,\alpha_m\right),\\
+  \mathbf{y}&= \left(y_1,\ldots,y_m\right),
+\end{aligned}
+$$ {#eq-vecdef}
+and the vector-valued function
+$\mathbf{f}: \mathbb{R} \times \mathbb{R}^m \to \mathbb{R}^m$ given by
+$$
+\mathbf{f}(x,\mathbf{y}) = \left(f_1(x,y_1,\ldots,y_m), \ldots, f_m(x,y_1,\ldots,y_m)\right).
+$$ {#eq-fdef}
+With these, the IVP
+@eq-odesysexplicit for the ODE system reads
+$$
+ \mathbf{y}'(x) = \mathbf{f}(x,\mathbf{y}(x)),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
+$$ {#eq-ivpsys}
+
+Note the formal similarity with the analogue
+@eq-ivpeuler for a single ODE! Our exact solution
+$\mathbf{y}$ is now a function from $[a,b]$ to $\mathbb{R}^m$.
+
+The idea in generalizing our approximation methods to systems of ODEs is
+based on this formal similarity as well. For example, the difference
+equation for the "Euler method for ODE systems" reads 
+$$
+\begin{aligned}
+   \mathbf{w}_0 &:= \boldsymbol{\alpha},\\
+   \mathbf{w}_{i+1} &:= \mathbf{w}_i + h\, \mathbf{f}(x_i,\mathbf{w}_i) \quad (i=0,\ldots,N-1).
+\end{aligned}
+$$ {#eq-eulersys}
+The approximation values $\mathbf{w}_i$ are now vectors
+in $\mathbb{R}^m$. The error estimates obtained in
+@sec-eulererror carry
+over very directly to the case of ODE systems; more on this will follow
+in later sections.
+
+### Second-order ODEs
+
+In applications, one often meets second-order ODEs. Initial value
+problems for them can be defined as follows: 
+$$
+ y'' (x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \, y'(a)=\alpha'.
+$$ {#eq-ivpsecond}
+
+Note that we need to specify an additional initial value
+$\alpha'\in\mathbb{R}$ for the first derivative.
+
+Fortunately, these can be rewritten into an equivalent system of
+first-order ODEs, so that they are --- for our purposes --- not really
+different from what was discussed above. Namely, we substitute $y$ and
+$y'$ with the components of a 2-vector $\mathbf{u}$: We set
+$u_1 = y$, $u_2=y'$.
+
+More formally, this works as follows. Given a solution $y(x)$ of
+@eq-ivpsecond, we set 
+$$
+   \mathbf{g}(x,\mathbf{u}) := \big(u_2, f(x,u_1,u_2)\big).
+$$ {#eq-secondsubs}
+
+It is then easy to check that $\mathbf{u}(x)$ is a solution of the IVP
+
+$$
+ \mathbf{u}' = \mathbf{g}(x,\mathbf{u}),  \quad a \leq x \leq b, \quad \mathbf{u}(a) = \boldsymbol{\beta}.
+$$ {#eq-ivpu}
+
+On the other hand, given a solution $\mathbf{u}(x)$ of
+@eq-ivpu, we
+set $y(x):=u_1(x)$, $\alpha := \beta_1$,
+$\alpha' := \beta_2$ and obtain a solution of
+@eq-ivpsecond. In this sense,
+@eq-ivpsecond and
+@eq-ivpu are
+equivalent; and for the purpose of developing numerical methods, it is
+sufficient if we consider the first-order system
+@eq-ivpu.
+
+::: {#exm-secondorder}
+
+### Example of a second-order ODE
+
+Let us illustrate the substitution process in an example. Consider the
+IVP for a second-order ODE, 
+$$
+ y''(x) = y'(x)\cos(x) +2 y(x),  \quad 0 \leq x \leq 1, \quad y(0) = 2, \, y'(0)=-3.
+$$ {#eq-ivp2ex}
+
+So, $f(x,y,y')=y'\cos(x) +2 y$ in the present case. Using the 
+rules in @eq-secondsubs, we obtain an equivalent IVP for a system of
+two first-order equations:
+$$
+\mathbf{u}'(x) = \begin{pmatrix} 
+        u_2(x) \\ u_2(x)\cos(x) +2 u_1(x)           
+        \end{pmatrix},
+\quad 0 \leq x \leq 1, \quad \mathbf{u}(0) = \begin{pmatrix} 
+        \vphantom{-}2 \\ -3
+        \end{pmatrix}.
+$$
+Once we have found an (approximate) solution
+for this system, we would set $y(x):=u_1(x)$ and obtain an
+(approximate) solution of
+@eq-ivp2ex.
+
+:::
+
+
+With similar methods, one can rewrite third-order, fourth-order, etc.
+ODEs as systems of first-order ODEs. Equally, *systems* of higher-order
+ODEs can be transformed into systems of first-order ODEs by
+appropriate substitutions.
+For example, systems of second-order ODEs are very common in
+Newtonian Mechanics: $N$ particles moving in three-dimensional space
+are modelled using a system of $3N$ coupled second-order ODEs, which can
+be transformed into a system of $6N$ coupled first-order ODEs. 
+
+Thus, the most general case of IVP that we need to consider is given by
+@eq-ivpsys. In the following, we will formulate all our
+approximation methods for this case.
+
+## Fundamentals {#sec-ivpfundam}
+
+We will now take a step back, and revisit the theory of initial value
+problems for ODEs and their numerical treatment from a more general
+perspective. In doing so, we will always consider initial value problems
+for systems of (first-order) ODEs, in the form
+@eq-ivpsys. This means that we will make extensive use of
+techniques from Vector Calculus.
+
+### Vectors and matrices
+
+
+
+In order to describe numerical approximations of vectors, we will need a
+notion of distance between two vectors. Throughout this part of the
+course, we do not use the Euclidean norm for this purpose, but the
+*maximum norm* or *$\ell_\infty$ norm*, which is given by
+
+$$
+ \lVert \mathbf{v} \rVert_\infty := \max_{1\leq i \leq m}\vert v_{i}\vert.
+$$ {#eq-vectornorm}
+
+From now on, we will just write $\lVert \mathbf{v} \rVert$ instead of
+$\lVert \mathbf{v} \rVert_\infty$.
+
+We also need a corresponding norm for matrices
+$\mathbf{A}\in\mathcal{M}(m,m)$. 
+
+### Calculus in several variables
+
+We will also need to work with functions that depend on vectors, and
+with vector-valued functions. For a review of the techniques of Calculus
+in several variables, see for example [@Thomas:2010 Ch. 14] or
+[@Steward:1991 Ch. 15]. We give a very brief review here, in our
+notation.
+
+Let $f$ be a function from $\mathbb{R}^m$ to $\mathbb{R}$ (a function of
+$m$ variables). Instead of derivatives of functions of a single
+variable, one can consider *partial derivatives* of $f$, denoted as
+$$
+\frac{\partial f}{\partial x_j}(\mathbf{x}) = \frac{d}{dt} f(x_1, \ldots, x_j+t, \ldots,  x_m) \Big\vert_{t=0},
+$$
+and higher order partial derivatives accordingly. If $\mathbf{f}$ is a
+vector-valued function, that is,
+$\mathbf{f}: \mathbb{R}^m \to \mathbb{R}^k$, then all partial
+derivatives are vector-valued as well (each component is
+differentiated). All first derivatives of such a function can
+conveniently be combined into an $k\times m$ matrix,
+$$
+\frac{\partial \mathbf{f}}{\partial \mathbf{x}} =  \begin{pmatrix}
+        \frac{\partial f_1}{\partial x_1} &\cdots& \frac{\partial f_1}{\partial x_m} \\
+         \vdots & & \vdots \\
+        \frac{\partial f ^{(k)}}{\partial x_1} &\cdots& \frac{\partial f ^{(k)}}{\partial x_m} 
+       \end{pmatrix}
+$$
+The multi-dimensional chain rule can be expressed
+quite easily in this formalism: if $\mathbf{f}$ and $\mathbf{g}$ are
+vector-valued mappings such that
+$\mathbf{g}\circ \mathbf{f}: \mathbf{x}\mapsto \mathbf{g}(\mathbf{f}(\mathbf{x}))$
+is defined (i.e. the range of $\mathbf{f}$ matches the domain of
+$\mathbf{g}$) then the derivative of $\mathbf{g}\circ \mathbf{f}$ is
+given by
+$$
+\frac{\partial (\mathbf{g}\circ \mathbf{f})}{\partial \mathbf{x}} 
+=  \frac{\partial \mathbf{g}}{\partial \mathbf{y}} \cdot \frac{\partial \mathbf{f}}{\partial \mathbf{x}}  .
+$$
+where $\cdot$ represents matrix multiplication. Higher-order derivatives
+can be treated in a similar, though somewhat more complicated matrix
+formalism.
+
+Also, a generalization of Taylor's theorem holds for functions of
+several variables. This is summarized in
+Appendix [4](#app:taylorthm){reference-type="ref"
+reference="app:taylorthm"}.
+
+### ODEs
+
+We now treat initial value problems for ODEs in our vector formalism. In
+a first reading, it is always a useful exercise to reduce our statements
+to the case of one ODE ($m=1$), in which case the computations become
+more elementary. In this case, we can simply replace $\mathbf{y}$ with a
+scalar function $y$, the initial value vector $\boldsymbol{\alpha}$ with
+a number $\alpha$, the norm $\lVert  \, \cdot \,  \rVert$ with the
+absolute value $\lvert \, \cdot \, \rvert$, and so forth.
+
+Let us first define formally what we mean by a solution of an initial value problem.
+
+::: {#def-ivp}
+Let $m \in \mathbb{N}$, $a<b \in \mathbb{R}$,
+$\boldsymbol{\alpha}\in \mathbb{R}^m$, and
+$\mathbf{f}: [a,b]\times \mathbb{R}^m \to \mathbb{R}^m$. We say that a
+function
+$\mathbf{y}\in\mathcal{C}^1([a,b],\mathbb{R}^m)$ is a
+**solution of the initial value problem (IVP)**
+$$
+ \mathbf{y}' = \mathbf{f}(x,\mathbf{y}),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}
+$$ {#eq-ivpformaldef}
+
+if for all $x \in [a,b]$,
+$$
+\mathbf{y}'(x) = \mathbf{f}(x,\mathbf{y}(x)) \quad \text{and}  \quad \mathbf{y}(a)=\boldsymbol{\alpha}.
+$$ {#eq-ivpformaldef2}
+
+:::
+
+Our first question is when such an IVP has a unique solution (so that we
+can reasonably search for a numerical approximation of it). The key
+condition involved here is the so-called *Lipschitz condition*.
+
+::: {#def-lipcond}
+We say that
+$\mathbf{f}:[a,b]\times \mathbb{R}^m \to \mathbb{R}^m$ satisfies a
+**Lipschitz condition** if there is a constant $L>0$ such that for all
+$x \in [a,b]$ and $\mathbf{y},\hat{\mathbf{y}}\in\mathbb{R}^m$,
+
+$$
+  \lVert  \mathbf{f}(x,\mathbf{y}) - \mathbf{f}(x,\hat{\mathbf{y}})  \rVert \leq L \| \mathbf{y}-\hat{\mathbf{y}}\|.
+$$ {#eq-lipschitzdef}
+The constant $L$ above is called a **Lipschitz constant**. 
+
+:::
+
+The Lipschitz
+condition is in a sense an intermediate concept between continuity and
+differentiability. Often, we can use a simple criterion to check it ---
+in fact, we already have, in the definition of the constant $L$ in the
+error analysis of Euler's method in one variable.
+
+::: {#lem-lipderiv}
+If $\partial \mathbf{f}/ \partial \mathbf{y}$ exists and
+is bounded, then $\mathbf{f}$ satisfies a Lipschitz condition with
+Lipschitz constant 
+$$
+ L = \sup\left\{ \Big\lVert \frac{\partial \mathbf{f}}{\partial \mathbf{y}} (x,\mathbf{y}) \Big\rVert  : x \in [a,b], \mathbf{y}\in \mathbb{R}^m \right\}.
+$$ {#eq-lipschitzderiv}
+*
+:::
+
+Note here that $\partial \mathbf{f}/ \partial \mathbf{y}$ is an
+$m \times m$ *matrix*! Again, you may first want to consider the case
+$m=1$.
+
+::: {.proof}
+Given $x \in [a,b]$,
+$\mathbf{y},\hat{\mathbf{y}}\in \mathbb{R}^m$, and
+$j \in \{1,\ldots, m\}$, consider the function $g:[0,1]\to\mathbb{R}$
+defined by $g(t)=f_j((1-t)\hat{\mathbf{y}}+t\mathbf{y})$, so
+$g(0)=\hat{\mathbf{y}}$ and $g(1)=\mathbf{y}$, and apply the scalar MVT
+to give $\mathbf{y}-\hat{\mathbf{y}}=g(1)-g(0)=g'(t_0)$ for some
+$t_0\in(0,1)$; now, using the chain rule,
+$$
+g'(t)=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot\frac{d}{dt}((1-t)\hat{\mathbf{y}}+t\mathbf{y})=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot(\mathbf{y}-\hat{\mathbf{y}}).
+$$
+Combining these gives us
+$$
+f_j(x,\mathbf{y}) - f_j(x,\hat{\mathbf{y}}) = 
+\frac{\partial f_j}{ \partial \mathbf{y}}(x,\boldsymbol{\eta}) \cdot (\mathbf{y}-\hat{\mathbf{y}})
+$$
+where $\boldsymbol{\eta}=(1-t_0)\hat{\mathbf{y}}+t_0\mathbf{y}$.
+Using the property of the vector norm of the scalar product (see @def-vecnorm) we find
+$$
+| f_j(x,\mathbf{y}) - f_j(x,\hat{\mathbf{y}}) | \leq  
+   \Big\lVert \frac{\partial f_j}{ \partial \mathbf{y}} (x,\boldsymbol{\eta}) \Big\rVert
+\, \| \mathbf{y}-\hat{\mathbf{y}}\|
+    \leq L \| \mathbf{y}-\hat{\mathbf{y}}\|
+$$
+with $L$ as in
+@eq-lipschitzderiv. Taking the maximum over $j$ implies the
+result. ◻
+:::
+
+Why do we consider this kind of condition? Because the Lipschitz
+condition is the essential ingredient for the well-definedness of the
+initial value problem. Namely, one has:
+
+::: {#thm-ivpunique}
+Let
+$\mathbf{f}: [a,b]\times \mathbb{R}^m \to \mathbb{R}^m$ be continuous
+and satisfy a Lipschitz condition. Then, for any
+$\boldsymbol{\alpha}\in \mathbb{R}^m$, the initial value problem
+@eq-ivpformaldef has a unique solution $\mathbf{y}$.
+:::
+
+This theorem is given here without proof. (It is one of the central
+theorems in the theory of ordinary differential equations. See
+[@Burden_Faires Theorem 5.17] for references.)
+
+The Lipschitz condition is not only relevant for the abstract existence
+of a solution. Recalling
+Eqs. @eq-eulerlipstart--@eq-ldef, we see that it also enters our error estimates for
+numeric approximations. We will analyse this in more detail later.
+
+Let us discuss a few examples for $m=1$, on the interval $[a,b]=[0,2]$.
+
+::: {#exm-unique}
+### Unique solution 
+Let us recall the example
+@eq-eulerivpexample, with $f(x,y)=y-x^2+1$. This function is
+certainly continuous in both variables, and differentiable in $y$. We
+have $\partial f(x,y) / \partial y = 1$; in particular, the derivative
+is bounded. By @lem-lipderiv, we have a Lipschitz constant $L=1$ and thus,
+by @thm-ivpunique, a unique solution of the IVP. In fact, for
+the initial condition $y(0)=1/2$, the solution is given in
+@eq-eulerexact.
+:::
+
+::: {#exm-nosolution}
+### No solution 
+Consider $f(x,y)=y^2+1$. Again, the
+function is continuous and differentiable. However,
+$\partial f(x,y) / \partial y = 2y$ is unbounded, so
+@lem-lipderiv
+cannot be applied. Actually, we can explicitly see that $f$ does *not*
+satisfy a Lipschitz condition. Namely, if it did, then the quotient
+$$
+\frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|}         \quad (\text{for }x \in [0,2],\; y \neq \hat{y} \in \mathbb{R})
+$$
+would be bounded (by the Lipschitz constant $L$). However, in our case,
+set $\hat{y}=0$; then 
+$$
+\frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|} 
+= \frac{|y^2 +1-1|}{|y|} = |y|
+$$
+which is *not* bounded. So $f$ cannot
+satisfy a Lipschitz condition.
+
+Hence, for the corresponding initial value problem,
+$$
+y' = y^2+1,  \quad 0 \leq x \leq 2, \quad y(0) = 0,
+$$
+the existence
+and uniqueness result @thm-ivpunique does not apply. In fact, a solution for
+small $x$ is given by 
+$$
+y(x) = \tan(x),
+$$
+but this solution does *not*
+exist for all $x \in [0,2]$.
+
+The problem here is that $\partial f(x,y) / \partial y$ is unbounded as
+$y$ grows large. One can still control IVPs of this kind, using
+so-called *local Lipschitz conditions*, where the estimate
+@eq-lipschitzdef is required to hold only for
+$(x,\mathbf{y}),(x,\hat{\mathbf{y}})\in \mathcal{D}$ with $\mathcal{D}$
+any fixed compact set, and the Lipschitz constant $L$ is allowed to
+depend on $\mathcal{D}$. Our numerical methods will still be applicable
+in this case, as long as we do not approach the possible singularities of
+the solution too closely. However, the formalism becomes much more
+complicated, and we do not treat these cases explicitly here.
+:::
+
+::: {#exm-nonunique}
+### Non-unique solution
+Consider $f(x,y)=\sqrt[3]{y}$.
+While $f$ is continuous, the partial derivative
+$\partial f(x,y) / \partial y$ does *not exist* at $y=0$, so again,
+@lem-lipderiv
+cannot be applied. Indeed, set $\hat{y}=0$, then
+$$
+\frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|} 
+= \frac{|y|^{1/3}}{|y|} = |y|^{-2/3}
+$$
+which is unbounded near $y=0$. So
+$f$ does not satisfy a Lipschitz condition, and we are not guaranteed a
+unique solution of the IVP 
+$$
+ y' = \sqrt[3]{y},  \quad 0 \leq x \leq 2, \quad y(0) = 0.
+$$ {#eq-badivp}
+ In fact,
+this IVP has at least *three* solutions:
+$$
+y(x)= \Big(\frac{2x}{3}\Big)^{3/2},\quad 
+ y(x)= -\Big(\frac{2x}{3}\Big)^{3/2},\quad 
+ y(x) = 0.
+$$
+
+This case is, in a sense, worse than the other examples above. Running
+our numerical methods for the IVP
+@eq-badivp is likely to give unpredictable results; even a
+small rounding error might cause us to "switch" between the different
+solutions of the IVP.
+:::
+
+## One-Step Difference Methods {#sec-onestep}
+
+We now return to the initial value problem
+@eq-ivpformaldef:
+$$
+\mathbf{y}'(x) = \mathbf{f}(x,\mathbf{y}(x)),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
+$$
+As in Euler's method, we use equally-spaced mesh points $x_0,\ldots,x_N$
+in the interval $[a,b]$, with a uniform step size $h=(b-a)/N$, so
+$x_i=a+ih$, and we seek approximate values
+$\mathbf{w}_i\in\mathbb{R}^m$, with
+$\mathbf{w}_i\approx\mathbf{y}(x_i)$.
+
+Euler's method was based on the Taylor expansion
+$$
+\underbrace{y(x+h)}_\text{exact}=\underbrace{y(x)+hy'(x)}_{\text{approx}}+\underbrace{\frac{h^2}{2}y''(\xi)}_{\text{error}}.
+$$
+Any other formula of this type can be used to define a similar method
+and, if the error term is smaller than the one in Euler's method, should
+lead to smaller errors in the approximate solution. In complete
+generality, and for vectors instead of scalars, we consider a formula
+$$
+\mathbf{y}(x+h)=\mathbf{y}(x)+h\boldsymbol{\phi}(x,\mathbf{y}(x),h)+\text{error}
+$$
+All the higher-order Taylor approximations fit in to this framework, as
+do the important Runge-Kutta methods described below. This leads to the
+general single-step method 
+$$
+\begin{aligned}
+  \mathbf{w}_0 &:= \mathbf{\alpha},
+\\
+  \mathbf{w}_{i+1} &:= \mathbf{w}_i + h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h).
+\end{aligned}
+$$ {#eq-onestepdef}
+Introducing some notation for the error, we write
+$$
+\mathbf{y}(x_{i+1})=\mathbf{y}(x_i)+h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)+h\boldsymbol{\tau}_{i+1}(h)
+$$
+where $\boldsymbol{\tau}_{i+1}(h)$, the *local truncation error*, is
+defined by 
+$$
+\boldsymbol{\tau}_{i+1}(h)=\frac{1}{h}\left[\mathbf{y}(x_{i+1})-\mathbf{y}(x_i)-h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)\right]
+$$ {#eq-lteonestep}
+
+In terms of the numerical method, this is the error that would occur at
+step $i+1$ if we started on the exact solution curve, divided by the
+step size. We assume we have an upper bound $\tau(h)$ such that, for
+some $h_0>0$, 
+$$
+\|\boldsymbol{\tau}_i(h)\|\leq\tau(h)
+$$
+for all
+$i\in\{0,\ldots,N\}$ and all $h\in(0,h_0]$. For the method to be useful,
+we must have $\tau(h)\to 0$ as $h\to 0+$; in Euler's method,
+$\tau(h)=Mh/2$ but in other methods $\tau(h)$ is much smaller than this:
+typically $\tau(h)=O(h^n)$ as $h\to 0+$ for some $n>1$. We also assume
+the existence of a Lipschitz constant $L$ such that
+$$
+\|\boldsymbol{\phi}(x, \mathbf{y}, h)-\boldsymbol{\phi}(x, \hat{\mathbf{y}}, h)|\leq L\|\mathbf{y}-\hat{\mathbf{y}}\|
+$$
+for all $x\in[a,b]$, for all
+$\mathbf{y},\hat{\mathbf{y}}\in\mathbb{R}^m$ and all $h\in(0,h_0]$ (this
+replaces the second use of Taylor's Theorem in the analysis of Euler's
+method; looking back at that calculation, the Lipschitz constant is all
+that was needed). We conclude the setup by defining the actual error at
+step $i$ by 
+$$
+\boldsymbol{\varepsilon}_i=\mathbf{y}(x_i)-\mathbf{w}_i.
+$$
+
+Under these hypotheses, we have:
+
+::: {#thm-globalerr}
+Consider an initial value problem as in
+@eq-ivpformaldef, which we assume to have a solution
+$\mathbf{y}$. For this IVP, consider the one-step difference method
+described by @eq-onestepdef. Then,
+$$
+\lVert \mathbf{y}(x_i) - \mathbf{w}_i \rVert \leq \frac{\tau(h)}{L} \big(e^{L(x_i-a)}-1\big)
+ \quad \text{for all } h\in(0,h_0], \; i \in \{0,\ldots,N\}.
+$$
+
+:::
+
+::: {.proof}
+We establish this in much the same way as we did the corresponding
+result for Euler's method. Starting with the Taylor-like formula for
+$\mathbf{y}(x_{i+1})$ in terms of $\mathbf{y}(x_i)$, $\boldsymbol{\phi}$
+and $\boldsymbol{\tau}_{i+1}$, we have: 
+$$
+\begin{aligned}
+\mathbf{y}(x_{i+1}) &= \mathbf{y}(x_i+h) \\
+             &= \mathbf{y}(x_i)+h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)+h\boldsymbol{\tau}_{i+1}(h) \\
+             &= \boldsymbol{\varepsilon}_i+\underbrace{\mathbf{w}_i+h\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)}_{=\mathbf{w}_{i+1}}+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h) \\
+           &= \boldsymbol{\varepsilon}_i+\mathbf{w}_{i+1}+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h) \\
+\end{aligned}
+$$
+so, subtracting $\mathbf{w}_{i+1}$ from both sides,
+$$
+\boldsymbol{\varepsilon}_{i+1}=\boldsymbol{\varepsilon}_i+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h)
+$$
+Exactly as for Euler's method, we estimate using the triangle inequality
+$$
+\|\boldsymbol{\varepsilon}_{i+1}\|\leq\|\boldsymbol{\varepsilon}_i\|+h\|\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)\|+\|\boldsymbol{\tau}_{i+1}(h)\|\leq(1+hL)\|\boldsymbol{\varepsilon}_i\|+h\tau(h)
+$$
+using the Lipschitz hypothesis on $\boldsymbol{\phi}$ and the upper
+bound $\tau$ for the local truncation errors. This is exactly the same
+formula as for Euler, so we can read off the same answer:
+$$
+\|\boldsymbol{\varepsilon}_n\|\leq\frac{\tau(h)}{L}(e^{L(x_n-a)}-1)\leq\frac{\tau(h)}{L}(e^{L(b-a)}-1)
+$$
+
+:::
+
+The main conclusion is that if we leave the integration width fixed and
+decrease the step size, then the error at each point is bounded above by
+a fixed multiple of $\tau(h)$: local error determines global error.
+
+We are now aiming at refinements or modifications of Euler's Method that
+are of higher order in $h$. The class we will first look at is the
+so-called *one-step difference methods*.
+
+Again, we start from the initial value problem
+$$
+\mathbf{y}' = \mathbf{f}(x,\mathbf{y}),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
+$$
+As before, we use equally-spaced mesh points $x_0,\ldots,x_N$ in the
+interval $[a,b]$, with a uniform step size $h$. Approximation values
+$\mathbf{w}_i\in\mathbb{R}^m$ for $\mathbf{y}(x_i)$ are defined
+recursively by a *difference equation*, 
+$$
+\begin{aligned}
+  \mathbf{w}_0 &:= \mathbf{\alpha},
+\\
+  \mathbf{w}_{i+1} &:= \mathbf{w}_i + h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h).
+\end{aligned}
+$$
+The function
+$\boldsymbol{\phi}: [a,b]\times \mathbb{R}^m \times \mathbb{R}_+\to\mathbb{R}$
+defines the difference method. In the case of Euler's method, we had
+$\boldsymbol{\phi}(t,y,h)=f(t,y)$, but in general we will allow
+$\boldsymbol{\phi}$ to depend on the step size $h$ as well. We will see
+several examples of such one-step methods, with different ways of
+obtaining the function $\boldsymbol{\phi}$. However, let us first look
+at some general aspects.
+
+In generalization of
+Eq. @eq-lteeuler above, we define the local truncation
+error
+^[$\tau_{i+1}$ obviously depends on $h$. We do not show this in the
+    notation, however.]
+$$
+  \tau_{i+1} := \frac{1}{h} \big\lVert \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i}) - h \,\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h) \big\rVert.
+$$ {#eq-lteonestep}
+
+Given a concrete function $\boldsymbol{\phi}$, we will want to obtain
+upper bounds for $\tau_i$, depending on $h$. In particular, we are
+interested in choices for $\boldsymbol{\phi}$ such that the bounds
+behave like $O(h^n)$ with $n > 1$.
+
+Like in the Euler method, the local truncation error determines the
+global error.
+
+::: {#thm-globalerr}
+Consider an initial value problem as in
+@eq-ivpformaldef, which we assume to have a unique solution
+$\mathbf{y}(x)$. For this IVP, consider a one-step difference method as
+in @eq-onestepdef. Let $h_0>0$ be fixed, and let
+$\tau : (0,h_0] \to \mathbb{R}_+$ such that the local truncation error
+of the method is bounded by
+$$
+\tau_{i} \leq \tau(h) \quad \text{for all } 0 < h \leq h_0, \; i \in \{1,\ldots,N\}.
+$$
+Suppose further that at fixed $h \in (0,h_0]$, the function
+$\boldsymbol{\phi}( \, \cdot \, , \, \cdot \, ,h)$ satisfies a Lipschitz
+condition, with Lipschitz constant $L$ which does not depend on $h$.
+Then,
+$$
+\lVert \mathbf{y}(x_i) - \mathbf{w}_i \rVert \leq \frac{\tau(h)}{L} \big(e^{L(x_i-a)}-1\big)
+ \quad \text{for all } 0 < h \leq h_0, \; i \in \{0,\ldots,N\}.
+$$
+
+:::
+
+We prove this essentially by the same methods as used in
+@sec-euler, but in
+a somewhat cleaned-up version.
+
+::: {.proof}
+For $i \in \{0,\ldots,N\}$, define
+$$
+\epsilon_i := \lVert  \mathbf{y}(x_{i})-\mathbf{w}_i   \rVert.
+$$
+By
+induction on $i$, we will prove the following estimate for $\epsilon_i$:
+
+$$
+  \epsilon_i \leq h \tau(h) \sum_{k=0}^{i-1} (1+hL)^k .
+$$ {#eq-epsinduct}
+ Namely, for
+$i=0$ this is trivial, since $\epsilon_0=0$. Suppose now that
+@eq-epsinduct is already proven for some $i$, we will prove
+it for $i+1$. The triangle inequality yields
+$$
+\epsilon_{i+1} \leq \epsilon_i + \lVert  \mathbf{y}(x_{i+1}) - \mathbf{w}_{i+1} - \mathbf{y}(x_i) + \mathbf{w}_i  \rVert.
+$$
+Using the difference equation
+@eq-onestepdef and again the triangle inequality, we have
+$$
+\epsilon_{i+1} \leq \epsilon_i + \lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_i) - h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)  \rVert
+   + h \lVert  \boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) \rVert.
+$$
+Here the second term is estimated by $h\tau(h)$, and the third term by
+the Lipschitz condition:
+$$
+\epsilon_{i+1} \leq \epsilon_i + h \tau(h) + h L \underbrace{\lVert  \mathbf{y}(x_i)-\mathbf{w}_i \rVert}_{\epsilon_i}
+   = h \tau(h) + (1+hL) \epsilon_i.
+$$
+We insert the induction hypothesis
+@eq-epsinduct and find,
+$$
+\epsilon_{i+1} \leq  h \tau(h) \Big( 1 + (1+h L)\sum_{k=0}^{i-1} (1+hL)^k \Big)
+ = h \tau(h) \sum_{k=0}^{i} (1+hL)^k .
+$$
+This proves
+@eq-epsinduct.---Solving the geometric sum,
+^[Just as a reminder, this is the formula
+    $\sum_{k=0}^{n} r^n = (r^{n+1}-1)/(r-1)$.] 
+and using $(1+t) \leq e^t$ with $t=hL$, this gives
+$$
+\epsilon_i \leq \frac{\tau(h)}{L} \big( (1+hL)^i-1\big) 
+   \leq \frac{\tau(h)}{L} \big( e^{ihL}-1 \big)
+   = \frac{\tau(h)}{L} \big( e^{L(x_i-a)}-1 \big).
+$$
+This is the
+proposed estimate. ◻
+:::
+
+Thus, also in the general case, if the local truncation order is of
+order $O(h^n)$, then the the global error is of the same order. In the
+following, we will see a variety of one-step methods which aim at
+achieving a low local truncation error. We will then only need to prove
+an estimate for $\tau_{i}$ as defined in
+@eq-lteonestep, and the behaviour of the global error with
+$h$ will be under control.
+
+## Taylor Methods
+
+We will now see the first example of one-step difference methods (beyond
+Euler's method), namely the so-called *Taylor Methods*.
+
+The idea here is as follows. In Euler's Method, we approximated the
+exact solution $y(x)$ with a linear function, as in
+@eq-eulertaylor. In other words, we used a first-order
+Taylor expansion. For a better approximation, we can use an $n$-th order
+Taylor expansion, now for a vector-valued $\mathbf{y}(x)$:
+
+$$
+ + \frac{h^n}{n!}  \frac{ \mathrm{d}^{n} \mathbf{y} }{\mathrm{d}x^{n} }  (x_i) + \mathbf{R}_i,
+$$ {#eq-ytaylorn}
+
+where according to @thm-taylor1nd, the remainder term $\mathbf{R}_i$ is bounded
+by 
+$$
+ \Big\lVert  \frac{ \mathrm{d}^{n+1} \mathbf{y} }{\mathrm{d}x^{n+1} }  (x) \Big\rVert.
+$$ {#eq-tmremainder}
+
+Following our approach in the Euler method, we now need to replace the
+unknown exact solution $\mathbf{y}(x)$ in the right-hand side of
+@eq-ytaylorn with expressions in the function $\mathbf{f}$.
+Since $\mathbf{y}(x)$ solves the ODE, we can certainly write
+
+$$
+    \frac{ \mathrm{d}^{} \mathbf{y} }{\mathrm{d}x^{} } (x) = \mathbf{f}(x,\mathbf{y}(x)),
+$$ {#eq-firstderivative}
+
+To obtain the second derivative, we need to differentiate this, which
+requires the use of the chain rule
+At this point, we *need* to use the chain rule in several
+    variables: Even if $m=1$, the function $f$ depends on two variables,
+    $x$ and $y$.
+One of the functions we need to
+consider (the outermost function) is the mapping from $\mathbb{R}^{m+1}$
+to $\mathbb{R}^m$
+$$
+(x,y_1,\dots,y_m\mapsto \mathbf{f}(x,\mathbf{y})
+$$
+The derivative of this is the $m\times(m+1)$ matrix given by
+
+$$
+\left[\frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial x}, \frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial \mathbf{y}}\right]
+$$ {#eq-outer}
+
+which represents the $m\times 1$ column vector
+$\partial\mathbf{f}(x,\mathbf{y})/\partial x$ being concatenated
+horizontally with the $m\times m$ matrix
+$\partial\mathbf{f}(x,\mathbf{y})/\partial \mathbf{y}$. The other
+function we need to consider (the innermost function) is the mapping
+from $\mathbb{R}$ to $\mathbb{R}^{m+1}$
+$$
+x\mapsto[x,\mathbf{y}(x)]:=(x,y_1(x),\dots,y_m(x))
+$$
+whose
+derivative is the $m+1$ dimensional column vector 
+$$
+\end{bmatrix}
+$$ {#eq-inner}
+ where we have substituted for $\mathbf{y}'(x)$ using the
+differential equation. Here we have stacked the scalar $1$ on top of the
+$m$-dimensional column vector
+$\mathbf{y}'(x)=\mathbf{f}(x,\mathbf{y}(x))$.
+
+Now, the derivative of the RHS of
+@eq-firstderivative is the product of the $m\times(m+1)$
+matrix @eq-outer and the $m+1$ dimensional vector
+@eq-inner.
+This product has the general form 
+$$
+\cdot
+\begin{bmatrix}
+C \\
+D
+\end{bmatrix}=A\cdot C+B\cdot D
+$$
+(which works for any block matrices,
+provided all the sizes are compatible, i.e. provided $A\cdot C+B\cdot D$
+makes sense). We need to substitute
+$$
+A=\frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial x}; \qquad
+B= \frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial \mathbf{y}}; \qquad
+C= 1; \qquad
+D= \mathbf{f}(x,\mathbf{y}(x))
+$$
+which gives us
+
+$$
+ = \underbrace{ \frac{\partial \mathbf{f}}{\partial x}(x,\mathbf{y}(x)) + \frac{\partial \mathbf{f}}{\partial \mathbf{y}}\cdot \mathbf{f}(x,\mathbf{y}(x)) }_{=: \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\mathbf{y}(x))}.
+$$ {#eq-ftotalcompute}
+
+We call the right-hand side the *total derivative* of $\mathbf{f}$.
+
+For higher derivatives, we can apply an analogous argument: We define
+recursively,
+$$
+\frac{ \mathrm{d}^{0} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{0} }  := \mathbf{f}(x,\mathbf{y}), \quad
+    \frac{ \mathrm{d}^{j+1} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j+1} }  :=
+ \frac{\partial}{\partial x}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} } 
+ + \Big( \frac{\partial}{\partial \mathbf{y}}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} }  \Big) \cdot \mathbf{f}(x,\mathbf{y}).
+$$
+Then we know that, when evaluated on the exact solution, we have
+
+$$
+    \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} }  (x,\mathbf{y}(x)) =  \frac{ \mathrm{d}^{j+1} \mathbf{y} }{\mathrm{d}x^{j+1} } (x,\mathbf{y}).
+$$ {#eq-totaldery}
+
+Hence, @eq-ytaylorn rewrites to 
+$$
+ + \mathbf{R}_i.
+$$ {#eq-ftaylorn}
+ This motivates us to define the *Taylor method of
+order $n$* by the difference equation 
+$$
+\begin{aligned}
+  \mathbf{w}_0 &:= \boldsymbol{\alpha},
+\\
+  \mathbf{w}_{i+1} &:= \mathbf{w}_{i} + h \mathbf{f}(x_i,\mathbf{w}_i)
+ + \frac{h^2}{2}  \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x_i,\mathbf{w}_i)
+ + \ldots
+ + \frac{h^n}{n!}  \frac{ \mathrm{d}^{n-1} \mathbf{f} }{\mathrm{d}x^{n-1} }  (x_i,\mathbf{w}_i)
+  \\
+ &\hphantom{:}= \mathbf{w}_{i} + h \mathbf{T}_n(x_i,\mathbf{w}_i,h) ,
+\end{aligned}
+$$
+where 
+$$
+ \mathbf{T}_n(x,\mathbf{y},h) := \sum_{j=0}^{n-1} \frac{h^{j}}{(j+1)!}  \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} } (x,\mathbf{y}).
+$$ {#eq-tndef}
+
+
+We have thus defined a one-step difference method with function
+$\boldsymbol{\phi}=\mathbf{T}_n$. According to
+@thm-globalerr, its global error is determined by its local
+truncation error, and by a Lipschitz constant for $\mathbf{T}_n$ (which
+we do not consider in detail here).
+
+::: {#thm-taylorerr}
+The local truncation error of the Taylor method of order
+$n$ satisfies the bound
+$$
+\|\boldsymbol{\tau}_{i}(h)\| \leq \frac{h^{n}}{(n+1)!} \sup_{x \in [a,b]}
+ \Big\lVert   \frac{ \mathrm{d}^{n+1} \mathbf{y} }{\mathrm{d}x^{n+1} }  (x)  \Big\rVert=:\tau(h),
+$$
+supposing that the exact solution $\mathbf{y}(x)$ has $(n+1)$ continuous
+derivatives.
+:::
+
+::: {.proof}
+By definition of the local truncation error in
+Eq. @eq-lteonestep, we have 
+$$
+\begin{aligned}
+ \|\boldsymbol{\tau}_{i+1}(h)\| &= \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i}) - h \,\mathbf{T}_n(x_i,\mathbf{y}(x_i),h)  \big\rVert
+\\
+ &\overset{\eqref{eq:tndef}}{=} \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i})
+- \sum_{j=0}^{n-1} \frac{h^{j+1}}{(j+1)!}  \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} } (x_i,\mathbf{y}(x_i))  \big\rVert.
+\end{aligned}
+$$
+However, comparing with
+@eq-ftaylorn, this means
+$$
+\|\boldsymbol{\tau}_{i+1}(h)\| = \frac{1}{h} \lVert  \mathbf{R}_i  \rVert,
+$$
+and the proposed statement now follows from
+@eq-tmremainder. ◻
+:::
+
+So, for any $n$, we get an approximation method of order $O(h^n)$. The
+Taylor method of order 1 coincides with Euler's method. Thus, as a side
+result, we have proved that Euler's method converges in the case of ODE
+systems.
+
+::: {#exm-eulerivpexample .example title="Euler's method for an IVP"}
+
+Let us once again consider the example IVP
+^[The same example is considered in [@Burden_Faires Sec. 5.3].] from
+@eq-eulerivpexample,
+$$
+y'(x) = y(x)-x^2+1,  \quad 0 \leq x \leq 1, \quad y(0) = \frac{1}{2}.
+$$
+Thus $f(x,y)=y-x^2+1$. To set up the Taylor methods, say of order up
+to 4, we need to compute the first 3 total derivatives of $f$. In our
+example, this yields: 
+$$
+\begin{aligned}
+   \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }  &= \frac{\partial f(x,y)}{\partial x}  +  \frac{\partial f(x,y)}{\partial y} f(x,y) = (-2x) +  1\cdot (y-x^2+1) = y-x^2-2x+1;
+\\
+   \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} } & = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }   f (x,y)
+  = (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1;
+\\
+   \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} } & = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{2} (x,y)f }{\mathrm{d}x^{2} }   f(x,y)
+  = (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1.
+\end{aligned}
+$$
+In this simple example, we can now see that *all*
+higher-order total derivatives are equal to
+$\mathrm{d}^2f(x,y)/\mathrm{d}x^2$; this will not normally be true.
+
+Our second-order Taylor function $T_2$ is then
+$$
+T_2(x,y,h) = f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }  = (y-x^2+1) + \frac{h}{2}(y-x^2-2x+1)
+  = (1+\frac{h}{2}) (y-x^2+1)-hx.
+$$
+The second-order Taylor method
+therefore reads, 
+$$
+w_0 := \frac{1}{2}, \quad
+w_{i+1} := w_i+hT_2(x_i,w_i,h) = w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1) - h^2 x_i.
+$$
+Analogously, one finds after a bit of computation that 
+$$
+\begin{aligned}
+  T_4(x,y,h) &= f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} } 
++ \frac{h^2}{6}  \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }  + \frac{h^3}{24}  \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} } 
+\\&= \Big( 1 +\frac{h}{2} + \frac{h^2}{6} + \frac{h^3}{24} \Big)(y-x^2)
++ \Big( 1 +\frac{h}{3} + \frac{h^2}{12} \Big) h x
++ \Big( 1 +\frac{h}{2} - \frac{h^2}{6} - \frac{h^3}{24} \Big).
+\end{aligned}
+$$
+
+:::
+
+### Advantages and disadvantages
+
+We have seen that the error of the order $n$ Taylor method is $O(h^n)$.
+This is much improved over the $O(h^1)$ of Euler's method. Thus, in most
+situations, Taylor methods will give a much more accurate result.
+
+However, the error estimate depends on the supremum of the $(n+1)$-th
+derivative of the exact solution, and on the Lipschitz constant for
+$T_n$. We do not know a priori that these are small. Usually, this
+does not pose a problem in practice; we will however see some
+counterexamples in @sec-stiff.
+
+Taylor methods can be constructed for any order $n$, in a
+straightforward and unique way, by computing derivatives of the function
+$f$.
+
+Still, Taylor methods are not so frequently used in practice. The main
+reason for this is that they require us to compute the total derivatives
+of the function $f$ explicitly. In practice, this is too cumbersome to
+be done by hand. It can be achieved with symbolic differentiation
+algorithms, using computer algebra packages such as Maple. However, one
+would like to avoid this extra complexity. Also, it may not always be
+feasible to compute the derivatives explicitly: Suppose that, in a
+computer program, the function $f$ is given as a "black box" procedure
+that computes (or rather approximates) the function values $f(x,y)$
+numerically; how would we gain access to the derivatives of $f$?
+
+## Runge-Kutta Methods {#sec-rk}
+
+Runge-Kutta methods are another example of one-step difference methods;
+they are very relevant in practice. They arise as modifications of the
+Taylor methods discussed in the previous section. Their main advantage
+is that they do *not* require us to compute derivatives of the function
+$f$ explicitly.
+
+### Motivation: The Modified Euler Method
+
+The idea of Runge-Kutta methods is to avoid computing the total
+derivatives $d^nf/dx^n$. Rather, these are replaced with *finite
+difference quotients*.
+
+Recall that, if $g$ is a twice differentiable function, then we can use
+Taylor's Theorem to write 
+$$
+g(x+h)=g(x)+hg'(x)+O(h^2)
+$$
+and rearrange to
+give 
+$$
+g'(x) = \frac{g(x+h)-g(x)}{h} + O(h).
+$$
+The fraction on the
+r.h.s. is called a finite difference quotient. We also remark that, by
+the MVT (or Taylor's Theorem) 
+$$
+g(x+h)=g(x)+O(h)
+$$
+We can replace $h$ by
+$O(h^k)$ here to give 
+$$
+g(x+O(h^k))=g(x)+O(O(h^k))=g(x)+O(h^k)
+$$ {#eq-bigOcommute}
+
+We start with the Taylor method of order two, here for $m=1$, given by
+the function 
+$$
+   T_2(x,y,h) = f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y).
+$$ {#eq-t2repeat}
+
+We use a difference quotient to approximate the total derivative,
+evaluated on the exact solution $y(x)$:
+$$
+\frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y(x)) = \frac{f\big(x+h,y(x+h)\big)-f\big(x,y(x)\big)}{h} + O(h).
+$$
+Inside this expression, for the term $y(x+h)$, we use a Taylor
+approximation: 
+$$
+y(x+h) = y(x) + h y'(x) + O(h^2)
+ = y(x) + h f\big(x,y(x)\big) + O(h^2).
+$$
+Using @eq-bigOcommute we obtain
+$$
+\frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y(x)) = \frac{1}{h} \Big( f\big(x+h,y(x)+hf(x,y(x)) \big)-f(x,y(x)) \Big) + O(h).
+$$
+Inserting into @eq-t2repeat, we have
+$$
+T_2(x,y(x),h) = \frac{1}{2} f(x,y(x))
+ + \frac{1}{2}   f\big(x+h,y(x)+hf(x,y(x)) \big)
+  + O(h^2).
+$$
+Thus, if instead of the function $T_2$, we use the
+following function for our one-step method,
+$$
+\phi(x,y,h) = \frac{1}{2} f(x,y)
+ + \frac{1}{2}   f\big(x+h,y+hf(x,y) \big) ,
+$$
+we will incur an
+additional local truncation error of order $O(h^2)$. However, this is
+not "much worse" than the Taylor method, which already has an error of
+order $O(h^2)$.
+
+The one-step difference method corresponding to $\phi$ is called the
+*Modified Euler method*. Its difference equation,
+$w_{i+1}:=w_i + h\phi(x_i,w_i,h)$, can be rewritten in the following
+cleaned-up form: 
+$$
+\begin{aligned}
+   w_0 &:= \alpha,
+\\
+ k_{i,1} &:= hf(x_i,w_i),
+\\
+ k_{i,2} &:= hf(x_i+h,w_i+k_{i,1}),
+\\
+w_{i+1} &:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
+\end{aligned}
+$$
+This shows in particular that only *two* evaluations of
+$f$ are needed in each step of the method. That is important to know,
+since the evaluation of $f$ is usually the time-consuming part when the
+method is implemented on a computer.
+
+We have seen now, roughly, that the Modified Euler method works, and is
+of order $O(h^2)$. A more complete proof will follow below. Let us first
+have a look at other methods of the same kind.
+
+### General Runge-Kutta methods
+
+A general Runge-Kutta method is defined by a *Butcher tableau*:
+
+$$
+%
+\begin{array}{c|ccccc}
+   a_1 &  & & & &
+  \\
+   a_2 & b_{21} & & & &
+  \\
+   a_3 & b_{31} & b_{32} & & &
+  \\
+   \vdots & \vdots & & \ddots & &
+  \\
+   a_s & b_{s1} & b_{s2} & \ldots & b_{s,s-1} &
+\\
+\cline{1-6}
+    & c_1 & c_2 & \ldots & c_{s-1} & c_s
+%
+\end{array}
+\text{where $a_i$, $b_{ij}$, $c_i$ are real numbers.}
+$$
+The tableau is a
+shorthand notation for the associated difference equation of a one-step
+method: 
+$$
+%
+\begin{aligned}
+\mathbf{w}_0 &:= \alpha;
+\\
+\quad&\quad      \mathbf{k}_1 := h \mathbf{f}(x_i + a_1 h, \mathbf{w}_i + 0),
+  \\
+\quad&\quad      \mathbf{k}_2 := h \mathbf{f}(x_i + a_2 h, \mathbf{w}_i + b_{21} \mathbf{k}_1),
+  \\
+      \quad&\quad \mathbf{k}_3 := h \mathbf{f}(x_i + a_3 h, \mathbf{w}_i + b_{31} \mathbf{k}_1 + b_{32} \mathbf{k}_2),
+  \\
+   \quad&\quad  \qquad \vdots
+  \\
+   \quad&\quad \mathbf{k}_s := h \mathbf{f}(x_i + a_s h, \mathbf{w}_i + \sum_{j=1}^{s-1} b_{sj} \mathbf{k}_j);
+\\
+    \mathbf{w}_{i+1} &:= \mathbf{w}_i + \sum_{j=1}^s c_j \mathbf{k}_j
+%
+\end{aligned}
+%
+$$
+(The $\mathbf{k}_j$ depend in addition on the step $i$, but they are
+regarded as "intermediate results", and we do not denote this dependence
+explicitly.) Our Modified Euler method is an example of such a scheme,
+namely with the tableau 
+$$
+%
+\begin{array}{c|cc}
+   0
+  \\
+   1 & 1
+ \\
+  \hline
+    & \;\tfrac{1}{2} \; & \;\tfrac{1}{2}  \;
+%
+\end{array}
+$$
+
+We do not discuss here in general how these tableaux are obtained, or
+how to prove in general of what order their local truncation error is.
+However, here are some more examples.
+
+The *Midpoint method* is another method of order $O(h^2)$. It is given
+by the tableau 
+$$
+%
+\begin{array}{c|cc}
+   0
+  \\
+   \tfrac{1}{2} & \tfrac{1}{2}
+ \\
+  \hline
+    & \;0 \; & \;1 \;
+%
+\end{array}
+$$
+and its difference equation can be written explicitly as
+$$
+\mathbf{w}_0 := \boldsymbol{\alpha}, \quad \mathbf{w}_{i+1} = \mathbf{w}_i + h \, \mathbf{f}\big(x_i + \frac{h}{2}, \mathbf{w}_i + \frac{h}{2} \mathbf{f}(x_i,\mathbf{w}_i)
+\big).
+$$
+There are more methods of order $O(h^2)$; for example, *Heun's
+method*:
+^[The names of methods may vary in the literature; it is best to
+    compare the tableaux when reading different sources!]
+$$
+\setlength\extrarowheight{5pt}
+%
+\begin{array}{c|cc}
+   0
+  \\
+   \tfrac{2}{3} & \tfrac{2}{3}
+ \\
+  \hline
+    & \;\tfrac{1}{4} \; & \;\tfrac{3}{4}  \;
+%
+\end{array}
+$$
+The explicit form of the difference equation is
+$$
+\mathbf{w}_0 := \boldsymbol{\alpha}, \quad \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{4} \Big(\mathbf{f}(x_i,\mathbf{w}_i) + 3 \mathbf{f}\big(x_i
++ \frac{2}{3}h, \mathbf{w}_i + \frac{2}{3}{h} \,\mathbf{f}(x_i,\mathbf{w}_i) \big) \Big).
+$$
+Finally, let us mention the "classical" Runge-Kutta method
+^[If you hear someone speaking of "the Runge-Kutta method", he is
+    probably referring to this $O(h^4)$ method.] 
+of order
+$O(h^4)$. This method is widely used in practice. Its Butcher tableau is
+
+$$
+\end{array}
+$$ {#eq-rk4classical}
+ and it is *not* very useful to write its difference
+equation in one line! (In general, when used in programming, working
+with the intermediate results $\mathbf{k}_i$ is a good way of organizing
+the code.)
+
+### Local truncation error for second-order methods
+
+The general idea of proving a rigorous error estimate for a Runge-Kutta
+method is comparing it to the Taylor method of order $n$, with $n$
+appropriately chosen. Given the function
+$\boldsymbol{\phi}_\text{RK}(x,y,h)$ that defines the method (as a
+one-step difference method), one would try to prove that
+
+$$
+   \leq c h^n
+$$ {#eq-rktaylorcompare}
+ with a constant $c>0$. This proof will usually involve a
+Taylor expansion of the function $\mathbf{f}$ within
+$\boldsymbol{\phi}_\text{RK}$, and the constant $c$ will depend on
+estimates for the function $\mathbf{f}$ and its derivatives. Once
+@eq-rktaylorcompare is known, it follows from the definition
+of the local truncation error
+@eq-lteonestep and the triangle inequality that
+$$
+\tau_\text{RK}(h) \leq \tau_\text{Taylor-$n$}(h) + c \,h^n.
+$$
+With the
+estimate for $\tau_\text{Taylor-$n$}(h)$ (the truncation error of the
+$n$-th order Taylor method) known from
+@thm-taylorerr this yields
+$$
+\tau_\text{RK}(h) \leq c' \,h^n.
+$$
+with another constant $c'>0$.
+@thm-globalerr then tells us that the global error of the
+Runge-Kutta method is of order $O(h^n)$.
+
+However, for most higher-order methods, such as the classical
+Runge-Kutta method
+@eq-rk4classical of order $O(h^4)$, the proof of
+@eq-rktaylorcompare is rather tedious, since the computation
+becomes quite lengthy.
+
+Here, we will give the proof only for $O(h^2)$ methods with a Butcher
+tableau of the form 
+$$
+\quad \text{where } c,d \in (0,1], \quad cd = \frac{1}{2}.
+$$ {#eq-butcherorder2}
+ This
+includes the Modified Euler method ($c=1$, $d=1/2$), the Midpoint method
+($c=1/2$, $d=1$), and Heun's method ($c=2/3$, $d=3/4$).
+
+::: {#thm-rkerror}
+Consider a Runge-Kutta method of the form
+@eq-butcherorder2. Suppose that the function $\mathbf{f}$
+and all its derivatives up to order $2$ are bounded.
+^[This is not necessarily a realistic assumption - but one that
+    simplifies the proof. One can do a similar argument using local
+    bounds on $\mathbf{f}$ and its derivatives in a suitable
+    neighbourhood of the exact solution; however, this introduces formal
+    complications which we want to avoid here.]
+Then, there
+exists a constant $C$ such that the local truncation error is bounded by
+$$
+\|\boldsymbol{\tau}_i(h)\| \leq C h^2.
+$$
+
+:::
+
+::: {.proof}
+As explained above, we need to prove
+@eq-rktaylorcompare in our case. The function
+$\boldsymbol{\phi}$ is here given by 
+$$
+  \boldsymbol{\phi}(x,\mathbf{y},h) = (1-d)\, \mathbf{f}(x,\mathbf{y}) + d \,\underbrace{\mathbf{f}\big(x+ch, \mathbf{y}+ch\mathbf{f}(x,\mathbf{y})\big)}_{=:\mathbf{k}},
+$$ {#eq-phirk2}
+
+and we need to compare it to the Taylor method of order 2, given by
+$$
+\mathbf{T}_2(x,y,h) =  \mathbf{f}(x,\mathbf{y}) + \frac{h}{2}  \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x, \mathbf{y}).
+$$
+We first take the term $\mathbf{k}$ from
+@eq-phirk2, and use a first-order Taylor expansion of the
+function $\mathbf{f}$ around the point $(x,\mathbf{y})$, in the form of
+@thm-taylororder1. This gives 
+$$
+\end{aligned}
+$$ {#eq-kcompute}
+ We assume that all second partial derivatives of
+$\mathbf{f}$ (by $x$ or $y_j$) are bounded by a constant $M$.
+According to @thm-taylororder1, the Taylor remainder term $\mathbf{R}$ is
+then bounded by
+$$
+\lVert \mathbf{R} \rVert \leq \frac{1}{2} (ch)^2 \lVert  (1, f_1, \ldots, f_m)  \rVert^2
+  \cdot (m+1)^2 M.
+$$
+After possibly modifying the constant $M$, we can
+assume that $\|f_j\|\leq M$ as well, and that $M \geq 1$. This
+gives 
+$$
+\lVert \mathbf{R} \rVert \leq \frac{(m+1)^2 M^3 c^2}{2} h^2.
+$$
+Inserting @eq-kcompute into
+@eq-phirk2 yields
+$$
+\boldsymbol{\phi}(x,\mathbf{y},h) = (1-d) \mathbf{f}(x,\mathbf{y}) + d \mathbf{k}
+= \mathbf{f}(x,\mathbf{y}) + cdh   \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\mathbf{y}) + d\mathbf{R}= \mathbf{T}_2(x,y,h)+d\mathbf{R},
+$$
+since $cd=1/2$. Consequently,
+$$
+\lVert  \boldsymbol{\phi}(x,\mathbf{y},h) - \mathbf{T}_2(x,\mathbf{y},h) \rVert \leq \frac{(m+1)^2 M^3 c}{4} h^2,
+$$
+which completes the proof. ◻
+:::
+
+### Advantages and disadvantages
+
+Runge-Kutta methods are very widely used in practice. While they are
+slightly less accurate than Taylor methods, they can be chosen of the
+same order $O(h^n)$, and in this sense they are "as good" as Taylor
+methods. However, they have the advantage that it is not necessary to
+compute the total derivatives of $\mathbf{f}$ explicitly. They are
+rather straightforward to implement on a computer, given the Butcher
+tableau of a method. Particularly, the "classical" Runge-Kutta method is
+a good choice where one needs an algorithm of reasonable accuracy which
+is easy to implement.
+
+However, the error bounds of Runge-Kutta methods are sensitive to the
+higher-order derivatives of $\mathbf{f}$. (They share this problem with
+Taylor methods.) In some cases, to be discussed in @sec-stiff, this leads
+to problems.
+
+## Error Control, Runge-Kutta-Fehlberg Method {#sec-rkf}
+
+### Error control
+
+We have so far discussed how the approximation error changes with the
+step size $h$, but we have not really explained how to choose $h$ in
+practice.
+
+In principle, given an IVP, one might first try to prove rigorous error
+estimates, like in the example in @sec-euler, but
+with $h$ left open. Then one can choose $h$ according to the maximum
+error one wants to allow. However, these estimates are very hard (if not
+impossible) to compute in realistic examples.
+
+Instead, one would like to have an approximation algorithm that
+automatically computes an estimate for the error, at least roughly, and
+that chooses the step size $h$ accordingly. This technique is known as
+*error control*.
+
+The idea is roughly as follows. Let us use *two* approximation methods,
+with approximation values $\mathbf{w}_i$ and $\tilde \mathbf{w}_i$.
+Suppose that $\tilde \mathbf{w}_i$ is much more exact than
+$\mathbf{w}_i$, i.e., that the absolute error of $\tilde \mathbf{w}_i$
+is much smaller than that of $\mathbf{w}_i$. (For example, the second
+approximation method might be of higher order in $h$.) Then we have
+$$
+\lVert  \mathbf{y}(x_i)-\mathbf{w}_i  \rVert \leq \underbrace{ \lVert  \mathbf{y}(x_i)-\tilde \mathbf{w}_i  \rVert }_{\text{negligible}} 
+ + \lVert \tilde \mathbf{w}_i-\mathbf{w}_i  \rVert \approx \lVert \tilde \mathbf{w}_i-\mathbf{w}_i \rVert.
+$$
+However, the right-hand side can be computed without knowing the exact
+solution $\mathbf{y}(x)$.
+
+To make this more concrete, let us say that $\mathbf{w}_i$ and
+$\tilde \mathbf{w}_i$ are computed by two one-step difference methods,
+with defining functions $\boldsymbol{\phi}$ and
+$\tilde \boldsymbol{\phi}$, respectively. Let us assume that
+$\boldsymbol{\phi}$ yields a local truncation error
+$\|\boldsymbol{\tau}_{i}(h)\|$ of order $O(h^n)$, while the local
+truncation error $\|\tilde \boldsymbol{\tau}_{i}(h)\|$ of
+$\tilde \boldsymbol{\phi}$ is of order $O(h^{n+1})$.
+
+Further, we fix $i$ and suppose that
+$\mathbf{y}(x_i)=\mathbf{w}_i=\tilde \mathbf{w}_i$, that is, we start
+form an exact value in the previous step.
+^[We will not deal with any "global" error behaviour here.]
+For given step size $h$,
+we want to estimate the local truncation error
+$\|\boldsymbol{\tau}_{i+1}(h)\|$ of the first method, supposing that
+$\tilde\boldsymbol{\tau}_{i+1}$ is negligible compared with it.
+$$
+\begin{gathered}
+   \|\boldsymbol{\tau}_{i+1}(h)\| = \frac{1}{h} \lVert \mathbf{y}(x_{i+1})-\mathbf{y}(x_i) -h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert
+\\
+ = \frac{1}{h} \lVert  \underbrace{\big(\mathbf{y}(x_{i+1})-\mathbf{y}(x_i) -h \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)\big)}_{\text{$\sim h\|\tilde\boldsymbol{\tau}_{i+1}\|$, negligible} }
+  + h \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) -h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert
+\\
+ \approx
+  \lVert  \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
+\end{gathered}
+$$ {#eq-lterkf}
+Thus we can determine the local truncation error
+approximately by evaluating the functions $\boldsymbol{\phi}$ and
+$\tilde\boldsymbol{\phi}$.
+
+$$
+%
+\begin{array}{c|ccccccl}
+   0 &  
+  \\
+   \frac{1}{4} & \frac{1}{4}
+  \\
+   \frac{3}{8} & \frac{3}{32} & \frac{9}{32}
+  \\
+   \frac{12}{13} & \frac{1932}{2197} & -\frac{7200}{2197} & \frac{7296}{2197}
+  \\
+   1 & \frac{439}{216} & -8 & \frac{3680}{513} & - \frac{845}{4104}
+\\
+   \frac{1}{2} & -\frac{8}{27} & 2 & -\frac{3544}{2565} &  \frac{1859}{4104} & -\frac{11}{40}
+%
+\\
+\hline
+  \text{\textbf{(a)}}  & \frac{25}{216} & 0 & \frac{1408}{2565} &  \frac{2197}{4104} & -\frac{1}{5} &
+%
+\\
+\hline
+  \text{\textbf{(b)}}  & \frac{16}{135} & 0 & \frac{6656}{12825} & \frac{28561}{56430} & - \frac{9}{50} & \frac{2}{55} 
+%
+\end{array}
+%
+$$
+
+However, what we actually want is to choose the step size $h$ so that
+$\|\boldsymbol{\tau}_{i+1}(h)\| \leq T$ with some given "tolerance"
+value $T$. To that end, let us assume that
+$\|\boldsymbol{\tau}_{i+1}(h)\|$ is not only of order $O(h^n)$, but in
+fact (roughly) proportional to $h^n$: 
+$$
+   \|\boldsymbol{\tau}_{i+1} (h)\| \approx K \, h^n \quad \text{for some $K>0$}.
+$$ 
+We proceed as follows. We start with some fixed step size $h$ and
+compute the related function values: 
+$$
+   \|\boldsymbol{\tau}_{i+1} (h)\| \approx K \, h^n  \approx \lVert  \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
+$$ {#eq-tauh}
+
+Now we want to adjust $h$ by a factor $q>0$, such that
+$\|\boldsymbol{\tau}_{i+1}(qh)\| \approx T$. By our assumption
+@eq-ltescale, 
+$$
+   \|\boldsymbol{\tau}_{i+1} (qh)\| \approx K \, (qh)^n  \approx T.
+$$ {#eq-tauqh}
+
+Dividing @eq-tauqh by @eq-tauh yields
+$$
+q^n\approx \frac{T}{\lVert  \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert},
+$$
+thus we should choose 
+$$
+   =  \left( \frac{hT}{\lVert  \tilde \mathbf{w}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/n},
+$$ {#eq-qtheory}
+
+where it is understood that $\mathbf{w}_{i+1},\tilde\mathbf{w}_{i+1}$
+are computed with $\boldsymbol{\phi},\tilde \boldsymbol{\phi}$ using the
+step size $h$.
+
+### The Runge-Kutta-Fehlberg method
+
+A popular implementation of the above principle is the
+*Runge-Kutta-Fehlberg* method. It uses an order-4 Runge-Kutta method for
+$\boldsymbol{\phi}$ and an order-5 Runge-Kutta method for
+$\tilde\boldsymbol{\phi}$. The Butcher tableaux for both methods are
+shown in
+@tbl-butcherrkf. The special feature of this algorithm is
+that the two approximation methods *share* most parts of their
+coefficient schemes; more precisely, the auxiliary values
+$\mathbf{k}_1,\ldots,\mathbf{k}_6$ are the same in both approximation
+methods. Only the "final lines" in the Butcher tableaux are different:
+for computing $\mathbf{w}_{i+1}$, one uses the line marked (a), while
+for $\tilde \mathbf{w}_{i+1}$, the line marked (b) is used. This
+arrangement makes the algorithm rather efficient: the function
+$\mathbf{f}$ needs to be evaluated only 6 times per step. Compare this
+with the 4 function evaluations needed for the classical Runge-Kutta
+method of order 4 *without* error control. The additional overhead
+caused by the error control method is noticeable, but not too large.
+
+::: algorithm
+::: algorithmic
+$x := a$, $\mathbf{w}:= \boldsymbol{\alpha}$, $h := h_{max}$ Compute
+$\mathbf{k}_1,\ldots, \mathbf{k}_6$ from Butcher tableau with step size
+$h$
+$R := {h}^{-1}\lVert  \sum_{j=1}^6  (c_j-\tilde c_j) \mathbf{k}_j \rVert$
+$x := x+h$, $\mathbf{w}:= \mathbf{w}+ \sum_{j=1}^5  c_j \mathbf{k}_j$
+$q :=(T/2R)^{1/4}$ $h := 0.1h$ $h := 4h$ $h := h \cdot q$ **if**
+$h \geq h_{max}$ **then** $h:= h_{max}$ **end if** $h := b-x$
+**exception** ("minimum step size exceeded")
+
+$\mathbf{w}$
+:::
+:::
+
+Algorithm [\[alg:rkf\]](#alg:rkf){reference-type="ref"
+reference="alg:rkf"} shows the Runge-Kutta-Fehlberg method in
+pseudocode. It works roughly by the principles discussed above, but with
+some modification in detail. In lines 4--8, the next approximation value
+$\mathbf{w}_{i+1}$ is computed; however, this happens only if the
+estimate for the local truncation error, computed according to
+@eq-lterkf, is below the specified tolerance $T$. Then, in
+lines 9--22, the step size $h$ for the next step is computed. In slight
+deviation from @eq-qtheory, one chooses a more conservative factor,
+$$
+q =  \left( \frac{hT}{2 \lVert  \tilde \mathbf{w}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/4} \quad \text{(note $n=4$)}.
+$$
+Also, the factor $q$ is limited to the interval $[0.1,4]$ (lines
+10--16), in order to avoid possible instabilities by rapid changes in
+the step size. Further, the step size is never increased beyond a given
+value $h_\text{max}$ (line 17); and if it decreases below a minimum step
+size $h_\text{min}$, we terminate with an error message (line 21) --
+otherwise we might run into problems with limited floating point
+precision. Some extra handling is needed for the last step of the
+approximation, in order to ensure that we end up exactly at the
+right-hand boundary of the interval $[a,b]$ (line 19).
+
+## Multi-Step Methods
+
+*N.B.: This section is intended as a brief overview, and its material is
+not examinable. More information can be found, e.g., in [@Burden_Faires
+Sec. 5.6].*
+
+Multi-step methods are an altervative way of approximating the solution
+of the initial value problem 
+$$
+ \mathbf{y}' = \mathbf{f}(x,\mathbf{y}),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
+$$ {#eq-multiivp}
+
+Again, they are generalizations of Euler's method, and we use the same
+division of $[a,b]$ into equally spaced mesh points $x_0,\ldots,x_n$.
+But rather than using several evaluations of the function $\mathbf{f}$
+in each approximation step, like Runge-Kutta methods do, we make use of
+the values of $\mathbf{f}$ that have already been computed at previous
+mesh points.
+
+A general *$k$-step multi-step method* is given by a difference equation
+
+$$
+\end{aligned}
+$$ {#eq-multistepdef}
+ Here
+$a_0 \ldots a_{k-1}, b_0 \ldots b_{k} \in \mathbb{R}$ are constants that
+define the method.
+$\boldsymbol{\alpha}_1 \ldots \boldsymbol{\alpha}_{k-1} \in\mathbb{R}^m$
+are certain starting values that are needed for the difference equation
+to work; we will discuss later how to obtain them. If $b_k=0$, the
+method is called *explicit*; otherwise, it is called *implicit*. In the
+latter case, $\mathbf{w}_{i+1}$ appears on both sides of the difference
+equation, and is hence defined only implicitly; we will discuss later
+how such methods can be used.
+
+Like for one-step methods, one defines the *local truncation error* of
+the multistep method
+@eq-multistepdef by 
+$$
+   \right].
+$$ {#eq-ltemulti}
+ Again, the local truncation error determines the global
+error, i.e., an analogue of
+@thm-globalerr for multi-step methods holds. However, we
+do not discuss this here.
+
+Examples of $k$-step multistep methods are the so-called Adams-Bashforth
+and Adams-Moulton methods. They are derived from rewriting the
+differential equation as an integral equation,
+$$
+\mathbf{y}'=\mathbf{f}(x,\mathbf{y}(x)) \quad \Leftrightarrow \quad 
+  \mathbf{y}(x_{i+1}) = \mathbf{y}(x_i) + \int_{x_i}^{x_{i+1}} \mathbf{f}(x,\mathbf{y}(x)) \,dx,
+$$
+and then approximating the components $\hat{f}_j$ on the right hand
+side with Lagrange interpolating polynomials. The integral can be done
+explicitly, and one obtains the difference equation of a multi-step
+method; see [@Burden_Faires Sec. 5.6] for details. The number $k$ of steps
+depends on the number of interpolation points chosen. Adams-Bashforth
+methods (@tbl-abmethod) are $k$-step *explicit* methods of error
+order $O(h^k)$ and Adams-Moulton methods
+(@tbl-ammethod) are $k$-step *implicit* methods of error
+oreder $O(h^{k+1})$,
+
+Notation: $\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)$.
+
+::: {#tbl-abmethod}
+  Method                Difference equation                                                                                                                  Error order
+  --------------------- ----------------------------------------------------------------------------------------------------------------------------------- -------------
+  Two-step explicit     
+$$
+%                                                                                                                                   $O(h^2)$
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{2} (3 \mathbf{f}_i - \mathbf{f}_{i-1})                                                   
+                        %
+$$
+                                                                                                                                
+  Three-step explicit   
+$$
+%                                                                                                                                   $O(h^3)$
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{12} (23 \mathbf{f}_i - 16 \mathbf{f}_{i-1} + 5 \mathbf{f}_{i-2})                         
+                        %
+$$
+                                                                                                                                
+  Four-step explicit    
+$$
+%                                                                                                                                   $O(h^4)$
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (55 \mathbf{f}_i - 59 \mathbf{f}_{i-1} + 37 \mathbf{f}_{i-2} - 9 \mathbf{f}_{i-3})   
+                        %
+$$
+                                                                                                                                
+  Five-step explicit    
+$$
+\begin{gathered}                                                                                                                    $O(h^5)$
+                        %                                                                                                                                   
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{720} (1901 \mathbf{f}_i - 2774 \mathbf{f}_{i-1}                                          
+                         \\ + 2616 \mathbf{f}_{i-2} - 1274 \mathbf{f}_{i-3} + 251 \mathbf{f}_{i-4})                                                         
+                        %                                                                                                                                   
+                        \end{gathered}
+$$
+                                                                                                                   
+
+  : Adams-Bashforth methods
+:::
+
+As with Taylor and Runge-Kutta methods, the estimates for the local
+truncation error depend on higher-order total derivatives of
+$\mathbf{f}$.
+
+In order to apply these multi-step methods in examples, we need
+additional start values $\mathbf{w}_1=\boldsymbol{\alpha}_1, \ldots,
+\mathbf{w}_{k-1} = \boldsymbol{\alpha}_{k-1}$. These are normally
+obtained by using one-step methods of the same error order. For example,
+for the four-step Adams-Bashforth method, one might use the classical
+Runge-Kutta method of order $O(h^4)$.
+
+Notation: $\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)$.
+
+::: {#tbl-ammethod}
+  Method                Difference equation                                                                                                              Error order
+  --------------------- ------------------------------------------------------------------------------------------------------------------------------- -------------
+  Two-step implicit     
+$$
+%                                                                                                                               $O(h^3)$
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{12} (5 \mathbf{f}_{i+1} + 8 \mathbf{f}_i - \mathbf{f}_{i-1})                         
+                        %
+$$
+                                                                                                                            
+  Three-step implicit   
+$$
+%                                                                                                                               $O(h^4)$
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (9 \mathbf{f}_{i+1} + 19 \mathbf{f}_i - 5 \mathbf{f}_{i-1} + \mathbf{f}_{i-2})   
+                        %
+$$
+                                                                                                                            
+  Four-step implicit    
+$$
+\begin{gathered}                                                                                                                $O(h^5)$
+                        %                                                                                                                               
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{720} (251 \mathbf{f}_{i+1} + 646 \mathbf{f}_i - 264 \mathbf{f}_{i-1}                 
+                        \\+ 106                                                                                                                         
+                        \mathbf{f}_{i-2} - 19 \mathbf{f}_{i-3})                                                                                         
+                        %                                                                                                                               
+                        \end{gathered}
+$$
+                                                                                                               
+  Five-step implicit    
+$$
+\begin{gathered}                                                                                                                $O(h^6)$
+                        %                                                                                                                               
+                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{1440} (475 \mathbf{f}_{i+1} + 1427 \mathbf{f}_i - 798 \mathbf{f}_{i-1}               
+                        \\+ 482                                                                                                                         
+                        \mathbf{f}_{i-2} - 173 \mathbf{f}_{i-3} + 27 \mathbf{f}_{i-4})                                                                  
+                        %                                                                                                                               
+                        \end{gathered}
+$$
+                                                                                                               
+
+  : Adams-Moulton methods
+:::
+
+### Predictor-corrector methods
+
+Implicit multi-step methods, like the Adams-Moulton methods shown in
+@tbl-ammethod,
+involve the term $\mathbf{f}(x_{i+1},\mathbf{w}_{i+1})$ on the
+right-hand side of the difference equation. This means that
+$\mathbf{w}_{i+1}$ is defined only implicitly; it is unclear at first
+how these methods should be used in practice.
+
+One option would be to solve the difference equation for
+$\mathbf{w}_{i+1}$, either symbolically (for simple cases of
+$\mathbf{f}$) or numerically. This is useful only in very specific
+cases; we will come back to this approach in @sec-stiff.
+
+The other, and indeed frequently used, option is to combine them with
+explicit multi-step methods into so-called *predictor-corrector
+methods*. These work as follows.
+
+Suppose that $\mathbf{w}_0,\ldots,\mathbf{w}_i$ are already known. These
+are inserted into the difference equation of an explicit method, the
+*(predictor)*, which gives an approximation value
+$\mathbf{w}_{i+1}^{(p)}$. This value is then inserted into the r.h.s. of
+the difference equation of an implicit method, the *corrector*, in order
+to obtain $\mathbf{w}_{i+1}$.
+
+To illustrate this, let us consider a frequently used case: the
+Adams-Bashforth 4-step method as the predictor, combined with the
+Adams-Moulton 3-step method as the corrector. In each step of the
+method, we compute the "predicted value" by the explicit method,
+$$
+\mathbf{w}_{i+1}^{(p)} = \mathbf{w}_i +
+      \frac{h}{24} (55 \mathbf{f}_i - 59 \mathbf{f}_{i-1} + 37 \mathbf{f}_{i-2} - 9 \mathbf{f}_{i-3}),
+$$
+and afterwards the "corrected value" using the implicit method:
+$$
+\mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (9 \mathbf{f}(x_{i+1},\mathbf{w}_{i+1}^{(p)}) + 19 \mathbf{f}_i - 5
+   \mathbf{f}_{i-1} + \mathbf{f}_{i-2}).
+$$
+Here
+$\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)$. Both the predictor and
+the corrector are of order $O(h^4)$, and so is the entire method, as it
+turns out. However, the combined predictor-corrector method is more
+precise than each of the parts alone.
+
+::: algorithm
+::: algorithmic
+$h := (b-a)/N$, $x_0 := a$, $\mathbf{w}_0 := \boldsymbol{\alpha}$,
+$\mathbf{f}_0 := \mathbf{f}(x_0,\mathbf{w}_0)$. Compute $\mathbf{w}_i$
+using Runge-Kutta fourth order $x_i := x_{i-1}+h$;
+$\mathbf{f}_i := \mathbf{f}(x_i,\mathbf{w}_i)$ $x := a + ih$
+$\mathbf{w}:= \mathbf{w}_3 +
+      \frac{h}{24} (55 \mathbf{f}_3 - 59 \mathbf{f}_2 + 37 \mathbf{f}_1 - 9 \mathbf{f}_0)$
+$\mathbf{w}:= \mathbf{w}_3 + \frac{h}{24} (9 \mathbf{f}(x,\mathbf{w}) + 19 \mathbf{f}_3 - 5
+   \mathbf{f}_2 + \mathbf{f}_1)$ $x_j := x_{j+1}$;
+$\mathbf{w}_j := \mathbf{w}_{j+1}$; $\mathbf{f}_j :=
+\mathbf{f}_{j+1}$; $x_3 := x$; $\mathbf{w}_3 := \mathbf{w}$;
+$\mathbf{f}_3 := \mathbf{f}(x,\mathbf{w})$; $\mathbf{w}$
+:::
+:::
+
+Algorithm [\[alg:adams4\]](#alg:adams4){reference-type="ref"
+reference="alg:adams4"} shows this predictor-corrector method in
+pseudocode. Lines 3--6 use the classical Runge-Kutta method to set up
+the required initial values, while lines 7--15 implement the actual
+multistep method. The scheme is quite efficient, since in each step of
+the method, only two evaluations of the function $\mathbf{f}$ are used:
+in line 10 and in line 14 of the algorithm. All other values
+$\mathbf{f}_j$ are already known from the previous steps.
+
+### Advantages and disadvantages
+
+Multistep methods, in particular Adams-Bashforth and Adams-Moulton
+methods, can be formulated for any error order $O(h^n)$. However,
+independent of $n$, they involve only one evaluation of $\mathbf{f}$ per
+step (or two for predictor-corrector methods). Compare this with
+Runge-Kutta methods, where the number of evaluations needed in each step
+grows approximately like $n$. Therefore, in particular at high orders,
+multistep methods tend to be faster than Runge-Kutta methods.
+
+We can naturally combine an explicit and an implicit method of same
+error order into a predictor-corrector method, which further improves
+precision. (It should be noted that a similar approach is possible with
+implicit Runge-Kutta methods, which we have not discussed here.)
+
+However, multistep methods have the disadvantage that they are more
+difficult to implement. In particular, an additional one-step method is
+needed in order to compute the extra start values needed for the method.
+
+Like for Taylor and Runge-Kutta methods, the error estimates for
+Adams-Bashforth and Adams-Moulton methods depends on higher-order
+derivatives of $\mathbf{f}$, which are not always small. We will discuss
+this in @sec-stiff.
+
+Similar to the Runge-Kutta-Fehlberg algorithm described in
+@sec-rkf, we can
+modify Adams predictor-corrector methods so that they include an
+automatic choice of the step size. The difference between predicted and
+corrected value gives a natural indication of the local truncation
+error. However, the implementation of such a method is not really
+straightforward, and we do not discuss it in detail here; see for example
+[@Burden_Faires Sec. 5.7]. One of the difficulties is that, each time when
+we change the step size $h$, also the initial values
+$\boldsymbol{\alpha}_j$ need to be computed again. This can make
+changing the step size rather costly. It is also possible to generalize
+multistep methods so that they work with variable *order*. Again, we
+do not discuss that here.
+
+## Stiff equations {#sec-stiff}
+
+In this section, we will discuss a certain class of initial value
+problems, called *stiff equations*, which give rise to particular
+problems when applying numerical methods to them.
+
+::: {exm-stiffivp}
+
+Let us consider the following IVP as an example: 
+$$
+   y'(x) = - 20y(x) + 10\cos(2x), \quad 0 \leq x \leq 3, \quad y(0)=1.
+$$ {#eq-stiffivp}
+
+This IVP has the exact solution 
+$$
+y(x) = 
+  \underbrace{\frac{50}{101} \cos(2x) + \frac{5}{101} \sin(2x)}_{\text{steady-state solution}}
+  + \underbrace{\frac{51}{101} \exp(-20x)}_{\text{transient solution}} .
+$$
+Note here that one part of the solution, the *transient solution*,
+decays very rapidly as $x$ grows. For large $x$, only the remainder -
+the *steady-state solution* - contributes to $y(x)$.
+
+When applying our approximation methods developed so far to this IVP,
+one notices the following behaviour.
+^[Cf. Maple worksheet used in the lecture, available on Moodle]
+Below a certain "critical step
+size", our methods give a reasonable approximation of the exact
+solution, as expected. However, above this step size, the approximation
+is completely unreliable, and usually grows very rapidly -- although the
+exact solution is bounded by 1. This applies to all methods developed so
+far, and going to higher-order methods -- such as classical Runge-Kutta
+-- does not help.
+
+The reason for this becomes apparent when computing the derivatives of
+the transient solution:
+$$
+\frac{ \mathrm{d}^{n}  }{\mathrm{d}x^{n} }  \exp(-20x) = (-20)^n \exp(-20x).
+$$
+This expression can be very large, in particular for high $n$. Since our
+error bounds all depended on the supremum of higher-order derivatives of
+$y(x)$, this explains the large approximation error.
+
+:::
+
+ODEs which show this behaviour are called *stiff equations*. An exact
+definition of this term is hard to give. Roughly speaking, their crucial
+property is that they have a transient part of the solution, which
+decays very rapidly. Looking at the ODE
+@eq-stiffivp directly, this might be seen from the large
+negative factor in front of $y$. Of course, in realistic examples, the
+exact solution of the problem will *not* be known, the ODE may look more
+complicated, and one will need to deal with a system of equations rather
+than with a single equation, so that it is much harder to deduce the
+"stiff" behaviour from the ODE directly. In applications, it is often
+apparent from the context whether a problem is stiff or not. Stiff
+equations take their name from problems in mechanics: a system with
+"stiff" springs, i.e., with large spring constants and/or strong
+friction, is typically described by a stiff ODE.
+
+### The test equation
+
+In order to understand the problem better, and to decide which numerical
+methods best to apply, we need a simple but comprehensive test case for
+our numerical methods. To that end, we apply our methods to the *test
+equation* 
+$$
+   y'(x) = \lambda y(x), \quad 0 \leq x , \quad y(0)=1,
+$$ {#eq-testeq}
+ where
+$\lambda \in \mathbb{C}$ is a constant, with
+$\mathop{\mathrm{Re}}\lambda < 0$. The exact solution is
+$$
+y(x) = \exp(\lambda x).
+$$
+This solution has *only* a transient part,
+which makes it ideal for our purposes.
+
+(We are now dealing with an ODE for a *complex*-valued function $y$.
+This does not really need a generalization of our previous methods: We
+can always split $y$ into a two-vector
+$(\mathop{\mathrm{Re}}y, \mathop{\mathrm{Im}}y)$, and thus rewrite our
+equations as a system of two first-order ODEs with real values. However,
+the complex-valued notation is convenient here. The nonzero imaginary
+part of $\lambda$ allows us to include oscillatory solutions as well,
+with almost no added effort.)
+
+Let us apply the Euler method to the test equation. The difference
+equation gives
+$$
+w_{i+1} = w_i + h \,f(x_i,w_i) = w_i + \lambda h w_i = (1 + \lambda h) w_i.
+$$
+With $w_0=1$, it is then clear that for all $i \in \mathbb{N}$,
+
+$$
+   w_i = (1+\lambda h)^i.
+$$ {#eq-eulerwi}
+ Thus, if $|1+\lambda h|>1$, the
+approximation grows exponentially for large $i$, and is therefore
+"grossly wrong" as the exact solution vanishes for large $x$. If
+$|1+\lambda h|<1$, then $w_i\to 0$, which at least roughly resembles the
+behaviour of the exact solution.
+
+For our other (explicit) approximation methods, one finds in
+generalization of @eq-eulerwi, 
+$$
+   w_i = \bigl(Q(\lambda h)\bigr)^i
+$$ {#eq-qwi}
+ with some function $Q$ (for
+explicit methods, $Q$ is in fact a polynomial). The approximation values
+grow or decay if $|Q(\lambda h)| > 1$ or $|Q(\lambda h)| < 1$,
+respectively.
+
+This motivates us to define the *region of stability* of an
+approximation method:
+$$
+\mathcal{R}:= \big\{\mu \in \mathbb{C} \;\big|\; |Q(\mu)| < 1 \big\}.
+$$
+In order for the approximation to be "reasonable", i.e. to ensure
+$w_i \to 0$ as $i \to \infty$, we then need to choose our step size $h$
+so that $h\lambda \in \mathcal{R}$.
+
+<figure id="fig:stabilitytaylor">
+<embed src="stability_taylor.pdf" />
+<figcaption>Region of stability for Taylor methods</figcaption>
+</figure>
+
+Specifically for Euler's method, we have $Q(\mu)=1+\mu$, and
+$\mathcal{R}$ is a disc with center $-1$ and radius $1$. For
+higher-order Taylor methods, the regions of stability can be computed
+similarly; they are shown in
+@fig-stabilitytaylor. For all examples of Runge-Kutta
+methods discussed in @sec-rk, the region agrees with that of the Taylor method of
+the same order.
+^[This is true for all of our examples, but not for all Runge-Kutta
+    methods in general.]
+
+However, from this picture, it appears that *all* of our methods are
+vulnerable to the problems posed by stiff equations, as suggested also
+by the example above. For having a stable method for a large set range
+of step sizes, we need to look at a different approach. It turns out
+that certain *implicit* multi-step methods provide an advantage here.
+
+Let us, in particular, consider the *Implicit Trapezoidal method*, which
+is given by the difference equation 
+$$
+\end{aligned}
+$$ {#eq-trapezde}
+ Applying it to the test equation
+@eq-testeq, we obtain
+$$
+w_{i+1} = w_i + \frac{h}{2} (\lambda w_{i+1} + \lambda w_i)
+  =  \big( 1 + \frac{\lambda h}{2} \big) w_i  + \frac{\lambda h}{2} w_{i+1}.
+$$
+We can solve this for $w_{i+1}$: 
+$$
+ w_{i+1} = \frac{2+\lambda h}{2-\lambda h} w_i.
+$$ {#eq-trapezsolve}
+ Thus, the result is
+again of the form @eq-qwi, with 
+$$
+Q(\mu) = \frac{2+\mu}{2-\mu}.
+$$
+Since
+$$
+\begin{gathered}
+ |Q(\mu)| < 1 
+    \quad \Leftrightarrow \quad 
+|2+\mu|^2 < |2-\mu|^2
+\\
+    \quad \Leftrightarrow \quad
+4+ 4 \mathop{\mathrm{Re}}\mu + |\mu|^2 
+ < 
+4- 4 \mathop{\mathrm{Re}}\mu + |\mu|^2
+    \quad \Leftrightarrow \quad 
+ \mathop{\mathrm{Re}}\mu < 0,
+\end{gathered}
+$$
+the region of stability $\mathcal{R}$ is just the left
+half plane. This is the maximum we could hope for: the implicit
+trapezoidal method gives reasonable results on stiff problems for all
+step sizes.
+
+<figure id="fig:stabilityadams">
+<p>AB4: Adams-Bashforth 4-step; AM3/AM4: Adams-Moulton 3-step/4-step;
+ABM43: Adams-Bashforth-Moulton predictor-corrector, 4/3-step. Graphics
+taken from <span class="citation" data-cites="TTM"></span>.</p>
+<img src="stability_multistep_nolegend.jpg" style="width:45.0%" />
+<figcaption>Region of stability for Adams-Bashforth and Adams-Moulton
+methods</figcaption>
+</figure>
+
+Methods of this kind, i.e., whose region of stability $\mathcal{R}$
+contains the entire left half plane, are called *absolutely stable* or
+*A-stable*.
+
+One can apply the above stability analysis to other implicit methods as
+well, with some added complication -- namely, when solving the
+difference equation as in
+Eq. @eq-trapezsolve, we may in general find several solutions.
+@fig-stabilityadams show the resulting regions of stability
+in some examples. Not all implicit methods are A-stable. In fact, there
+are no A-stable multistep methods of order $O(h^3)$ or above. Sometimes,
+one uses a class of implicit multistep methods known as *backward
+differentiation methods (BDM)*, which exist for arbitrary error order
+and come at least close to A-stability; we do not discuss them here.
+
+### Implementing the Implicit Trapezoidal Method
+
+Our analysis so far suggests that we should use the Implicit Trapezoidal
+method for the numerical treatment of stiff ODEs. However, since the
+difference equation of the method defines $w_{i+1}$ only implicitly,
+this poses conceptual problems.
+
+In the extremely simple case of the test equation
+@eq-testeq, we were able to solve the difference equation
+explicitly for $w_{i+1}$; see
+Eq. @eq-trapezsolve. We can generalize this to the case of a
+*linear* ODE: 
+$$
+   y'(x) = \ell(x) y(x) + g(x), \quad a \leq x \leq b, \quad y(a)=\alpha.
+$$ {#eq-ivplinear}
+
+Here $\ell,g$ are continuous functions from $[a,b]$ to $\mathbb{R}$. In
+this case, the difference equation
+@eq-trapezde of the implicit trapezoidal method reads,
+$$
+w_{i+1} = w_i + \frac{h}{2}
+  \Big(
+    \ell(x_{i+1}) w_{i+1} + g(x_{i+1}) +\ell(x_{i}) w_{i} + g(x_{i})
+  \Big).
+$$
+Much like in
+@eq-trapezsolve, this can be solved for $w_{i+1}$:
+$$
+\begin{gathered}
+   w_{i+1}
+  \Big(
+    1 - \frac{h}{2}\ell(x_{i+1})
+  \Big)
+=
+  \Big(
+    1 + \frac{h}{2}\ell(x_{i})
+  \Big)
+   + \frac{h}{2} g(x_{i+1})+ \frac{h}{2} g(x_{i})
+%
+\\
+\Rightarrow
+\quad
+w_{i+1} = \frac{2 + h \ell(x_{i})}{ 2 - h \ell(x_{i+1})} w_i
+ + h \frac{g(x_{i+1}) + g(x_{i}) }{2 - h \ell(x_{i+1})}.
+\end{gathered}
+$$ {#eq-trapezsolvelin}
+Thus, for linear ODEs as in
+@eq-ivplinear, the implicit trapezoidal method can be
+applied with an explicit difference equation.
+
+For a nonlinear ODE, it will generally not be possible to solve the
+difference equation symbolically. However, we can try to solve it
+*numerically*. As an approach for numerically solving nonlinear
+equations, we shall use Newton Iteration.
+
+As a reminder:
+^[For more details on Newton's method for solving (single)
+    nonlinear equations, see Part A of this module, or [@Burden_Faires
+    Sec. 2.3].] Let $F: \mathbb{R} \to \mathbb{R}$ be twice
+differentiable; suppose we are looking for a solution $x$ of the
+equation 
+$$
+F(x) = 0.
+$$
+This solution is found with Newton's method as
+follows. Starting with $x_0$ sufficiently close to a solution, one
+recursively defines the sequence 
+$$
+   x_k := x_{k-1} - \frac{F(x_{k-1})}{F'(x_{k-1})}.
+$$ {#eq-newtondiff}
+ Then
+$x_k \to x_\infty$ with $F(x_\infty)=0$.
+
+When implementing this on a computer, one cannot pass to the limit
+$k \to \infty$, but needs to stop the iteration when a sufficient
+precision is reached. In practice, one usually takes the magnitude of
+the difference term on the r.h.s. of
+@eq-newtondiff as an indicator: The iteration is stopped
+when $|F(x_{k-1})/F'(x_{k-1})|<T$, where $T>0$ is the desired tolerance
+level.
+
+In our situation of the implicit trapezoidal method, we need to solve
+the equation
+$$
+w_{i+1} = w_i + \frac{h}{2} \big( f(x_i,w_i)+ f(x_{i+1},w_{i+1})\big).
+$$
+for $w_{i+1}$, where $x_i$, $x_{i+1}$, $w_i$ are given numbers. In other
+words, we are looking for zeros of the function
+$$
+F(\hat{w}) = \hat{w} - w_i - \frac{h}{2} \big( f(x_i,w_i)+ f(x_{i+1},\hat{w})\big).
+$$
+Following @eq-newtondiff, the following sequence should converge to
+the solution $w_{i+1}$: 
+$$
+\begin{aligned}
+     \hat{w}_0 &:= w_{i},\\
+     \hat{w}_k &:= \hat{w}_{k-1} - \underbrace{\frac{\hat{w}_{k-1} - w_i - \frac{h}{2}\big(
+       f(x_i,w_i) + f(x_{i+1},\hat{w}_k)
+     \big)}{ 1 - \frac{h}{2} \frac{\partial f}{\partial
+     y}(x_{i+1},\hat{w}_{k-1}) }}_{=:v}.
+  \end{aligned}
+$$
+We would run this iteration until $|v|<T$.
+
+::: algorithm
+::: algorithmic
+$x := a$,  $w := \alpha$,  $h := (b-a)/N$; $c := w + \frac{h}{2}f(x,w)$;
+ $k:=1$; $v := \dfrac{ w - c -
+h \, f(x+h, w)/2}{ 1 - h\, \partial_y f(x+h, w)/2}$; $w := w - v$;
+**if** $|v|<T$ **then** **break** **end if** $k:=k+1$; **exception**
+("Too many iterations") $x := x + h$ $w$
+:::
+:::
+
+Algorithm [\[alg:trapnewton\]](#alg:trapnewton){reference-type="ref"
+reference="alg:trapnewton"} combines the thoughts above, implementing
+the Implicit Trapezoidal method using Newton's method. It contains two
+loops: The outer loop (lines 3--15) is the usual iteration of our
+one-step and multi-step methods, counting through the mesh points. In
+each iteration of this loop, there is another loop (lines 5--12) which
+implements Newton's method. This inner loop does not have a fixed number
+of steps a priori. We terminate it either if the desired tolerance is
+reached (line 8), or (with an error message) if the number of steps
+exceeds a certain maximum. This is a safety measure to avoid an endless
+loop in case that the Newton iteration does not converge for any reason.
+
+Both in the case of linear and nonlinear equations, we have so far
+discussed a single ODE only. For applications in practice, we would need
+to generalize the methods to systems of ODEs. This is indeed possible,
+but requires a bit of thought.
+
+In the linear case
+@eq-ivplinear, one would consider a matrix-valued function
+$\ell$ and a vector-valued $g$. The difference equation can then still
+be solved symbolically, like in
+@eq-trapezsolvelin; however, the division by the factor
+$(2-h\ell(x_{i+1}))$ needs to be replaced by a multiplication with an
+inverse matrix, or equivalently, by solving a system of linear
+equations. Likewise, in the nonlinear case, we can handle ODE systems
+but would need the multi-dimensional version of Newton's method (or, in
+other words, Newton's method for systems of nonlinear equations). We
+shall not discuss the details of this generalization here.

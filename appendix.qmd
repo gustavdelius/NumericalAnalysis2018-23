@@ -1,0 +1,139 @@
+# Appendix {#appendix .unnumbered}
+
+## Taylor's theorem {#app:taylorthm}
+
+In many of the approximations and error estimates that we make
+throughout this course, Taylor's theorem plays an important role. Since
+the theorem can be formulated in various ways, in particular, with
+different forms of the remainder term, it will be recalled in this
+appendix, with the conventions we use.
+
+We first repeat the theorem in its simplest form, for a real-valued
+function of one real variable, with the remainder in Lagrange form
+[@Apo1 Sec. 7.7].
+
+::: {#thm:taylor1d .theorem}
+**Theorem 12**. *Let $I\subset\mathbb{R}$ be an interval, and
+$f \in \mathcal{C}^{k+1}(I,\mathbb{R})$. For each $a \in I$ and
+$x \in I$, there exists $\xi \in [a,x]$ such that
+$$
+f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
+   + \frac{1}{(k+1)!} \frac{d^{k+1} f}{dx^{k+1}}(\xi) \, (x-a)^{k+1}.
+$$
+*
+:::
+
+For our purposes, we need generalizations of Taylor's theorem both to
+functions of several variables and to vector-valued functions. Let us
+formulate a full generalization to functions
+$\mathbf{f}:\mathbb{R}^m\to\mathbb{R}^n$, even if we do *not* actually
+need it in this generality.
+
+For this, we need some notation. A tuple of $m$ nonnegative integers,
+$\mathbf{j}= (j ^{(1)},\ldots,j ^{(m)})\in \mathbb{N}_0^m$, is called a
+*multi-index*. We use the following shorthand notation:
+$$
+\begin{aligned}
+ |\mathbf{j}| &= j ^{(1)} + \ldots + j ^{(m)} &\text{(the \emph{length} of the multi-index)},
+\\
+ \mathbf{j}! &= j ^{(1)}! \cdot \ldots \cdot j ^{(m)}!, &
+\\
+ \mathbf{x}^{\mathbf{j}} &= (x ^{(1)})^{j ^{(1)}} \cdot\ldots\cdot (x ^{(m)})^{j ^{(m)}}& \text{for $\mathbf{x}\in\mathbb{R}^m$},
+\\
+ \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial \mathbf{x}^\mathbf{j}} &= 
+\frac{\partial^{|\mathbf{j}|} \mathbf{f}}{ (\partial x ^{(1)})^{j ^{(1)}} \cdots (\partial x ^{(m)})^{j ^{(m)}}}. &
+\end{aligned}
+$$
+Taylor's theorem can then be formulated as follows.
+
+::: {#thm:taylormnd .theorem}
+**Theorem 13**. *Let $D \subset \mathbb{R}^m$ be convex, and let
+$\mathbf{f}\in \mathcal{C}^{k+1}(D,\mathbb{R}^n)$. For each
+$\mathbf{a}\in D$, there exists
+$\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n$ such that
+$$
+\mathbf{f}(\mathbf{x}) = \sum_{|\mathbf{j}|\leq k} \frac{1}{\mathbf{j}!} \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{a}) \, (\mathbf{x}-\mathbf{a})^\mathbf{j}+ \mathbf{R}_\mathbf{a}(\mathbf{x})
+$$
+and
+$$
+\lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \lVert \mathbf{x}-\mathbf{a} \rVert^{k+1}\sum_{|\mathbf{j}|=k+1} \frac{1}{\mathbf{j}!} 
+    \sup_{\mathbf{x}' \in D} \big\lVert \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{x}') \big\rVert
+$$
+for all $\mathbf{x}\in D$.*
+:::
+
+(See [@Dev Sec. 7.4] for a proof in the case $n=1$ and with an explicit
+remainder term. The above version then follows by estimating the
+remainder with its supremum, and taking the maximum over the components
+of $\mathbf{f}$. It is possible to obtain an explicit form of the
+remainder for $n>1$ as well, although not in Lagrange form; but the
+formula is slightly complicated, and we will not need it.)
+
+We are interested in the following special cases. First, there is the
+case where $m=1$, i.e., $\mathbf{f}$ depends only on one variable. Then
+the multi-index $\mathbf{j}$ is just a number $j \in \mathbb{N}_0$, the
+partial derivatives are ordinary derivatives, and we obtain:
+
+::: {#thm:taylor1nd .theorem}
+**Theorem 14**. *Let $I$ be an interval, and let
+$\mathbf{f}\in \mathcal{C}^{k+1}(I,\mathbb{R}^n)$. For each $a \in I$,
+there exists $\mathbf{R}_a : I \to \mathbb{R}^n$ such that
+$$
+\mathbf{f}(x) = \sum_{j=0}^{k} \frac{1}{j!} \frac{d^j \mathbf{f}}{dx^j}(a) \, (x-a)^j + \mathbf{R}_a(x)
+$$
+and
+$$
+\lVert \mathbf{R}_a(x) \rVert \leq  \frac{\lvert x-a \rvert^{k+1}}{(k+1)!} 
+    \sup_{x' \in I} \big\lVert \frac{d^j \mathbf{f}}{dx^j}(x') \big\rVert
+$$
+for all $x \in I$.*
+:::
+
+On other occasions, we will need the function
+$\mathbf{f}: \mathbb{R}^m\to\mathbb{R}^n$ in full generality, but use
+the Taylor expansion only up to order $k \leq 1$. In this case, the
+relevant derivatives of $\mathbf{f}$ can be written in an easier way:
+Those with $|\mathbf{j}|=1$ are just single derivatives
+$\partial \mathbf{f}/\partial x ^{(p)}$ with $p$ ranging from $1$ to
+$m$, and they can conveniently be combined into a matrix
+$\partial\mathbf{f}/\partial \mathbf{x}$. We have
+$$
+\sum_{|\mathbf{j}|=1} \frac{1}{\mathbf{j}!} \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{a}) \, (\mathbf{x}-\mathbf{a})^\mathbf{j}= \frac{\partial \mathbf{f}}{\partial\mathbf{x}}(\mathbf{a}) \cdot (\mathbf{x}-\mathbf{a}),
+$$
+reading the r.h.s. as a matrix product. The derivatives with
+$|\mathbf{j}|=2$ are of the form
+$\partial^2 \mathbf{f}/\partial x ^{(p)}\partial x ^{(q)}$, where both
+cases $p=q$ and $p \neq q$ occur. Working out the numerical prefactors,
+one obtains the following special cases for order $k=0$ and $k=1$
+repectively.
+
+::: {#thm:taylororder0 .theorem}
+**Theorem 15**. *Let $D \subset \mathbb{R}^m$ be convex, and let
+$\mathbf{f}\in \mathcal{C}^{1}(D,\mathbb{R}^n)$. For each
+$\mathbf{a}\in D$, there exists
+$\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n$ such that
+$$
+\mathbf{f}(\mathbf{x}) = \mathbf{f}(\mathbf{a}) + \mathbf{R}_\mathbf{a}(\mathbf{x})
+$$
+and
+$$
+\lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \lVert \mathbf{x}-\mathbf{a} \rVert \; \sup_{\mathbf{x}' \in D} \big\lVert  \frac{\partial \mathbf{f}}{\partial \mathbf{x}}(\mathbf{x}') \big\rVert
+$$
+for all $\mathbf{x}\in D$.*
+:::
+
+::: {#thm:taylororder1 .theorem}
+**Theorem 16**. *Let $D \subset \mathbb{R}^m$ be convex, and let
+$\mathbf{f}\in \mathcal{C}^{2}(D,\mathbb{R}^n)$. For each
+$\mathbf{a}\in D$, there exists
+$\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n$ such that
+$$
+\mathbf{f}(\mathbf{x}) = \mathbf{f}(\mathbf{a}) + \frac{\partial \mathbf{f}}{\partial\mathbf{x}}(\mathbf{a}) \cdot (\mathbf{x}-\mathbf{a}) +  \mathbf{R}_\mathbf{a}(\mathbf{x})
+$$
+and
+$$
+\lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \frac{1}{2}\lVert \mathbf{x}-\mathbf{a} \rVert^{2} \sum_{p,q=1}^m  
+    \sup_{\mathbf{x}' \in D} \big\lVert \frac{\partial^2 \mathbf{f}}{\partial x ^{(p)} \partial x ^{(q)}}(\mathbf{x}') \big\rVert
+$$
+for all $\mathbf{x}\in D$.*
+:::

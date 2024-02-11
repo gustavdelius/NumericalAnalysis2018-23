@@ -1,0 +1,631 @@
+# Approximation and interpolation
+
+In many situations, it is useful to approximate a function $f$ with a "simpler" function with desirable properties. For example, if the antiderivative of a function $f$ is not known, then computing an integral $\int_a^b f(x) \,dx$ might be difficult. However, if we approximate $f$ with a function $P$ with known antiderivative, then $\int_a^b f(x) \,dx \approx \int_a^b P(x) \,dx$ can be computed easily. This is useful in numerical integration, which we will consider in the next chapter.
+
+In this chapter we consider the case where the values of a function $f$ are given only at at certain discrete points $x=x_i$, that is, $f$ is given in the form of a table. For example, $f(x_i)$ might be the result of an experimental measurement or of numerical approximations. In this case, we would like to connect the points $(x_i,f(x_i))$ with a simple, reasonably smooth curve; this is called **interpolation**.
+
+## Polynomial interpolation
+The "simple" functions that we will consider here are *polynomials*, that is, functions of the form 
+$$ 
+P(x)=a_nx^{n}+a_{n-1}x^{n-1}+\ldots+a_1x+a_0,
+$$ {#eq-c6} 
+where $a_0, \ldots, a_n$ are real numbers, with $a_n\neq 0$ is the *leading order coefficient* and where $n$ is a nonnegative integer, called the *degree* of $P$ and denoted $\deg P$. 
+
+The problem that we want to consider can be stated as follows:
+
+Given distinct points $x_0, x_1, \dots , x_n$ (not necessarily in increasing magnitude) in the domain of a function $f$, find a polynomial $P$ with $\deg P \leq n$ such that 
+$$
+\begin{aligned}
+P(x_0) &= f(x_0), & P(x_1) &= f(x_1), && \dots & P(x_n) &= f(x_n).
+\end{aligned}
+$$ {#eq-c7}
+Any such polynomial $P$ is called an *interpolating polynomial* for $f$.
+
+Polynomials are suitable for approximation and interpolation because of the following important result.
+
+::: {#thm-weierstrass}
+### Weierstrass Approximation Theorem
+If $f: \ [a,b]\to \mathbb{R}$ is continuous on $[a,b]$, then for any $\epsilon > 0$, there is a polynomial $P(x)$ such that 
+$$
+\vert f(x)-P(x)\vert < \epsilon \quad \textrm{for \ all} \ \ x\in[a,b].
+$$ {#eq-weierstrass}
+In other words, any function, continuous on the closed interval, can be uniformly approximated by a polynomial.
+:::
+
+
+
+### The Lagrange interpolating polynomial
+
+We will now discuss a method of finding an interpolating polynomial. Let us first consider the simplest case, $n=1$. Suppose we know the value of a function $f$ at two points $x_0,x_1$. To interpolate the values of $f$ by a first-degree polynomial means to determine a polynomial $P$ of degree 1 (i.e., a straight line) that passes through two points $(x_0, f(x_0))$ and $(x_1, f(x_1)).$ This polynomial has the form 
+$$ 
+P(x)=a_0+a_1x .
+$$ {#eq-6.5} 
+The conditions $P(x_0)=f(x_0)$ and $P(x_1)=f(x_1)$ give us the following system of linear equations for $a_0$ and $a_1$: 
+$$
+\begin{aligned}
+a_0+a_1x_0&=f(x_0),  &
+a_0+a_1x_1&=f(x_1).
+\end{aligned}
+$$ {#eq-6.6}
+This system is solved easily for $a_0$ and $a_1$, and we
+obtain 
+$$
+\begin{aligned}
+a_1&=\frac{f(x_1)-f(x_0)}{x_1-x_0},  &
+a_0&=\frac{x_0f(x_1)-x_1f(x_0)}{x_1-x_0}.
+\end{aligned}
+$$ {#eq-6.7}
+Thus, we have
+$$ 
+P(x)=\frac{x_0f(x_1)-x_1f(x_0)}{x_1-x_0} + \frac{f(x_1)-f(x_0)}{x_1-x_0}\, x .
+$$ {#eq-c8}
+
+Let us now rewrite this polynomial in a slightly different form:
+$$
+P(x) = f(x_0)\frac{x-x_1}{x_0-x_1} + f(x_1)\frac{x-x_0}{x_1-x_0}
+$$ {#eq-6.9}
+If we introduce functions
+$$
+L_0(x) = \frac{x-x_1}{x_0-x_1}, \quad L_1(x) = \frac{x-x_0}{x_1-x_0},
+$$ {#eq-6.10}
+then we can write @eq-6.9 as
+the polynomial $P$ can be written as
+$$
+P(x) = f(x_0)L_0(x) + f(x_1)L_1(x).
+$$ {#eq-interp1}
+Note that functions $L_0(x)$ and $L_1(x)$ have the property that
+$$
+L_0(x_0)=1=L_1(x_1), \quad L_0(x_1)=0=L_1(x_0).
+$$ {#eq-6.12}
+This property ensures that $P(x)$, given by @eq-interp1, satisfies the required conditions $P(x_0)=f(x_0)$ and $P(x_1)=f(x_1)$. Indeed, 
+$$
+\begin{split}
+P(x_0)&=f(x_0)L_0(x_0) + f(x_1)L_1(x_0)=f(x_0)\cdot 1 + f(x_1)\cdot 0 = f(x_0), \\
+P(x_1)&=f(x_0)L_0(x_1) + f(x_1)L_1(x_1)=f(x_0)\cdot 0 + f(x_1)\cdot 1 = f(x_1). 
+\end{split}
+$$ {#eq-6.13}
+
+Let us now consider the general case. We construct a polynomial of degree at most $n$ that passes through the $(n+1)$ points $(x_0, f(x_0))$, $(x_1, f(x_1))$, ..., $(x_n, f(x_n))$. As a first step, we need a generalization of the functions $L_0$ and $L_1$ above; namely, we are looking for polynomials $L_0,\ldots,L_n$ of degree $n$ such that
+$$
+L_k(x_i)=\delta_{ik} = \left\{
+\begin{array}{ll}
+0 &\text{  if } \ i\neq k, \\
+1 &\text{  if } \ i=k.
+\end{array}\right.
+$${#eq-lkdelta}
+
+(The definition of these $L_k$ also depends on $x_0,\ldots,x_n$, and in particular on $n$. For ease of reading, we do not indicate this dependence explicitly.)
+
+A short computation shows that polynomials with this property are given by 
+$$
+L_k(x)=\prod_{i=0, i\neq k}^{n} \frac{x-x_i}{x_k-x_i}.
+$${#eq-c10}
+We then set 
+$$
+P(x) = \sum_{j=0}^n f(x_j) L_j(x). 
+$${#eq-lagrangeform}
+This is indeed a suitable interpolating polynomial. In fact it is the only possible interpolating polynomial, as the following theorem shows.
+
+::: {#thm-lagrangepoly}
+## Lagrange interpolating polynomial
+Suppose that $x_0, x_1, \ldots, x_n\in\mathbb{R}$ are distinct numbers in the domain of a function $f$. There exists a unique polynomial $P$ with $\deg P \leq n$ such that 
+$$
+f(x_k)=P(x_k) \quad \text{for all } k=0, 1, \ldots, n.
+$$  {#eq-6.16}
+This polynomial, called the $n^\text{th}$ *Lagrange interpolating polynomial*, is given by @eq-lagrangeform, where the functions* $L_k(x)$ are given by @eq-c10.
+:::
+
+::: {.proof}
+It is evident from @eq-c10--@eq-lagrangeform that $\deg P \leq n$. Moreover, by @eq-lkdelta, we have for $k=0,\ldots,n$ 
+$$
+P(x_k)=\sum_{j=0}^{n}f(x_{j})L_{j}(x_k) = \sum_{j=0}^{n}f(x_{j})\delta_{jk} = f(x_k).
+$$ {#eq-6.17}
+The only remaining point is uniqueness. Suppose that $P$ and $\hat P$ are two interpolating polynomials with degree at most $n$. Then 
+$$
+Q(x):=P(x)-\hat P(x)
+$$ {#eq-6.18}
+is another polynomial, and $\deg Q\leq n$. However, since 
+$$
+P(x_k)=f(x_k)=\hat P (x_k) \quad\text{for all }k=0,\ldots,n,
+$$ {#eq-6.19}
+we know that $Q$ has $n+1$ zeros, namely $x_0,\ldots,x_n$. This contravenes the Fundamental Theorem of Algebra, and so the only possibility is $Q=0$, whence $P=\hat P$. ◻
+:::
+
+::: {#exm-12}
+The values of a function $f$ are given in the table:
+
+::: center
+| $k$ | $x_k$ | $f(x_k)$ |
+|:---:|:-----:|:--------:|
+| *0* | *-1*  |   *-1*   |
+| *1* | *1*   |   *3*    |
+| *2* | *2*   |   *8*    |
+:::
+
+Let us construct the Lagrange interpolating polynomial of degree 2 for this data. From @eq-c10 we have
+$$
+\begin{split}
+L_0(x)&=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}
+=\frac{(x-1)(x-2)}{(-1-1)(-1-2)}=
+\tfrac{1}{6}(x^2-3x+2),\\
+L_1(x)&=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}
+=\frac{(x+1)(x-2)}{(1+1)(1-2)}=
+-\tfrac{1}{2}(x^2-x-2),\\
+L_2(x)&=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}
+=\frac{(x+1)(x-1)}{(2+1)(2-1)}=\tfrac{1}{3}(x^2-1).
+\end{split}
+$$ {#eq-6.20}
+Hence 
+$$
+\begin{split}
+P(x)&=\sum_{j=0}^2f(x_{j})L_{j}(x) \\
+&=-1\cdot\tfrac{1}{6}(x^2-3x+2)-3\cdot\tfrac{1}{2}(x^2-x-2)+8\cdot\tfrac{1}{3}(x^2-1) \\
+&=x^2+2x.
+\end{split}
+$$ {#eq-6.21}
+:::
+
+Above we have constructed the polynomial $P$ to interpolate the values of a function $f$ at the points $x_0,\ldots,x_n$. But is $P$ also a good approximation to $f$ between these points? The theorem below gives an answer.
+
+::: {#thm-Lagrange-error}
+## Error term for interpolating polynomials 
+Suppose that $x_0, \ldots, x_n$ are distinct numbers in the interval $[a, b]$ and that $f\in C^{n+1}[a, b]$. Then, for each $x\in[a, b]$, there exists a number $\xi\in (a, b)$ such that 
+$$ 
+f(x)=P(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!} \prod_{k=0}^n(x-x_k),
+$$ {#eq-c11} 
+where $P$ is the $n^\text{th}$ interpolating polynomial.
+:::
+
+::: {.proof}
+We use *Rolle's theorem* in this proof. Rolle's theorem states that, if $h \in C^1[c,d]$ with $h(c)=h(d)=0$, then there exists $x \in (c,d)$ such that $h'(x)=0$.
+
+If $x=x_k$ for some $k$, then $f(x_k)=P(x_k)$ and @eq-c11 holds for any choice of $\xi$. Therefore for the rest of this proof we assume that 
+$$ 
+x \neq x_k \quad\text{for all }k=0, \ldots, n.
+$$ {#eq-approx:2}
+Define the function 
+$$
+g(t):=f(t)-P(t)-[f(x)-P(x)]\prod_{i=0}^{n}\frac{t-x_i}{x-x_i}\quad \text{for }t\in [a, b].
+$$  {eq-6.24}
+Since $f\in C^{n+1}[a, b]$, $P\in C^{\infty}[a, b]$ and in view of @eq-approx:2, it follows that $g\in C^{n+1}[a, b]$. Applying $g$ at $t=x$ and at $t=x_k$ for $k=0,\ldots,n$, we obtain 
+$$
+\begin{split}
+g(x)&=f(x)-P(x)-[f(x)-P(x)]\prod_{i=0}^{n}\frac{x-x_i}{x-x_i}=0,\\
+g(x_k)&=f(x_k)-P(x_k)-[f(x)-P(x)]\prod_{i=0}^{n}\frac{x_k-x_i}{x-x_i}=0.
+\end{split}
+$$ {#eq-6.25}
+Thus $g\in C^{n+1}[a, b]$ and $g$ has $n+2$ distinct zeros at $x, x_0, x_1, \ldots, x_n$. Applying Rolle's theorem to each of the $n+1$ subintervals between these zeros, it follows that the derivative $g'\in C^n[a, b]$ has at least $n+1$ zeros in $[a,b]$. Again applying Rolle's theorem, the second derivative $g''\in C^{n-1}[a, b]$ has at least $n$ zeros in $[a,b]$. Applying the same argument to successive derivatives of $g$, it follows finally that the $(n+1)^\text{th}$ derivative $g^{(n+1)}$ has at least one zero, which we call $\xi$. This means that 
+$$
+0=g^{(n+1)}(\xi)=f^{(n+1)}(\xi)-P^{(n+1)}(\xi)-(f(x)-P(x)) \left.\frac{d^{n+1}}{dt^{n+1}}\prod_{i=0}^{n}\frac{t-x_i}{x-x_i}\right\rvert_{t=\xi}.
+$${#eq-c17}
+Considering each of the elements of this equation in turn, we have $P^{(n+1)}(\xi)=0$ as $\deg P \leq n$. Also, we have 
+$$ 
+\frac{d^{n+1}}{dt^{n+1}}\prod_{i=0}^{n}\frac{t-x_i}{x-x_i}= \frac{d^{n+1}}{dt^{n+1}}\frac{t^{n+1}}{\prod_{i=0}^{n}(x-x_i)}= \frac{(n+1)!}{\prod_{i=0}^{n}(x-x_i)}.
+$$ {#eq-6.27}
+Substituting this into @eq-c17, we obtain the equation 
+$$ 
+0=f^{(n+1)}(\xi)-(f(x)-P(x))\frac{(n+1)! }{ \prod_{i=0}^{n}(x-x_i)}, 
+$$ {#eq-6.28}
+which is equivalent to @eq-c17. ◻
+:::
+
+::: {#exm-13}
+Let
+$$
+f(x)=\frac{1}{x}.
+$$ {eq-6.29}
+The interpolating polynomial determined by the values of $f$ at the points $x_0=2.0$, $x_1=2.5$ and $x_2=4$ is given by 
+$$
+P(x) = \tfrac{1}{20}x^2-\tfrac{17}{40}x+\tfrac{23}{20}.
+$$ {#eq-6.30}
+
+Let us obtain the theoretical bound for the error of approximation of $f(3)$ by $P(3)$. We have 
+$$
+\vert f^{\prime\prime\prime}(\xi)\vert =
+\left\lvert-\frac{6}{\xi^{4}}\right\rvert\leq \frac{3}{8} \quad \text{for all } \xi\in[2, 4].
+$${#eq-approx:3}
+Therefore, 
+$$
+\vert f(3)-P(3)\vert\leq
+\max_{\xi\in[2,4]}\left\lvert \frac{f^{\prime\prime\prime}(\xi)}{3!}
+(3-2)(3-2.5)(3-4) \right\rvert \leq \frac{1}{32}=0.03125 .
+$$ {#eq-6.32}
+The actual error of this approximation is 
+$$
+E=\vert f(3)- P(3)\vert=\frac{1}{3}-0.325=0.008333\dots,
+$$ {#eq-6.33}
+which is smaller than our theoretical bound (as one would expect).
+
+Now let us evaluate the error involved in approximating $f$ by $P$ on the whole interval $[2, 4]$. Again using @eq-approx:3, we have 
+$$
+\begin{split}
+\vert f(x)-P(x)\vert &\leq
+\max_{\xi\in[2,4]}\left\lvert \frac{f^{\prime\prime\prime}(\xi)}{3!}
+(x-2)(x-2.5)(x-4) \right\rvert \\
+&\leq \frac{1}{16} \,
+\vert \phi(x)\vert \leq
+\frac{1}{16} \, \max_{x\in[2,4]}
+\vert \phi(x)\vert,
+\end{split}
+$$ {#eq-approx:4}
+where 
+$$
+\phi(x):=(x-2)(x-2.5)(x-4)\quad\text{for }x\in[2,4].
+$$ {#eq-6.35}
+The function $\phi$ has a maximum at $x':=\tfrac{17}{6}-\tfrac{\sqrt{13}}{6}\approx 2.232$, with $\phi(x')\approx0.110$, and a minimum at $x'':=\tfrac{17}{6}+\tfrac{\sqrt{13}}{6}\approx 3.434$, where $\phi(x'')\approx-0.758$. By @eq-approx:4 we obtain 
+$$
+\vert f(x)-P(x)\vert\leq \frac{\vert\phi(x'')\vert}{ 16}\approx 0.048.
+$$ {#eq-6.36}
+
+Finally, let us add one more point to our data, say, $x_3=3.5$. Then the polynomial interpolating the values of $f$ at the four points $x_0=2$, $x_1=2.5$, $x_2=4$ and $x_3=3.5$ is given by 
+$$
+P(x) = -\tfrac{1}{70}x^3+\tfrac{6}{35}x^2-\tfrac{211}{280}x+\tfrac{201}{140}.
+$$ {#eq-6.37}
+In this case, $P(3)=\tfrac{93}{280}$ and the actual error is 
+$$
+\lvert f(3)- P(3)\rvert = \left\lvert\tfrac{1}{3} - \tfrac{93}{280}\right\rvert = \tfrac{1}{840} \approx 0.0012.
+$$ {#eq-6.38}
+This is almost 8 times smaller than the error of the interpolating polynomial based on the original three points.
+:::
+
+Further reading: Section 3.1 of [@Burden_Faires].
+
+### Divided differences
+
+As we saw in @thm-lagrangepoly, the interpolating polynomial (of minimal degree) for a function at distinct points $x_0, x_1, \ldots, x_n$ is unique. However, it can be rewritten in many different ways. The Lagrange form @eq-lagrangeform may not always be the optimal one for numerical purposes, since computing its value requires a large number of multiplications. Here we present an alternative form of the same polynomial, known as the *Newton form*.
+
+Let us illustrate the idea again in the case of a linear polynomial, interpolating a function $f$ between two points $x_0$ and $x_1$. It seems natural to write this straight line in the form  
+$$
+f(x_0) + m (x-x_0)
+$$ {#eq-dd0}
+with slope $m=\frac{f(x_1)-f(x_0)}{x_1-x_0}$. We thus arrive at 
+$$
+   P(x) = f(x_0) + \frac{f(x_1)-f(x_0)}{x_1-x_0} (x-x_0).
+$${#eq-dd1}
+Indeed, one checks that $P(x_0)=f(x_0)$, $P(x_1)=f(x_1)$, and so this is the unique interpolating polynomial between these points. The slope $\frac{f(x_1)-f(x_0)}{x_1-x_0}$, which looks a bit like the derivative of $f$, is called the $1^\text{st}$ divided difference and we write 
+$$
+f[x_0,x_1]:=\frac{f(x_1)-f(x_0)}{x_1-x_0}.
+$$ {#eq-dd1a}
+
+How does this generalize to higher-order polynomials? It turns out that the second-order interpolating polynomial through the points $x_0,x_1,x_2$ is given by 
+$$
+\begin{split}
+   P(x) = f(x_0) &+ \frac{f(x_1)-f(x_0)}{x_1-x_0} (x-x_0) +\\
+   &+ \underbrace{\dfrac{\dfrac{f(x_2)-f(x_1)}{x_2-x_1}-\dfrac{f(x_1)-f(x_0)}{x_1-x_0}}{x_2-x_0}}_{=:f[x_0,x_1,x_2]} (x-x_0)(x-x_1).
+\end{split}
+$${#eq-dd2} 
+(It is clear that $P(x_0)=f(x_0)$, $P(x_1)=f(x_1)$, and some computation yields $P(x_2)=f(x_2)$.) The term $f[x_0,x_1,x_2]$ is called the $2^\text{nd}$ divided difference and reminds one of the second derivative.
+
+Let us define these concepts more generally. We introduce the $0^\text{th}$ divided difference as 
+$$
+f[x_i]:=f(x_i),
+$$ {#eq-dd0a}
+and then define the $k^\text{th}$ divided difference recursively as 
+$$
+f[x_i, x_{i+1}, \ldots, x_{i+k}]:=\frac{f[x_{i+1}, x_{i+2},\ldots, x_{i+k}]-
+f[x_i,x_{i+1}, \ldots, x_{i+k-1}]}{x_{i+k}-x_i}.
+$$ {#eq-dd2a}
+This agrees with the examples above. 
+
+We now claim that all interpolating polynomials can be written in terms of divided differences, in generalization of equations @eq-dd1 and @eq-dd2.
+
+::: {#thm-newtondiff}
+Let $P$ be the $n^\text{th}$ order interpolating polynomial for a function $f$ at the points $x_0,\ldots,x_n$. It holds that 
+$$
+P(x) = \sum_{k=0}^{n} f[x_0, x_1, \ldots, x_k] \prod_{0 \leq j < k} (x-x_j) .
+$${#eq-newtonddf}
+:::
+
+This relation is known as *Newton's divided-difference formula*. Note that an empty product is defined to be equal to $1$, so in the $k=0$ term in @eq-newtonddf the factor $\prod_{0 \leq j < 0} (x-x_0)=1$ , so the first term in the sum is $f[x_0]$.
+
+::: {.proof}
+We use induction on $n$. For $n=0$, we have $P(x)=f(x_0)=f[x_0]$ and @eq-newtonddf holds. Now suppose that @eq-newtonddf is already known for $n-1$ in place of $n$. Denote by $\hat P$ the interpolating polynomial through $x_0,\ldots,x_{n-1}$, and with $\check P$ the interpolating polynomial through $x_1,\ldots,x_n$. By the induction hypothesis, 
+$$
+\begin{split}
+\hat P(x) &= \sum_{k=0}^{n-1} f[x_0, x_1, \ldots, x_k] \prod_{0 \leq j < k} (x-x_j),\\ 
+\check P(x) &= \sum_{k=1}^n f[x_1, x_2, \ldots, x_k] \prod_{1 \leq j < k} (x-x_j).
+\end{split}
+$${#eq-phat}
+
+Let $P$ be the interpolating polynomial for $f$ at $x_0,\ldots,x_n$. We first prove that 
+$$ 
+P(x) = \frac{(x-x_0) \check P(x) - (x-x_n) \hat P(x) }{x_n-x_0}.
+$${#eq-pfrac} 
+Indeed, one verifies the equality at $x=x_0$, and $x=x_1,\ldots,x_{n-1}$, and at $x=x_n$ by a short computation in each case. Then @eq-pfrac holds in generality due to the uniqueness of the interpolating polynomial (established in @thm-lagrangepoly).
+
+Now we compute the leading order coefficient $c_n$ of $P$, i.e., the constant $c_n$ such that $P(x)= c_n x^n + \text{lower order terms}$. From @eq-phat, @eq-pfrac one can directly read off that 
+$$
+c_n = \frac{ f[x_1,\ldots, x_n] - f[x_0, \ldots, x_{n-1}] }{x_n-x_0} = f[x_0,\ldots, x_n].
+$$ {#eq-cn}
+
+Finally, let us define 
+$$
+Q(x) := P(x) - f[x_0,\ldots, x_n](x-x_0) \cdots (x-x_{n-1}).
+$$ {#eq-qdef}
+This $Q$ is a polynomial of at most order $n-1$, since the leading coefficients of the two summands cancel. Also, $Q(x_i)=P(x_i)=f_i$ for all $0 \leq i < n$. Uniqueness of the interpolating polynomial @thm-lagrangepoly implies $Q(x)=\hat P(x)$. This yields
+$$
+\begin{split}
+  P(x) &= \hat P(x) + f[x_0,\ldots, x_n](x-x_0) \cdots (x-x_{n-1}) \\
+  &= \sum_{k=0}^{n} f[x_0, x_1, \ldots, x_k] \prod_{0 \leq j < k} (x-x_j) 
+\end{split}
+$$ {#eq-newtonddf2}
+by @eq-phat, which completes the proof. ◻
+:::
+
+::: {.remark}
+Note that nowhere in the proof we had to use that the interpolation points $x_i$ had to be arranged in increasing order. 
+:::
+
+Writing the interpolating polynomial in terms of divided differences has several advantages:
+
+-   The polynomial requires fewer algebraic operations to evaluate. In fact, one might rewrite it as 
+    $$
+    P(x) = f(x_0) + (x-x_0) \big( f[x_0,x_1] + (x-x_1)\big( f[x_0,x_1,x_2] + \ldots
+    $$ {#eq-newtonddf3}
+
+-   If extra precision is required, it is easy to add an extra interpolation point $x_{n+1}$ without recomputing the lower-order divided differences.
+
+-   We can see from @eq-newtonddf that, if the $k^\text{th}$ divided difference is constant, this means that the degree of the interpolating polynomial is $k$ (because higher divided differences are all zero), so that we do not need to use all the data in the table ($k+1$ points will be enough).
+
+-   The divided differences can be computed easily (by hand or with a computer) in a simple scheme, as shown in the next example.
+
+::: {#exm-div-diff}
+Suppose that the values of a function $f$ at $7$ points are as in @tbl-div-diff. The remaining columns of that table illustrates how the divided differences are calulated.
+
+::: center
+
+| $x$  | $f[x]$ | $f[ , ]$ | $f[ , , ]$ | $f[ , , , ]$ | $f[ , , , , ]$ |     |
+|:----:|:------:|:--------:|:----------:|:------------:|:--------------:|-----|
+| *-1* |  *-2*  |          |            |              |                |     |
+|      |        |   *3*    |            |              |                |     |
+| *0*  |  *1*   |          |    *0*     |              |                |     |
+|      |        |   *3*    |            |     *1*      |                |     |
+| *1*  |  *4*   |          |    *3*     |              |      *0*       |     |
+|      |        |   *9*    |            |     *1*      |                |     |
+| *2*  |  *13*  |          |    *6*     |              |      *0*       |     |
+|      |        |   *21*   |            |     *1*      |                |     |
+| *3*  |  *34*  |          |    *9*     |              |      *0*       |     |
+|      |        |   *39*   |            |     *1*      |                |     |
+| *4*  |  *73*  |          |    *12*    |              |                |     |
+|      |        |   *63*   |            |              |                |     |
+| *5*  | *136*  |          |            |              |                |     |
+
+: *Numerical example for divided difference method* {#tbl-div-diff}
+
+:::
+
+The third divided difference is constant, so the interpolating polynomial is cubic. We obtain
+$$
+\begin{split}
+P(x) &= f[x_0]+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)\\
+&\qquad +f[x_0,x_1,x_2,x_3](x-x_0)(x-x_1)(x-x_2)  \\
+&= -2+3 (x+1)+0(x+1)x+(x+1)x(x-1)=x^3+2x+1. 
+\end{split}
+$$ {#eq-6.39}
+:::
+
+Further reading: Section 3.3 of [@Burden_Faires]
+
+## Cubic spline interpolation
+
+In the previous sections we considered the approximation of arbitrary functions on closed intervals using a single polynomial. However, this does not always lead to satisfactory approximations because high-degree polynomials can oscillate erratically, and the error bounds can become large if the derivatives of the approximated functions are not bounded. An alternative approach is to divide the approximation interval into a collection of subintervals and construct a (generally) different approximating polynomial on each subinterval. This is called *piecewise-polynomial approximation*.
+
+In this section we consider a function $f$ defined at the points $x_0,\ldots,x_n$. In contrast to the previous sections, we assume here that 
+$$
+x_0 < x_1 < \cdots < x_n.
+$$ {#eq-6.40}
+
+The simplest such piecewise-polynomial approximation is *linear interpolation*, which consists of joining the data points $(x_0,f(x_0)), (x_1,f(x_1)), \ldots, (x_n,f(x_n))$ by a series of straight lines, i.e. the interpolating function $S$ satisfies 
+$$
+S(x) =
+\begin{cases}
+ f(x_0) + \frac{f(x_1)-f(x_0)}{x_1-x_0} (x-x_0) &\text{for }x\in[x_0,x_1],\\
+f(x_1) + \frac{f(x_2)-f(x_1)}{x_2-x_1} (x-x_1) &\text{for }x\in[x_1,x_2], \\
+\vdots\\
+f(x_{n-1}) + \frac{f(x_n)-f(x_{n-1})}{x_n-x_{n-1}} (x-x_{n-1}) &\text{for }x\in[x_{n-1},x_n].
+\end{cases}
+$$ {#eq-6.41}
+Linear interpolation is simple, but it has the disadvantage that the interpolating function $S$ is generally not differentiable at the interpolation points $x_1,\ldots,x_{n-1}$.
+
+The most common piecewise-polynomial approximation uses cubic polynomials between each successive pair of nodes and is called *cubic spline interpolation*.
+We will discuss this here only in the context of approximating functions, but splines more generally can approximate curves in the plane or in higher dimensions. This is useful for example for applications in digital art. For a very good introduction to splines in this context, see [this YouTube video](https://www.youtube.com/watch?v=jvPPXbo87ds).
+
+::: {#def-cubic_spline}
+## Cubic spline interpolant
+A cubic spline interpolant $S$ for a function $f$ with known values at points $x_0 < x_1 < \cdots < x_n$ is a twice continuously differentiable function on $[x_0,x_n]$ (i.e. $S\in C^{2}[x_0,x_n]$) such that it is equal to a cubic polynomial, denoted $S_k$, on the interval $[x_{k-1},x_{k}]$ for each $k=1,\ldots,n$ and $S(x_k)=f(x_k)$ for $k=0,\ldots,n$.
+:::
+
+This definition implies that 
+$$ 
+S_{i}(x)=a_{i}+b_{i}(x-x_{i})+c_{i}(x-x_{i})^{2} +d_{i}(x-x_{i})^{3}
+$$ {#eq-ki77} 
+for $x\in [x_{i-1}, x_{i}]$ ($i=1, 2, \dots, n$) and that $S_i$ satisfy the following requirements:
+
+$$S(x_{i})=f_{i} \text{ for } i=0, 1, \dots, n;$$ {#eq-dc1}
+
+
+$$S_{i}(x_{i})=S_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1;$$ {#eq-dc2}
+
+$$S^{\prime}_{i}(x_{i})=S^{\prime}_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1;$$ {#eq-dc3}
+
+$$S^{\prime\prime}_{i}(x_{i})= S^{\prime\prime}_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1.$$ {#eq-dc4}
+
+It is not obvious *a priori* that such an interpolant exists, or, if so, that it is unique. We have $4n$ unknown coefficients $a_{i}$, $b_{i}$, $c_{i}$, $d_{i}$ ($i=1, 2, \dots, n$). [Condition @eq-dc1] gives $n+1$ equations. [Conditions @eq-dc2; -@eq-dc3; -@eq-dc4] give $3(n-1)$ equations. Thus, we have $n+1+3(n-1)=4n-2$ equations for $4n$ unknowns. So, we need to specify two more conditions to define $S(x)$ uniquely. Common choices are:
+
+-   $S^{\prime\prime}(x_{0})=S^{\prime\prime}(x_{n})=0$ (natural cubic spline);
+
+-   $S^{\prime}(x_{0})=f^{\prime}(x_{0})$, $S^{\prime}(x_{n})=f^{\prime}(x_{n})$ (clamped cubic spline).
+
+**Natural cubic spline.** Let $h_{i}=x_{i}-x_{i-1}$. [Condition @eq-dc1] gives 
+$$ 
+a_{i}=f_{i} \quad \text{  for }\quad i=1, 2, \dots, n
+$${#eq-d4}
+and 
+$$ 
+a_{1}-b_{1}h_1+c_{1}h_1^{2} -d_{1}h_1^{3}=f_0 .
+$${#eq-d4b}
+[Condition @eq-dc2] gives 
+$$ 
+a_{i}=a_{i+1}-b_{i+1}h_{i+1}+c_{i+1}h_{i+1}^{2}- d_{i+1}h_{i+1}^{3} \quad \text{  for }\quad i=1, 2, \dots, n-1.
+$${#eq-d5}
+[Condition @eq-dc3] gives 
+$$ 
+b_{i}=b_{i+1}-2c_{i+1}h_{i+1}+3d_{i+1}h_{i+1}^{2} \quad \text{  for }\quad i=1, 2, \dots, n-1.
+$${#eq-d6}
+[Condition @eq-dc4] gives 
+$$ 
+2c_{i}=2c_-6d_{i+1}h_{i+1} \quad \text{  for }\quad i=1, 2, \dots, n-1.
+$${#eq-d7}
+It follows from @eq-d7 that 
+$$ 
+d_{i}=\frac{c_{i}-c_{i-1}}{3h_{i}} \quad \text{  for }\quad i=2, \dots, n.
+$${#eq-d8}
+From the (endpoint) conditions $S^{\prime\prime}(x_{0})=S^{\prime\prime}(x_{n})=0$ (corresponding to the natural cubic spline), it follows that 
+$$ 
+d_{1}=\frac{c_{1}}{3h_{1}} \quad \text{  and } \quad c_{n}=0.
+$${#eq-d9}
+It follows from @eq-d5 that 
+$$ 
+b_{i+1}=\frac{a_{i+1}-a_{i}+c_{i+1}h_{i+1}^{2}
+-d_{i+1}h_{i+1}^{3}}{h_{i+1}} \quad \text{  for }\quad i=1, 2, \dots, n-1. $$ 
+and 
+$$ 
+b_{i}=\frac{a_{i}-a_{i-1}+c_{i}h_{i}^{2}
+-d_{i}h_{i}^{3}}{h_{i}} \quad \text{  for }\quad i=2, 3, \dots, n,
+$${#eq-d10}
+so that 
+$$ 
+b_{i+1}-b_{i}=\frac{a_{i+1}-a_{i}}{h_{i+1}}- \frac{a_{i}-a_{i-1}}{h_{i}}+c_{i+1}h_{i+1}-c_{i}h_{i} -d_{i+1}h_{i+1}^{2}+d_{i}h_{i}^{2} $$ 
+for $i= 2, \dots, n-1$. Substituting this into @eq-d6 and using @eq-d4 and @eq-d8 we find that 
+$$
+\begin{split}
+h_{i}c_{i-1}+2(h_{i}+h_{i+1})c_{i}+h_{i+1}c_{i+1}&= 3
+\left(\frac{f_{i+1}-f_{i}}{h_{i+1}}-
+\frac{f_{i}-f_{i-1}}{h_{i}}\right)\\
+&= 3(f[x_{i},x_{i+1}]-f[x_{i-1},x_{i}]) \\
+&=3(h_{i}+h_{i+1})f[x_{i-1},x_{i},x_{i+1}] 
+\end{split}
+$$ {#eq-d11}
+for $i= 2, \dots, n-1$. Thus, we have obtained $n-2$ linear equations for $n-1$ unknowns $c_{1}, \dots, c_{n-1}$ (we already know that $c_{n}=0$). One more equation is obtained as follows. First, the condition $S(x_{0})=S_{1}(x_{0})=f_{0}$ and @eq-d9 yield 
+$$ 
+b_{1}=\frac{f_{1}-f_{0}}{h_{1}}+\frac{2}{3}h_{1}c_{1}.
+$${#eq-d12}
+On substituting this into @eq-d6 for $i=1$ and using @eq-d10 for $i=2$, we obtain 
+$$ 
+2(h_{1}+h_{2})c_{1}+h_{2}c_{2}=3 \left(\frac{f_{2}-f_{1}}{h_{2}}- \frac{f_{1}-f_{0}}{h_{1}}\right)=3(h_{1}+h_{2})f(x_{0},x_{1},x_{2}) .
+$${#eq-d13}
+@eq-d11, @eq-d13 can be written as 
+$$ 
+\left(
+\begin{array}{ccccccc}
+          A_{1} &h_{2} &0     &\dots &\dots &0 \\
+          h_{2} &A_{2} &h_{3} & & &\vdots \\
+          0     &\ddots &\ddots &\ddots & &\vdots \\
+          \vdots & &\ddots  &\ddots &\ddots &0 \\
+          \vdots  & &  &h_{n-2} &A_{n-2} &h_{n-1} \\
+          0 &\dots &\dots &0  &h_{n-1} &A_{n-1}
+\end{array}
+\right) \left(
+\begin{array}{c}
+          c_{1} \\
+          c_{2} \\
+          \vdots \\
+          \vdots \\
+          \vdots \\
+          c_{n-2} \\
+          c_{n-1}
+\end{array}
+\right)=3 \left(
+\begin{array}{c}
+          F_{1} \\
+          F_{2} \\
+          \vdots \\
+          \vdots \\
+          \vdots \\
+          F_{n-2} \\
+          F_{n-1}
+\end{array}
+\right),
+$${#eq-d14}
+where 
+$$ 
+A_{i}=2(h_{i}+h_{i+1}) \quad \text{  and } \quad F_{i}=(h_{i}+h_{i+1})f(x_{i-1},x_{i},x_{i+1})
+$$ {#eq-d15} 
+for $i=1,\dots, n-1$ The matrix of this system is symmetric and tridiagonal. Moreover, it is strictly diagonally dominant. So, it can be solved numerically using both Gaussian elimination and iterative techniques.
+
+When $c_{1}, \dots, c_{n}$ are known, coefficients $d_{1}\dots, d_{n}$ and $b_{1}\dots, b_{n}$ can be determined using @eq-d8, @eq-d9, @eq-d10 and @eq-d12.
+
+::: {#exm-spline}
+Let us compute the natural spline for the function $f$ given in @tbl-spline.
+
+::: center
+<div>
+
+| $k$ | $x_k$ | $f(x_k)$ |
+|:---:|:-----:|:--------:|
+| *0* | *0.0* |          |
+| *1* | *0.5* |          |
+| *2* | *1.0* |   *-1*   |
+| *3* | *1.5* |          |
+| *4* | *2.0* |          |
+
+: Numerical example for spline interpolation {#tbl-spline}
+
+</div>
+:::
+
+From @eq-d4, we obtain
+$$
+a_1=0, \ \ a_2=-1, \ \ a_3=0, \ \ a_4=1 .
+$$ {#eq-d16}
+Also, we have 
+$$
+\begin{aligned}
+ F_1 &= 0, & F_2 &= 12, & F_3 &= 0.
+\end{aligned}
+$$ {#eq-d17}
+We then need to solve the system 
+$$
+\begin{pmatrix}
+ 2 & \frac{1}{2} & 0 \\
+ \frac{1}{2} & 2 & \frac{1}{2}  \\
+ 0 & \frac{1}{2} & 2
+\end{pmatrix}
+\begin{pmatrix}
+ c_1 \\ c_2 \\ c_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\
+12\\
+0
+\end{pmatrix},
+$$ {#eq-d18}
+which gives 
+$$
+\begin{aligned}
+ c_1 &= -\frac{12}{7}, & c_2 &= \frac{48}{7}, & c_3 &= -\frac{12}{7}.
+\end{aligned}
+$$ {#eq-d19}
+We also have $c_4=0$.
+
+Substituting these into @eq-d8--@eq-d10, we find 
+$$
+\begin{aligned}
+ b_1 &= -\frac{18}{7}, & b_2 &= 0, & b_3 &= \frac{18}{7}, & b_4 &= \frac{12}{7}, \\
+ d_1 &=  -\frac{8}{7}, & d_2 &= \frac{40}{7}, & d_3 &=  -\frac{40}{7}, & d_4 &= \frac{8}{7}.
+\end{aligned}
+$$ {#eq-d20}
+which allows us to write the spline interpolant as
+$$
+S(x) =
+\begin{cases}
+ -(8/7)x^3-(12/7)x+1 & \text{if } x\in[0,0.5),\\
+ (40/7)x^3-(72/7)x^2+(24/7)x+1/7 & \text{if } x\in[0.5,1),\\
+ -(40/7)x^3+24x^2-(216/7)x+81/7 & \text{if } x\in[1,1.5),\\
+ (8/7)x^3-(48/7)x^2+(108/7)x-81/7 & \text{if } x\in[1.5,2].
+\end{cases}
+$$ {#eq-d21}
+:::
+
+Further reading: Section 3.5 of [@Burden_Faires].

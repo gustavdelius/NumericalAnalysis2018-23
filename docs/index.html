@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gustav Delius">
+<meta name="dcterms.date" content="2024-02-11">
+
+<title>Numerical Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter02.html" rel="next">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Numerical Analysis">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Numerical Analysis">
+<meta name="twitter:title" content="Numerical Analysis">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Numerical Analysis</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://maths.york.ac.uk/moodle/course/view.php?id=2497" title="Moodle page" class="quarto-navigation-tool px-1" aria-label="Moodle page"><i class="bi bi-mortarboard-fill"></i></a>
+    <a href="https://forms.gle/w17c19vWnM7wpLpz7" title="Submit a correction" class="quarto-navigation-tool px-1" aria-label="Submit a correction"><i class="bi bi-bug-fill"></i></a>
+    <a href="https://github.com/gustavdelius/NumericalAnalysis/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Numerical-Analysis.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Errors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Solving nonlinear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving systems of nonlinear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative techniques for solving systems of linear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Approximation and interpolation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Numerical integration</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Numerical differentiation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">A direct method for solving tridiagonal linear systems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ivp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initial Value Problems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bvp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Boundary Value Problems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pde.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Partial Differential Equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#s:1" id="toc-s:1" class="nav-link active" data-scroll-target="#s\:1"><span class="header-section-number">1</span> Introduction</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis/edit/master/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Numerical Analysis</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Gustav Delius <a href="mailto:gustav.delius@york.ac.uk" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Mathematics, University of York
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 11, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="s:1" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>In our digital age, mathematics isn’t just an abstract pursuit; it’s an essential tool that powers a vast array of applications. From weather forecasting to black hole simulations, from urban planning to medical research, the application of mathematics has become indispensable. Central to this applied force is Numerical Analysis.</p>
+<p>Numerical Analysis is the discipline that bridges continuous mathematical theories with their concrete implementation on digital computers. These computers, by design, work with discrete quantities, and translating continuous problems into this discrete realm isn’t always straightforward. So why should you want to venture into Numerical Analysis?</p>
+<ol type="1">
+<li><p><strong>Precision and Stability:</strong> Computers, despite their power, can introduce significant errors if mathematical problems are implemented without care. Numerical Analysis offers techniques to ensure we obtain results that are both accurate and stable.</p></li>
+<li><p><strong>Efficiency:</strong> Real-world applications often demand not just correctness, but efficiency. By grasping the methods of Numerical Analysis, we can design algorithms that are both accurate and resource-efficient.</p></li>
+<li><p><strong>Broad Applications:</strong> Whether your interest lies in physics, engineering, biology, finance, or many other scientific fields, Numerical Analysis provides the computational tools to tackle complex problems in these areas.</p></li>
+<li><p><strong>Basis for Modern Technologies:</strong> Core principles of Numerical Analysis are foundational in emerging fields such as artificial intelligence, quantum computing, and data science.</p></li>
+</ol>
+<p>In this module, we’ll explore the key techniques, algorithms, and principles of Numerical Analysis that enable us to translate mathematical problems into computational solutions. We’ll delve into the challenges that arise in this translation, the strategies to overcome them, and the interaction of theory and practice.</p>
+<p>By the end, you won’t merely understand the methods of scientific computing; you’ll be equipped to apply them efficiently and effectively in diverse scenarios. With a strong foundation in Numerical Analysis, you’ll be better prepared to engage with the practical challenges of the modern world.</p>
+<p>The main topic of this module is finding <em>approximate solutions</em> to various mathematical problems. A typical example for such a problem would be to find <span class="math inline">\(x&gt;0\)</span> such that <span class="math inline">\(\cos(x)=x\)</span>.</p>
+<div id="cell-fig-cosx" class="cell" data-caption="The function $\cos(x)$ and the line $y=x$ intersect at exactly one point." data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the function cos(x) and the line y=x</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cos, <span class="fl">0</span>, <span class="cn">π</span><span class="op">/</span><span class="fl">2</span>, label<span class="op">=</span><span class="st">"cos(x)"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(x<span class="op">-&gt;</span>x, label<span class="op">=</span><span class="st">"y=x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-cosx" class="cell-output cell-output-display quarto-figure quarto-figure-left quarto-float anchored" data-execution_count="2">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cosx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<!--?xml version="1.0" encoding="utf-8"?-->
+<svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="672" height="480" viewbox="0 0 2688 1920">
+<defs>
+  <clippath id="clip050">
+    <rect x="0" y="0" width="2688" height="1920"></rect>
+  </clippath>
+</defs>
+<path clip-path="url(#clip050)" d="M0 1920 L2688 1920 L2688 0 L0 0  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"></path>
+<defs>
+  <clippath id="clip051">
+    <rect x="537" y="0" width="1883" height="1883"></rect>
+  </clippath>
+</defs>
+<path clip-path="url(#clip050)" d="M158.992 1800.78 L2640.76 1800.78 L2640.76 47.2441 L158.992 47.2441  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"></path>
+<defs>
+  <clippath id="clip052">
+    <rect x="158" y="47" width="2483" height="1755"></rect>
+  </clippath>
+</defs>
+<polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="229.231,1800.78 229.231,47.2441 "></polyline>
+<polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="974.485,1800.78 974.485,47.2441 "></polyline>
+<polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="1719.74,1800.78 1719.74,47.2441 "></polyline>
+<polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="2464.99,1800.78 2464.99,47.2441 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="158.992,1800.78 2640.76,1800.78 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="229.231,1800.78 229.231,1781.88 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="974.485,1800.78 974.485,1781.88 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="1719.74,1800.78 1719.74,1781.88 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="2464.99,1800.78 2464.99,1781.88 "></polyline>
+<path clip-path="url(#clip050)" d="M206.615 1834 Q203.004 1834 201.175 1837.57 Q199.37 1841.11 199.37 1848.24 Q199.37 1855.34 201.175 1858.91 Q203.004 1862.45 206.615 1862.45 Q210.249 1862.45 212.055 1858.91 Q213.884 1855.34 213.884 1848.24 Q213.884 1841.11 212.055 1837.57 Q210.249 1834 206.615 1834 M206.615 1830.3 Q212.425 1830.3 215.481 1834.9 Q218.559 1839.49 218.559 1848.24 Q218.559 1856.96 215.481 1861.57 Q212.425 1866.15 206.615 1866.15 Q200.805 1866.15 197.726 1861.57 Q194.671 1856.96 194.671 1848.24 Q194.671 1839.49 197.726 1834.9 Q200.805 1830.3 206.615 1830.3 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M226.777 1859.6 L231.661 1859.6 L231.661 1865.48 L226.777 1865.48 L226.777 1859.6 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M251.846 1834 Q248.235 1834 246.407 1837.57 Q244.601 1841.11 244.601 1848.24 Q244.601 1855.34 246.407 1858.91 Q248.235 1862.45 251.846 1862.45 Q255.481 1862.45 257.286 1858.91 Q259.115 1855.34 259.115 1848.24 Q259.115 1841.11 257.286 1837.57 Q255.481 1834 251.846 1834 M251.846 1830.3 Q257.656 1830.3 260.712 1834.9 Q263.791 1839.49 263.791 1848.24 Q263.791 1856.96 260.712 1861.57 Q257.656 1866.15 251.846 1866.15 Q246.036 1866.15 242.958 1861.57 Q239.902 1856.96 239.902 1848.24 Q239.902 1839.49 242.958 1834.9 Q246.036 1830.3 251.846 1830.3 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M952.367 1834 Q948.756 1834 946.928 1837.57 Q945.122 1841.11 945.122 1848.24 Q945.122 1855.34 946.928 1858.91 Q948.756 1862.45 952.367 1862.45 Q956.002 1862.45 957.807 1858.91 Q959.636 1855.34 959.636 1848.24 Q959.636 1841.11 957.807 1837.57 Q956.002 1834 952.367 1834 M952.367 1830.3 Q958.178 1830.3 961.233 1834.9 Q964.312 1839.49 964.312 1848.24 Q964.312 1856.96 961.233 1861.57 Q958.178 1866.15 952.367 1866.15 Q946.557 1866.15 943.479 1861.57 Q940.423 1856.96 940.423 1848.24 Q940.423 1839.49 943.479 1834.9 Q946.557 1830.3 952.367 1830.3 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M972.529 1859.6 L977.414 1859.6 L977.414 1865.48 L972.529 1865.48 L972.529 1859.6 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M987.645 1830.92 L1006 1830.92 L1006 1834.86 L991.927 1834.86 L991.927 1843.33 Q992.946 1842.98 993.964 1842.82 Q994.983 1842.64 996.001 1842.64 Q1001.79 1842.64 1005.17 1845.81 Q1008.55 1848.98 1008.55 1854.4 Q1008.55 1859.97 1005.08 1863.08 Q1001.6 1866.15 995.284 1866.15 Q993.108 1866.15 990.839 1865.78 Q988.594 1865.41 986.187 1864.67 L986.187 1859.97 Q988.27 1861.11 990.492 1861.66 Q992.714 1862.22 995.191 1862.22 Q999.196 1862.22 1001.53 1860.11 Q1003.87 1858.01 1003.87 1854.4 Q1003.87 1850.78 1001.53 1848.68 Q999.196 1846.57 995.191 1846.57 Q993.316 1846.57 991.441 1846.99 Q989.589 1847.4 987.645 1848.28 L987.645 1830.92 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M1686.89 1861.55 L1694.53 1861.55 L1694.53 1835.18 L1686.22 1836.85 L1686.22 1832.59 L1694.49 1830.92 L1699.16 1830.92 L1699.16 1861.55 L1706.8 1861.55 L1706.8 1865.48 L1686.89 1865.48 L1686.89 1861.55 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M1716.24 1859.6 L1721.13 1859.6 L1721.13 1865.48 L1716.24 1865.48 L1716.24 1859.6 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M1741.31 1834 Q1737.7 1834 1735.87 1837.57 Q1734.07 1841.11 1734.07 1848.24 Q1734.07 1855.34 1735.87 1858.91 Q1737.7 1862.45 1741.31 1862.45 Q1744.95 1862.45 1746.75 1858.91 Q1748.58 1855.34 1748.58 1848.24 Q1748.58 1841.11 1746.75 1837.57 Q1744.95 1834 1741.31 1834 M1741.31 1830.3 Q1747.12 1830.3 1750.18 1834.9 Q1753.26 1839.49 1753.26 1848.24 Q1753.26 1856.96 1750.18 1861.57 Q1747.12 1866.15 1741.31 1866.15 Q1735.5 1866.15 1732.43 1861.57 Q1729.37 1856.96 1729.37 1848.24 Q1729.37 1839.49 1732.43 1834.9 Q1735.5 1830.3 1741.31 1830.3 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M2432.65 1861.55 L2440.28 1861.55 L2440.28 1835.18 L2431.97 1836.85 L2431.97 1832.59 L2440.24 1830.92 L2444.91 1830.92 L2444.91 1861.55 L2452.55 1861.55 L2452.55 1865.48 L2432.65 1865.48 L2432.65 1861.55 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M2462 1859.6 L2466.88 1859.6 L2466.88 1865.48 L2462 1865.48 L2462 1859.6 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M2477.11 1830.92 L2495.47 1830.92 L2495.47 1834.86 L2481.4 1834.86 L2481.4 1843.33 Q2482.41 1842.98 2483.43 1842.82 Q2484.45 1842.64 2485.47 1842.64 Q2491.26 1842.64 2494.64 1845.81 Q2498.02 1848.98 2498.02 1854.4 Q2498.02 1859.97 2494.54 1863.08 Q2491.07 1866.15 2484.75 1866.15 Q2482.58 1866.15 2480.31 1865.78 Q2478.06 1865.41 2475.65 1864.67 L2475.65 1859.97 Q2477.74 1861.11 2479.96 1861.66 Q2482.18 1862.22 2484.66 1862.22 Q2488.66 1862.22 2491 1860.11 Q2493.34 1858.01 2493.34 1854.4 Q2493.34 1850.78 2491 1848.68 Q2488.66 1846.57 2484.66 1846.57 Q2482.78 1846.57 2480.91 1846.99 Q2479.06 1847.4 2477.11 1848.28 L2477.11 1830.92 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="158.992,1751.15 2640.76,1751.15 "></polyline>
+<polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="158.992,1224.58 2640.76,1224.58 "></polyline>
+<polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="158.992,698.005 2640.76,698.005 "></polyline>
+<polyline clip-path="url(#clip052)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; stroke-opacity:0.1; fill:none" points="158.992,171.431 2640.76,171.431 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="158.992,1800.78 158.992,47.2441 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="158.992,1751.15 177.89,1751.15 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="158.992,1224.58 177.89,1224.58 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="158.992,698.005 177.89,698.005 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="158.992,171.431 177.89,171.431 "></polyline>
+<path clip-path="url(#clip050)" d="M61.4965 1736.95 Q57.8854 1736.95 56.0567 1740.51 Q54.2512 1744.06 54.2512 1751.19 Q54.2512 1758.29 56.0567 1761.86 Q57.8854 1765.4 61.4965 1765.4 Q65.1307 1765.4 66.9363 1761.86 Q68.765 1758.29 68.765 1751.19 Q68.765 1744.06 66.9363 1740.51 Q65.1307 1736.95 61.4965 1736.95 M61.4965 1733.25 Q67.3067 1733.25 70.3622 1737.85 Q73.4409 1742.44 73.4409 1751.19 Q73.4409 1759.91 70.3622 1764.52 Q67.3067 1769.1 61.4965 1769.1 Q55.6864 1769.1 52.6077 1764.52 Q49.5521 1759.91 49.5521 1751.19 Q49.5521 1742.44 52.6077 1737.85 Q55.6864 1733.25 61.4965 1733.25 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M81.6584 1762.55 L86.5427 1762.55 L86.5427 1768.43 L81.6584 1768.43 L81.6584 1762.55 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M106.728 1736.95 Q103.117 1736.95 101.288 1740.51 Q99.4824 1744.06 99.4824 1751.19 Q99.4824 1758.29 101.288 1761.86 Q103.117 1765.4 106.728 1765.4 Q110.362 1765.4 112.168 1761.86 Q113.996 1758.29 113.996 1751.19 Q113.996 1744.06 112.168 1740.51 Q110.362 1736.95 106.728 1736.95 M106.728 1733.25 Q112.538 1733.25 115.593 1737.85 Q118.672 1742.44 118.672 1751.19 Q118.672 1759.91 115.593 1764.52 Q112.538 1769.1 106.728 1769.1 Q100.918 1769.1 97.8389 1764.52 Q94.7834 1759.91 94.7834 1751.19 Q94.7834 1742.44 97.8389 1737.85 Q100.918 1733.25 106.728 1733.25 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M62.4919 1210.38 Q58.8808 1210.38 57.0521 1213.94 Q55.2465 1217.48 55.2465 1224.61 Q55.2465 1231.72 57.0521 1235.28 Q58.8808 1238.83 62.4919 1238.83 Q66.1261 1238.83 67.9317 1235.28 Q69.7604 1231.72 69.7604 1224.61 Q69.7604 1217.48 67.9317 1213.94 Q66.1261 1210.38 62.4919 1210.38 M62.4919 1206.67 Q68.302 1206.67 71.3576 1211.28 Q74.4363 1215.86 74.4363 1224.61 Q74.4363 1233.34 71.3576 1237.95 Q68.302 1242.53 62.4919 1242.53 Q56.6817 1242.53 53.603 1237.95 Q50.5475 1233.34 50.5475 1224.61 Q50.5475 1215.86 53.603 1211.28 Q56.6817 1206.67 62.4919 1206.67 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M82.6538 1235.98 L87.538 1235.98 L87.538 1241.86 L82.6538 1241.86 L82.6538 1235.98 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M97.7695 1207.3 L116.126 1207.3 L116.126 1211.23 L102.052 1211.23 L102.052 1219.71 Q103.07 1219.36 104.089 1219.2 Q105.107 1219.01 106.126 1219.01 Q111.913 1219.01 115.293 1222.18 Q118.672 1225.35 118.672 1230.77 Q118.672 1236.35 115.2 1239.45 Q111.728 1242.53 105.408 1242.53 Q103.232 1242.53 100.964 1242.16 Q98.7185 1241.79 96.3111 1241.05 L96.3111 1236.35 Q98.3945 1237.48 100.617 1238.04 Q102.839 1238.59 105.316 1238.59 Q109.32 1238.59 111.658 1236.49 Q113.996 1234.38 113.996 1230.77 Q113.996 1227.16 111.658 1225.05 Q109.32 1222.95 105.316 1222.95 Q103.441 1222.95 101.566 1223.36 Q99.7139 1223.78 97.7695 1224.66 L97.7695 1207.3 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M52.3067 711.349 L59.9456 711.349 L59.9456 684.984 L51.6354 686.65 L51.6354 682.391 L59.8993 680.725 L64.5752 680.725 L64.5752 711.349 L72.214 711.349 L72.214 715.285 L52.3067 715.285 L52.3067 711.349 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M81.6584 709.405 L86.5427 709.405 L86.5427 715.285 L81.6584 715.285 L81.6584 709.405 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M106.728 683.803 Q103.117 683.803 101.288 687.368 Q99.4824 690.91 99.4824 698.039 Q99.4824 705.146 101.288 708.711 Q103.117 712.252 106.728 712.252 Q110.362 712.252 112.168 708.711 Q113.996 705.146 113.996 698.039 Q113.996 690.91 112.168 687.368 Q110.362 683.803 106.728 683.803 M106.728 680.1 Q112.538 680.1 115.593 684.706 Q118.672 689.289 118.672 698.039 Q118.672 706.766 115.593 711.373 Q112.538 715.956 106.728 715.956 Q100.918 715.956 97.8389 711.373 Q94.7834 706.766 94.7834 698.039 Q94.7834 689.289 97.8389 684.706 Q100.918 680.1 106.728 680.1 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M53.3021 184.776 L60.941 184.776 L60.941 158.411 L52.6308 160.077 L52.6308 155.818 L60.8947 154.151 L65.5706 154.151 L65.5706 184.776 L73.2094 184.776 L73.2094 188.711 L53.3021 188.711 L53.3021 184.776 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M82.6538 182.832 L87.538 182.832 L87.538 188.711 L82.6538 188.711 L82.6538 182.832 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M97.7695 154.151 L116.126 154.151 L116.126 158.087 L102.052 158.087 L102.052 166.559 Q103.07 166.211 104.089 166.049 Q105.107 165.864 106.126 165.864 Q111.913 165.864 115.293 169.036 Q118.672 172.207 118.672 177.623 Q118.672 183.202 115.2 186.304 Q111.728 189.383 105.408 189.383 Q103.232 189.383 100.964 189.012 Q98.7185 188.642 96.3111 187.901 L96.3111 183.202 Q98.3945 184.336 100.617 184.892 Q102.839 185.447 105.316 185.447 Q109.32 185.447 111.658 183.341 Q113.996 181.235 113.996 177.623 Q113.996 174.012 111.658 171.906 Q109.32 169.799 105.316 169.799 Q103.441 169.799 101.566 170.216 Q99.7139 170.633 97.7695 171.512 L97.7695 154.151 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><polyline clip-path="url(#clip052)" style="stroke:#009af9; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="229.231,698.005 236.852,698.018 244.474,698.06 314.946,699.745 385.418,703.781 427.769,707.334 470.119,711.728 505.926,716.099 541.733,721.067 619.526,733.904 691.244,748.195 729.689,756.813 768.134,766.093 812.676,777.664 857.218,790.104 936.385,814.325 1005.81,837.742 1081.5,865.528 1157.64,895.782 1241.82,931.827 1321.91,968.55 1405.2,1009.13 1475.3,1045.09 1560.89,1091.1 1639.3,1135.16 1711.71,1177.37 1785.07,1221.51 1867.28,1272.5 1941.77,1319.96 2027.06,1375.62 2106.04,1428.25 2183.89,1481.03 2259.49,1532.98 2336.98,1586.81 2421.88,1646.3 2545.21,1733.27 2570.52,1751.15 "></polyline>
+<polyline clip-path="url(#clip052)" style="stroke:#e26f46; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="229.231,1751.15 244.474,1740.38 385.418,1640.79 470.119,1580.95 541.733,1530.35 619.526,1475.38 691.244,1424.71 768.134,1370.38 857.218,1307.44 936.385,1251.5 1005.81,1202.45 1081.5,1148.97 1157.64,1095.17 1241.82,1035.69 1321.91,979.095 1405.2,920.251 1475.3,870.717 1560.89,810.241 1639.3,754.841 1711.71,703.675 1785.07,651.846 1867.28,593.759 1941.77,541.124 2027.06,480.859 2106.04,425.06 2183.89,370.049 2259.49,316.637 2336.98,261.883 2421.88,201.894 2545.21,114.75 2570.52,96.8724 "></polyline>
+<path clip-path="url(#clip050)" d="M241.718 261.215 L628.018 261.215 L628.018 105.695 L241.718 105.695  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"></path>
+<polyline clip-path="url(#clip050)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="241.718,261.215 628.018,261.215 628.018,105.695 241.718,105.695 241.718,261.215 "></polyline>
+<polyline clip-path="url(#clip050)" style="stroke:#009af9; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="269.293,157.535 434.744,157.535 "></polyline>
+<path clip-path="url(#clip050)" d="M482.828 149.885 L482.828 153.866 Q481.022 152.871 479.194 152.385 Q477.388 151.876 475.536 151.876 Q471.393 151.876 469.101 154.514 Q466.81 157.13 466.81 161.876 Q466.81 166.621 469.101 169.26 Q471.393 171.875 475.536 171.875 Q477.388 171.875 479.194 171.389 Q481.022 170.88 482.828 169.885 L482.828 173.82 Q481.046 174.653 479.124 175.07 Q477.226 175.487 475.073 175.487 Q469.217 175.487 465.768 171.806 Q462.319 168.125 462.319 161.876 Q462.319 155.533 465.791 151.899 Q469.286 148.264 475.351 148.264 Q477.319 148.264 479.194 148.681 Q481.069 149.075 482.828 149.885 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M500.282 151.876 Q496.856 151.876 494.865 154.561 Q492.874 157.223 492.874 161.876 Q492.874 166.528 494.842 169.213 Q496.833 171.875 500.282 171.875 Q503.684 171.875 505.675 169.19 Q507.666 166.505 507.666 161.876 Q507.666 157.269 505.675 154.584 Q503.684 151.876 500.282 151.876 M500.282 148.264 Q505.837 148.264 509.008 151.876 Q512.18 155.487 512.18 161.876 Q512.18 168.241 509.008 171.875 Q505.837 175.487 500.282 175.487 Q494.703 175.487 491.532 171.875 Q488.383 168.241 488.383 161.876 Q488.383 155.487 491.532 151.876 Q494.703 148.264 500.282 148.264 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M535.767 149.653 L535.767 153.681 Q533.962 152.755 532.018 152.292 Q530.073 151.829 527.99 151.829 Q524.818 151.829 523.221 152.801 Q521.647 153.774 521.647 155.718 Q521.647 157.2 522.781 158.056 Q523.916 158.889 527.342 159.653 L528.8 159.977 Q533.337 160.95 535.235 162.732 Q537.156 164.491 537.156 167.663 Q537.156 171.274 534.286 173.38 Q531.439 175.487 526.439 175.487 Q524.356 175.487 522.087 175.07 Q519.842 174.676 517.342 173.866 L517.342 169.468 Q519.703 170.695 521.994 171.32 Q524.286 171.922 526.531 171.922 Q529.541 171.922 531.161 170.903 Q532.781 169.862 532.781 167.987 Q532.781 166.25 531.601 165.325 Q530.443 164.399 526.485 163.542 L525.004 163.195 Q521.045 162.362 519.286 160.649 Q517.527 158.913 517.527 155.903 Q517.527 152.246 520.119 150.255 Q522.712 148.264 527.48 148.264 Q529.842 148.264 531.925 148.612 Q534.008 148.959 535.767 149.653 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M554.17 138.843 Q551.068 144.167 549.564 149.376 Q548.059 154.584 548.059 159.931 Q548.059 165.278 549.564 170.533 Q551.091 175.764 554.17 181.065 L550.466 181.065 Q546.994 175.625 545.258 170.371 Q543.545 165.116 543.545 159.931 Q543.545 154.769 545.258 149.538 Q546.971 144.306 550.466 138.843 L554.17 138.843 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M583.985 148.889 L574.61 161.505 L584.471 174.815 L579.448 174.815 L571.902 164.63 L564.355 174.815 L559.332 174.815 L569.402 161.251 L560.189 148.889 L565.212 148.889 L572.087 158.126 L578.962 148.889 L583.985 148.889 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M589.818 138.843 L593.522 138.843 Q596.994 144.306 598.707 149.538 Q600.443 154.769 600.443 159.931 Q600.443 165.116 598.707 170.371 Q596.994 175.625 593.522 181.065 L589.818 181.065 Q592.897 175.764 594.401 170.533 Q595.929 165.278 595.929 159.931 Q595.929 154.584 594.401 149.376 Q592.897 144.167 589.818 138.843 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><polyline clip-path="url(#clip050)" style="stroke:#e26f46; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="269.293,209.375 434.744,209.375 "></polyline>
+<path clip-path="url(#clip050)" d="M476.161 229.063 Q474.356 233.692 472.643 235.104 Q470.93 236.516 468.06 236.516 L464.657 236.516 L464.657 232.952 L467.157 232.952 Q468.916 232.952 469.888 232.118 Q470.86 231.285 472.041 228.183 L472.805 226.239 L462.319 200.729 L466.833 200.729 L474.934 221.007 L483.036 200.729 L487.55 200.729 L476.161 229.063 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M493.985 205.128 L523.661 205.128 L523.661 209.016 L493.985 209.016 L493.985 205.128 M493.985 214.572 L523.661 214.572 L523.661 218.507 L493.985 218.507 L493.985 214.572 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path><path clip-path="url(#clip050)" d="M554.703 200.729 L545.328 213.345 L555.189 226.655 L550.166 226.655 L542.619 216.47 L535.073 226.655 L530.05 226.655 L540.119 213.091 L530.906 200.729 L535.93 200.729 L542.804 209.966 L549.679 200.729 L554.703 200.729 Z" fill="#000000" fill-rule="nonzero" fill-opacity="1"></path></svg>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cosx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1
+</figcaption>
+</figure>
+</div>
+</div>
+<p>There is indeed one and only one such <span class="math inline">\(x\)</span>; this is apparent from a graph (<a href="#fig-cosx" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>), and can also be proven rigorously without too much difficulty. However, it seems impossible to find a <em>closed form</em> expression for this <span class="math inline">\(x\)</span>: It’s not a fraction, a square root of a fraction, an integer multiple of <span class="math inline">\(\pi\)</span>, etc. For practical purposes, the best we can give is a <em>numerical approximation</em> of this <span class="math inline">\(x\)</span>, that is, we can compute it to, say, 10 decimal digits of accuracy.</p>
+<p>This situation is pervasive in mathematics and its applications. Many problems of practical importance can be solved only approximately, and for others an approximation is much more efficient to find than the closed-form expression.</p>
+<p>In Numerical Analysis, we aim to find <em>approximation algorithms</em> for mathematical problems, i.e., schemes that allow us to compute the solution approximately. These algorithms use only elementary operations (<span class="math inline">\(+,-,\times,/\)</span>) but often a long sequence of them, so that in practice they need to be run on computers. This part of the problem—how to implement such algorithms on a computer—is called Scientific Computing.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter02.html" class="pagination-link" aria-label="<span class='chapter-number'>2</span>&nbsp; <span class='chapter-title'>Errors</span>">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Errors</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis/edit/master/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

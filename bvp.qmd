@@ -1,0 +1,1121 @@
+# Boundary Value Problems {#sec-bvp}
+
+## Fundamentals {#sec-fundamentals}
+
+In this last part of the course, we will consider *boundary problems
+(BVPs)* for ODEs, specifically second-order ODEs. Here, in contrast to
+initial value problems, one does not specify the value of the function
+$y$ *and its derivative* at the left-hand side of the interval in
+question. Rather, one fixes the value of $y(x)$ at both the left- and
+the right-hand side. The BVP we will consider throughout is
+
+$$
+ y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta,
+$$ {#eq-bvpdef}
+
+where $f: [a,b] \times \mathbb{R}^2 \to \mathbb{R}$ and
+$\alpha,\beta \in \mathbb{R}$.
+
+Boundary value problems for first-order ODEs are not meaningful, so we
+need to consider at least ODEs of second order. One can as well
+formulate BVPs for higher-order ODEs, for systems of ODEs, or by
+specifying the derivative $y'$ at the boundary rather than the function
+$y$ itself. We will however not treat these cases here.
+
+Our first question is whether a unique solution of
+@eq-bvpdef exists, before approximating it numerically. This
+question turns out to be more delicate than with IVPs. We first consider
+a few examples.
+
+::: {#exm-bvpex1}
+
+Let us consider the very simple BVP 
+$$
+ y'' = y,  \quad 0 \leq x \leq 1, \quad y(0) = y(1) = 1.
+$$ {#eq-bvpex1}
+ The ODE
+$y''=y$ itself (disregarding the boundary conditions for a moment)
+clearly has the two solutions $y(x)=e^x$ and $y(x)=e^{-x}$. From the
+theory of linear ODEs, one knows then that the general solution of the
+ODE is 
+$$
+y(x) = c e^x + de^{-x},\quad c,d \in \mathbb{R}.
+$$
+That is,
+every solution of $y''=y$ has this form. Now inserting the boundary
+conditions, we have 
+$$
+\begin{aligned}
+   1 = c e^0 + d e^0 = c + d \quad &\Leftrightarrow \quad d = 1-c,
+\\
+\label{eq:cdsecond}
+   1 = c e^1 + d e^{-1} = ce + \frac{d}{e} \quad &\Leftrightarrow \quad  1 
+     = ce + \frac{1-c}{e} = c(e-\frac{1}{e}) + \frac{1}{e}.
+\end{aligned}
+$$
+From
+@eq-cdsecond, we find that the boundary conditions are
+satisfied if and only if
+$$
+1 - \frac{1}{e} = c(e-\frac{1}{e}) \quad \Leftrightarrow \quad
+  c = \frac{e-1}{e^2-1} = \frac{1}{e+1},
+$$
+of which we compute
+$d = 1-c = \frac{e}{e+1}$. That means, the function
+$$
+y(x) = \frac{e^x}{e+1} + \frac{e^{1-x}}{e+1}
+$$
+is a solution of the
+BVP @eq-bvpex1, and by our computation, it is the *only*
+solution of the BVP. In short,
+@eq-bvpex1 has a unique solution.
+
+:::
+
+::: {#exm-bvpex2}
+
+Now let us consider a slightly modified BVP, 
+$$
+ y'' = -y,  \quad 0 \leq x \leq 2 \pi, \quad y(0) = y(2\pi) = 1.
+$$ {#eq-bvpex2}
+
+Again, from the theory of linear ODEs, one knows that the general
+solution of the ODE (disregarding the boundary conditions) is
+
+$$
+   y(x) = c \cos(x)+ d \sin(x),\quad c,d \in \mathbb{R}.
+$$ {#eq-sincossol}
+ The boundary
+conditions demand that
+$$
+1=y(0) = c \cos(0) + d \sin(0) = c \Leftrightarrow c=1,\quad
+\text{and likewise }
+   1=y(2\pi) = c  \Leftrightarrow c=1.
+$$
+However, the choice of $d$ does
+not affect the boundary conditions! In fact, any function of the form
+$$
+y(x) = \cos(x)+ d \sin(x),\quad d \in \mathbb{R}
+$$
+solves the BVP
+@eq-bvpex2. This BVP has *many* solutions.
+
+:::
+
+::: {#exm-bvpex3}
+
+Finally, consider another slight modification of our example:
+
+$$
+ y'' = -y,  \quad 0 \leq x \leq 2 \pi, \quad y(0) = 0, \; y(2\pi) = 1.
+$$ {#eq-bvpex3}
+
+Again, the general solution of the ODE is given by
+@eq-sincossol. However, now our boundary conditions demand
+that 
+$$
+0=y(0) = c ,\quad
+\text{and }
+   1=y(2\pi) = c,
+$$
+which gives us a contradiction. In other words, the
+BVP @eq-bvpex3 has *no solution*.
+
+:::
+
+### A criterion
+
+We need a criterion that guarantees that a BVP has a unique solution. As
+is clear from the above examples, the Lipschitz condition which we
+previously considered does not suffice. The following theorem
+[@Burden_Faires Theorem 11.1], which we quote here without proof, gives a
+sufficient (not a necessary) criterion.
+
+::: {#thm:bvpunique .theorem}
+**Theorem 9**. *Suppose that
+$f:[a,b] \times \mathbb{R}^2 \to \mathbb{R}$ is continuous, that the
+partial derivatives[^15] $\partial f(x,y,y') / \partial y$ and
+$\partial f(x,y,y') / \partial y'$ exist and are continuous, and that*
+
+1.  *$\dfrac{\partial f}{\partial y}(x,y,y') > 0$ for all $x \in [a,b]$,
+    $y,y' \in \mathbb{R}$,*
+
+2.  *$\Big\lvert \dfrac{\partial f}{\partial y'}(x,y,y') \Big\rvert \leq M$
+    for all $x \in [a,b]$, $y,y' \in \mathbb{R}$,*
+
+*with a constant $M>0$. Then, the boundary value problem
+
+$$
+ y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta
+$$ {#eq-bvprepeat}
+
+has a unique solution for any $\alpha,\beta \in \mathbb{R}$.*
+:::
+
+Briefly speaking, in order to obtain a unique solution, it suffices that
+$\partial f / \partial y$ is *positive* and $\partial f / \partial y'$
+is *bounded*. The former condition was violated in our examples
+@eq-bvpex2 and
+@eq-bvpex3.
+
+### Linear ODEs
+
+We will often consider the simplified, but still very relevant, case of
+boundary value problems for *linear* ODEs. By this, we mean a BVP of the
+form 
+$$
+ y''(x) = p(x) y'(x) + q(x) y(x) + r(x),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta,
+$$ {#eq-bvplin}
+
+where $p,q,r: [a,b]\to\mathbb{R}$. A uniqueness criterion for these can
+be given as follows.
+
+::: {#thm:bvplinunique .theorem}
+**Theorem 10**. *Suppose that $p,q,r \in \mathcal{C}^0([a,b])$, and that
+$q(x)>0$ for all $x \in [a,b]$. Then, the boundary value problem
+@eq-bvplin has a unique solution for any
+$\alpha,\beta \in \mathbb{R}$.*
+:::
+
+::: proof
+*Proof.* This follows immediately from
+Theorem [9](#thm:bvpunique){reference-type="ref"
+reference="thm:bvpunique"}: In the present case,
+$$
+f(x,y,y') =  p(x) y' + q(x) y + r(x), 
+\quad \frac{\partial f(x,y,y'}{\partial y} = q(x),
+\quad \frac{\partial f(x,y,y'}{\partial y'} = p(x),
+$$
+and continuous
+functions on a bounded interval are always bounded. ◻
+:::
+
+### Approximation methods
+
+In the following sections, we will discuss three very different
+approximation methods for the solutions of BVPs:
+
+-   the *Shooting Method*, which makes use of the techniques for IVPs
+    which we discussed in Part [](#par:ivp){reference-type="ref"
+    reference="par:ivp"} of the course,
+
+-   the *Finite Difference Method*, which approximates the derivatives
+    of the ODE with difference quotients,
+
+-   the *Rayleigh-Ritz Method*, which reformulates the BVP as a
+    minimization problem of a certain integral.
+
+The Finite Difference Method and the Rayleigh-Ritz method are
+particularly important: first, because they are adapted to the nature of
+boundary value problems; second, because they have generalizations to
+the approximation theory of partial differential equations.
+
+## The Shooting Method
+
+As the first approximation method for the solutions of BVPs, we will
+discuss the *Shooting Method*. It works by transforming the boundary
+value problem into an initial value problem, and then using our known
+approximation methods for BVPs.
+
+### The idea
+
+We will consider the BVP 
+$$
+ y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
+$$ {#eq-bvpshoot}
+
+For applying our approximation methods for IVPs to the differential
+equation, we are missing one initial value, namely for $y'(a)$.
+
+Let us, for the moment, just pick *some* fixed $\gamma \in \mathbb{R}$,
+and then consider the initial value problem 
+$$
+  y_\gamma''(x) = f(x,y_\gamma(x),y_\gamma'(x)),  \quad a \leq x \leq b, \quad y_\gamma(a) = \alpha, \; y_\gamma'(a) = \gamma.
+$$ {#eq-ivpshoot}
+
+(The solution $y_\gamma(x)$ will depend on our choice of $\gamma$, and
+we indicate this with the $\gamma$ subscript.) We can solve the IVP
+@eq-ivpshoot with one of our known approximation methods.
+This will yield an approximation value $w_N \approx y_\gamma(b)$. Now we
+can compare whether our choice of $\gamma$ was reasonable: Namely, we
+can see whether $w_N \approx \beta$, or how far $w_N$ is away from
+$\beta$. Depending on this result, we adjust our value $\gamma$, and run
+the approximation method for
+@eq-ivpshoot again. We repeat this until $w_N \approx \beta$
+to a reasonable precision; then the $w_j$ will approximate $y(x_j)$,
+where $y$ is the solution of the BVP
+@eq-bvpshoot.
+
+### Systematic Approach
+
+The open point is how to choose the value $\gamma$. Of course, we want a
+systematic (i.e., algorithmic) way to find the optimum value.
+
+To formalize this, let us consider the map
+$$
+g: \mathbb{R} \to \mathbb{R}, \; \gamma \mapsto y_\gamma(b),
+$$
+where
+$y_\gamma(x)$ is the exact solution of the IVP
+@eq-ivpshoot. We already have methods to compute $g$
+approximately (by using approximation methods for IVPs). We need to find
+$\gamma$ such that $y_{ \gamma}(x)=\beta$, i.e., such that
+
+$$
+   g( \gamma) = \beta.
+$$ {#eq-geq}
+ In other words, we need to find an
+(approximate) solution to the equation
+@eq-geq. We
+will consider two cases:
+
+In the simpler case, $g$ is a *linear* function, i.e.,
+$g(\gamma)=m\gamma + c$. In this case,
+@eq-geq can be
+solved explicitly (once $m$ and $c$ are known), namely
+
+$$
+   \gamma = \frac{\beta - c}{m}.
+$$ {#eq-shootlinsol}
+ It remains to determine the constants
+$m$ and $c$.
+
+More generally, $g$ can be a *nonlinear* function, and in this case we
+need to solve @eq-geq numerically. We will use Newton's method to that
+end. That is, we consider a sequence $\gamma_k$, recursively defined by
+
+$$
+   \gamma_k := \gamma_{k-1} - \frac{g(\gamma_{k-1})-\beta}{g'(\gamma_{k-1})},
+$$ {#eq-shootnewton}
+
+which is expected to converge to the desired value $\gamma$. To that
+end, it remains to compute the derivative $g'$ of the map $g$.
+
+### Linear Shooting
+
+Let us first consider the linear case. Not very surprisingly, this
+arises when the underlying ODE is linear. That is, let us assume that
+our BVP is of the form 
+$$
+ y''(x) = p(x) y'(x) + q(x) y(x) + r(x),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta,
+$$ {#eq-bvplinshoot}
+
+with $p,q,r$ being continuous functions on $[a,b]$.
+
+It turns out to be convenient to consider *two* related IVPs, neither of
+which involves the value $\gamma$: 
+$$
+\begin{aligned}
+\label{eq:ivpshooty0}
+ y_0''(x) &= p(x) y_0'(x) + q(x) y_0(x) + r(x),  \quad &a \leq x \leq b, && y_0(a) &= \alpha, & y_0'(a) &= 0;
+\\
+\label{eq:ivpshootz}
+ z'' &= p(x) z'(x) + q(x) z(x) ,  & a \leq x \leq b, && z(a) &= 0, & z'(a) &= 1.
+\end{aligned}
+$$
+Using their exact solutions $y_0(x)$ and $z(x)$, we can
+define 
+$$
+  y_\gamma(x) := y_0(x) + \gamma z(x);
+$$ {#eq-yglin}
+ and by adding
+@eq-ivpshooty0 and
+@eq-ivpshootz, we see that this $y_\gamma$ is the (unique)
+solution of the IVP
+@eq-ivpshoot.
+
+The solutions $y_0(x)$ and $z(x)$ can be found (approximately) by our
+known methods from Part [](#par:ivp){reference-type="ref"
+reference="par:ivp"}. We can then compute the correct value of $\gamma$
+for our boundary value problem, as indicated in
+@eq-shootlinsol: 
+$$
+     \gamma = \frac{\beta - y_0(b)}{z(b)}.
+$$ {#eq-getgammalin}
+ Re-inserting this value
+$\gamma$ into @eq-yglin, we have found the (approximate) solution of the
+BVP.
+
+::: algorithm
+::: algorithmic
+boundary values $\alpha,\beta$; number of Runge-Kutta steps $N$
+$F :=\; (x,\mathbf{u}) \mapsto (u ^{(2)},p(x) u ^{(2)} + q(x) u ^{(1)} + r(x))$
+Rewrite and solve IVP for $y_0$ $\mathbf{y}:=$
+$\mathbf{y}= ( \mathbf{y}_0,\ldots, \mathbf{y}_N)$, each $\mathbf{y}_j$
+is a 2-vector
+$G :=\; (x,\mathbf{u}) \mapsto (u ^{(2)},p(x) u ^{(2)} + q(x) u ^{(1)})$
+Rewrite and solve IVP for $z$ $\mathbf{z}:=$
+$\mathbf{z}= ( \mathbf{z}_0,\ldots, \mathbf{z}_N)$, each $\mathbf{z}_j$
+is a 2-vector $\gamma := \dfrac{\beta - y_N ^{(1)} }{z_N ^{(1)}}$
+$w_i := y_i ^{(1)} + \gamma z_i ^{(1)}$ ($w_{0},\ldots,w_{N}$)
+:::
+:::
+
+Algorithm [\[alg:shootlin\]](#alg:shootlin){reference-type="ref"
+reference="alg:shootlin"} summarizes the Linear Shooting Method. We
+first rewrite the IVP
+@eq-ivpshooty0 for $y_0$ as a system of two first-order
+ODEs, and approximate its solution (lines 2--3). For concreteness' sake,
+we choose the classical Runge-Kutta method for the approximation. We do
+likewise with the IVP
+@eq-ivpshootz for $z$, in lines 4--5. Now we can compute the
+correct value of $\gamma$ (line 6), and combine the approximations for
+$y_0$ and $z$ into the approximation of the BVP solution (lines 7--9).
+
+### Nonlinear Shooting
+
+Now let us turn to the nonlinear case, i.e., to a generic BVP of the
+form 
+$$
+ y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
+$$ {#eq-bvpshootnonlin}
+
+As said before, we will use Newton's method for finding the correct
+value of $\gamma$. That means, we need to compute the sequence
+$(\gamma_k)$ given by 
+$$
+  \gamma_k := \gamma_{k-1} - \frac{g(\gamma_{k-1})-\beta}{g'(\gamma_{k-1})}.
+$$ {#eq-gammastep}
+
+To that end, we need to know how to compute $g(\gamma)$ and $g'(\gamma)$
+numerically.
+
+Here finding $g(\gamma)$ is not difficult: We have
+$g(\gamma)=y_\gamma(b)$, where $y_\gamma$ is the solution of the IVP
+
+$$
+  y_\gamma''(x) = f(x,y_\gamma(x),y_\gamma'(x)),  \quad a \leq x \leq b, \quad y_\gamma(a) = \alpha, \; y_\gamma'(a) = \gamma.
+$$ {#eq-ivpgamma}
+
+We can approximate this solution numerically with any of our known
+methods -- say, classical Runge-Kutta -- and thus obtain an
+approximation of $g(\gamma)$.
+
+However, for its derivative $g'$, the right approach is much less
+obvious. We need to compute
+$$
+g'(\gamma) = \frac{\partial}{\partial \gamma} y_\gamma(x)\Big|_{x=b} .
+$$
+In order to find this value, we differentiate
+@eq-ivpgamma by $\gamma$, using the chain rule.
+
+$$
+\; \frac{\partial y_\gamma'}{\partial \gamma}(a) = 1.
+$$ {#eq-ivpgammap}
+ This does not
+determine $\partial y_\gamma/\partial \gamma$ directly. However, it
+gives us a second-order IVP from which the derivative can be determined.
+
+To make this more concrete, let us use the substitution
+$$
+u ^{(1)} = y_\gamma, \quad 
+   u ^{(2)} = y_\gamma', \quad 
+   u ^{(3)} = \frac{\partial y_\gamma}{\partial \gamma}, \quad 
+   u ^{(4)} = \frac{\partial y_\gamma'}{\partial \gamma}.
+$$
+We can then
+rewrite @eq-ivpgamma *and*
+@eq-ivpgammap into an IVP for 4 first-order ODEs:
+
+$$
+     \end{pmatrix} .
+$$ {#eq-ivpu4}
+ From this IVP, which can be treated, e.g., with
+the classical Runge-Kutta method, we can now read off
+$$
+g(\gamma) = u ^{(1)}(b), \quad g'(\gamma) = u ^{(3)}(b).
+$$
+This
+finally allow us to compute the Newton step
+@eq-gammastep.
+
+::: algorithm
+::: algorithmic
+boundary values $\alpha,\beta$; start value $\gamma_0$; number of
+Runge-Kutta steps $N$; tolerance $T$; maximum number of Newton
+iterations $M$
+$F:=  (x,\mathbf{u}) \mapsto \big(u ^{(2)},  f(x,u ^{(1)},u ^{(2)}), u ^{(4)} ,
+   \frac{\partial f}{\partial y}(x,u ^{(1)},u ^{(2)}) \, u ^{(3)} +\frac{\partial
+    f}{\partial y'}(x,u ^{(1)},u ^{(2)}) \, u ^{(4)} \big)$
+$\gamma := \gamma_0$; $k:=0$ []{#ali:nlsnewtonstart
+label="ali:nlsnewtonstart"} $\mathbf{w}:=$ here
+$\mathbf{w}= ( \mathbf{w}_0,\ldots, \mathbf{w}_N)$, each $\mathbf{w}_j$
+is a 4-vector $v := \dfrac{w_{N} ^{(1)}-\beta}{w_{N} ^{(3)}}$;
+$\gamma := \gamma - v$ **if** $|v|<T$ **then** **break** **end if**
+$k:=k+1$ **if** $k>M$ **then** **exception** ("Too many iterations")
+**end if** []{#ali:nlsnewtonend label="ali:nlsnewtonend"}
+($w_{0} ^{(1)},\ldots,w_{N} ^{(1)}$)
+:::
+:::
+
+Let us summarize the Nonlinear Shooting Method in
+Algorithm [\[alg:shootnonlin\]](#alg:shootnonlin){reference-type="ref"
+reference="alg:shootnonlin"}. Its structure is of the now well-known
+Newton iteration type, with the Newton loop in lines
+[\[ali:nlsnewtonstart\]](#ali:nlsnewtonstart){reference-type="ref"
+reference="ali:nlsnewtonstart"}--[\[ali:nlsnewtonend\]](#ali:nlsnewtonend){reference-type="ref"
+reference="ali:nlsnewtonend"}. In each iteration of the loop, we solve
+the IVP @eq-ivpu4 with the classical Runge-Kutta method. We then
+pick the approximation values at the rightmost mesh point and compute
+the next $\gamma$ value from them. The usual methods of breaking the
+Newton loop are in place - either after sufficient precision is reached,
+or (with an error) after too many steps have been taken.
+
+## The Finite Difference Method {#sec-fdm}
+
+The *Finite Difference Method (FDM)* is another, very different method
+of approximating the solution of the BVP 
+$$
+ y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
+$$ {#eq-bvpfdm}
+
+This method does not refer back to our approximation methods for IVPs,
+but is adapted directly to BVPs.
+
+### The idea
+
+Similar to before, we divide our interval with equally spaced mesh
+points, $x_0,\ldots,x_{N+1}$, where $x_0=a$ and $x_{N+1}=b$.[^16] As
+before, we want to approximate $y(x_i)$ with a value $w_i$
+($i=1,\ldots,N$).
+
+The main idea of the FDM is to approximate the derivatives $y'(x_i)$ and
+$y''(x_i)$ with difference quotients ("finite differences"). For
+example, we could use 
+$$
+   y'(x_i) \approx \frac{w_{i+1}-w_i}{h},
+$$ {#eq-diffquot}
+ but we will see an even
+better choice later. A similar approximation will need to be found for
+$y''(x_i)$.
+
+In this way, the ODE is transformed into a system of equations for
+$w_1,\ldots,w_N$, and the boundary conditions are expressed by
+$w_0=\alpha$, $w_{N+1}=\beta$.
+
+### Centred difference formulas
+
+As a first step, we will derive an improved version of the difference
+quotient approximation
+@eq-diffquot, in which the error term was of order $O(h)$.
+Let us assume that the solution $y(x)$ of the BVP has three continuous
+derivatives. We write down second-order Taylor expansions of
+$y(x_{i+1})$ and $y(x_{i-1})$,
+cf. Theorem [12](#thm:taylor1d){reference-type="ref"
+reference="thm:taylor1d"}: 
+$$
+\begin{aligned}
+{4}
+\label{eq:cd1}
+  y(x_{i+1}) \;&=&\; y(x_i+h) \;&=&\; y(x_i) + h y'(x_i) + \frac{h^2}{2} y''(x_i) 
+  + \frac{h^3}{6} y'''(\xi_+);
+\\
+\label{eq:cd2}
+  y(x_{i-1}) &=& y(x_i-h) &=& y(x_i) - h y'(x_i) + \frac{h^2}{2} y''(x_i) 
+ - \frac{h^3}{6} y'''(\xi_-)
+\end{aligned}
+$$
+with some $\xi_+ \in [x_i,x_{i+1}]$ and
+$\xi_- \in [x_{i-1},x_{i}]$. Subtracting
+@eq-cd2 from
+@eq-cd1, we
+obtain 
+$$
+y(x_{i+1}) - y(x_{i-1}) = 2 h y'(x_i) + \frac{h^3}{6} 
+ \underbrace{\big(
+   y'''(\xi_+) + y'''(\xi_-)
+\big)}_{
+  2 y'''(\xi)
+}.
+$$
+Here $\xi \in [x_{i-1},x_{i+1}]$ is some point obtained from the
+intermediate value theorem. Solving for $y'(x_i)$, we find
+
+$$
+ y'(x_i) = \frac{ y(x_{i+1}) - y(x_{i-1}) }{2h} - \frac{h^2}{6} y'''(\xi).
+$$ {#eq-cdyp}
+
+This is known as a *centred difference formula*. Note that the "error
+term" here is of order $O(h^2)$ which is better than the $O(h)$ one
+obtains in @eq-diffquot.
+
+We can obtain a similar formula for $y''(x_i)$ as well, using a
+third-order Taylor expansion of $y$. See [@Burden_Faires Sec. 4.1,
+Eq. (4.9)] for details. The result is 
+$$
+ y''(x_i) = \frac{ y(x_{i+1}) - 2 y(x_i) + y(x_{i-1}) }{h^2} - \frac{h^2}{12} y''''(\xi)
+$$ {#eq-cdypp}
+
+with some $\xi \in [x_{i-1},x_{i+1}]$.
+
+### Recipe for the Finite Difference Method
+
+We can now formulate an outline of the FDM in our context. Starting from
+a boundary value problem of the form
+@eq-bvpfdm, we consider the $N$ equations
+
+$$
+   y''(x_i) = f\big(x_i, y(x_i), y'(x_i)\big), \quad  i = 1,\ldots,N.
+$$ {#eq-fdmstart}
+
+In order to obtain an approximate solution, we manipulate the equations
+as follows:
+
+-   Replace all occurrences of $y(x_i)$ with $w_i$.
+
+-   Replace all occurrences of $y'(x_i)$ with
+    $\dfrac{w_{i+1}-w_{i-1}}{2h}$;
+    cf. [\[eq:cdyp\]](#eq:cdyp){reference-type="eqref"
+    reference="eq:cdyp"}.
+
+-   Replace all occurrences of $y''(x_i)$ with
+    $\dfrac{w_{i+1}-2 w_i +w_{i-1}}{h^2}$;
+    cf. [\[eq:cdypp\]](#eq:cdypp){reference-type="eqref"
+    reference="eq:cdypp"}.
+
+-   Set $w_0=\alpha$, $w_{N+1}=\beta$.
+
+This will leave us with a system of $N$ equations for the $N$ variables
+$w_1,\ldots,w_N$. This equation system can either be linear, in which
+case we can apply algorithms for solving linear equation systems (see
+Part A); or it can be nonlinear, in which case we need Newton's method
+in several variables (again see Part A) to approximate the solution.
+
+The error order of this approximation scheme is determined by the
+remainder term in the centred difference formulas,
+Eqs. @eq-cdyp
+and @eq-cdypp; namely, the method is of order $O(h^2)$. However,
+we will not prove this here.
+
+### The Linear Finite Difference Method
+
+Let us first apply the recipe to a *linear* ODE, that is, to a boundary
+value problem of the form 
+$$
+ y''(x) = p(x)y'(x) + q(x) y(x) + r(x),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
+$$ {#eq-bvpfdmlin}
+
+In this case, Eq. @eq-fdmstart reads
+$$
+y''(x_i) = p(x_i) y'(x_i) + q(x_i) y(x_i) + r(x_i), \quad  i = 1,\ldots,N.
+$$
+By the substitution rules mentioned above, and with the abbreviations
+$p_i:=p(x_i)$, $q_i:=q(x_i)$, $r_i := r(x_i)$, we get:
+$$
+\dfrac{w_{i+1}-2 w_i +w_{i-1}}{h^2}
+ = p_i \dfrac{w_{i+1}-w_{i-1}}{2h} + q_i w_i + r_i, \quad  i = 1,\ldots,N.
+$$
+Multiplying with $h^2$, and bringing all $w_j$ to the left-hand side, we
+can rewrite this as 
+$$
+w_{i+1}-2 w_i +w_{i-1} - \frac{h}{2}p_i w_{i+1} 
++ \frac{h}{2}p_i w_{i-1} -  h^2 q_i w_i = h^2 r_i,
+$$
+or
+
+$$
+  +  w_{i-1} (-1- \frac{h}{2}p_i)  = - h^2 r_i,\quad  i = 1,\ldots,N.
+$$ {#eq-fdmlinsys}
+
+Note here that $w_{i-1}$ may be $w_0$ (if $i=1$) and $w_{i+1}$ may be
+$w_{N+1}$ (if $i=N$). So not all $w_j$ are variables, some need to be
+replaced with the boundary values $\alpha$ and $\beta$. Keeping this in
+mind, we can rewrite the equation system
+@eq-fdmlinsys in matrix form: 
+$$
+\begin{gathered}
+\underbrace{ \begin{pmatrix}
+2+h^2 q_1 & -1+\frac{h}{2} p_1 & 0 & \hdots & 0
+\\
+-1-\frac{h}{2}p_2 & 2 + h^2 q_2 & -1+\frac{h}{2} p_2 & 0 & \vdots \\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & 0 &  -1-\frac{h}{2}p_{N-1} & 2 + h^2 q_{N-1} & -1+\frac{h}{2}
+p_{N-1}\\
+ 0 & \hdots & 0 & -1-\frac{h}{2}p_N & 2 + h^2 q_N   
+\end{pmatrix} }_{=:\mathbf{A}}
+ \mathbf{w}
+%
+\\
+%
+=\underbrace{ \begin{pmatrix}
+%
+-h^2 r_1 + (1+\frac{h}{2}p_1)\alpha  
+\\
+-h^2 r_2
+\\
+\vdots
+\\
+-h^2 r_{N-1}
+\\
+-h^2 r_N + (1-\frac{h}{2}p_N)\beta  
+%
+\end{pmatrix} }_{=:\mathbf{b}}
+.
+%
+\end{gathered}
+$$
+The matrix $\mathbf{A}$ is tridiagonal. Therefore, we
+can use fast algorithms e.g. Crout factorization) in order to solve the
+linear equation system, and obtain the vector
+$\mathbf{w}=(w_1,\ldots,w_N)$ in $O(N)$ time. This directly gives us the
+required approximation of the solution $y(x)$.
+
+### The Nonlinear Finite Difference Method
+
+Let us now discuss the case of a completely generic, possibly nonlinear
+ODE. As before, we set out from the $N$ equations in
+@eq-fdmstart. Again we substitute the function $y$ and its
+derivatives with $w_i$ and their finite differences. However, in absence
+of more information about the function $f$, we end up with just
+$$
+\dfrac{w_{i+1}-2 w_i +w_{i-1}}{h^2} = 
+   f\Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big), 
+   \quad  i = 1,\ldots,N.
+$$
+We can rewrite this in a more convenient
+form: 
+$$
+   \quad  i = 1,\ldots,N.
+$$ {#eq-Fdef}
+ Our task is now to solve the nonlinear
+equation system $\mathbf{F}(\mathbf{w})=0$ for
+$\mathbf{w}=(w_1,\ldots,w_N)$, where it is understood that $w_0=\alpha$
+and $w_{N+1}=\beta$.
+
+We will do this with the $N$-dimensional version of Newton's method, as
+discussed in Part A. To that end, we need to compute the Jacobian matrix
+of $\mathbf{F}$; that is, we need to compute all the partial derivatives
+$\partial F ^{(i)}/\partial w ^{(j)}$. Fortunately, most of these turn
+out to vanish. We compute from
+@eq-Fdef,
+$$
+\begin{aligned}
+\label{eq:Fder1}
+  \frac{\partial F ^{(i)}}{\partial w ^{(i+1)}}
+   &= -1  + \frac{h}{2} \frac{\partial f}{\partial y'} \Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big) \quad &\text{for } i=1,\ldots,N-1,
+\\ \label{eq:Fder2}
+  \frac{\partial F ^{(i)}}{\partial w ^{(i-1)}}
+   &= -1  - \frac{h}{2} \frac{\partial f}{\partial y'} \Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big) \quad &\text{for } i=2,\ldots,N,
+\\ \label{eq:Fder3}
+  \frac{\partial F  ^{(i)}}{\partial w ^{(i)}}
+   &= \hphantom{-} 2  + h^2 \frac{\partial f}{\partial y} \Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big) \quad &\text{for } i=1,\ldots,N.
+\end{aligned}
+$$
+All other partial derivatives are 0. That is, the
+Jacobian matrix $\mathbf{J}=\partial \mathbf{F}/\partial\mathbf{w}$ is
+tridiagonal. This allows us to solve the linear system involved in each
+step of the Newton iteration very fast.
+
+For doing the Newton iteration, we need a sensible start value for the
+vector $\mathbf{w}$. A common choice is to place the points
+$(x_i,w ^{(i)})$ on a straight line from $(a,\alpha)$ to $(b,\beta)$:
+$$
+w ^{(i)}_0 = \alpha + i h \frac{\beta-\alpha}{b-a}.
+$$
+
+::: algorithm
+::: algorithmic
+boundary values $\alpha,\beta$; number of mesh points $N$, max. Newton
+iterations $M$ $h := (b-a)/(N+1)$; $k:=1$
+$w ^{(i)} := \alpha + i h \frac{\beta-\alpha}{b-a}$ $(i = 1,\ldots,N)$
+[]{#ali:fdmnewtonstart label="ali:fdmnewtonstart"} Compute
+$\mathbf{F}(\mathbf{w})$ and $\mathbf{J}(\mathbf{w})$ Solve
+$\mathbf{J}(\mathbf{w})\mathbf{v}=\mathbf{F}(\mathbf{w})$ for
+$\mathbf{v}$ using e.g. Crout factorization
+$\mathbf{w}:= \mathbf{w}- \mathbf{v}$ **if**
+$\lVert \mathbf{v} \rVert<T$ **then** **break** **end if** $k:=k+1$
+**if** $k>M$ **then** **exception** ("Too many iterations") **end if**
+[]{#ali:fdmnewtonend label="ali:fdmnewtonend"} $\mathbf{w}$
+:::
+:::
+
+All that's left to do is to assemble the algorithm. This is done in
+Algorithm [\[alg:fdmnonlin\]](#alg:fdmnonlin){reference-type="ref"
+reference="alg:fdmnonlin"}. The pattern follows our usual approach to
+Newton's method.
+
+In each step of the Newton iteration, we need to solve one linear
+equation system. We can use e.g. the Crout factorization algorithm
+(Burden and Faires Algorithm 6.7) to this end --- this makes use of the
+fact that the Jacobian is tridiagonal, and allows every Newton step to
+run in only $O(N)$ time.
+
+## The Rayleigh-Ritz Method {#sec-rritz}
+
+The third, and radically different, approximation method for BVPs that
+we will discuss is called the *Rayleigh-Ritz method*.
+
+### Motivation
+
+We start with a brief motivation originating in physics, or in
+engineering. Consider a beam of length $L$, fixed at both end points,
+which is deflected under its own weight. Denote with $y(x)$,
+$0 \leq x \leq L$, the deflection of the beam at point $x$. There are
+two complementary approaches of finding $y(x)$.
+
+a\) One may think of the problem in terms of a *local equilibrium of
+forces*. Several types of forces act at each point $x$ of the beam - the
+gravitational force (downwards), but also forces relating to the
+elasticity of the beam, which pull the deflected beam upwards. In the
+rest position of the beam, the sum of these forces will be 0 at each
+point. This leads us to an ODE of the form $y''(x) = f(x,y(x),y'(x))$
+(we do not specify the function $f$ further here). The ends of the beam
+are fixed, so we are enforcing $y(0)=y(L)=0$. Thus, we are dealing with
+a boundary value problem for an ODE.
+
+b\) Particularly in physics, one alternatively thinks of the situation
+as an *energy minimization problem*. The total energy of the beam will
+consist of its energy in the gravitational field, and of the energy
+associated with elasticity. We can associate with each point of the beam
+an *energy density*, $\lambda$, which depends on the deflection $y$. It
+will roughly have the form 
+$$
+\lambda  = c y'(x)^2 - d y(x) + \ldots
+$$
+with constants $c$ and $d$, where the term proportional to $(y'(x))^2$
+comes from elasticity, and the term proportional to $y$ from
+gravitation. (We are not interested in the form of $\lambda$ in detail
+here). The rest position of the beam is now found by the requirement
+that the *total energy* of the beam is minimal. This total energy is
+found by integrating $\lambda$ over the length of the beam:
+
+$$
+   E = \int_0^L \lambda (y(x),y'(x)) \, \mathrm{d}x
+$$ {#eq-eint}
+ So we are left with
+the problem of finding the function $y(x)$ that minimizes the integral
+@eq-eint,
+while satisfying the boundary conditions $y(0)=y(L)=0$.
+
+This example -- which is added here only for illustration -- raises an
+interesting mathematical question: Can we, under more general
+conditions, rewrite a boundary value problem for an ODE equivalently as
+a minimization problem for an integral expression? If yes, we can try to
+approximate the integral expression numerically (rather than the BVP),
+which may offer new options for numerical methods.
+
+### Equivalence of BVPs with minimization problems
+
+In this section, we will specialize to a boundary value problems of the
+following form (a so-called *Sturm-Liouville problem*): 
+$$
+  - \frac{ \mathrm{d}^{}  }{\mathrm{d}x^{} } \left(p(x) \frac{ \mathrm{d}^{} y }{\mathrm{d}x^{} } (x)\right)+q(x)y(x)=f(x), 
+\quad 0 \leq x \leq 1, \quad
+y(0)=y(1)=0.
+$$ {#eq-e1}
+Here $p$, $q$ and $f$ are sufficiently smooth functions
+from $[0,1]$ to $\mathbb{R}$; for details see below. We can reformulate
+this BVP as a minimization problem for an integral expression: The
+solution $y(x)$ minimizes the integral 
+$$
+  I[\phi]
+  =\int_0^1\Big(p(x) (\phi'(x))^2+q(x)
+  \phi(x)^2-2f(x)\phi(x)\Big)dx;
+$$ {#eq-int}
+ over all functions $\phi$ that satisfy the boundary conditions
+that is, if $\phi$ is any function
+satisfying the boundary conditions, then one has $I[y] \leq I[\phi]$.
+
+More precisely, let $\mathcal{C}^2_0[0,1]$ denote the space of
+$\mathcal{C}^2$ functions on $[0,1]$ that vanish at the endpoints of the
+interval. One has:
+
+::: {#it:miniunique .theorem}
+**Theorem 11**. *[]{#thm:rrequiv label="thm:rrequiv"} Let
+$p \in \mathcal{C}^1[0,1]$, and $q,f \in \mathcal{C}[0,1]$. Further,
+suppose that there exists a constant $\delta>0$ such that
+$$
+\forall  x \in [0,1]: \quad p(x) \geq \delta, \; q(x) \geq 0.
+$$
+Then,
+for any function $y \in \mathcal{C}^2_{0}[0,1]$, the following
+conditions are equivalent.*
+
+(i) *[]{#it:bvpunique label="it:bvpunique"} $y$ is the unique solution
+    of the boundary value problem in
+    Eq. [\[e1\]](#e1){reference-type="eqref" reference="e1"}.*
+
+(ii) *$y$ is the unique function in $\mathcal{C}^2_{0}[0,1]$ which
+     minimizes the integral $I[y]$ in
+     Eq. [\[int\]](#int){reference-type="eqref" reference="int"}.*
+:::
+
+::: proof
+*Proof.* Here we prove only ([11](#it:miniunique){reference-type="ref"
+reference="it:miniunique"}) $\Rightarrow$
+([\[it:bvpunique\]](#it:bvpunique){reference-type="ref"
+reference="it:bvpunique"}), neglecting the aspect of uniqueness. For a
+full proof, see [@Burden_Faires Theorem 11.4] and references quoted there.
+
+If $y$ minimizes the integral $I[y]$, then for any fixed
+$u \in \mathcal{C}^2_0[0,1]$, the function
+$$
+\epsilon \mapsto I[y+\epsilon u]
+$$
+has a minimum at $\epsilon=0$.
+Therefore, its derivative at $\epsilon=0$ must vanish:
+
+$$
+\begin{aligned}
+ 0 &= \frac{\mathrm{d}}{\mathrm{d}\epsilon} I[y+\epsilon u] \Big\lvert_{\epsilon=0}
+\\
+ &= \frac{\mathrm{d}}{\mathrm{d}\epsilon}\Big\lvert_{\epsilon=0}
+   \int_0^1 \Big(p(x) (y'(x) + \epsilon u'(x))^2 
+   + q(x) (y(x) + \epsilon u(x))^2 - 2(y(x)+\epsilon u(x)) f(x)\Big)  dx
+\\
+ &\overset{\text{\footnotemark})}{=}  \int_0^1 \Big(2 p(x) (y'(x) + \epsilon u'(x)) u'(x) 
+   + 2 q(x) (y(x) + \epsilon u(x)) u(x) - 2 u(x) f(x)\Big)  \Big\lvert_{\epsilon=0} dx
+\\
+ &=  2 \int_0^1 \Big(p(x) y'(x) u'(x) 
+   + q(x) y(x) u(x) - u(x) f(x)\Big)  dx.
+\end{aligned}
+$$
+We integrate by parts in the first term of the integral,
+$(p(x)y'(x))u'(x)$, noting that the boundary terms vanish since
+$u(0)=u(1)=0$. This gives 
+$$
+0 = \int_0^1 \Big( -(p(x) y'(x))'  
+   + q(x) y(x)  - f(x)\Big) u(x)  \,dx
+$$
+Since this holds for all
+$u \in \mathcal{C}^2_0[0,1]$, and since all functions under the integral
+sign are continuous, we can conclude that 
+$$
+0 =  -(p y')'  + q y  - f
+$$
+on the entire interval $[0,1]$, which is what we wanted to show. ◻
+:::
+
+### Approximating the integral
+
+The Rayleigh-Ritz method makes use of the equivalence stated in
+Theorem [\[thm:rrequiv\]](#thm:rrequiv){reference-type="ref"
+reference="thm:rrequiv"}. The idea is to approximate the function that
+minimizes the integral $I[\phi]$, rather than approximating the boundary
+value problem directly. That is, we try to find functions $\phi$ that
+make $I[\phi]$ as small as possible.
+
+Of course, we cannot try *all* functions in the infinite dimensional
+vector space $\mathcal{C}^2_{0}[0,1]$. Rather we choose a set of $N$
+linearly independent functions ("basis functions"[^17]) $\phi_i$ with
+$\phi_i(0)=\phi_i(1)=0$, and use an arbitrary linear combination
+$$
+  \phi(x)=\sum_{i=1}^N c_i\phi_i(x)
+$$ {#eq-trialf}
+ of these functions as our trial function. The coefficients $c_i$ are
+to minimize the integral. There is
+a large freedom of choice for the functions $\phi_j$, and this can be
+exploited to adapt the approximation method to our needs. We leave the
+choice of $\phi_j$ open for the moment, and will fix them later on.
+
+Substituting the trial function
+[\[trialf\]](#trialf){reference-type="eqref" reference="trialf"} into
+$I[\phi]$ in [\[int\]](#int){reference-type="eqref" reference="int"}
+gives
+$$
+I[\phi]=\int_0^1\left(p(x)\bigg(\sum_{i=1}^N c_i\phi'_i(x)\bigg)^2
+  +q(x)\bigg(\sum_{i=1}^N c_i\phi_i(x)\bigg)^2
+  -2f(x)\sum_{i=1}^N c_i\phi_i(x)\right)dx.
+$$
+We now minimize over the
+real parameters $c_i$. They will be fixed by the necessary requirement
+for having an extremum, namely, that all partial derivatives vanish,
+$$
+\begin{gathered}
+ 0=\frac{\partial I[\phi]}{\partial c_j}
+ =\int_0^1\left(2p(x)\sum_{i=1}^Nc_i\phi'_i(x)\phi'_j(x)
+ +2q(x)\sum_{i=1}^Nc_i\phi_i(x)\phi_j(x)-2f(x)\phi_j(x)\right)dx
+ \\\text{ for all }j=1,\dots,N.
+\end{gathered}
+$$
+This is a linear system of the form 
+$$
+ \sum_{i=1}^N A ^{(j,i)}c ^{(i)}=b ^{(j)},~~~~j=1,\dots,N,
+$$ {#eq-e3}
+ where
+$$
+\begin{aligned}
+\label{eq:ea}
+ A ^{(j,i)}&=\int_0^1\Big(p(x)\phi'_i(x)\phi'_j(x)+q(x)\phi_i(x)\phi_j(x)\Big)dx,\\
+ \label{eq:eb}
+ b ^{(j)}&=\int_0^1 f(x)\phi_j(x) dx.
+\end{aligned}
+$$
+Once the basis functions $\phi_j$ are chosen, we can
+compute the components of $\mathbf{A}$ and $\mathbf{b}$, solve the
+linear system @eq-e3 for $\mathbf{c}$, and then obtain the approximation
+function $\phi$ from [\[trialf\]](#trialf){reference-type="eqref"
+reference="trialf"}.
+
+### Choosing the basis functions
+
+The question is now how to choose the functions $\phi_j$ so that we get
+a reasonable numerical approximation of the solution $y(x)$, which is
+furthermore fast to compute. Our requirements are:
+
+-   The $\phi_j$ need to satisfy the boundary conditions:
+    $\phi_j(0)=\phi_j(1)=0$.
+
+-   They should be sufficiently smooth. Note that, for purposes of
+    numerical approximation, it is not be necessary to require two
+    continuous derivatives (as for the ODE solution). Since we deal only
+    with integral expressions in $\phi_j$ and $\phi_j'$, it should
+    suffice if $\phi_j$ has one derivative that exists almost everywhere
+    and is piecewise continuous, or at least integrable.
+
+-   They should be designed so that their linear combinations can
+    approximate a wide range of functions. (This may seem a bit vague;
+    but e.g. choosing all the $\phi_j$ with support in the interval
+    $[0,\frac{1}{2}]$ would clearly be a bad idea.)
+
+-   They should be simple enough so that the integrals for $A ^{(i,j)}$
+    and $b ^{(j)}$ in Eqs. [\[eq:ea\]](#eq:ea){reference-type="eqref"
+    reference="eq:ea"} and [\[eq:eb\]](#eq:eb){reference-type="eqref"
+    reference="eq:eb"} can reasonably be evaluated - if possible,
+    explicitly.
+
+-   If possible, not many of them should have overlapping support, so
+    that the matrix $\mathbf{A}$ is sparse, i.e., many of its entries
+    are zero. This will make the linear equation system in
+    Eq. @eq-e3
+    fast to solve.
+
+A simple choice of basis functions, satisfying the above requirements,
+are the piecewise linear functions 
+$$
+\phi_i(x)=\left\{\begin{array}{ll}
+ 0&\mbox{if }0\leq x\leq x_{i-1};\\
+ \frac{1}{h_{i-1}}(x-x_{i-1})&\mbox{if }x_{i-1}< x\leq x_{i};\\
+ \frac{1}{h_{i}}(x_{i+1}-x)&\mbox{if }x_{i}< x\leq x_{i+1};\\
+ 0&\mbox{if }x_{i+1}< x\leq 1
+ \end{array}\right.
+$$
+for some conveniently chosen mesh points
+$$
+0=x_0<x_1<x_2<\dots<x_N<x_{N+1}=1.
+$$
+The $h_i$ are the distances
+between neighbouring mesh points, $h_i=x_{i+1}-x_i$; note that the mesh
+points need not be equally spaced. These basis functions $\phi_i$ have
+simple piecewise constant derivatives,
+$$
+\phi'_i(x)=\left\{\begin{array}{ll}
+ 0&\mbox{if }0 < x < x_{i-1},\\
+ \frac{1}{h_{i-1}}&\mbox{if }x_{i-1}< x <  x_{i},\\
+ -\frac{1}{h_{i}}&\mbox{if }x_{i}< x < x_{i+1},\\
+ 0&\mbox{if }x_{i+1} < x < 1.
+ \end{array}\right.
+$$
+A particular simplifying feature of this set of
+basis functions is that only neighbouring functions have any overlap,
+i.e., 
+$$
+\phi_i(x)\phi_j(x)=0 ~~\text{ and }~~
+ \phi'_i(x)\phi'_j(x)=0~~\text{ unless }j\in\{i-1,i,i+1\}.
+$$
+This
+implies that the matrix $\mathbf{A}$ is tridiagonal. To calculate the
+entries of $\mathbf{A}$ and $\mathbf{b}$ in
+@eq-ea and
+@eq-eb, the
+following integrals need to be evaluated: 
+$$
+\begin{aligned}
+ Q_{1,i} &= \left(\frac{1}{h_i}\right)^2\int_{x_i}^{x_{i+1}}
+  (x_{i+1}-x)(x-x_i)q(x)dx,\\
+ Q_{2,i} &= \left(\frac{1}{h_{i-1}}\right)^2\int_{x_{i-1}}^{x_{i}}
+  (x-x_{i-1})^2q(x)dx,\\
+ Q_{3,i} &= \left(\frac{1}{h_{i}}\right)^2\int_{x_{i}}^{x_{i+1}}
+  (x_{i+1}-x)^2q(x)dx,\\
+ Q_{4,i} &= \left(\frac{1}{h_{i-1}}\right)^2\int_{x_{i-1}}^{x_{i}}
+  p(x)dx,\\
+ Q_{5,i} &= \frac{1}{h_{i-1}}\int_{x_{i-1}}^{x_{i}}
+  (x-x_{i-1})f(x)dx,\\
+ Q_{6,i} &= \frac{1}{h_{i}}\int_{x_{i}}^{x_{i+1}}
+  (x_{i+1}-x)f(x)dx.
+\end{aligned}
+$$
+Then 
+$$
+\begin{aligned}
+ A ^{(i,i)}&=Q_{4,i}+Q_{4,i+1}+Q_{2,i}+Q_{3,i},~~~&i&=1,\dots,N,\\
+ A ^{(i,i+1)}&=-Q_{4,i+1}+Q_{1,i},~~~&i&=1,\dots,N-1,\\
+ A ^{(i,i-1)}&=-Q_{4,i}+Q_{1,i-1},~~~&i&=2,\dots,N,\\
+ b ^{(i)}&=Q_{5,i}+Q_{6,i},~~~&i&=1,\dots,N.
+\end{aligned}
+$$
+One way to evaluate the $6N$ integrals is to approximate
+the functions $q(x)$, $p(x)$, and $f(x)$ by their linear interpolating
+polynomials. That is, we write
+$$
+q(x)=\sum_{i=0}^{N+1}q(x_i)\phi_i(x)+O(h^2),
+$$
+and similarly for $p$
+and $f$, where the $\phi_i$ are as given above for $i=1,\dots,N$, and
+$$
+\begin{aligned}
+ \phi_0(x)&=\left\{\begin{array}{ll}
+  \frac{x_1-x}{x_1}&\text{if }0\leq x\leq x_1,\\
+  0&\text{elsewhere};\end{array}\right.
+  \\
+  \phi_{N+1}(x)&=\left\{\begin{array}{ll}
+  \frac{x-x_N}{1-x_N}&\text{if }x_N\leq x\leq 1,\\
+  0&\text{elsewhere}.\end{array}\right.
+\end{aligned}
+$$
+The integrals are now trivial to evaluate, for example
+$$
+\begin{aligned}
+ Q_{1,i} &= \left(\frac{1}{h_i}\right)^2\int_{x_i}^{x_{i+1}}
+  (x_{i+1}-x)(x-x_i)q(x)dx\\ 
+  &\approx\left(\frac{1}{h_i}\right)^2\int_{x_i}^{x_{i+1}}
+  (x_{i+1}-x)(x-x_i)\left(
+  q(x_i)\frac{x_{i+1}-x}{h_i}+q(x_{i+1})\frac{x-x_i}{h_i}
+  \right)dx\\ 
+  &=\frac{h_i}{12}\left(q(x_i)+q(x_{i+1})\right).
+\end{aligned}
+$$
+Similarly we find[^18] 
+$$
+\begin{aligned}
+ Q_{2,i}&\approx\frac{h_{i-1}}{12}\left(3q(x_i)+q(x_{i-1})\right),\\
+ Q_{3,i}&\approx\frac{h_{i}}{12}\left(3q(x_i)+q(x_{i+1})\right),\\
+ Q_{4,i}&\approx\frac{1}{2 h_{i-1}}\left(p(x_i)+p(x_{i-1})\right),\\
+ Q_{5,i}&\approx\frac{h_{i-1}}{6}\left(2f(x_i)+f(x_{i-1})\right),\\
+ Q_{6,i}&\approx\frac{h_{i}}{6}\left(2f(x_i)+f(x_{i+1})\right).
+\end{aligned}
+$$
+After this calculation, we can now simply solve the
+linear system @eq-e3 for the coefficients $\mathbf{c}=(c_i)$ in the trial
+function in order to find the approximation
+$$
+y(x)\approx\sum_{i=1}^N c_i\phi_i(x).
+$$
+An example for a computer
+implementation of the algorithm will be discussed in the Practicals.
+
+
+[^15]: *To explain the notation: These are the partial derivatives of
+    $f$ by its second and third argument, respectively.*
+
+[^16]: Note the change of convention: Our step size is now
+    $h = (b-a)/(N+1)$, and we have $N+2$ (not $N+1$) mesh points, of
+    which $N$ are inside the interval $(a,b)$. This convention, which we
+    shall use from now on, is very useful for boundary value problems:
+    the function $y$ needs to be determined at $x_1,\ldots,x_N$ but is
+    already known at $x_0$ and $x_{N+1}$.
+
+[^17]: While these are usually called "basis functions", e.g. in
+    [@Burden_Faires], they are of course not a basis of the space
+    $\mathcal{C}^2_{0}[0,1]$.
+
+[^18]: Note that Burden/Faires [@Burden_Faires] reports the formula for
+    $Q_{4,i}$ incorrectly.
+
+[^19]: In the form presented here, the equation is actually explicitly
+    solvable in terms of a Fourier series. One might ask therefore why
+    numerical approximation methods are necessary. The answer is that
+    the boundary conditions $u(0,t) = u(L,t) = 0$ chosen here are rather
+    simplistic, which was done to simplify the discussion. But the
+    numerical method can be generalized to more intricate boundary
+    conditions where an explicit solution is no longer feasible.

@@ -1,0 +1,397 @@
+# Partial Differential Equations
+
+## Partial differential equations: Overview {#sec-pdeoverview}
+
+We will now consider approximation methods for *partial* differential
+equations (PDEs). An example for a PDE -- familiar from the first-year
+Calculus course -- is the heat equation:
+$$
+\frac{\partial^2}{\partial x^2} u(x,t) = \kappa \frac{\partial}{\partial t} u(x,t)
+$$ {#eq:heat}
+with some constant $\kappa > 0$. PDEs like the above are defined on a
+certain region in the $x$-$t$-plane (or analogously in more than 2
+dimensions), and are always complemented by some kind of boundary
+conditions on the boundary of that region.
+
+We will try to generalize our methods for boundary value problems of
+ODEs to the case of PDEs. The BVP methods we have discussed are:
+
+-   the Shooting method,
+
+-   the Finite Difference method,
+
+-   the Rayleigh-Ritz method.
+
+Unfortunately, there is no obvious generalization of the Shooting method
+to PDEs; the concept of transforming a boundary value problem into an
+initial value problem does not work in this context.
+
+However, the Finite Difference method can be generalized to PDEs. To
+that end, we would first need to define a suitable notion of mesh
+points. Instead of dividing an interval into equally spaced
+subintervals, we now need to divide a region in two variables (say, a
+rectangle) with an equally spaced *grid* of mesh points. Then, as
+before, one can replace the value of $u$ at mesh points with an
+approximation value, and the derivatives of $u$ with finite difference
+quotients, and finally solve a (linear) equation system to obtain the
+approximation values numerically. We will discuss this more in detail in
+later sections.
+
+The Finite Difference method has limitations when the region in question
+is not as simple as a rectangle, but is irregularly shaped. In this
+case, it may not be possible to divide it reasonably with an equally
+spaced grid, or the mesh points at the edge of the grid may not be
+located exactly on the boundary (which poses problems when interpreting
+the boundary values). In these cases, generalizations of the
+Rayleigh-Ritz method can successfully be used, the so-called *Finite
+Element methods*. Note that in the Rayleigh-Ritz method, there was a
+large freedom of choosing the basis functions $\phi_j$, and even when
+restricting to piecewise linear functions, the mesh points $x_i$ did not
+need to be equally spaced. Likewise, in the multi-dimensional
+generalizations, one can exploit this freedom to adapt the choice of
+mesh points to a (possibly irregular) boundary. Finite Element methods
+are the most advanced numerical methods for solving PDEs, and we will
+not discuss them in detail here; see, e.g., [@Burden_Faires Ch. 12.4] for
+an introduction.
+
+## Elliptic PDEs
+
+In this section, we will generalize the Finite Difference method to a
+very specific PDE, namely the Poisson equation. This equation for a
+function $u$ of two variables $x$ and $y$ has the form
+
+$$
+\begin{split}
+&\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = f(x,y) \\
+ &\text{on } R := \{ (x,y) : a \leq x \leq b, c \leq y \leq d \},\\
+ &u(x,y) = g(x,y) \text{ for } x \in \partial R.
+\end{split}
+$$ {#eq-poisson}
+ Here $f$ and $g$ are given functions of two variables,
+and $\partial R$ denotes the boundary of $R$, that is, the four line
+segments 
+$$
+x=a, c \leq y \leq d; \quad 
+ x=b, c \leq y \leq d; \quad
+ a \leq x \leq b,  y=c; \quad
+ a \leq x \leq b,  y=d.
+$$ {#eq-poissonboundary}
+
+The equation @eq-poisson is, in the case $f=0$, also known as the
+*Laplace equation*. It is a typical example of the larger class of
+*elliptic* differential equations, and the methods we will discuss here
+apply to other elliptic equations as well.
+
+We will try to set up a Finite Difference method to approximate the
+solution of @eq-poisson, following our recipe from @sec-fdm. To that
+end, we first have to specify what our mesh points are. Instead of
+partitioning the interval $[a,b]$, they will now need to partition the
+rectangle $R$. To this end, we choose *two* numbers of steps, $N$ and
+$M$, associated with the $x$ and $y$ direction respectively, and two
+corresponding step sizes
+$$
+h := \frac{b-a}{N+1}, \quad k := \frac{d-c}{M+1}.
+$$
+We then define
+$N \times M$ mesh points $(x_i, y_j)$ as
+$$
+(x_i, y_j) = (a + i h, c + j k), \quad 1 \leq i \leq N, \; 1 \leq j \leq M.
+$$
+These lie on a rectangular grid within the rectangle $R$.
+
+Our next step is to approximate the relevant derivatives of $u$ at the
+mesh points. We use the centred difference formula
+@eq-cdypp
+twice, once in $x$ direction (at fixed $y$) and once in $y$ direction
+(at fixed $x$). This gives 
+$$
+\begin{aligned}
+ \label{eq:cdx}
+ \frac{\partial^2 u}{\partial x^2} (x_i,y_j) 
+  = \frac{ u(x_{i+1},y_j) - 2 u(x_i,y_j) + u(x_{i-1},y_j) }{h^2} - \frac{h^2}{12} \frac{\partial^4 u}{\partial x^4}(\xi_i,y_j),
+  \\ \label{eq:cdy}
+ \frac{\partial^2 u}{\partial y^2} (x_i,y_j) 
+  = \frac{ u(x_{i},y_{j+1}) - 2 u(x_i,y_j) + u(x_{i},y_{j-1}) }{k^2} - \frac{k^2}{12} \frac{\partial^4 u}{\partial y^4}(x_i,\eta_j),
+\end{aligned}
+$$
+with (unknown) intermediate points $\xi_i,\eta_j$.
+
+Again following our recipe, we will approximate the solution at mesh
+points $u(x_i,y_j)$ with approximation values $w_{i,j}$. In the PDE
+@eq-poisson, we then replace $u(x_i,y_j)$ with $w_{i,j}$ and
+the derivatives of $u$ with the expressions
+@eq-cdx,
+@eq-cdy, but
+leaving away the remainder terms of order $O(h^2)+O(k^2)$. This yields
+the following equations for the $w_{i,j}$:
+$$
+\frac{ w_{i+1,j} - 2 w_{i,j} + w_{i-1,j} }{h^2} + \frac{ w_{i,j+1} - 2 w_{i,j} + w_{i,j-1} }{k^2} = f(x_i,y_j),
+ \quad 1 \leq i \leq N, \; 1 \leq j \leq M.
+$$
+or, after multiplying with
+$-h^2$, 
+$$
+ 2 \Big(\big(\tfrac{h}{k}\big)^2+1\Big) w_{i,j} -  w_{i+1,j} - w_{i-1,j}  -  \big(\tfrac{h}{k}\big)^2 w_{i,j+1} - \big(\tfrac{h}{k}\big)^2 w_{i,j-1}  = -h^2 f(x_i,y_j).
+$$ {#eq-elldifference}
+
+The boundary conditions are then expressed by setting the values of
+$w_{i,j}$ for $i=0$, $j=0$, $i=N+1$ or $j=M+1$ to the required boundary
+values: 
+$$
+\end{aligned}
+$$ {#eq-ellboundary}
+ Together,
+@eq-elldifference and
+@eq-ellboundary form a linear equation system that can be
+solved to obtain approximation values $w_{i,j}$. To that end, it may be
+useful to renumber the "double indices" $i,j$ with a single index,
+setting, e.g., $\ell := N(i-1)+j$. The index $k$ then runs from $1$ to
+$NM$, and we may rewrite the equation system as
+$\mathbf{A}\mathbf{w}= \mathbf{b}$ with a $NM \times NM$ matrix
+$\mathbf{A}$ and a vector $\mathbf{b}\in\mathbb{R}^{NM}$.
+
+Like in the one-dimensional case, the matrix $\mathbf{A}$ is sparse,
+that is, many of its entries are known to be zero. (It is not
+tridiagonal, however.) This makes the system
+$\mathbf{A}\mathbf{w}= \mathbf{b}$ fast to solve. Nevertheless, it is
+evident that the number of mesh points (and hence of vector dimensions)
+can become rather large quite easily, which sets practical limits to the
+accuracy of this and other approximation methods for PDEs.
+
+## Parabolic PDEs
+
+As a second class of PDEs to be treated with the Finite Difference
+method, we consider *parabolic PDEs*. A typical example -- and the only
+one we will consider -- is the one-dimensional *heat equation* (also
+known as *diffusion equation*). This equation for a function $u$ of two
+variables $x$ and $t$ has the form[^19] 
+$$
+ \end{aligned}
+$$ {#eq-heat}
+ The boundary of the region $R$ consists of *three*
+pieces here. One also refers to the condition $u(x,0) = g(x)$ as
+*initial condition*; as we will see, it has some similarities to initial
+conditions for ODEs.
+
+In applications, $u(x,t)$ might have the interpretation of a local
+temperature -- say, in a homogeneous wall of width $L$ --, depending on
+the spatial position $x$ and on time $t$. The initial condition is the
+temperature in the wall at time 0, and the remaining boundary conditions
+represent the temperature of the environment, depending on time $t$.
+
+Again, we will set up a Finite Difference method to approximate the
+solution of @eq-heat, following our recipe from
+@sec-fdm. As a first
+step, we restrict the region $R$ to a rectangle, introducing the
+condition $0 \leq t \leq T$ (with some fixed $T>0$). Then, as for the
+Laplace equation, we introduce two numbers of steps, $N$ and $M$,
+associated with the $x$ and $t$ direction respectively, and two
+corresponding step sizes 
+$$
+h := \frac{L}{N+1}, \quad k := \frac{T}{M}
+$$
+(note the slightly different convention for $k$ from before). Once more,
+we define mesh points $(x_i, t_j)$ as
+$$
+(x_i, t_j) = (i h, j k), \quad 0 \leq i \leq N+1, \; 0 \leq j \leq M.
+$$
+
+The next step is to approximate the derivatives of $u$, and here the
+very specific properties of the equation
+@eq-heat show
+up. In the variable $x$, we once more use the centred difference formula
+@eq-cdypp,
+leading to 
+$$
+  = \frac{ u(x_{i+1},t_j) - 2 u(x_i,t_j) + u(x_{i-1},t_j) }{h^2} + O(h^2).
+$$ {#eq-heatfdx}
+
+However, for the derivative by $t$, we cannot follow the same approach.
+The problem here is that the centred difference formula for the first
+derivative would involve $u(x_i,t_{j+1})$ and $u(x_i,t_{j-1})$, but we
+have only *one* boundary (or initial) condition to fix the value if the
+mesh point is on the boundary of $R$, and this would lead to an
+under-determined linear equation system later. As a way out, we use the
+(much simpler) *forward difference formula*, 
+$$
+  = \frac{ u(x_{i},t_{j+1}) -  u(x_i,t_j) }{k} + O(k).
+$$ {#eq-heatfdt}
+
+
+Further following our recipe, we insert the finite difference formulas
+@eq-heatfdx and
+@eq-heatfdt into the PDE
+@eq-heat,
+then replace $u(x_i,y_j)$ with approximation values $w_{i,j}$ and leave
+away the remainder terms of order $O(h^2)+O(k)$. This yields the
+following equations for the $w_{i,j}$:
+$$
+\alpha^2 \frac{ w_{i+1,j} - 2 w_{i,j} + w_{i-1,j} }{h^2} = \frac{ w_{i,j+1} - w_{i,j} }{k} ,
+ \quad 1 \leq i \leq N, \; 0 \leq j < M.
+$$
+or, setting
+$\lambda := \alpha^2 k / h^2$, 
+$$
+  w_{i,j+1} = (1-2\lambda) w_{i,j} + \lambda (w_{i+1,j}+w_{i-1,j})
+$$ {#eq-fwdifference}
+
+where $w_{0,j}=w_{N+1,j}=0$ for all $j$ (boundary condition) and
+$w_{i,0} = g(x_i)$ for all $i$ (initial condition).
+
+An interesting point is that the linear equation system
+@eq-fwdifference is extremely easy to solve: Namely,
+inserting the known values $w_{i,0}$ into the right-hand side gives us
+$w_{i,1}$ for all $i$; again inserting these into the right hand side
+gives us $w_{i,2}$ for all $i$; and so forth. We can rewrite this
+procedure in matrix form: Setting 
+$$
+\begin{aligned}
+ \mathbf{w}_j &:= (w_{1,j},\ldots, w_{N,j}),\\
+ \mathbf{A}_+ &:= \begin{pmatrix}
+          (1-2\lambda) & \lambda&  0 & & \cdots & 0 \\
+          \lambda & (1-2\lambda) & \lambda&  0 & \cdots & 0 \\
+          0 & \lambda & (1-2\lambda) & \lambda&   \cdots & 0 \\
+       0 & \ddots & \ddots & \ddots & \ddots & \lambda \\
+          0 & \cdots & & 0 & \lambda & (1-2\lambda) 
+       \end{pmatrix} \quad \text{(an $N \times N$ matrix)},
+\end{aligned}
+$$
+we obtain the relation
+$$
+\mathbf{w}_{j+1} = \mathbf{A}_+ \mathbf{w}_j .
+$$
+Thus, starting with
+the initial value $\mathbf{w}_0$, the approximation can be obtained by
+an iterated matrix multiplication. This approximation method is called
+the *Forward Difference method*.
+
+The Forward Difference method is very simple to apply, but it has a
+major disadvantage: it becomes unstable if the the step size $k$ is not
+chosen very small (cf. Maple worksheet used in the lecture). This
+phenomenon is closely related to the one we saw for stiff equations in
+@sec-stiff. We
+will skip a more in-depth analysis here; see [@Burden_Faires Sec. 12.2].
+
+We do, however, want to present a solution to the stability problem
+here, which is similar to the one found for stiff equations: we use an
+"implicit method" for approximation, the *Backward Difference method*.
+To that end, instead of the forward difference formula
+@eq-heatfdt, we use the backward difference formula
+
+$$
+  = \frac{ u(x_{i},t_{j}) -  u(x_i,t_{j-1}) }{k} + O(k).
+$$ {#eq-heatfdtback}
+ Leaving all
+other construction steps the same, we arrive at another method of order
+$O(h^2+k)$ where the equation system
+@eq-fwdifference is now replaced by
+
+$$
+  w_{i,j-1} = (1+2\lambda) w_{i,j} - \lambda (w_{i+1,j}+w_{i-1,j}).
+$$ {#eq-bwdifference}
+
+Again, we rewrite this in matrix form: with 
+$$
+\begin{aligned}
+ \mathbf{w}_j &:= (w_{1,j},\ldots, w_{N,j}),\\
+ \mathbf{A}_- &:= \begin{pmatrix}
+          (1+2\lambda) & -\lambda&  0 & & \cdots & 0 \\
+          -\lambda & (1+2\lambda) & -\lambda&  0 & \cdots & 0 \\
+          0 & -\lambda & (1+2\lambda) & -\lambda&   \cdots & 0 \\
+       0 & \ddots & \ddots & \ddots & \ddots & -\lambda\\
+          0 & \cdots & & 0 & -\lambda & (1+2\lambda) ,
+       \end{pmatrix},
+\end{aligned}
+$$
+we can rewrite
+@eq-bwdifference as
+$$
+\mathbf{w}_{j-1} = \mathbf{A}_- \mathbf{w}_j .
+$$
+This does no longer
+explicitly give $\mathbf{w}_j$ from $\mathbf{w}_{j-1}$. However, this is
+only a matter of matrix inversion (or, equivalently, solving linear
+equation systems) as we clearly have
+$$
+\mathbf{w}_{j} = \mathbf{A}_-^{-1} \mathbf{w}_{j-1} .
+$$
+Starting from
+$\mathbf{w}_0$, this again allows us to compute all approximation values
+by iterative matrix multiplication (or iteratively solving linear
+equation systems). Since the matrix $\mathbf{A}$ is sparse
+(tridiagonal), this can be done very efficiently. Thus the Backward
+Difference method is only slightly more complex than the Forward
+Difference method. It does, however, not suffer from stability problems.
+(See again the Maple sheet used in the lecture.)
+
+We can reach a unified view of the two schemes by considering the
+$N\times N$ tridiagonal matrix 
+$$
+B=\begin{pmatrix}
+          2 & -1 &  0 & & \cdots & 0 \\
+          -1 & 2 & -1&  0 & \cdots & 0 \\
+          0 & -1 & 2 & -1&   \cdots & 0 \\
+       0 & \ddots & \ddots & \ddots & \ddots & -1\\
+          0 & \cdots & & 0 & -1 & 2
+\end{pmatrix}
+$$
+Applied to a vector $y\in\mathbb{R}^N$, it gives
+$$
+-2y_1+y_2, \dots, y_{i+1}-2y_i+y_{i+1},\dots, y_{N-1}-2y_N
+$$
+Apart
+from a factor of $1/h^2$, this is exactly the symmetric difference
+formula for the second derivative, applied the sequence of values
+$0,y_1,y_2,\dots,y_N,0$.
+
+Consider Euler's method, with step length $k$:
+$$
+\mathbf{w}_{j+1}=\mathbf{w}_j+k(\text{derivative})
+$$
+In our problem,
+the time derivative is $\alpha^2$ times the second space derivative,
+which can be calculated using the matrix $B$. Once the scale factors are
+taken into account, Euler's method leads us to
+$$
+\mathbf{w}_{j+1}=\mathbf{w}_j+\lambda B\mathbf{w}_j=(I+\lambda B)\mathbf{w}_j=A_+\mathbf{w}_j
+$$
+which is exactly the forward difference method above. The backward
+difference method is given by
+$$
+\mathbf{w}_{j+1}=\mathbf{w}_j+\lambda B\mathbf{w}_{j+1}
+$$
+in which we
+think of the one-sided difference quotient as an approximation for the
+derivative at the eight-hand endpoint, not the left-hand endpoint. This
+rearranges to
+$$
+(I-\lambda B)\mathbf{w}_{j+1}=\mathbf{w}_j; \qquad A_-\mathbf{w}_{j+1}
+$$
+which is exactly the backward difference method above. As a single-step
+method for ODEs, this is known as the backward Euler or implicit Euler
+method.
+
+Finally, analogously to the implicit trapezoidal method, we can use the
+average of the steps from the forward and backward difference method to
+give the Crank-Nicolson method.
+$$
+\mathbf{w}_{j+1}=\mathbf{w}_j+\frac{1}{2}\left(\lambda B\mathbf{w}_j+\lambda B\mathbf{w}_{j+1}\right)
+$$
+Rearranging this gives us
+$$
+(I-\lambda B/2)\mathbf{w}_{j+1}=(I+\lambda B/2)\mathbf{w}_j
+$$
+Like the
+backward difference method, this gives us a tridiagonal system of
+equations to solve to get from $\mathbf{w}_j$ to $\mathbf{w}_{j+1}$, and
+can be used to find $\mathbf{w}_j$ for any $j$.
+
+It turns out that the error terms form the forward and backward
+difference methods have the form $Ck+O(k^2)$ and $-Ck+O(k^2)$. Taking
+the average cancels the $\pm Ck$ terms and leaves an error of order
+$O(k^2)$; in combination with the space variable, we have
+$O(h^2)+O(k^2)$ for the whole method, as compared with $O(h^2)+O(k)$ for
+the forward and backward difference methods. Like the implicit
+trapezoidal method, the Crank-Nicolson method is absolutely stable.
+
+

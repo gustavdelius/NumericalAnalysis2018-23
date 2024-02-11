@@ -1,0 +1,189 @@
+# Errors {#s:2}
+
+As we embark on our exploration of Numerical Analysis, it might be tempting to dive directly into the algorithms, tools, and techniques that form the core of this discipline. Yet, there's a foundational aspect that we must address before we venture further: errors. Just as a builder needs to understand the properties and potential weaknesses of materials before constructing a robust building, a numerical analyst must grasp the nuances of errors in order to craft effective and reliable algorithms.
+
+Why start with errors? Here's why this is the perfect launching pad:
+
+1. **Inherent Limitations of Computers:** Digital computers, by their nature, represent numbers using a finite number of bits. This limitation leads to rounding and truncation errors, which can cascade through calculations and produce misleading results. Understanding these errors equips us to prevent or minimize them.
+
+2. **Preventing Cumulative Mistakes:** Even small errors, when compounded over many iterations or operations, can result in significant discrepancies. Grasping the origins and types of these errors is vital to ensuring our computations remain on track.
+
+3. **Building Robust Algorithms:** A deep understanding of errors allows us to design algorithms that are both accurate and stable. Ignoring errors or misunderstanding them can lead to algorithms that produce wildly inaccurate results, even if they seem correct on the surface.
+
+4. **Gaining Confidence in Results:** When we know where errors come from and how they manifest, we can better judge the reliability of our results. This confidence is crucial when numerical solutions are used for critical applications in engineering, medicine, finance, and more.
+
+Errors are not just a minor consideration; they are central to the field of Numerical Analysis. By addressing them upfront, we lay a solid foundation upon which the rest of our study will be built. This chapter will shed light on the nature of rounding errors, demonstrate how seemingly benign calculations can lead to substantial inaccuracies, and offer insights into mitigating these pitfalls.
+
+So, as we delve into the world of errors, remember: understanding our limitations and challenges is the first step to overcoming them. Let us begin our journey with a clear-eyed view of the obstacles, so we are best prepared to navigate the rich landscape of Numerical Analysis.
+
+As mentioned, our goal is to find *approximate* rather than exact solutions to problems. That is, our results will always contain errors. Errors can arise in several ways:
+
+(a)   The input data (e.g., experimental data) may contain errors.
+(b)  On computers, numbers are represented only to a finite number of digits, thus we encounter *roundoff errors* -- when storing numbers in the first place, or in arithmetic operations.
+
+(c)   The numerical method as such usually involves *approximation errors* of some kind.
+
+Item a is outside our scope in this course. In this chapter, we will discuss roundoff errors (item b). Approximation errors (item c) will be discussed in later chapters.
+
+## Floating point numbers
+
+We can write any real number in floating point notation 
+$$
+x=\pm 0.d_{1}d_{2}d_{3}\dots d_{k}d_{k+1}d_{k+2}\dots \times 10^n.
+$$
+
+The number $\pm 0. d_{1} d_{2}d_{3} \ldots d_{k}\ldots$ is called the **mantissa** and the power of ten is called the **exponent**. However, a computer can work only with finite set of digits. Therefore, we truncate the mantissa and limit the range of the exponent $n$ to produce a $k$-digit (decimal) machine number. This can be done in two ways:
+
+-   **Chopping** results in 
+$$
+x^\ast=\pm 0.d_{1}d_{2}...d_{k}\times 10^n .
+$$
+
+
+-   **Rounding** results in
+$$
+x^\ast=\pm 0.d_{1}d_{2}...d_{k-1}d^{*}_{k}\times 10^n,
+$$
+where $x^\ast$ is obtained by adding $0.5\times 10^{n-k}$ (or, equivalently, $5\times10^{n-k-1}$ to $x$ and chopping.
+
+Either machine number is called (decimal) $k$-digit **floating point representation** of $x$, and denoted by $fl(x)$.
+
+::: {#exm-1}
+The floating point representation of $\pi=3.14159265\ldots$ is 
+$$
+\pi=0.314159265\ldots\times10^1.
+$$ 
+The five-digit floating-point form of $\pi$ is given by 
+$$
+fl(\pi)=0.31415\times10^1=3.1415
+$$
+if chopping is used. 
+In the case of rounding, we first compute 
+$$
+\begin{split}
+\pi+0.5\times 10^{1-5} &= 0.314159265\ldots\times10^1 + 0.000005\ldots\times10^1 \\
+&=  0.314164265\ldots\times10^1
+\end{split}
+$$ 
+and then chop to obtain 
+$$
+fl(\pi)=0.31416\times10^1=3.1416.
+$$
+
+```{julia}
+@show floor(π, sigdigits=5)
+@show round(π, sigdigits=5)
+```
+::: 
+
+::: {.remark}
+In this module, we represent numbers in *decimal* (base 10) form. Computers actually use *binary* (base 2) form, but we will usually ignore this difference. Industry standards exist for representing floating point numbers in binary form. For example, a *double-precision floating-point number* according to Binary Floating Point Arithmetic Standard 574--1985 developed by the IEEE (Institute for Electrical and Electronic Engineers) consists of
+
+(a) 1-bit (binary digit) sign indicator,
+
+(b) 11-bit exponent with a base of 2,
+
+(c) 52-bit mantissa.
+
+This provides between 15 and 16 decimal digits of precision and a range of approximately $10^{-308}$ to $10^{+308}$ (and similarly $-10^{+308}$ to $-10^{-308}$ for negative numbers). If numbers occurring in calculations have a magnitude of less than the lower limit ($\approx 10^{-308}$), they are set to zero; this is called **underflow**. Numbers greater than the upper limit ($\approx 10^{+308}$) result in **overflow** and computations are halted.
+:::
+
+The error resulting from replacing a number by its floating-point form is called **roundoff error**. In order to quantify roundoff errors (and other errors), we introduce:
+
+::: {#def-1}
+If $x^\ast$ is an approximation to $x$, the **absolute error** is 
+$$
+E_{abs}:=\vert x-x^\ast\vert,
+$$ 
+and the **relative error** (for $x\neq 0$) is 
+$$
+E_{rel}:=\frac{\lvert x-x^\ast\rvert}{\lvert x \rvert} .
+$$
+:::
+
+With these notions, our roundoff errors can be estimated. If $x^\ast=fl(x)$ is obtained by $k$-digit chopping, then (prove it!) 
+$$
+\frac{\vert x-x^\ast\vert}{\vert x \vert}\leq 10^{-k+1}.
+$$ 
+If $x^\ast=fl(x)$ is obtained by $k$-digit rounding, then (prove it!) 
+$$
+\frac{\vert x-x^\ast\vert}{\vert x \vert}\leq 0.5\times 10^{-k+1}.
+$$
+
+
+::: {#def-2}
+Suppose that a number $x^\ast$ approximates $x$ and that $x^\ast\neq x$. We say that $x^\ast$ approximates $x$ to $k$ **significant digits** (or $x^\ast$ has $k$ significant digits with respect to $x$) if
+
+(i) the floating point representations of $x^\ast$ and $x$ have the same exponent, say $n$;
+
+(ii) the exponent of $\vert x^\ast-x\vert$ is $n-k$ and the first digit of its mantissa is less than or equal to $5$.
+:::
+
+In other words, $x^\ast$ approximates $x$ to $k$ significant digits if and only if: 
+$$
+0.1\times 10^{n-k}\leq \vert x^\ast-x\vert < 0.5\times 10^{n-k}.
+$$
+
+
+::: {#exm-2} 
+Suppose that $x=23.492=0.23492\times 10^{2}$ and $x^\ast=23.489=0.23489\times 10^{2}$. Then the absolute error is 
+$$
+\vert x^\ast-x\vert=0.00003\times 10^{2}=0.3\times 10^{-2},
+$$ 
+so $x^\ast$ approximates $x$ to $4$ significant digits. The relative error is 
+$$
+\frac{\lvert x-x^\ast\rvert}{\lvert x \rvert} = \frac{0.3\times 10^{-2}}{0.23492\times 10^{2}}\approx0.1277\times10^{-3}.
+$$
+:::
+
+It can be shown that if $x^\ast=fl(x)$ is obtained by $k$-digit rounding, then $x^\ast$ has at least $k$ significant digits with respect to $x$.
+
+Further reading: Section 1.2 of [@Burden_Faires].
+
+## Error-generating computations
+
+In each arithmetic computation performed by a computer on floating point numbers, additional roundoff error may occur. Let us illustrate this in the example of addition. Let $x,y$ be two real numbers and $x^\ast = fl(x)$, $y^\ast = fl(y)$. We denote the computer-performed addition of $x^\ast$ and $y^\ast$ as $x^\ast \oplus y^\ast$, as opposed to the normal addition $+$. In a simple model, we will assume that $\oplus$ is just normal addition followed by rounding: 
+$$
+x^\ast \oplus y^\ast = fl(x^\ast + y^\ast).
+$$ 
+Rounding is unavoidable in general due to the finite length of the mantissa, and generates additional error. Let us quantify this by estimating the absolute error of $x^\ast \oplus y^\ast$, as an approximation for $x+y$. Using the triangle inequality, we obtain 
+$$
+\begin{split}
+     \lvert x+y - x^\ast \oplus y^\ast \rvert
+  &=
+     \lvert x-x^\ast \; + \; y - y^\ast \; + \; x^\ast + y^\ast  -  fl(x^\ast + y^\ast) \rvert
+   \\
+  &\leq
+     \lvert x-x^\ast \rvert + \lvert y - y^\ast \rvert + \lvert x^\ast + y^\ast  - fl(x^\ast + y^\ast) \rvert.
+  \end{split}
+$$ 
+Thus, the total absolute error is the sum of the individual absolute errors for $x^\ast$ and $y^\ast$, plus an extra term arising from rounding.
+
+From this, it might seem that addition is relatively unaffected by rounding---after all, the rounding error occurs in the last digit of the mantissa. However, there are several situations where the rounding error can become very relevant. First, if we are performing a large number of additions (say, several thousands), then every one of these can cause an additional (small) rounding error, and the sum of these may be quite large. Second, the *relative* error can increase significantly in the case of *subtraction*, which is included in the above by considering $y<0$.
+
+::: {#exm-3}
+
+Consider 5-digit rounding and set
+$$
+x = 1 + \frac{\pi}{1000}, \quad x^\ast = 1.0031, \quad y=y^\ast = -1.
+$$ 
+In this case, $x^\ast \oplus y^\ast = fl(0.0031) = 3.1 \times 10^{-3}$. The absolute errors of $x^\ast$ and $x^\ast\oplus y^\ast$, as well as the relative error of $x^\ast$, are approximately $0.4 \times 10^{-4}$. However, the relative error of $x^\ast\oplus y^\ast$ is approximately $0.4 \times 10^{-4} / 3.1 \times 10^{-3} \approx 10^{-2}$---subtraction has increased it significantly, and $x^\ast\oplus y^\ast$ has only 2 valid digits.
+:::
+
+This phenomenon is called **cancellation of digits** and occurs whenever two almost equal numbers are subtracted from each other.
+
+Multiplication behaves similar to addition, only that the *relative* error is the sum of the individual relative errors, plus an extra error arising from rounding. Also, multiplying a machine number $x^\ast$ by a large number (or dividing by a small number) will not much affect the relative error, but significantly increase the *absolute* error.
+
+To summarize, typical sources of significant roundoff error are
+
+(a) performing a large number of individual arithmetic operations (e.g., additions),
+
+(b) subtraction of almost equal numbers,
+
+(c) multiplication by a very large number, or division by a very small number.
+
+Where these occur, it can be worthwhile to reformulate the algebraic expressions suitably in order to circumvent the roundoff problem. Several examples for this can be found in Practical A1.
+
+Roundoff errors occur in virtually all numerical methods that we will consider. However, for reasons of simplicity, we will usually ignore roundoff errors in the theoretical discussion, and mention them only where they become particularly relevant.
+
+Further reading: Section 1.2 of [@Burden_Faires].
