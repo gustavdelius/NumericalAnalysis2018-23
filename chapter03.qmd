@@ -2,37 +2,6 @@
 title: Solving nonlinear equations
 ---
 
-```{julia}
-#| include: false
-using Logging
-Logging.disable_logging(Logging.Info)
-using DataFrames
-using Markdown
-
-# A function that takes a vector of strings for the header and a data frame
-# and returns a markdown table
-function df_to_md(df::DataFrame, header::Vector{String})
-    # Get the number of columns
-    ncol = size(df, 2)
-    # Get the number of rows
-    nrow = size(df, 1)
-    # Create a vector of strings for the table
-    table = Vector{String}(undef, nrow + 2)
-    # Add the header
-    table[1] = join(header, " | ")
-    # Add the separator
-    table[2] = join(repeat(["---"], ncol), " | ")
-    # Add the data
-    for i in 1:nrow
-        # Convert the DataFrameRow to a regular Array
-        row = collect(df[i, :])
-        table[i + 2] = join(row, " | ")
-    end
-    # Join the table
-    Markdown.parse(join(table, "\n"))
-end
-```
-
 Having navigated the intricacies of rounding errors and understanding the nuances they introduce, it is time to delve into one of the cornerstones of Numerical Analysis: solving nonlinear equations, also known as the *root-finding problem*. The challenge of finding the roots of equations that do not lend themselves to simple algebraic solutions has been a persistent one throughout the history of mathematics. Yet, it is exactly these challenges that have spurred the development of a rich array of techniques, many of which are iterative in nature.
 
 Why start with nonlinear equations? The reasons are manifold:
@@ -69,42 +38,8 @@ The *bisection method* is a very simple approach to the root finding problem, an
 The idea behind it is as follows: One divides the interval $[a,b]$ into halves, and decides in which subinterval the zero is located (by looking at the sign of $f(x)$ in the midpoint of the interval).
 Then one repeats the method for this subinterval, and continues this until sufficient precision is reached.
 
-::: {.content-visible when-format="html"}
-```{julia}
-#| label: fig-bisect
-#| fig-cap: Bisection method
-#| code-fold: true
-using Plots
-p = Animation()
-a = 0
-b = 1
-f(x) = cos(x) - x
-for i = 1:7
-    plot(f, 0, 1, label="cos(x) - x", legend=:topright,
-        xlabel="x", ylabel="y", lw=2, legendtitle="Iteration $i")
-    hline!([0], color = :black, label="x-axis")
-    plot!([a, b], [0, 0], label="interval", lw=10)
 
-    # Find middle point
-    x = (a + b) / 2
-    scatter!([a], [0], label="start")
-    scatter!([b], [0], label="end")
-    scatter!([x], [0], label="midpoint")
-    frame(p, scatter!([x], [f(x)], label="value"))
-
-    # Check if middle point is root
-    if f(x) == 0.0
-        break
-        # Decide the side to repeat the steps
-        elseif f(x) * f(a) < 0
-            b = x
-        else
-            a = x
-    end
-end
-gif(p, fps=0.4)
-```
-:::
+![Bisection method](figures/chapter03/bisect.gif){#fig-bisect}
 
 More formally, the bisection method would be described as follows:
 
@@ -171,43 +106,43 @@ $$
 Since $2^{10}=1024$, this inequality is satisfied if we take $N=10$.
 @tbl-bisection shows the results of the bisection method.
 
-```{julia}
+```{python}
 #| label: tbl-bisection
 #| tbl-cap: Ten iterations of the bisection method for approximating $\sqrt{2}$
 #| code-fold: true
-using DataFrames
+import pandas as pd
+
+# Define the function
+def f(x):
+    return x**2 - 2
+
+# Initialize parameters
 N = 10
-df = DataFrame(n = Int[], a = Float64[], b = Float64[], x = Float64[], f_x = Float64[])
-f(x) = x^2 - 2
 a = 1.0
 b = 2.0
-for i = 1:N
-    # Find middle point
+
+# Initialize a list to store the data
+data = []
+
+# Bisection method
+for i in range(1, N + 1):
+    # Find the middle point
     x = (a + b) / 2
-
-    # Store values in DataFrame
-    push!(df, (i, a, b, x, f(x)))
-
+    
+    # Add the values to the data list
+    data.append({'n': i, 'a': a, 'b': b, 'x': x, 'f_x': f(x)})
+    
     # Decide the side to repeat the steps
-    if f(x) * f(a) < 0
+    if f(x) * f(a) < 0:
         b = x
-    else
+    else:
         a = x
-    end
-end
-df_to_md(df, ["n", "\$a_n\$", "\$b_n\$", "\$x_n\$", "\$f(x_n)\$"])
+
+pd.DataFrame(data)
 ```
 
-```{julia}
-#| echo: false
-using Markdown
-s2 = sqrt(2)
-diff = abs(df[10, 4] - s2)
-Markdown.parse("""
-Thus, \$\\sqrt{2}\\approx 1.4150\$ with absolute error smaller than \$10^{-3}\$ (Note that \$\\sqrt{2}=$s2\\dots\$, so that the actual error is \$E=\\vert x_{10}-\\sqrt{2}\\vert=$diff\\ldots\$).
-""")
-```
 
+Thus, $\sqrt{2}\approx 1.4150$ with absolute error smaller than $10^{-3}$ (Note that $\sqrt{2}=1.414213562373095\ldots$, so that the actual error is $E=\vert x_{10}-\sqrt{2}\vert=0.0008255001269048545\ldots$).
 
 This example illustrates that the method converges, although rather slowly---we will come across much faster methods in due course.
 Also, it appears that the method is unnecessarily inefficient---note that $x_7$ was a better approximation to $\sqrt{2}$ than $x_{10}$.
@@ -298,43 +233,12 @@ Moreover, comparing with @tbl-bisection, it appears that the method of False Pos
 
 :::
 
+
 ::: {.content-visible when-format="html"}
 The animation in @fig-false-animation shows the method of false position in action.
 
-```{julia}
-#| label: fig-false-animation
-#| fig-cap: Method of false position
-#| code-fold: true
-using Plots
-p = Animation()
-a = 0
-b = 2
-f(x) = x^2-2
-for i = 1:4
-    plot(f, 0, 2, label="x^2-2", legend=:topleft,
-        xlabel="x", ylabel="y", lw=2, legendtitle="Iteration $i")
-    hline!([0], color = :black, label="x-axis")
-    plot!([a, b], [f(a), f(b)], label="secant")
+![Method of false position](figures/chapter03/false.gif){#fig-false-animation}
 
-    # Find middle point
-    x = a - f(a) / (f(b) - f(a)) * (b - a)
-    scatter!([a], [f(a)], label="f(a)")
-    scatter!([b], [f(b)], label="f(b)")
-    scatter!([x], [0], label="x")
-    frame(p, scatter!([x], [f(x)], label="f(x)"))
-
-    # Check if middle point is root
-    if f(x) == 0.0
-        break
-        # Decide the side to repeat the steps
-        elseif f(x) * f(a) < 0
-            b = x
-        else
-            a = x
-    end
-end
-gif(p, fps=0.4)
-```
 :::
 
 The method of false position converges faster than the bisection method in many cases.
@@ -367,34 +271,8 @@ $$
 A graphical representation of this sequence is shown in @fig-fixed.
 
 ::: {.content-visible when-format="html"}
+![Fixed point iteration](figures/chapter03/cobweb.gif){#fig-fixed}
 
-```{julia}
-#| label: fig-fixed
-#| caption: Fixed point iteration
-#| code-fold: true
-using Plots
-a = Animation()
-# Draw cobweb plot for fixed point iteration for cos(x) = x
-using Plots
-g(x) = cos(x)
-plot(g, 0, π/2, label="g(x)=cos(x)", legend=:topleft)
-frame(a, plot!(x->x, label="y=x"))
-x = 0.2
-y = g(x)
-# plot vertical line at x
-frame(a, plot!([x, x], [0, y], label="", color=:red))
-# plot horizontal line at y
-frame(a, plot!([x, y], [y, y], label="", color=:red))
-for n in 1:8
-    x = y
-    y = g(x)
-    # plot vertical line at x
-    frame(a, plot!([x, x], [x, y], label="", color=:red))
-    # plot horizontal line at y
-    frame(a, plot!([x, y], [y, y], label="", color=:red))
-end
-gif(a, fps = 2)
-```
 :::
 
 ::: {.content-visible unless-format="html"}

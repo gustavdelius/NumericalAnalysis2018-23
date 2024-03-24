@@ -18,13 +18,25 @@ By the end, you won't merely understand the methods of scientific computing; you
 
 The main topic of this module is finding *approximate solutions* to various mathematical problems. A typical example for such a problem would be to find $x>0$ such that $\cos(x)=x$.
 
-```{julia}
+```{python}
 #| label: fig-cosx
 #| caption: The function $\cos(x)$ and the line $y=x$ intersect at exactly one point.
+#| code-fold: true
 # plot the function cos(x) and the line y=x
-using Plots
-plot(cos, 0, π/2, label="cos(x)")
-plot!(x->x, label="y=x")
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the range for x values
+x = np.linspace(0, np.pi/2, 100)
+
+# Plot cos(x)
+plt.plot(x, np.cos(x), label='cos(x)')
+
+# Plot y = x
+plt.plot(x, x, label='y=x')
+
+# Adding a legend
+plt.legend()
 ```
 
 There is indeed one and only one such $x$; this is apparent from a graph (@fig-cosx), and can also be proven rigorously without too much difficulty. However, it seems impossible to find a *closed form* expression for this $x$: It's not a fraction, a square root of a fraction, an integer multiple of $\pi$, etc. For practical purposes, the best we can give is a *numerical approximation* of this $x$, that is, we can compute it to, say, 10 decimal digits of accuracy.
