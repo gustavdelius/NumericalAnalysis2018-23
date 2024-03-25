@@ -31,7 +31,7 @@ conditions). However, while one can show on abstract grounds that these
 solutions exist, it is often not practicable to find an explicit
 expression for them. The best one can hope for is to approximate the
 solution numerically. This is exactly our topic: to find approximation
-algorithms for the solutions of IVPs (this chapter) and BVPs (in Chapter -@sec-bvp).
+algorithms for the solutions of IVPs (this chapter) and BVPs (in @sec-bvp).
 
 ## Euler's Method {#sec-euler}
 
@@ -1854,49 +1854,49 @@ that chooses the step size $h$ accordingly. This technique is known as
 *error control*.
 
 The idea is roughly as follows. Let us use *two* approximation methods,
-with approximation values $\mathbf{w}_i$ and $\tilde \mathbf{w}_i$.
-Suppose that $\tilde \mathbf{w}_i$ is much more exact than
-$\mathbf{w}_i$, i.e., that the absolute error of $\tilde \mathbf{w}_i$
+with approximation values $\mathbf{w}_i$ and $\tilde{\mathbf{w}}_i$.
+Suppose that $\tilde{\mathbf{w}}_i$ is much more exact than
+$\mathbf{w}_i$, i.e., that the absolute error of $\tilde{\mathbf{w}}_i$
 is much smaller than that of $\mathbf{w}_i$. (For example, the second
 approximation method might be of higher order in $h$.) Then we have
 $$
-\lVert  \mathbf{y}(x_i)-\mathbf{w}_i  \rVert \leq \underbrace{ \lVert  \mathbf{y}(x_i)-\tilde \mathbf{w}_i  \rVert }_{\text{negligible}} 
- + \lVert \tilde \mathbf{w}_i-\mathbf{w}_i  \rVert \approx \lVert \tilde \mathbf{w}_i-\mathbf{w}_i \rVert.
+\lVert  \mathbf{y}(x_i)-\mathbf{w}_i  \rVert \leq \underbrace{ \lVert  \mathbf{y}(x_i)-\tilde{\mathbf{w}}_i  \rVert }_{\text{negligible}} 
+ + \lVert \tilde{\mathbf{w}}_i-\mathbf{w}_i  \rVert \approx \lVert \tilde{\mathbf{w}}_i-\mathbf{w}_i \rVert.
 $$
 However, the right-hand side can be computed without knowing the exact
 solution $\mathbf{y}(x)$.
 
 To make this more concrete, let us say that $\mathbf{w}_i$ and
-$\tilde \mathbf{w}_i$ are computed by two one-step difference methods,
+$\tilde{\mathbf{w}}_i$ are computed by two one-step difference methods,
 with defining functions $\boldsymbol{\phi}$ and
-$\tilde \boldsymbol{\phi}$, respectively. Let us assume that
+$\tilde{\boldsymbol{\phi}}$, respectively. Let us assume that
 $\boldsymbol{\phi}$ yields a local truncation error
 $\|\boldsymbol{\tau}_{i}(h)\|$ of order $O(h^n)$, while the local
-truncation error $\|\tilde \boldsymbol{\tau}_{i}(h)\|$ of
-$\tilde \boldsymbol{\phi}$ is of order $O(h^{n+1})$.
+truncation error $\|\tilde{\boldsymbol{\tau}}_{i}(h)\|$ of
+$\tilde{\boldsymbol{\phi}}$ is of order $O(h^{n+1})$.
 
 Further, we fix $i$ and suppose that
-$\mathbf{y}(x_i)=\mathbf{w}_i=\tilde \mathbf{w}_i$, that is, we start
+$\mathbf{y}(x_i)=\mathbf{w}_i=\tilde{\mathbf{w}}_i$, that is, we start
 form an exact value in the previous step.
 ^[We will not deal with any "global" error behaviour here.]
 For given step size $h$,
 we want to estimate the local truncation error
 $\|\boldsymbol{\tau}_{i+1}(h)\|$ of the first method, supposing that
-$\tilde\boldsymbol{\tau}_{i+1}$ is negligible compared with it.
+$\tilde{\boldsymbol{\tau}}_{i+1}$ is negligible compared with it.
 $$
 \begin{gathered}
    \|\boldsymbol{\tau}_{i+1}(h)\| = \frac{1}{h} \lVert \mathbf{y}(x_{i+1})-\mathbf{y}(x_i) -h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert
 \\
- = \frac{1}{h} \lVert  \underbrace{\big(\mathbf{y}(x_{i+1})-\mathbf{y}(x_i) -h \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)\big)}_{\text{$\sim h\|\tilde\boldsymbol{\tau}_{i+1}\|$, negligible} }
-  + h \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) -h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert
+ = \frac{1}{h} \lVert  \underbrace{\big(\mathbf{y}(x_{i+1})-\mathbf{y}(x_i) -h \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h)\big)}_{\text{$\sim h\|\tilde{\boldsymbol{\tau}}_{i+1}\|$, negligible} }
+  + h \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) -h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert
 \\
  \approx
-  \lVert  \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
+  \lVert  \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
 \end{gathered}
 $$ {#eq-lterkf}
 Thus we can determine the local truncation error
 approximately by evaluating the functions $\boldsymbol{\phi}$ and
-$\tilde\boldsymbol{\phi}$.
+$\tilde{\boldsymbol{\phi}}$.
 
 $$
 %
@@ -1936,7 +1936,7 @@ $$
 We proceed as follows. We start with some fixed step size $h$ and
 compute the related function values: 
 $$
-   \|\boldsymbol{\tau}_{i+1} (h)\| \approx K \, h^n  \approx \lVert  \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
+|\boldsymbol{\tau}_{i+1} (h)| \approx K \, h^n  \approx \lVert  \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
 $$ {#eq-tauh}
 
 Now we want to adjust $h$ by a factor $q>0$, such that
@@ -1948,15 +1948,15 @@ $$ {#eq-tauqh}
 
 Dividing @eq-tauqh by @eq-tauh yields
 $$
-q^n\approx \frac{T}{\lVert  \tilde \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert},
+q^n\approx \frac{T}{\lVert  \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert},
 $$
 thus we should choose 
 $$
-   =  \left( \frac{hT}{\lVert  \tilde \mathbf{w}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/n},
+   =  \left( \frac{hT}{\lVert  \tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/n},
 $$ {#eq-qtheory}
 
-where it is understood that $\mathbf{w}_{i+1},\tilde\mathbf{w}_{i+1}$
-are computed with $\boldsymbol{\phi},\tilde \boldsymbol{\phi}$ using the
+where it is understood that $\mathbf{w}_{i+1},\tilde{\mathbf{w}}_{i+1}$
+are computed with $\boldsymbol{\phi},\tilde{\boldsymbol{\phi}}$ using the
 step size $h$.
 
 ### The Runge-Kutta-Fehlberg method
@@ -1964,7 +1964,7 @@ step size $h$.
 A popular implementation of the above principle is the
 *Runge-Kutta-Fehlberg* method. It uses an order-4 Runge-Kutta method for
 $\boldsymbol{\phi}$ and an order-5 Runge-Kutta method for
-$\tilde\boldsymbol{\phi}$. The Butcher tableaux for both methods are
+$\tilde{\boldsymbol{\phi}}$. The Butcher tableaux for both methods are
 shown in
 @tbl-butcherrkf. The special feature of this algorithm is
 that the two approximation methods *share* most parts of their
@@ -1972,7 +1972,7 @@ coefficient schemes; more precisely, the auxiliary values
 $\mathbf{k}_1,\ldots,\mathbf{k}_6$ are the same in both approximation
 methods. Only the "final lines" in the Butcher tableaux are different:
 for computing $\mathbf{w}_{i+1}$, one uses the line marked (a), while
-for $\tilde \mathbf{w}_{i+1}$, the line marked (b) is used. This
+for $\tilde{\mathbf{w}}_{i+1}$, the line marked (b) is used. This
 arrangement makes the algorithm rather efficient: the function
 $\mathbf{f}$ needs to be evaluated only 6 times per step. Compare this
 with the 4 function evaluations needed for the classical Runge-Kutta
@@ -1984,7 +1984,7 @@ caused by the error control method is noticeable, but not too large.
 $x := a$, $\mathbf{w}:= \boldsymbol{\alpha}$, $h := h_{max}$ Compute
 $\mathbf{k}_1,\ldots, \mathbf{k}_6$ from Butcher tableau with step size
 $h$
-$R := {h}^{-1}\lVert  \sum_{j=1}^6  (c_j-\tilde c_j) \mathbf{k}_j \rVert$
+$R := {h}^{-1}\lVert  \sum_{j=1}^6  (c_j-\tilde{c}_j) \mathbf{k}_j \rVert$
 $x := x+h$, $\mathbf{w}:= \mathbf{w}+ \sum_{j=1}^5  c_j \mathbf{k}_j$
 $q :=(T/2R)^{1/4}$ $h := 0.1h$ $h := 4h$ $h := h \cdot q$ **if**
 $h \geq h_{max}$ **then** $h:= h_{max}$ **end if** $h := b-x$
@@ -2004,9 +2004,9 @@ estimate for the local truncation error, computed according to
 lines 9--22, the step size $h$ for the next step is computed. In slight
 deviation from @eq-qtheory, one chooses a more conservative factor,
 $$
-q =  \left( \frac{hT}{2 \lVert  \tilde \mathbf{w}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/4} \quad \text{(note $n=4$)}.
+q =\left(\frac{hT}{2\lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}\rVert}\right)^{1/4}
 $$
-Also, the factor $q$ is limited to the interval $[0.1,4]$ (lines
+(note $n=4$). Also, the factor $q$ is limited to the interval $[0.1,4]$ (lines
 10--16), in order to avoid possible instabilities by rapid changes in
 the step size. Further, the step size is never increased beyond a given
 value $h_\text{max}$ (line 17); and if it decreases below a minimum step
@@ -2038,7 +2038,12 @@ mesh points.
 A general *$k$-step multi-step method* is given by a difference equation
 
 $$
-\end{aligned}
+\begin{split}
+\mathbf{w}_0 &:= \mathbf{\alpha}, \\
+\mathbf{w}_1 &:= \alpha_1, ~~\ldots~~,~ \mathbf{w}_{k-1} := \alpha_{k-1}, \\
+\mathbf{w}_{i+1} &:= \alpha_{k-1} \mathbf{w}_i + \alpha_{k-2} \mathbf{w}_{i-1} + \cdots + \alpha_0 \mathbf{w}_{i-k+1} \\[5pt]
+&\quad + h \left( b_k \mathbf{f}(x_{i+1}, \mathbf{w}_{i+1}) + b_{k-1} \mathbf{f}(x_i, \mathbf{w}_i) + \cdots + b_0 \mathbf{f}(x_{i-k+1}, \mathbf{w}_{i-k+1}) \right).
+\end{split}
 $$ {#eq-multistepdef}
  Here
 $a_0 \ldots a_{k-1}, b_0 \ldots b_{k} \in \mathbb{R}$ are constants that
@@ -2055,7 +2060,7 @@ Like for one-step methods, one defines the *local truncation error* of
 the multistep method
 @eq-multistepdef by 
 $$
-   \right].
+\mathbf{\tau}_{i+1} := \frac{1}{h} \left[ \mathbf{y}(x_{i+1}) - \sum_{j=0}^{k-1} a_{k-1-j} \mathbf{y}(x_{i-j}) - h \sum_{j=0}^{k} b_{k-j} \mathbf{f}(x_{i+1-j}, \mathbf{y}(x_{i-j+1})) \right].
 $$ {#eq-ltemulti}
  Again, the local truncation error determines the global
 error, i.e., an analogue of
@@ -2404,10 +2409,7 @@ In order for the approximation to be "reasonable", i.e. to ensure
 $w_i \to 0$ as $i \to \infty$, we then need to choose our step size $h$
 so that $h\lambda \in \mathcal{R}$.
 
-<figure id="fig:stabilitytaylor">
-<embed src="stability_taylor.pdf" />
-<figcaption>Region of stability for Taylor methods</figcaption>
-</figure>
+![Region of stability for Taylor methods](figures/stability-taylor.png){#fig-stabilitytaylor}
 
 Specifically for Euler's method, we have $Q(\mu)=1+\mu$, and
 $\mathcal{R}$ is a disc with center $-1$ and radius $1$. For
@@ -2428,10 +2430,12 @@ that certain *implicit* multi-step methods provide an advantage here.
 Let us, in particular, consider the *Implicit Trapezoidal method*, which
 is given by the difference equation 
 $$
-\end{aligned}
+\begin{split}
+\mathbf{w}_0&:=\boldsymbol{\alpha}, \\
+\mathbf{w}_{i+1} &= \mathbf{w}_i + \frac{h}{2} (\mathbf{f}(x_{i+1},\mathbf{w}_{i+1}) + \mathbf{f}(x_i,\mathbf{w}_i)).
+\end{split}
 $$ {#eq-trapezde}
- Applying it to the test equation
-@eq-testeq, we obtain
+Applying it to the test equation @eq-testeq, we obtain
 $$
 w_{i+1} = w_i + \frac{h}{2} (\lambda w_{i+1} + \lambda w_i)
   =  \big( 1 + \frac{\lambda h}{2} \big) w_i  + \frac{\lambda h}{2} w_{i+1}.
