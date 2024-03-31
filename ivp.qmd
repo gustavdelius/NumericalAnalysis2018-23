@@ -101,7 +101,7 @@ $$ {#eq-linapprox2}
 Our approximation value is $w_2 := w_1 + hf(x_1,w_1)$. Note that we have
 used another approximation step $(\circ)$, using that
 $y(x_1)\approx w_1$ and that $f$ is sufficiently smooth; we will come
-back to this point in @sec-onestep. We can continue the scheme for $w_3$, $w_4$,
+back to this point in @sec-eulererror. We can continue the scheme for $w_3$, $w_4$,
 etc.: 
 $$
  w_0 := \alpha,
@@ -290,7 +290,7 @@ and $\varepsilon_0=0$. Now, we need to ask how large the different
 contributions can be. For the truncation error inherent in Euler's
 method, we simply assume that there is a constant $M$ such that
 $|y''(x)|\leq M$ for all $x\in[a,b]$. For the error associated with
-starting away from solution curve, we use Taylor's Theorem yet again:
+starting away from the solution curve, we use Taylor's Theorem yet again:
 assuming $f$ is differentiable in the second variable, we can write
 $$
 f(x_i,w_i+\varepsilon_i)-f(x_i,w_i)=\varepsilon_i\frac{\partial}{\partial z}f(x_i,z)\bigg|_{z=\eta_i}
@@ -384,9 +384,9 @@ ODE is in general unknown. There are methods for obtaining estimates for
 the constant $M$ even if $y(x)$ is not explicitly known, but we will not
 discuss them at this point.
 
+<!---
 
-
-### Local truncation error.
+### Local truncation error
 
 We see from @tbl-eulerapp that the $w_i$ approximate the exact solution
 quite reasonably in our example, though the error grows as $i$
@@ -527,7 +527,7 @@ behaviour in $h$ is concerned. (Note however that the constants $M$ and
 $L$ depend on estimates on the derivatives of $f$, which could be
 large.)
 
-
+--->
 
 With the Euler method, we have an approximation algorithm for the
 generic initial value problem
@@ -671,7 +671,10 @@ sufficient if we consider the first-order system
 Let us illustrate the substitution process in an example. Consider the
 IVP for a second-order ODE, 
 $$
- y''(x) = y'(x)\cos(x) +2 y(x),  \quad 0 \leq x \leq 1, \quad y(0) = 2, \, y'(0)=-3.
+\begin{split}
+ &y''(x) = y'(x)\cos(x) +2 y(x),\quad 0 \leq x \leq 1, \\
+ &y(0) = 2, \, y'(0)=-3.
+\end{split}
 $$ {#eq-ivp2ex}
 
 So, $f(x,y,y')=y'\cos(x) +2 y$ in the present case. Using the 
@@ -739,7 +742,7 @@ $\mathbf{A}\in\mathcal{M}(m,m)$.
 We will also need to work with functions that depend on vectors, and
 with vector-valued functions. For a review of the techniques of Calculus
 in several variables, see for example [@Thomas:2010 Ch. 14] or
-[@Steward:1991 Ch. 15]. We give a very brief review here, in our
+[@Stewart:1991 Ch. 15]. We give a very brief review here, in our
 notation.
 
 Let $f$ be a function from $\mathbb{R}^m$ to $\mathbb{R}$ (a function of
@@ -777,9 +780,7 @@ can be treated in a similar, though somewhat more complicated matrix
 formalism.
 
 Also, a generalization of Taylor's theorem holds for functions of
-several variables. This is summarized in
-Appendix [4](#app:taylorthm){reference-type="ref"
-reference="app:taylorthm"}.
+several variables. This is summarized in @sec-taylorthm.
 
 ### ODEs
 
@@ -841,7 +842,6 @@ Lipschitz constant
 $$
  L = \sup\left\{ \Big\lVert \frac{\partial \mathbf{f}}{\partial \mathbf{y}} (x,\mathbf{y}) \Big\rVert  : x \in [a,b], \mathbf{y}\in \mathbb{R}^m \right\}.
 $$ {#eq-lipschitzderiv}
-*
 :::
 
 Note here that $\partial \mathbf{f}/ \partial \mathbf{y}$ is an
@@ -857,7 +857,10 @@ $g(0)=\hat{\mathbf{y}}$ and $g(1)=\mathbf{y}$, and apply the scalar MVT
 to give $\mathbf{y}-\hat{\mathbf{y}}=g(1)-g(0)=g'(t_0)$ for some
 $t_0\in(0,1)$; now, using the chain rule,
 $$
-g'(t)=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot\frac{d}{dt}((1-t)\hat{\mathbf{y}}+t\mathbf{y})=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot(\mathbf{y}-\hat{\mathbf{y}}).
+\begin{split}
+g'(t)&=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot\frac{d}{dt}((1-t)\hat{\mathbf{y}}+t\mathbf{y})\\
+&=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot(\mathbf{y}-\hat{\mathbf{y}}).
+\end{split}
 $$
 Combining these gives us
 $$
@@ -1092,7 +1095,10 @@ $$
 $$
 Exactly as for Euler's method, we estimate using the triangle inequality
 $$
-\|\boldsymbol{\varepsilon}_{i+1}\|\leq\|\boldsymbol{\varepsilon}_i\|+h\|\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)\|+\|\boldsymbol{\tau}_{i+1}(h)\|\leq(1+hL)\|\boldsymbol{\varepsilon}_i\|+h\tau(h)
+\begin{split}
+\|\boldsymbol{\varepsilon}_{i+1}\|&\leq\|\boldsymbol{\varepsilon}_i\|+h\|\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)\|+\|\boldsymbol{\tau}_{i+1}(h)\|\\
+&\leq(1+hL)\|\boldsymbol{\varepsilon}_i\|+h\tau(h)
+\end{split}
 $$
 using the Lipschitz hypothesis on $\boldsymbol{\phi}$ and the upper
 bound $\tau$ for the local truncation errors. This is exactly the same

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - Appendix</title>
+<title>Numerical Analysis 2018-23 - Appendix A — Taylor’s theorem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -99,10 +119,10 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - Appendix">
+<meta property="og:title" content="Numerical Analysis 2018-23 - Appendix A — Taylor’s theorem">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - Appendix">
+<meta name="twitter:title" content="Numerical Analysis 2018-23 - Appendix A — Taylor’s theorem">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -116,7 +136,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix.html">Appendix</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Taylor’s theorem</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -230,7 +250,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appendix.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Appendix</span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Taylor’s theorem</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -247,20 +267,14 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#app:taylorthm" id="toc-app:taylorthm" class="nav-link active" data-scroll-target="#app\:taylorthm">Taylor’s theorem</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/appendix.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix.html">Appendix</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Taylor’s theorem</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="appendix" class="quarto-section-identifier">Appendix</span></h1>
+<h1 class="title"><span id="sec-taylorthm" class="quarto-section-identifier">Appendix A — Taylor’s theorem</span></h1>
 </div>
 
 
@@ -277,10 +291,8 @@ window.Quarto = {
 </header>
 
 
-<section id="app:taylorthm" class="level2">
-<h2 class="anchored" data-anchor-id="app:taylorthm">Taylor’s theorem</h2>
 <p>In many of the approximations and error estimates that we make throughout this course, Taylor’s theorem plays an important role. Since the theorem can be formulated in various ways, in particular, with different forms of the remainder term, it will be recalled in this appendix, with the conventions we use.</p>
-<p>We first repeat the theorem in its simplest form, for a real-valued function of one real variable, with the remainder in Lagrange form <span class="citation" data-cites="Apo1">(<a href="references.html#ref-Apo1" role="doc-biblioref"><strong>Apo1?</strong></a>)</span>.</p>
+<p>We first repeat the theorem in its simplest form, for a real-valued function of one real variable, with the remainder in Lagrange form <span class="citation" data-cites="Apostol:1969">(<a href="references.html#ref-Apostol:1969" role="doc-biblioref">Apostol 1969, sec. 7.7</a>)</span>.</p>
 <div id="thm:taylor1d" class="theorem">
 <p><strong>Theorem 12</strong>. <em>Let <span class="math inline">\(I\subset\mathbb{R}\)</span> be an interval, and <span class="math inline">\(f \in \mathcal{C}^{k+1}(I,\mathbb{R})\)</span>. For each <span class="math inline">\(a \in I\)</span> and <span class="math inline">\(x \in I\)</span>, there exists <span class="math inline">\(\xi \in [a,x]\)</span> such that <span class="math display">\[
 f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
@@ -338,7 +350,11 @@ f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
 </div>
 
 
-</section>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Apostol:1969" class="csl-entry" role="listitem">
+Apostol, T. M. 1969. <em>Calculus, Vol. 1</em>. 2nd ed. Wiley.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -763,4 +779,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/appendix.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/appendix.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

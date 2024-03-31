@@ -1,6 +1,4 @@
-# Appendix {#appendix .unnumbered}
-
-## Taylor's theorem {#app:taylorthm}
+# Taylor's theorem {#sec-taylorthm}
 
 In many of the approximations and error estimates that we make
 throughout this course, Taylor's theorem plays an important role. Since
@@ -10,7 +8,7 @@ appendix, with the conventions we use.
 
 We first repeat the theorem in its simplest form, for a real-valued
 function of one real variable, with the remainder in Lagrange form
-[@Apo1 Sec. 7.7].
+[@Apostol:1969 Sec. 7.7].
 
 ::: {#thm:taylor1d .theorem}
 **Theorem 12**. *Let $I\subset\mathbb{R}$ be an interval, and

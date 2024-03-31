@@ -7,7 +7,7 @@ equations (PDEs). An example for a PDE -- familiar from the first-year
 Calculus course -- is the heat equation:
 $$
 \frac{\partial^2}{\partial x^2} u(x,t) = \kappa \frac{\partial}{\partial t} u(x,t)
-$$ {#eq:heat}
+$$ {#eq-heat}
 with some constant $\kappa > 0$. PDEs like the above are defined on a
 certain region in the $x$-$t$-plane (or analogously in more than 2
 dimensions), and are always complemented by some kind of boundary
@@ -71,10 +71,12 @@ $$ {#eq-poisson}
 and $\partial R$ denotes the boundary of $R$, that is, the four line
 segments 
 $$
-x=a, c \leq y \leq d; \quad 
- x=b, c \leq y \leq d; \quad
- a \leq x \leq b,  y=c; \quad
+\begin{split}
+&x=a, c \leq y \leq d; \quad 
+ x=b, c \leq y \leq d; \quad\\
+&a \leq x \leq b,  y=c; \quad
  a \leq x \leq b,  y=d.
+ \end{split}
 $$ {#eq-poissonboundary}
 
 The equation @eq-poisson is, in the case $f=0$, also known as the
@@ -106,29 +108,27 @@ twice, once in $x$ direction (at fixed $y$) and once in $y$ direction
 (at fixed $x$). This gives 
 $$
 \begin{aligned}
- \label{eq:cdx}
  \frac{\partial^2 u}{\partial x^2} (x_i,y_j) 
   = \frac{ u(x_{i+1},y_j) - 2 u(x_i,y_j) + u(x_{i-1},y_j) }{h^2} - \frac{h^2}{12} \frac{\partial^4 u}{\partial x^4}(\xi_i,y_j),
-  \\ \label{eq:cdy}
+  \\
  \frac{\partial^2 u}{\partial y^2} (x_i,y_j) 
   = \frac{ u(x_{i},y_{j+1}) - 2 u(x_i,y_j) + u(x_{i},y_{j-1}) }{k^2} - \frac{k^2}{12} \frac{\partial^4 u}{\partial y^4}(x_i,\eta_j),
 \end{aligned}
-$$
+$$ {#eq-cd}
+where $\xi_i$ and $\eta_j$ are some unknown points in the intervals
 with (unknown) intermediate points $\xi_i,\eta_j$.
 
 Again following our recipe, we will approximate the solution at mesh
 points $u(x_i,y_j)$ with approximation values $w_{i,j}$. In the PDE
 @eq-poisson, we then replace $u(x_i,y_j)$ with $w_{i,j}$ and
 the derivatives of $u$ with the expressions
-@eq-cdx,
-@eq-cdy, but
+@eq-cd, but
 leaving away the remainder terms of order $O(h^2)+O(k^2)$. This yields
 the following equations for the $w_{i,j}$:
 $$
-\frac{ w_{i+1,j} - 2 w_{i,j} + w_{i-1,j} }{h^2} + \frac{ w_{i,j+1} - 2 w_{i,j} + w_{i,j-1} }{k^2} = f(x_i,y_j),
- \quad 1 \leq i \leq N, \; 1 \leq j \leq M.
+\frac{ w_{i+1,j} - 2 w_{i,j} + w_{i-1,j} }{h^2} + \frac{ w_{i,j+1} - 2 w_{i,j} + w_{i,j-1} }{k^2} = f(x_i,y_j)
 $$
-or, after multiplying with
+for $1 \leq i \leq N, \; 1 \leq j \leq M$. After multiplying with
 $-h^2$, 
 $$
  2 \Big(\big(\tfrac{h}{k}\big)^2+1\Big) w_{i,j} -  w_{i+1,j} - w_{i-1,j}  -  \big(\tfrac{h}{k}\big)^2 w_{i,j+1} - \big(\tfrac{h}{k}\big)^2 w_{i,j-1}  = -h^2 f(x_i,y_j).
@@ -386,7 +386,7 @@ backward difference method, this gives us a tridiagonal system of
 equations to solve to get from $\mathbf{w}_j$ to $\mathbf{w}_{j+1}$, and
 can be used to find $\mathbf{w}_j$ for any $j$.
 
-It turns out that the error terms form the forward and backward
+It turns out that the error terms for the forward and backward
 difference methods have the form $Ck+O(k^2)$ and $-Ck+O(k^2)$. Taking
 the average cancels the $\pm Ck$ terms and leaves an error of order
 $O(k^2)$; in combination with the space variable, we have
