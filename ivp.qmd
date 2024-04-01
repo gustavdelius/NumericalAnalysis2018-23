@@ -1045,9 +1045,9 @@ $$
 $$
 for all
 $i\in\{0,\ldots,N\}$ and all $h\in(0,h_0]$. For the method to be useful,
-we must have $\tau(h)\to 0$ as $h\to 0+$; in Euler's method,
+we must have $\tau(h)\to 0$ as $h\to 0^+$; in Euler's method,
 $\tau(h)=Mh/2$ but in other methods $\tau(h)$ is much smaller than this:
-typically $\tau(h)=O(h^n)$ as $h\to 0+$ for some $n>1$. We also assume
+typically $\tau(h)=O(h^n)$ as $h\to 0^+$ for some $n>1$. We also assume
 the existence of a Lipschitz constant $L$ such that
 $$
 \|\boldsymbol{\phi}(x, \mathbf{y}, h)-\boldsymbol{\phi}(x, \hat{\mathbf{y}}, h)|\leq L\|\mathbf{y}-\hat{\mathbf{y}}\|
@@ -1113,6 +1113,7 @@ The main conclusion is that if we leave the integration width fixed and
 decrease the step size, then the error at each point is bounded above by
 a fixed multiple of $\tau(h)$: local error determines global error.
 
+<!---
 We are now aiming at refinements or modifications of Euler's Method that
 are of higher order in $h$. The class we will first look at is the
 so-called *one-step difference methods*.
@@ -1232,6 +1233,7 @@ $$
 This is the
 proposed estimate. ◻
 :::
+--->
 
 Thus, also in the general case, if the local truncation order is of
 order $O(h^n)$, then the the global error is of the same order. In the
@@ -1251,15 +1253,15 @@ exact solution $y(x)$ with a linear function, as in
 @eq-eulertaylor. In other words, we used a first-order
 Taylor expansion. For a better approximation, we can use an $n$-th order
 Taylor expansion, now for a vector-valued $\mathbf{y}(x)$:
-
-$$
- + \frac{h^n}{n!}  \frac{ \mathrm{d}^{n} \mathbf{y} }{\mathrm{d}x^{n} }  (x_i) + \mathbf{R}_i,
-$$ {#eq-ytaylorn}
-
-where according to @thm-taylor1nd, the remainder term $\mathbf{R}_i$ is bounded
+$$\begin{split}
+\mathbf{y}(x_{i+1}) = \mathbf{y}(x_i + h) = \mathbf{y}(x_i) 
+&+ h \frac{d\mathbf{y}}{dx}(x_i) + \frac{h^2}{2} \frac{d^2\mathbf{y}}{dx^2}(x_i) + \cdots\\
+&+ \frac{h^n}{n!} \frac{d^n\mathbf{y}}{dx^n}(x_i) + \mathbf{R}_i,
+\end{split}$$ {#eq-ytaylorn}
+where, according to @thm-taylor1nd, the remainder term $\mathbf{R}_i$ is bounded
 by 
 $$
- \Big\lVert  \frac{ \mathrm{d}^{n+1} \mathbf{y} }{\mathrm{d}x^{n+1} }  (x) \Big\rVert.
+\left\|\mathbf{R}_i\right\| \leq \frac{h^{n+1}}{(n+1)!} \sup_{x \in [x_i, x_{i+1}]} \left\| \frac{d^{n+1}\mathbf{y}}{dx^{n+1}} (x) \right\|.
 $$ {#eq-tmremainder}
 
 Following our approach in the Euler method, we now need to replace the
@@ -1280,14 +1282,13 @@ One of the functions we need to
 consider (the outermost function) is the mapping from $\mathbb{R}^{m+1}$
 to $\mathbb{R}^m$
 $$
-(x,y_1,\dots,y_m\mapsto \mathbf{f}(x,\mathbf{y})
+(x,y_1,\dots,y_m)\mapsto \mathbf{f}(x,\mathbf{y})
 $$
 The derivative of this is the $m\times(m+1)$ matrix given by
 
 $$
-\left[\frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial x}, \frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial \mathbf{y}}\right]
+\left[\frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial x}, \frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial \mathbf{y}}\right],
 $$ {#eq-outer}
-
 which represents the $m\times 1$ column vector
 $\partial\mathbf{f}(x,\mathbf{y})/\partial x$ being concatenated
 horizontally with the $m\times m$ matrix
@@ -1300,7 +1301,16 @@ $$
 whose
 derivative is the $m+1$ dimensional column vector 
 $$
+\begin{bmatrix}
+1 \\
+\mathbf{y}'(x) \\
 \end{bmatrix}
+=
+\begin{bmatrix}
+1 \\
+\mathbf{f}(x, \mathbf{y}(x)) \\
+\end{bmatrix}
+
 $$ {#eq-inner}
  where we have substituted for $\mathbf{y}'(x)$ using the
 differential equation. Here we have stacked the scalar $1$ on top of the
@@ -1331,28 +1341,28 @@ $$
 which gives us
 
 $$
- = \underbrace{ \frac{\partial \mathbf{f}}{\partial x}(x,\mathbf{y}(x)) + \frac{\partial \mathbf{f}}{\partial \mathbf{y}}\cdot \mathbf{f}(x,\mathbf{y}(x)) }_{=: \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\mathbf{y}(x))}.
+\frac{d^2 \mathbf{y}}{d x^2}(x) = \underbrace{ \frac{\partial \mathbf{f}}{\partial x}(x,\mathbf{y}(x)) + \frac{\partial \mathbf{f}}{\partial \mathbf{y}}\cdot \mathbf{f}(x,\mathbf{y}(x)) }_{=: \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\mathbf{y}(x))}.
 $$ {#eq-ftotalcompute}
 
 We call the right-hand side the *total derivative* of $\mathbf{f}$.
 
 For higher derivatives, we can apply an analogous argument: We define
 recursively,
-$$
-\frac{ \mathrm{d}^{0} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{0} }  := \mathbf{f}(x,\mathbf{y}), \quad
-    \frac{ \mathrm{d}^{j+1} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j+1} }  :=
+$$\begin{split}
+\frac{ \mathrm{d}^{0} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{0} }  &:= \mathbf{f}(x,\mathbf{y}),\\
+    \frac{ \mathrm{d}^{j+1} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j+1} }  &:=
  \frac{\partial}{\partial x}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} } 
  + \Big( \frac{\partial}{\partial \mathbf{y}}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} }  \Big) \cdot \mathbf{f}(x,\mathbf{y}).
-$$
+\end{split}$$
 Then we know that, when evaluated on the exact solution, we have
 
 $$
     \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} }  (x,\mathbf{y}(x)) =  \frac{ \mathrm{d}^{j+1} \mathbf{y} }{\mathrm{d}x^{j+1} } (x,\mathbf{y}).
 $$ {#eq-totaldery}
-
 Hence, @eq-ytaylorn rewrites to 
 $$
- + \mathbf{R}_i.
+\mathbf{y}(x_{i+1}) = \mathbf{y}(x_i) + hf(x_i, \mathbf{y}(x_i)) + \underbrace{\frac{h^2}{2} \frac{d\mathbf{f}}{dx}(x_i, \mathbf{y}(x_i)) + \cdots + \frac{h^n}{n!} \frac{d^{n-1}\mathbf{f}}{dx^{n-1}}(x_i, \mathbf{y}(x_i))}_{=:\mathbf{h}\phi(x, \mathbf{y}(x_i),h)=:\mathbf{hT}_n(x, \mathbf{y}(x_i),h)} + \mathbf{R}_i.
+
 $$ {#eq-ftaylorn}
  This motivates us to define the *Taylor method of
 order $n$* by the difference equation 
@@ -1429,13 +1439,13 @@ to 4, we need to compute the first 3 total derivatives of $f$. In our
 example, this yields: 
 $$
 \begin{aligned}
-   \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }  &= \frac{\partial f(x,y)}{\partial x}  +  \frac{\partial f(x,y)}{\partial y} f(x,y) = (-2x) +  1\cdot (y-x^2+1) = y-x^2-2x+1;
+   \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }  &= \frac{\partial f(x,y)}{\partial x}  +  \frac{\partial f(x,y)}{\partial y} f(x,y)\\ &= (-2x) +  1\cdot (y-x^2+1) = y-x^2-2x+1;
 \\
-   \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} } & = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }   f (x,y)
-  = (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1;
+   \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} } & = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }   f (x,y)\\
+  &= (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1;
 \\
-   \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} } & = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{2} (x,y)f }{\mathrm{d}x^{2} }   f(x,y)
-  = (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1.
+   \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} } & = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{2} (x,y)f }{\mathrm{d}x^{2} }   f(x,y)\\
+  &= (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1.
 \end{aligned}
 $$
 In this simple example, we can now see that *all*
@@ -1443,24 +1453,25 @@ higher-order total derivatives are equal to
 $\mathrm{d}^2f(x,y)/\mathrm{d}x^2$; this will not normally be true.
 
 Our second-order Taylor function $T_2$ is then
-$$
-T_2(x,y,h) = f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }  = (y-x^2+1) + \frac{h}{2}(y-x^2-2x+1)
-  = (1+\frac{h}{2}) (y-x^2+1)-hx.
-$$
+$$\begin{split}
+T_2(x,y,h) &= f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }\\
+&= (y-x^2+1) + \frac{h}{2}(y-x^2-2x+1)\\
+&= (1+\frac{h}{2}) (y-x^2+1)-hx.
+\end{split}$$
 The second-order Taylor method
 therefore reads, 
-$$
-w_0 := \frac{1}{2}, \quad
-w_{i+1} := w_i+hT_2(x_i,w_i,h) = w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1) - h^2 x_i.
-$$
+$$\begin{split}
+w_0 :=& \frac{1}{2},\\
+w_{i+1} :=& w_i+hT_2(x_i,w_i,h) \\=& w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1) - h^2 x_i.
+\end{split}$$
 Analogously, one finds after a bit of computation that 
 $$
 \begin{aligned}
   T_4(x,y,h) &= f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} } 
 + \frac{h^2}{6}  \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }  + \frac{h^3}{24}  \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} } 
-\\&= \Big( 1 +\frac{h}{2} + \frac{h^2}{6} + \frac{h^3}{24} \Big)(y-x^2)
-+ \Big( 1 +\frac{h}{3} + \frac{h^2}{12} \Big) h x
-+ \Big( 1 +\frac{h}{2} - \frac{h^2}{6} - \frac{h^3}{24} \Big).
+\\&= \Big( 1 +\frac{h}{2} + \frac{h^2}{6} + \frac{h^3}{24} \Big)(y-x^2)\\
+&\quad+ \Big( 1 +\frac{h}{3} + \frac{h^2}{12} \Big) h x\\
+&\quad+ \Big( 1 +\frac{h}{2} - \frac{h^2}{6} - \frac{h^3}{24} \Big).
 \end{aligned}
 $$
 
@@ -1521,12 +1532,12 @@ The fraction on the
 r.h.s. is called a finite difference quotient. We also remark that, by
 the MVT (or Taylor's Theorem) 
 $$
-g(x+h)=g(x)+O(h)
+g(x+h)=g(x)+O(h).
 $$
 We can replace $h$ by
 $O(h^k)$ here to give 
 $$
-g(x+O(h^k))=g(x)+O(O(h^k))=g(x)+O(h^k)
+g(x+O(h^k))=g(x)+O(O(h^k))=g(x)+O(h^k).
 $$ {#eq-bigOcommute}
 
 We start with the Taylor method of order two, here for $m=1$, given by
@@ -1557,12 +1568,12 @@ T_2(x,y(x),h) = \frac{1}{2} f(x,y(x))
   + O(h^2).
 $$
 Thus, if instead of the function $T_2$, we use the
-following function for our one-step method,
+function
 $$
 \phi(x,y,h) = \frac{1}{2} f(x,y)
- + \frac{1}{2}   f\big(x+h,y+hf(x,y) \big) ,
+ + \frac{1}{2}   f\big(x+h,y+hf(x,y) \big) 
 $$
-we will incur an
+for our one-step method, we will incur an
 additional local truncation error of order $O(h^2)$. However, this is
 not "much worse" than the Taylor method, which already has an error of
 order $O(h^2)$.
@@ -1608,9 +1619,8 @@ $$
   \\
    a_s & b_{s1} & b_{s2} & \ldots & b_{s,s-1} &
 \\
-\cline{1-6}
-    & c_1 & c_2 & \ldots & c_{s-1} & c_s
-%
+\hline
+& c_1 & c_2 & \ldots & c_{s-1} & c_s
 \end{array}
 \text{where $a_i$, $b_{ij}$, $c_i$ are real numbers.}
 $$
@@ -1682,8 +1692,6 @@ method*:
 ^[The names of methods may vary in the literature; it is best to
     compare the tableaux when reading different sources!]
 $$
-\setlength\extrarowheight{5pt}
-%
 \begin{array}{c|cc}
    0
   \\
@@ -1700,12 +1708,19 @@ $$
 + \frac{2}{3}h, \mathbf{w}_i + \frac{2}{3}{h} \,\mathbf{f}(x_i,\mathbf{w}_i) \big) \Big).
 $$
 Finally, let us mention the "classical" Runge-Kutta method
-^[If you hear someone speaking of "the Runge-Kutta method", he is
+^[If you hear someone speaking of "the Runge-Kutta method", they are
     probably referring to this $O(h^4)$ method.] 
 of order
 $O(h^4)$. This method is widely used in practice. Its Butcher tableau is
 
 $$
+\begin{array}{c|cccc}
+0 & & & & \\
+\frac{1}{2} & \frac{1}{2} & & & \\
+\frac{1}{2} & 0 & \frac{1}{2} & & \\
+1 & 0 & 0 & 1 & \\
+\hline
+& \frac{1}{6} & \frac{2}{6} & \frac{2}{6} & \frac{1}{6}
 \end{array}
 $$ {#eq-rk4classical}
  and it is *not* very useful to write its difference
@@ -2317,8 +2332,7 @@ decays very rapidly as $x$ grows. For large $x$, only the remainder -
 the *steady-state solution* - contributes to $y(x)$.
 
 When applying our approximation methods developed so far to this IVP,
-one notices the following behaviour.
-^[Cf. Maple worksheet used in the lecture, available on Moodle]
+one notices the following behaviour:
 Below a certain "critical step
 size", our methods give a reasonable approximation of the exact
 solution, as expected. However, above this step size, the approximation
@@ -2338,7 +2352,7 @@ $y(x)$, this explains the large approximation error.
 
 :::
 
-ODEs which show this behaviour are called *stiff equations*. An exact
+ODEs that show this behaviour are called *stiff equations*. An exact
 definition of this term is hard to give. Roughly speaking, their crucial
 property is that they have a transient part of the solution, which
 decays very rapidly. Looking at the ODE
@@ -2429,7 +2443,7 @@ the same order.
 
 However, from this picture, it appears that *all* of our methods are
 vulnerable to the problems posed by stiff equations, as suggested also
-by the example above. For having a stable method for a large set range
+by the example above. For having a stable method for a large range
 of step sizes, we need to look at a different approach. It turns out
 that certain *implicit* multi-step methods provide an advantage here.
 
@@ -2475,15 +2489,6 @@ half plane. This is the maximum we could hope for: the implicit
 trapezoidal method gives reasonable results on stiff problems for all
 step sizes.
 
-<figure id="fig:stabilityadams">
-<p>AB4: Adams-Bashforth 4-step; AM3/AM4: Adams-Moulton 3-step/4-step;
-ABM43: Adams-Bashforth-Moulton predictor-corrector, 4/3-step. Graphics
-taken from <span class="citation" data-cites="TTM"></span>.</p>
-<img src="stability_multistep_nolegend.jpg" style="width:45.0%" />
-<figcaption>Region of stability for Adams-Bashforth and Adams-Moulton
-methods</figcaption>
-</figure>
-
 Methods of this kind, i.e., whose region of stability $\mathcal{R}$
 contains the entire left half plane, are called *absolutely stable* or
 *A-stable*.
@@ -2498,6 +2503,12 @@ are no A-stable multistep methods of order $O(h^3)$ or above. Sometimes,
 one uses a class of implicit multistep methods known as *backward
 differentiation methods (BDM)*, which exist for arbitrary error order
 and come at least close to A-stability; we do not discuss them here.
+
+![Region of stability for Adams-Bashforth and Adams-Moulton
+methods, AB4: Adams-Bashforth 4-step; AM3/AM4: Adams-Moulton 3-step/4-step;
+ABM43: Adams-Bashforth-Moulton predictor-corrector, 4/3-step. Graphics
+taken from](figures/ivp/stability_multistep_nolegend.jpg){#fig-stabilityadams}
+
 
 ### Implementing the Implicit Trapezoidal Method
 
@@ -2556,7 +2567,7 @@ equations, we shall use Newton Iteration.
 
 As a reminder:
 ^[For more details on Newton's method for solving (single)
-    nonlinear equations, see Part A of this module, or [@Burden_Faires
+    nonlinear equations, see @sec-newton1d, or [@Burden_Faires
     Sec. 2.3].] Let $F: \mathbb{R} \to \mathbb{R}$ be twice
 differentiable; suppose we are looking for a solution $x$ of the
 equation 
@@ -2603,27 +2614,6 @@ $$
 $$
 We would run this iteration until $|v|<T$.
 
-::: algorithm
-::: algorithmic
-$x := a$,  $w := \alpha$,  $h := (b-a)/N$; $c := w + \frac{h}{2}f(x,w)$;
- $k:=1$; $v := \dfrac{ w - c -
-h \, f(x+h, w)/2}{ 1 - h\, \partial_y f(x+h, w)/2}$; $w := w - v$;
-**if** $|v|<T$ **then** **break** **end if** $k:=k+1$; **exception**
-("Too many iterations") $x := x + h$ $w$
-:::
-:::
-
-Algorithm [\[alg:trapnewton\]](#alg:trapnewton){reference-type="ref"
-reference="alg:trapnewton"} combines the thoughts above, implementing
-the Implicit Trapezoidal method using Newton's method. It contains two
-loops: The outer loop (lines 3--15) is the usual iteration of our
-one-step and multi-step methods, counting through the mesh points. In
-each iteration of this loop, there is another loop (lines 5--12) which
-implements Newton's method. This inner loop does not have a fixed number
-of steps a priori. We terminate it either if the desired tolerance is
-reached (line 8), or (with an error message) if the number of steps
-exceeds a certain maximum. This is a safety measure to avoid an endless
-loop in case that the Newton iteration does not converge for any reason.
 
 Both in the case of linear and nonlinear equations, we have so far
 discussed a single ODE only. For applications in practice, we would need

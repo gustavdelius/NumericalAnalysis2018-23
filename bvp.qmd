@@ -131,7 +131,7 @@ previously considered does not suffice. The following theorem
 [@Burden_Faires Theorem 11.1], which we quote here without proof, gives a
 sufficient (not a necessary) criterion.
 
-::: {#thm:bvpunique .theorem}
+::: {#thm-bvpunique}
 **Theorem 9**. *Suppose that
 $f:[a,b] \times \mathbb{R}^2 \to \mathbb{R}$ is continuous, that the
 partial derivatives[^15] $\partial f(x,y,y') / \partial y$ and
@@ -170,7 +170,7 @@ $$ {#eq-bvplin}
 where $p,q,r: [a,b]\to\mathbb{R}$. A uniqueness criterion for these can
 be given as follows.
 
-::: {#thm:bvplinunique .theorem}
+::: {#thm-bvplinunique}
 **Theorem 10**. *Suppose that $p,q,r \in \mathcal{C}^0([a,b])$, and that
 $q(x)>0$ for all $x \in [a,b]$. Then, the boundary value problem
 @eq-bvplin has a unique solution for any
@@ -179,8 +179,7 @@ $\alpha,\beta \in \mathbb{R}$.*
 
 ::: proof
 *Proof.* This follows immediately from
-Theorem [9](#thm:bvpunique){reference-type="ref"
-reference="thm:bvpunique"}: In the present case,
+@thm-bvpunique}. In the present case,
 $$
 f(x,y,y') =  p(x) y' + q(x) y + r(x), 
 \quad \frac{\partial f(x,y,y'}{\partial y} = q(x),
@@ -501,8 +500,7 @@ quotient approximation
 Let us assume that the solution $y(x)$ of the BVP has three continuous
 derivatives. We write down second-order Taylor expansions of
 $y(x_{i+1})$ and $y(x_{i-1})$,
-cf. Theorem [12](#thm:taylor1d){reference-type="ref"
-reference="thm:taylor1d"}: 
+cf. @thm-taylor1d: 
 $$
 \begin{aligned}
 {4}
@@ -820,8 +818,8 @@ More precisely, let $\mathcal{C}^2_0[0,1]$ denote the space of
 $\mathcal{C}^2$ functions on $[0,1]$ that vanish at the endpoints of the
 interval. One has:
 
-::: {#it:miniunique .theorem}
-**Theorem 11**. *[]{#thm:rrequiv label="thm:rrequiv"} Let
+::: {#thm-rrequiv}
+Let
 $p \in \mathcal{C}^1[0,1]$, and $q,f \in \mathcal{C}[0,1]$. Further,
 suppose that there exists a constant $\delta>0$ such that
 $$
@@ -889,8 +887,7 @@ on the entire interval $[0,1]$, which is what we wanted to show. ◻
 ### Approximating the integral
 
 The Rayleigh-Ritz method makes use of the equivalence stated in
-Theorem [\[thm:rrequiv\]](#thm:rrequiv){reference-type="ref"
-reference="thm:rrequiv"}. The idea is to approximate the function that
+@thm-rrequiv. The idea is to approximate the function that
 minimizes the integral $I[\phi]$, rather than approximating the boundary
 value problem directly. That is, we try to find functions $\phi$ that
 make $I[\phi]$ as small as possible.

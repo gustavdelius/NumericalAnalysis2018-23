@@ -10,7 +10,7 @@ We first repeat the theorem in its simplest form, for a real-valued
 function of one real variable, with the remainder in Lagrange form
 [@Apostol:1969 Sec. 7.7].
 
-::: {#thm:taylor1d .theorem}
+::: {#thm-taylor1d}
 **Theorem 12**. *Let $I\subset\mathbb{R}$ be an interval, and
 $f \in \mathcal{C}^{k+1}(I,\mathbb{R})$. For each $a \in I$ and
 $x \in I$, there exists $\xi \in [a,x]$ such that
@@ -44,7 +44,7 @@ $$
 $$
 Taylor's theorem can then be formulated as follows.
 
-::: {#thm:taylormnd .theorem}
+::: {#thm-taylormnd}
 **Theorem 13**. *Let $D \subset \mathbb{R}^m$ be convex, and let
 $\mathbf{f}\in \mathcal{C}^{k+1}(D,\mathbb{R}^n)$. For each
 $\mathbf{a}\in D$, there exists
@@ -72,7 +72,7 @@ case where $m=1$, i.e., $\mathbf{f}$ depends only on one variable. Then
 the multi-index $\mathbf{j}$ is just a number $j \in \mathbb{N}_0$, the
 partial derivatives are ordinary derivatives, and we obtain:
 
-::: {#thm:taylor1nd .theorem}
+::: {#thm-taylor1nd}
 **Theorem 14**. *Let $I$ be an interval, and let
 $\mathbf{f}\in \mathcal{C}^{k+1}(I,\mathbb{R}^n)$. For each $a \in I$,
 there exists $\mathbf{R}_a : I \to \mathbb{R}^n$ such that
@@ -105,7 +105,7 @@ cases $p=q$ and $p \neq q$ occur. Working out the numerical prefactors,
 one obtains the following special cases for order $k=0$ and $k=1$
 repectively.
 
-::: {#thm:taylororder0 .theorem}
+::: {#thm-taylororder0}
 **Theorem 15**. *Let $D \subset \mathbb{R}^m$ be convex, and let
 $\mathbf{f}\in \mathcal{C}^{1}(D,\mathbb{R}^n)$. For each
 $\mathbf{a}\in D$, there exists
@@ -120,7 +120,7 @@ $$
 for all $\mathbf{x}\in D$.*
 :::
 
-::: {#thm:taylororder1 .theorem}
+::: {#thm-taylororder1}
 **Theorem 16**. *Let $D \subset \mathbb{R}^m$ be convex, and let
 $\mathbf{f}\in \mathcal{C}^{2}(D,\mathbb{R}^n)$. For each
 $\mathbf{a}\in D$, there exists

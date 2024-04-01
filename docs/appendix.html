@@ -293,8 +293,8 @@ window.Quarto = {
 
 <p>In many of the approximations and error estimates that we make throughout this course, Taylor’s theorem plays an important role. Since the theorem can be formulated in various ways, in particular, with different forms of the remainder term, it will be recalled in this appendix, with the conventions we use.</p>
 <p>We first repeat the theorem in its simplest form, for a real-valued function of one real variable, with the remainder in Lagrange form <span class="citation" data-cites="Apostol:1969">(<a href="references.html#ref-Apostol:1969" role="doc-biblioref">Apostol 1969, sec. 7.7</a>)</span>.</p>
-<div id="thm:taylor1d" class="theorem">
-<p><strong>Theorem 12</strong>. <em>Let <span class="math inline">\(I\subset\mathbb{R}\)</span> be an interval, and <span class="math inline">\(f \in \mathcal{C}^{k+1}(I,\mathbb{R})\)</span>. For each <span class="math inline">\(a \in I\)</span> and <span class="math inline">\(x \in I\)</span>, there exists <span class="math inline">\(\xi \in [a,x]\)</span> such that <span class="math display">\[
+<div id="thm-taylor1d" class="theorem">
+<p><span class="theorem-title"><strong>Theorem A.1</strong></span> <strong>Theorem 12</strong>. <em>Let <span class="math inline">\(I\subset\mathbb{R}\)</span> be an interval, and <span class="math inline">\(f \in \mathcal{C}^{k+1}(I,\mathbb{R})\)</span>. For each <span class="math inline">\(a \in I\)</span> and <span class="math inline">\(x \in I\)</span>, there exists <span class="math inline">\(\xi \in [a,x]\)</span> such that <span class="math display">\[
 f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
    + \frac{1}{(k+1)!} \frac{d^{k+1} f}{dx^{k+1}}(\xi) \, (x-a)^{k+1}.
 \]</span> </em></p>
@@ -312,8 +312,8 @@ f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
 \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{ (\partial x ^{(1)})^{j ^{(1)}} \cdots (\partial x ^{(m)})^{j ^{(m)}}}. &amp;
 \end{aligned}
 \]</span> Taylor’s theorem can then be formulated as follows.</p>
-<div id="thm:taylormnd" class="theorem">
-<p><strong>Theorem 13</strong>. <em>Let <span class="math inline">\(D \subset \mathbb{R}^m\)</span> be convex, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{k+1}(D,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(\mathbf{a}\in D\)</span>, there exists <span class="math inline">\(\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n\)</span> such that <span class="math display">\[
+<div id="thm-taylormnd" class="theorem">
+<p><span class="theorem-title"><strong>Theorem A.2</strong></span> <strong>Theorem 13</strong>. <em>Let <span class="math inline">\(D \subset \mathbb{R}^m\)</span> be convex, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{k+1}(D,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(\mathbf{a}\in D\)</span>, there exists <span class="math inline">\(\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n\)</span> such that <span class="math display">\[
 \mathbf{f}(\mathbf{x}) = \sum_{|\mathbf{j}|\leq k} \frac{1}{\mathbf{j}!} \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{a}) \, (\mathbf{x}-\mathbf{a})^\mathbf{j}+ \mathbf{R}_\mathbf{a}(\mathbf{x})
 \]</span> and <span class="math display">\[
 \lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \lVert \mathbf{x}-\mathbf{a} \rVert^{k+1}\sum_{|\mathbf{j}|=k+1} \frac{1}{\mathbf{j}!}
@@ -322,8 +322,8 @@ f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
 </div>
 <p>(See <span class="citation" data-cites="Dev">(<a href="references.html#ref-Dev" role="doc-biblioref"><strong>Dev?</strong></a>)</span> for a proof in the case <span class="math inline">\(n=1\)</span> and with an explicit remainder term. The above version then follows by estimating the remainder with its supremum, and taking the maximum over the components of <span class="math inline">\(\mathbf{f}\)</span>. It is possible to obtain an explicit form of the remainder for <span class="math inline">\(n&gt;1\)</span> as well, although not in Lagrange form; but the formula is slightly complicated, and we will not need it.)</p>
 <p>We are interested in the following special cases. First, there is the case where <span class="math inline">\(m=1\)</span>, i.e., <span class="math inline">\(\mathbf{f}\)</span> depends only on one variable. Then the multi-index <span class="math inline">\(\mathbf{j}\)</span> is just a number <span class="math inline">\(j \in \mathbb{N}_0\)</span>, the partial derivatives are ordinary derivatives, and we obtain:</p>
-<div id="thm:taylor1nd" class="theorem">
-<p><strong>Theorem 14</strong>. <em>Let <span class="math inline">\(I\)</span> be an interval, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{k+1}(I,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(a \in I\)</span>, there exists <span class="math inline">\(\mathbf{R}_a : I \to \mathbb{R}^n\)</span> such that <span class="math display">\[
+<div id="thm-taylor1nd" class="theorem">
+<p><span class="theorem-title"><strong>Theorem A.3</strong></span> <strong>Theorem 14</strong>. <em>Let <span class="math inline">\(I\)</span> be an interval, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{k+1}(I,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(a \in I\)</span>, there exists <span class="math inline">\(\mathbf{R}_a : I \to \mathbb{R}^n\)</span> such that <span class="math display">\[
 \mathbf{f}(x) = \sum_{j=0}^{k} \frac{1}{j!} \frac{d^j \mathbf{f}}{dx^j}(a) \, (x-a)^j + \mathbf{R}_a(x)
 \]</span> and <span class="math display">\[
 \lVert \mathbf{R}_a(x) \rVert \leq  \frac{\lvert x-a \rvert^{k+1}}{(k+1)!}
@@ -333,15 +333,15 @@ f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
 <p>On other occasions, we will need the function <span class="math inline">\(\mathbf{f}: \mathbb{R}^m\to\mathbb{R}^n\)</span> in full generality, but use the Taylor expansion only up to order <span class="math inline">\(k \leq 1\)</span>. In this case, the relevant derivatives of <span class="math inline">\(\mathbf{f}\)</span> can be written in an easier way: Those with <span class="math inline">\(|\mathbf{j}|=1\)</span> are just single derivatives <span class="math inline">\(\partial \mathbf{f}/\partial x ^{(p)}\)</span> with <span class="math inline">\(p\)</span> ranging from <span class="math inline">\(1\)</span> to <span class="math inline">\(m\)</span>, and they can conveniently be combined into a matrix <span class="math inline">\(\partial\mathbf{f}/\partial \mathbf{x}\)</span>. We have <span class="math display">\[
 \sum_{|\mathbf{j}|=1} \frac{1}{\mathbf{j}!} \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{a}) \, (\mathbf{x}-\mathbf{a})^\mathbf{j}= \frac{\partial \mathbf{f}}{\partial\mathbf{x}}(\mathbf{a}) \cdot (\mathbf{x}-\mathbf{a}),
 \]</span> reading the r.h.s. as a matrix product. The derivatives with <span class="math inline">\(|\mathbf{j}|=2\)</span> are of the form <span class="math inline">\(\partial^2 \mathbf{f}/\partial x ^{(p)}\partial x ^{(q)}\)</span>, where both cases <span class="math inline">\(p=q\)</span> and <span class="math inline">\(p \neq q\)</span> occur. Working out the numerical prefactors, one obtains the following special cases for order <span class="math inline">\(k=0\)</span> and <span class="math inline">\(k=1\)</span> repectively.</p>
-<div id="thm:taylororder0" class="theorem">
-<p><strong>Theorem 15</strong>. <em>Let <span class="math inline">\(D \subset \mathbb{R}^m\)</span> be convex, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{1}(D,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(\mathbf{a}\in D\)</span>, there exists <span class="math inline">\(\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n\)</span> such that <span class="math display">\[
+<div id="thm-taylororder0" class="theorem">
+<p><span class="theorem-title"><strong>Theorem A.4</strong></span> <strong>Theorem 15</strong>. <em>Let <span class="math inline">\(D \subset \mathbb{R}^m\)</span> be convex, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{1}(D,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(\mathbf{a}\in D\)</span>, there exists <span class="math inline">\(\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n\)</span> such that <span class="math display">\[
 \mathbf{f}(\mathbf{x}) = \mathbf{f}(\mathbf{a}) + \mathbf{R}_\mathbf{a}(\mathbf{x})
 \]</span> and <span class="math display">\[
 \lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \lVert \mathbf{x}-\mathbf{a} \rVert \; \sup_{\mathbf{x}' \in D} \big\lVert  \frac{\partial \mathbf{f}}{\partial \mathbf{x}}(\mathbf{x}') \big\rVert
 \]</span> for all <span class="math inline">\(\mathbf{x}\in D\)</span>.</em></p>
 </div>
-<div id="thm:taylororder1" class="theorem">
-<p><strong>Theorem 16</strong>. <em>Let <span class="math inline">\(D \subset \mathbb{R}^m\)</span> be convex, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{2}(D,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(\mathbf{a}\in D\)</span>, there exists <span class="math inline">\(\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n\)</span> such that <span class="math display">\[
+<div id="thm-taylororder1" class="theorem">
+<p><span class="theorem-title"><strong>Theorem A.5</strong></span> <strong>Theorem 16</strong>. <em>Let <span class="math inline">\(D \subset \mathbb{R}^m\)</span> be convex, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{2}(D,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(\mathbf{a}\in D\)</span>, there exists <span class="math inline">\(\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n\)</span> such that <span class="math display">\[
 \mathbf{f}(\mathbf{x}) = \mathbf{f}(\mathbf{a}) + \frac{\partial \mathbf{f}}{\partial\mathbf{x}}(\mathbf{a}) \cdot (\mathbf{x}-\mathbf{a}) +  \mathbf{R}_\mathbf{a}(\mathbf{x})
 \]</span> and <span class="math display">\[
 \lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \frac{1}{2}\lVert \mathbf{x}-\mathbf{a} \rVert^{2} \sum_{p,q=1}^m  
