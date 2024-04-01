@@ -3,6 +3,8 @@ project:
   output-dir: docs
   preview: 
     browser: true
+    port: 3930
+    watch-inputs: true
 
 book:
   title: "Numerical Analysis 2018-23"
