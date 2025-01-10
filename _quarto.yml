@@ -1,19 +1,19 @@
 project:
   type: book
   output-dir: docs
-  preview: 
+  preview:
     browser: true
     port: 3930
     watch-inputs: true
 
 book:
   title: "Numerical Analysis 2018-23"
-  author: 
+  author:
     - name: Gustav Delius
       email: gustav.delius@york.ac.uk
       affiliation:
       - name: Department of Mathematics, University of York
-    
+
   date: today
   license: CC BY-NC-SA
   downloads: pdf
@@ -23,7 +23,7 @@ book:
   twitter-card: true
   open-graph: true
   sidebar:
-    tools: 
+    tools:
       - icon: mortarboard-fill
         href: https://maths.york.ac.uk/moodle/course/view.php?id=2528
         text: Moodle page
@@ -46,16 +46,50 @@ book:
 
 bibliography: references.bib
 
+filters:
+  - pseudocode
+
+pseudocode:
+  caption-prefix: "Algorithm"
+  reference-prefix: "Algorithm"
+  caption-number: true
+
+link-citations: true
+
 format:
   html:
     theme: cosmo
     link-external-newwindow: true
+    include-in-header:
+      text: |
+        <script>
+        MathJax = {
+          loader: {
+            load: ['[tex]/boldsymbol']
+          },
+          tex: {
+            tags: "all",
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            packages: {
+              '[+]': ['boldsymbol']
+            }
+          }
+        };
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   pdf:
     documentclass: scrreprt
     papersize: a4
+    include-before-body:
+      text: |
+        \numberwithin{algorithm}{chapter}
+        \algrenewcommand{\algorithmiccomment}[1]{\hskip3em$\rightarrow$ #1}
     execute:
       echo: false
-    
+
 toc: true
 number-sections: true
 crossref:

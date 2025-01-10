@@ -45,19 +45,18 @@ That is,
 every solution of $y''=y$ has this form. Now inserting the boundary
 conditions, we have 
 $$
-\begin{aligned}
-   1 = c e^0 + d e^0 = c + d \quad &\Leftrightarrow \quad d = 1-c,
-\\
-\label{eq:cdsecond}
-   1 = c e^1 + d e^{-1} = ce + \frac{d}{e} \quad &\Leftrightarrow \quad  1 
-     = ce + \frac{1-c}{e} = c(e-\frac{1}{e}) + \frac{1}{e}.
-\end{aligned}
+1 = c e^0 + d e^0 = c + d \quad \Leftrightarrow \quad d = 1-c,
 $$
+and
+$$
+   1 = c e^1 + d e^{-1} = ce + \frac{d}{e} \quad \Leftrightarrow \quad  1 
+     = ce + \frac{1-c}{e} = c\left(e-\frac{1}{e}\right) + \frac{1}{e}.
+$$ {#eq-cdsecond}
 From
 @eq-cdsecond, we find that the boundary conditions are
 satisfied if and only if
 $$
-1 - \frac{1}{e} = c(e-\frac{1}{e}) \quad \Leftrightarrow \quad
+1 - \frac{1}{e} = c\left(e-\frac{1}{e}\right) \quad \Leftrightarrow \quad
   c = \frac{e-1}{e^2-1} = \frac{1}{e+1},
 $$
 of which we compute
@@ -132,24 +131,24 @@ previously considered does not suffice. The following theorem
 sufficient (not a necessary) criterion.
 
 ::: {#thm-bvpunique}
-**Theorem 9**. *Suppose that
+Suppose that
 $f:[a,b] \times \mathbb{R}^2 \to \mathbb{R}$ is continuous, that the
 partial derivatives[^15] $\partial f(x,y,y') / \partial y$ and
 $\partial f(x,y,y') / \partial y'$ exist and are continuous, and that*
 
-1.  *$\dfrac{\partial f}{\partial y}(x,y,y') > 0$ for all $x \in [a,b]$,
-    $y,y' \in \mathbb{R}$,*
+1.  $\dfrac{\partial f}{\partial y}(x,y,y') > 0$ for all $x \in [a,b]$,
+    $y,y' \in \mathbb{R}$,
 
-2.  *$\Big\lvert \dfrac{\partial f}{\partial y'}(x,y,y') \Big\rvert \leq M$
-    for all $x \in [a,b]$, $y,y' \in \mathbb{R}$,*
+2.  $\Big\lvert \dfrac{\partial f}{\partial y'}(x,y,y') \Big\rvert \leq M$
+    for all $x \in [a,b]$, $y,y' \in \mathbb{R}$,
 
-*with a constant $M>0$. Then, the boundary value problem
+with a constant $M>0$. Then, the boundary value problem
 
 $$
  y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta
 $$ {#eq-bvprepeat}
 
-has a unique solution for any $\alpha,\beta \in \mathbb{R}$.*
+has a unique solution for any $\alpha,\beta \in \mathbb{R}$.
 :::
 
 Briefly speaking, in order to obtain a unique solution, it suffices that
@@ -171,15 +170,15 @@ where $p,q,r: [a,b]\to\mathbb{R}$. A uniqueness criterion for these can
 be given as follows.
 
 ::: {#thm-bvplinunique}
-**Theorem 10**. *Suppose that $p,q,r \in \mathcal{C}^0([a,b])$, and that
+Suppose that $p,q,r \in \mathcal{C}^0([a,b])$, and that
 $q(x)>0$ for all $x \in [a,b]$. Then, the boundary value problem
 @eq-bvplin has a unique solution for any
-$\alpha,\beta \in \mathbb{R}$.*
+$\alpha,\beta \in \mathbb{R}$.
 :::
 
 ::: proof
-*Proof.* This follows immediately from
-@thm-bvpunique}. In the present case,
+This follows immediately from
+@thm-bvpunique. In the present case,
 $$
 f(x,y,y') =  p(x) y' + q(x) y + r(x), 
 \quad \frac{\partial f(x,y,y'}{\partial y} = q(x),
@@ -195,8 +194,7 @@ In the following sections, we will discuss three very different
 approximation methods for the solutions of BVPs:
 
 -   the *Shooting Method*, which makes use of the techniques for IVPs
-    which we discussed in Part [](#par:ivp){reference-type="ref"
-    reference="par:ivp"} of the course,
+    which we discussed in @sec-ivp,
 
 -   the *Finite Difference Method*, which approximates the derivatives
     of the ODE with difference quotients,
@@ -302,16 +300,13 @@ $$ {#eq-bvplinshoot}
 with $p,q,r$ being continuous functions on $[a,b]$.
 
 It turns out to be convenient to consider *two* related IVPs, neither of
-which involves the value $\gamma$: 
+which involves the value $\gamma$:
 $$
-\begin{aligned}
-\label{eq:ivpshooty0}
- y_0''(x) &= p(x) y_0'(x) + q(x) y_0(x) + r(x),  \quad &a \leq x \leq b, && y_0(a) &= \alpha, & y_0'(a) &= 0;
-\\
-\label{eq:ivpshootz}
- z'' &= p(x) z'(x) + q(x) z(x) ,  & a \leq x \leq b, && z(a) &= 0, & z'(a) &= 1.
-\end{aligned}
+ y_0''(x) = p(x) y_0'(x) + q(x) y_0(x) + r(x),  \quad a \leq x \leq b,  \quad y_0(a) = \alpha,\quad  y_0'(a) = 0;
+$$ {#eq-ivpshooty0}
 $$
+ z'' = p(x) z'(x) + q(x) z(x) , \quad  a \leq x \leq b, \quad z(a) = 0, \quad z'(a) = 1.
+$$ {#eq-ivpshootz}
 Using their exact solutions $y_0(x)$ and $z(x)$, we can
 define 
 $$
@@ -324,8 +319,7 @@ solution of the IVP
 @eq-ivpshoot.
 
 The solutions $y_0(x)$ and $z(x)$ can be found (approximately) by our
-known methods from Part [](#par:ivp){reference-type="ref"
-reference="par:ivp"}. We can then compute the correct value of $\gamma$
+known methods from @sec-ivp. We can then compute the correct value of $\gamma$
 for our boundary value problem, as indicated in
 @eq-shootlinsol: 
 $$
@@ -427,6 +421,43 @@ $$
 This
 finally allow us to compute the Newton step
 @eq-gammastep.
+
+```pseudocode
+#| html-indent-size: "1.2em"
+#| html-comment-delimiter: "//"
+#| html-line-number: true
+#| html-line-number-punc: ":"
+#| html-no-end: false
+#| pdf-placement: "htb!"
+#| pdf-line-number: true
+
+\begin{algorithm}
+\caption{Quicksort}
+\begin{algorithmic}
+\Function{NonlinearShooting}{$a,b,\alpha,\beta,\gamma_0,N,T,M$}
+  \State 
+    \Comment{boundary values $\alpha,\beta$; start value $\gamma_0$; number of Runge-Kutta steps $N$;}
+  \State 
+    \Comment{tolerance $T$; maximum number of Newton iterations $M$}
+  \State $F:=  (x,\uv) \mapsto \big(u\vc{2},  f(x,u\vc{1},u\vc{2}), u\vc{4} ,
+   \frac{\partial f}{\partial y}(x,u\vc{1},u\vc{2}) \, u\vc{3} +\frac{\partial
+    f}{\partial y'}(x,u\vc{1},u\vc{2}) \, u\vc{4} \big)$
+  \State $\gamma := \gamma_0$;  $k:=0$
+  \While{$k\leq M$}
+    \State $ \wv := $ 
+      \Call{RungeKutta}{$F, a,b, (\alpha,\gamma,0,1), N$}
+    \State \Comment{here $\wv = ( \wv_0,\ldots, \wv_N)$, each $\wv_j$ is a 4-vector}
+    \State $v := \dfrac{w_{N}\vc{1}-\beta}{w_{N}\vc{3}}$; $\gamma := \gamma - v$
+    \If{$|v|<T$}
+      \Break
+    \EndIf
+    \State $k:=k+1$
+  \EndWhile
+  \Return ($w_{0}\vc{1},\ldots,w_{N}\vc{1}$)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+```
 
 ::: algorithm
 ::: algorithmic
