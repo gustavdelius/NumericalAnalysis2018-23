@@ -1,4 +1,4 @@
-# Iterative techniques for solving systems of linear equations
+# Iterative techniques for solving systems of linear equations {#sec-linsys}
 
 Consider the system of linear equations 
 $$
