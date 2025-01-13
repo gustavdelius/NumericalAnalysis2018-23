@@ -30,20 +30,20 @@ Item a is outside our scope in this course. In this chapter, we will discuss rou
 We can write any real number in floating point notation 
 $$
 x=\pm 0.d_{1}d_{2}d_{3}\dots d_{k}d_{k+1}d_{k+2}\dots \times 10^n.
-$$
+$$ {#eq-error1}
 
 The number $\pm 0. d_{1} d_{2}d_{3} \ldots d_{k}\ldots$ is called the **mantissa** and the power of ten is called the **exponent**. However, a computer can work only with finite set of digits. Therefore, we truncate the mantissa and limit the range of the exponent $n$ to produce a $k$-digit (decimal) machine number. This can be done in two ways:
 
 -   **Chopping** results in 
 $$
 x^\ast=\pm 0.d_{1}d_{2}...d_{k}\times 10^n .
-$$
+$$ {#eq-error2}
 
 
 -   **Rounding** results in
 $$
 x^\ast=\pm 0.d_{1}d_{2}...d_{k-1}d^{*}_{k}\times 10^n,
-$$
+$$ {#eq-error3}
 where $x^\ast$ is obtained by adding $0.5\times 10^{n-k}$ (or, equivalently, $5\times10^{n-k-1}$ to $x$ and chopping.
 
 Either machine number is called (decimal) $k$-digit **floating point representation** of $x$, and denoted by $fl(x)$.
@@ -52,11 +52,11 @@ Either machine number is called (decimal) $k$-digit **floating point representat
 The floating point representation of $\pi=3.14159265\ldots$ is 
 $$
 \pi=0.314159265\ldots\times10^1.
-$$ 
+$$ {#eq-error4}
 The five-digit floating-point form of $\pi$ is given by 
 $$
 fl(\pi)=0.31415\times10^1=3.1415
-$$
+$$ {#eq-error5}
 if chopping is used. 
 In the case of rounding, we first compute 
 $$
@@ -64,11 +64,11 @@ $$
 \pi+0.5\times 10^{1-5} &= 0.314159265\ldots\times10^1 + 0.000005\ldots\times10^1 \\
 &=  0.314164265\ldots\times10^1
 \end{split}
-$$ 
+$$ {#eq-error6}
 and then chop to obtain 
 $$
 fl(\pi)=0.31416\times10^1=3.1416.
-$$
+$$ {#eq-error7}
 
 ::: 
 
@@ -90,21 +90,21 @@ The error resulting from replacing a number by its floating-point form is called
 If $x^\ast$ is an approximation to $x$, the **absolute error** is 
 $$
 E_{abs}:=\vert x-x^\ast\vert,
-$$ 
+$$ {#eq-error8}
 and the **relative error** (for $x\neq 0$) is 
 $$
 E_{rel}:=\frac{\lvert x-x^\ast\rvert}{\lvert x \rvert} .
-$$
+$$ {#eq-error9}
 :::
 
 With these notions, our roundoff errors can be estimated. If $x^\ast=fl(x)$ is obtained by $k$-digit chopping, then (prove it!) 
 $$
 \frac{\vert x-x^\ast\vert}{\vert x \vert}\leq 10^{-k+1}.
-$$ 
+$$ {#eq-error10}
 If $x^\ast=fl(x)$ is obtained by $k$-digit rounding, then (prove it!) 
 $$
 \frac{\vert x-x^\ast\vert}{\vert x \vert}\leq 0.5\times 10^{-k+1}.
-$$
+$$ {#eq-error11}
 
 
 ::: {#def-2}
@@ -118,18 +118,18 @@ Suppose that a number $x^\ast$ approximates $x$ and that $x^\ast\neq x$. We say 
 In other words, $x^\ast$ approximates $x$ to $k$ significant digits if and only if: 
 $$
 0.1\times 10^{n-k}\leq \vert x^\ast-x\vert < 0.5\times 10^{n-k}.
-$$
+$$ {#eq-error12}
 
 
 ::: {#exm-2} 
 Suppose that $x=23.492=0.23492\times 10^{2}$ and $x^\ast=23.489=0.23489\times 10^{2}$. Then the absolute error is 
 $$
 \vert x^\ast-x\vert=0.00003\times 10^{2}=0.3\times 10^{-2},
-$$ 
+$$ {#eq-error13}
 so $x^\ast$ approximates $x$ to $4$ significant digits. The relative error is 
 $$
 \frac{\lvert x-x^\ast\rvert}{\lvert x \rvert} = \frac{0.3\times 10^{-2}}{0.23492\times 10^{2}}\approx0.1277\times10^{-3}.
-$$
+$$ {#eq-error14}
 :::
 
 It can be shown that if $x^\ast=fl(x)$ is obtained by $k$-digit rounding, then $x^\ast$ has at least $k$ significant digits with respect to $x$.
@@ -141,7 +141,7 @@ Further reading: Section 1.2 of [@Burden_Faires].
 In each arithmetic computation performed by a computer on floating point numbers, additional roundoff error may occur. Let us illustrate this in the example of addition. Let $x,y$ be two real numbers and $x^\ast = fl(x)$, $y^\ast = fl(y)$. We denote the computer-performed addition of $x^\ast$ and $y^\ast$ as $x^\ast \oplus y^\ast$, as opposed to the normal addition $+$. In a simple model, we will assume that $\oplus$ is just normal addition followed by rounding: 
 $$
 x^\ast \oplus y^\ast = fl(x^\ast + y^\ast).
-$$ 
+$$ {#eq-error15}
 Rounding is unavoidable in general due to the finite length of the mantissa, and generates additional error. Let us quantify this by estimating the absolute error of $x^\ast \oplus y^\ast$, as an approximation for $x+y$. Using the triangle inequality, we obtain 
 $$
 \begin{split}
@@ -152,7 +152,7 @@ $$
   &\leq
      \lvert x-x^\ast \rvert + \lvert y - y^\ast \rvert + \lvert x^\ast + y^\ast  - fl(x^\ast + y^\ast) \rvert.
   \end{split}
-$$ 
+$$ {#eq-error16}
 Thus, the total absolute error is the sum of the individual absolute errors for $x^\ast$ and $y^\ast$, plus an extra term arising from rounding.
 
 From this, it might seem that addition is relatively unaffected by rounding---after all, the rounding error occurs in the last digit of the mantissa. However, there are several situations where the rounding error can become very relevant. First, if we are performing a large number of additions (say, several thousands), then every one of these can cause an additional (small) rounding error, and the sum of these may be quite large. Second, the *relative* error can increase significantly in the case of *subtraction*, which is included in the above by considering $y<0$.
@@ -162,7 +162,7 @@ From this, it might seem that addition is relatively unaffected by rounding---af
 Consider 5-digit rounding and set
 $$
 x = 1 + \frac{\pi}{1000}, \quad x^\ast = 1.0031, \quad y=y^\ast = -1.
-$$ 
+$$ {#eq-error17}
 In this case, $x^\ast \oplus y^\ast = fl(0.0031) = 3.1 \times 10^{-3}$. The absolute errors of $x^\ast$ and $x^\ast\oplus y^\ast$, as well as the relative error of $x^\ast$, are approximately $0.4 \times 10^{-4}$. However, the relative error of $x^\ast\oplus y^\ast$ is approximately $0.4 \times 10^{-4} / 3.1 \times 10^{-3} \approx 10^{-2}$---subtraction has increased it significantly, and $x^\ast\oplus y^\ast$ has only 2 valid digits.
 :::
 

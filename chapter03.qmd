@@ -72,7 +72,7 @@ $$ {#eq-bisecterror}
 For $n\geq 1$, we have by construction 
 $$
 a_{n} \leq p \leq b_{n} .
-$$ 
+$$ {#eq-nonlin1}
 Subtracting $x_{n}$ from this inequality yields 
 $$
 a_n-x_{n}  \leq p - x_n \leq b_n - x_{n}.
@@ -80,13 +80,13 @@ $$ {#eq-apb}
 Recalling that $x_{n}=(a_{n}+b_{n})/2$, we can rewrite this as 
 $$
 -\frac{b_{n}- a_{n}}{2} \leq p - x_{n}  \leq \frac{b_{n}- a_{n}}{2},
-$$ 
+$$  {#eq-nonlin2}
 or equivalently, since $b_n-a_n=(b-a)/2^{n-1}$, 
 $$
 \left\vert p-x_{n}\right\vert
 \leq \frac{1}{2}\left(b_{n} - a_{n}\right)
 = \frac{ b-a}{2^{n}} .
-$$ 
+$$  {#eq-nonlin3}
 This implies that $x_{n} \to p$ as $n \to \infty$ and also gives us the proposed error estimate. 
 ◻
 :::
@@ -103,7 +103,7 @@ First, we calculate the number of steps necessary to compute $\sqrt{2}$ with acc
 This requires to find an integer $N$ such that 
 $$
 \vert x_{N}-p\vert\leq \frac{b-a}{2^{N}}=2^{-N}< 10^{-3}.
-$$ 
+$$  {#eq-nonlin4}
 Since $2^{10}=1024$, this inequality is satisfied if we take $N=10$.
 @tbl-bisection shows the results of the bisection method.
 
@@ -189,11 +189,11 @@ Instead, one joins the points $(a, f(a))$ and $(b, f(b))$ with a straight line (
 Since the line is given by 
 $$
 y=f(a)+\frac{f(b)-f(a)}{b-a}(x-a),
-$$ 
+$$  {#eq-nonlin10}
 this intersection point is located at 
 $$
 \quad x =  a-\frac{f(a)}{f(b)-f(a)}(b-a) .
-$$
+$$ {#eq-nonlin11}
 
 This method is illustrated in @fig-false.
 
@@ -254,21 +254,21 @@ We will now investigate a different problem that is closely related to root find
 Given a function $g$ (of one real argument with real values), we look for a number $p$ such that 
 $$
 g(p)=p.
-$$
+$$ {#eq-nonlin12}
 This $p$ is called a **fixed point** of $g$.
 
 Any root finding problem $f(x)=0$ can be reformulated as a fixed point problem, and this can be done in many (in fact, infinitely many) ways.
 For example, given $f$, we can define $g(x):=f(x) + x$; then 
 $$
 f(x) = 0 \quad \Leftrightarrow\quad g(x)=x.
-$$ 
+$$  {#eq-nonlin13}
 Just as well, we could set $g(x):=\lambda f(x) + x$ with any $\lambda\in{\mathbb R}\backslash\{0\}$, and there are many other possibilities.
 
 The heuristic idea for approximating a fixed point of a function $g$ is quite simple.
 We take an initial approximation $x_{0}$ and calculate subsequent approximations using the formula 
 $$
 x_{n}:=g(x_{n-1}).
-$$ 
+$$  {#eq-nonlin14}
 A graphical representation of this sequence is shown in @fig-fixed.
 
 ::: {.content-visible when-format="html"}
@@ -325,18 +325,18 @@ $$
 \begin{aligned}
  h(a) &= g(a)-a>0, & h(b)&=g(b)-b<0
 \end{aligned}
-$$ 
+$$  {#eq-nonlin15}
 and since $h$ is continuous on $[a,b]$ the Intermediate Value Theorem guarantees the existence of $p\in(a,b)$ for which $h(p)=0$, equivalently $g(p)=p$, so that $p$ is a fixed point of $g$.
 
 To show that the fixed point is unique, suppose that $q\neq p$ is a fixed point of $g$ in $[a,b]$.
 The Mean Value Theorem implies the existence of a number $\xi\in(\min\{p,q\},\max\{p,q\})\subseteq(a,b)$ such that 
 $$
 \frac{g(p)-g(q)}{p-q}=g'(\xi).
-$$ 
+$$  {#eq-nonlin16}
 Then 
 $$
 \lvert p - q\rvert = \lvert g(p)-g(q) \rvert = \lvert (p-q)g'(\xi) \rvert = \lvert p-q\rvert \lvert g'(\xi) \rvert \le  k\lvert p-q\rvert < \lvert p-q\rvert,
-$$ 
+$$  {#eq-nonlin17}
 where the inequalities follow from @eq-thm:fixedpoint1d:1.
 This is a contradiction, which must have come from the assumption $p\neq q$.
 Thus $p=q$ and the fixed point is unique.
@@ -345,15 +345,16 @@ Since $g$ maps $[a,b]$ onto itself, the sequence $\{x_n\}$ is well defined.
 For each $n\ge0$ the Mean Value Theorem gives the existence of a $\xi\in(\min\{x_n,p\},\max\{x_n,p\})\subseteq(a,b)$ such that
 $$
 \frac{g(x_n)-g(p)}{x_n-p}=g'(\xi).
-$$ 
+$$  {#eq-nonlin18}
 Thus for each $n\ge1$ by @eq-thm:fixedpoint1d:1, @eq-thm:fixedpoint1d:2
 $$
 \lvert x_n-p\rvert = \lvert g(x_{n-1})-g(p) \rvert = \lvert (x_{n-1}-p)g'(\xi) \rvert = \lvert x_{n-1}-p\rvert \lvert g'(\xi) \rvert \le  k\lvert x_{n-1}-p\rvert.
-$$ 
+$$  {#eq-nonlin19}
 Applying this inequality inductively, we obtain the error estimate @eq-fperr.
 Moreover since $k <1$ we have
-$$\lim_{n\rightarrow\infty}\lvert x_{n}-p\rvert \le \lim_{n\rightarrow\infty} k^n \lvert x_{0}-p\rvert = 0,
-$$ 
+$$
+\lim_{n\rightarrow\infty}\lvert x_{n}-p\rvert \le \lim_{n\rightarrow\infty} k^n \lvert x_{0}-p\rvert = 0,
+$$  {#eq-nonlin20}
 which implies that $(x_n)$ converges to $p$. 
 ◻
 :::
@@ -364,7 +365,7 @@ The following example shows why the conditions of the @thm-fixedpoint1d are impo
 The equation 
 $$
 f(x)=x^{2}-2=0
-$$ 
+$$  {#eq-nonlin21}
 has a unique root $\sqrt{2}$ in $[1, 2]$.
 There are many ways of writing this equation in the form $x=g(x)$; we consider two of them: 
 $$
@@ -372,7 +373,7 @@ $$
 x&=g(x)=x-(x^{2}-2), &
   x&=h(x)=x-\frac{x^{2}-2}{3}.
 \end{aligned}
-$$ 
+$$  {#eq-nonlin22}
 Which of these fixed point problems generate a rapidly converging sequence?
 
 It is easy to see that the condition of the fixed point theorem is not satisfied by the function $g$ on $[1,2]$: Namely, $g(2)=0$, so that $g(2)\not\in[1, 2]$.
@@ -380,7 +381,7 @@ On the other hand $h$ satisfies the conditions because
 $$
 h(x)\in [1, 2]   \quad \left(\max_{x\in[1, 2]}h(x)=\frac{17}{12},
 \; \min_{x\in[1, 2]}h(x)=\frac{4}{3}\right) \quad \text{and} \quad \lvert h^{\prime}(x)\rvert\leq 1/3.
-$$ 
+$$  {#eq-nonlin23}
 Thus, the fixed point theorem guarantees that the sequence $(x_n)$ produced by the fixed point iteration procedure $x_{n}=h(x_{n-1})$ converges to $p=\sqrt{2}$.
 
 ::: {#tbl-fixedpoint caption="Fixed point iteration for $g$ and $h$"}
@@ -431,7 +432,7 @@ The estimate in fixed point iteration, @eq-fperr, turns out to be more difficult
 While we can certainly estimate 
 $$
 \lvert x_{0}-p\rvert  \leq \max\{ \lvert x_{0}-a\rvert, \lvert x_{0}-b\rvert\},
-$$ 
+$$  {#eq-nonlin24}
 the constant $k$ (which influences the speed of convergence significantly) is often difficult to obtain in practice, since it involves estimates on the derivative of $g$.
 
 Instead, one uses a different **stopping condition** for the algorithm.
@@ -481,7 +482,7 @@ For each $a \in I$ and $x \in I$, there exists $\xi$ between $a$ and $x$ such th
 $$
 f(x) = f(a) + (x-a)f'(a)+ \dots +
    \frac{(x-a)^{k}}{(k)!} f^{(k)}(a)   + \frac{(x-a)^{k+1}}{(k+1)!}  f^{(k+1)}(\xi).
-$$ 
+$$  {#eq-nonlin25}
 Here $f^{(k)}(a)$ denotes the $k$th derivative of $f$ at $x=a$.
 :::
 
@@ -492,18 +493,18 @@ The first-order Taylor expansion of $f(x)$ about $x^{*}$ is
 $$
 f(x)=f(x^{*})+(x-x^{*})f^{\prime}(x^{*})+ \frac{(x-x^{*})^{2}}{2}
 f^{\prime\prime}(\xi)
-$$ 
+$$  {#eq-nonlin26}
 with some $\xi$ between $x$ and $x^*$ (so that $\xi\in[a,b]$).
 Setting $x=p$, we have 
 $$
 0=f(x^{*})+(p-x^{*})f^{\prime}(x^{*})+ \frac{(p-x^{*})^{2}}{2}
 f^{\prime\prime}(\xi).
-$$ 
+$$  {#eq-nonlin27}
 Since $\vert x^{*}-p\vert$ is small, we ignore the last term in this formula and obtain 
 $$
 0\approx f(x^{*})+(p-x^{*})f^{\prime}(x^{*}) \ \ \ \Rightarrow \ \ \
 p\approx x^{*}-\frac{f(x^{*})}{f^{\prime}(x^{*})} .
-$$ 
+$$  {#eq-nonlin28}
 Of course, $p$ computed using this formula will not be the exact root, but it is natural to expect it to be a better approximation than $x^{*}$.
 
 Let us formulate this as an iterative algorithm.
@@ -544,7 +545,7 @@ Sometimes, a combination of the bisection method and Newton's method is used in 
 For $f(x)=x^{2}-2$, $x\in (0,\infty)$, equation @eq-newtonfp yields the function 
 $$
 g(x)=x-\frac{f(x) }{ f^{\prime}(x)}=x-\frac{x^{2}-2}{2x}=\frac{x}{2}+\frac{1}{x}.
-$$ 
+$$  {#eq-nonlin29}
 The sequence generated by the formula $x_{n}=\frac{x_{n-1}}{2}+\frac{1}{x_{n-1}}$ ($n\geq 1$) converges to the root $\sqrt{2}$ of the equation $f(x)=0$ for any choice of $x_0\in (0, \infty)$ (prove it!).
 Calculations yield the values in @tbl-newton1d, which shows a very fast convergence.
 (Compare this with the result of fixed point iteration in @tbl-fixedpoint.)
@@ -610,11 +611,11 @@ The idea here is to replace the derivative with a finite difference quotient.
 By definition of the derivative, we have 
 $$
 f^{\prime}(x_{n})=\lim_{x\to x_{n}} \frac{f(x)-f(x_{n})}{x-x_{n}}.
-$$ 
+$$  {#eq-nonlin30}
 Replacing $x$ by $x_{n-1}$, we obtain 
 $$
 f^{\prime}(x_{n})\approx \frac{f(x_{n-1})-f(x_{n})}{x_{n-1}-x_{n}}.
-$$ 
+$$  {#eq-nonlin31}
 Using this approximation, the definition @eq-neqtonseq of the approximating sequence is replaced by 
 $$
 x_{n+1} := x_{n}- \frac{f(x_{n})(x_{n}-x_{n-1})}{f(x_{n})-f(x_{n-1})}.
@@ -680,7 +681,7 @@ Let $\{x_{n}\}$ and $\{y_{n}\}$ be sequences converging to zero and let, for $n\
 $$
 \vert x_{n+1}\vert = k \vert x_{n}\vert \quad \text{  and  } \quad
 \vert y_{n+1}\vert = k \vert y_{n}\vert^{2},
-$$ 
+$$  {#eq-nonlin32}
 where $0< k < 1$.
 According to the definition, $\{x_{n}\}$ is linearly convergent and $\{y_{n}\}$ is quadratically convergent.
 
@@ -694,7 +695,7 @@ k\vert k\vert y_{n-2}\vert^{2}\vert^{2}=k^{3}\vert y_{n-2}\vert^{4}=
 k^{7}\vert y_{n-3}\vert^{8}=...
 =k^{2^{n}-1}\vert y_{0}\vert^{2^{n}}.
 \end{split}
-$$ 
+$$  {#eq-nonlin33}
 This illustrates that the quadratic convergence is much faster that the linear convergence.
 :::
 
@@ -704,13 +705,13 @@ Suppose that $g(x)$ satisfies the conditions of the Fixed Point Theorem on inter
 Then, using the Mean Value Theorem, we obtain 
 $$
 E_{n+1}=\vert x_{n+1}-p\vert=\vert g(x_{n})-g(p)\vert=\vert g'(\xi)( x_{n}-p)\vert = E_{n}\vert g'(\xi_{n})\vert,
-$$ 
+$$  {#eq-nonlin34}
 where $\xi_{n}$ is a number between $x_n$ and $p$.
 This implies that if $x_n\to p$, then $\xi_n\to p$ as $n\to\infty$.
 Therefore, 
 $$
 \lim_{n\to\infty}\frac{E_{n+1}}{E_{n}}=\vert g'(p)\vert .
-$$ 
+$$  {#eq-nonlin35}
 In general, $g'(p)\neq 0$, so that the fixed point iteration produces a linearly convergent sequence.
 
 *Can the fixed-point iteration produce convergent sequences with convergence of order 2, 3, etc. ?* It turns out that, under certain conditions, this is possible.
@@ -732,7 +733,7 @@ x_{n+1}=g(x_{n}) &= g(p) + (x_{n}-p)g'(p)+\dots  \\
 \frac{(x_{n}-p)^{m}}{m!}g^{(m)}(\xi_n) \\
 &=p+\frac{(x_{n}-p)^{m}}{(m)!}g^{(m)}(\xi_n),
 \end{split}
-$$ 
+$$  {#eq-nonlin36}
 where $\xi_n$ is between $x_{n}$ and $p$ and, therefore, in $[a,b]$ ($x_{n}\in[a,b]$ at least for sufficiently large $n$).
 Then we have 
 $$
@@ -740,11 +741,11 @@ $$
 E_{n+1}&=\vert x_{n+1}-p\vert=\vert g(x_{n})-p\vert= \left\vert\frac{(x_{n}-p)^{m}}{(m)!}g^{(m)}(\xi_n)\right\vert\\
 &= E_{n}^m \frac{\vert g^{(m)}(\xi_n)\vert}{m!}.
 \end{split}
-$$ 
+$$  {#eq-nonlin37}
 Therefore (using the fact that $\xi_n\to p$), 
 $$
 \lim_{n\to\infty}\frac{E_{n+1}}{E_{n}^m}= \frac{\vert g^{(m)}(p)\vert}{m!} ,
-$$ 
+$$  {#eq-nonlin38}
 which means that $\{x_{n}\}$ has convergence of order $m$.
 :::
 
@@ -752,12 +753,12 @@ which means that $\{x_{n}\}$ has convergence of order $m$.
 Newton's method for approximating the root $p$ of the equation $f(x)=0$ is equivalent to the fixed-point iteration $x_{n+1}=g(x_{n})$ with 
 $$
 g(x)=x-\frac{f(x)}{f'(x)}.
-$$ 
+$$  {#eq-nonlin39}
 Suppose that sequence $\{x_{n}\}$ converges to $p$ and $f'(p)\neq 0$.
 We have 
 $$
 g'(x)=\frac{f(x)f''(x)}{[f'(x)]^2} \quad \Rightarrow \quad g'(p)=\frac{f(p)f''(p)}{[f'(p)]^2}=0 .
-$$ 
+$$  {#eq-nonlin40}
 It follows from the above theorem that the order of convergence of Newton's method is 2 (except in the special case where $g''(p)=0$).
 
 ### Order of convergence of the secant method
@@ -775,7 +776,7 @@ $$ {#eq-secant1}
 converges to $p$. Let 
 $$
 e_{n}=x_{n}-p,
-$$ 
+$$  {#eq-nonlin41}
 so that $E_n=\vert e_n\vert$, and we assume that $E_n \ll 1$, which is definitely true for sufficiently large $n$ (since the sequence $\{x_n\}$ is converging to $p$).
 Subtracting $p$ from both sides of @eq-secant1, we obtain 
 $$
@@ -795,7 +796,7 @@ $$ {#eq-secant3}
 where 
 $$
 Q=\frac{f^{\prime\prime}(p)}{2f^{\prime}(p)}.
-$$ 
+$$  {#eq-nonlin42}
 Substitution of @eq-secant3 into @eq-secant2 yields 
 $$
 \begin{split}
@@ -803,22 +804,22 @@ e_{n+1}&=e_{n}- \frac{e_{n}(e_{n}-e_{n-1})f^{\prime}(p)(1+e_{n}Q)+\dots}{f^{\pri
 \left[e_{n}-e_{n-1}+Q(e_{n}^2-e_{n-1}^2)\right]} \\
 &=e_{n}\left(1-\frac{1+e_{n}Q+\dots}{1+Q(e_{n}+e_{n-1})+\dots}\right).
 \end{split}
-$$ 
+$$  {#eq-nonlin43}
 Since, for small $x$, 
 $$
 \frac{1}{1+x+\dots}= 1-x+\dots ,
-$$ 
+$$  {#eq-nonlin44}
 we obtain 
 $$
 \begin{split}
 e_{n+1}&=e_{n}\left(1-\left(1+e_{n}Q+\dots\right)\left(1-Q(e_{n}+e_{n-1})+\dots\right)\right)\\
 &=Q e_{n}e_{n-1}+\dots.
 \end{split}
-$$ 
+$$  {#eq-nonlin45}
 Thus, for sufficiently large $n$, we have 
 $$
 e_{n+1} \approx Q e_{n}e_{n-1}.
-$$ 
+$$  {#eq-nonlin46}
 Hence, 
 $$
 E_{n+1} \approx \vert Q\vert \, E_{n}E_{n-1}. 
@@ -832,27 +833,27 @@ Substituting @eq-bb8 into @eq-bb7, we find
 $$
 \lambda E_{n}^{\alpha} \approx \vert Q\vert E_{n}E_{n-1} \quad \text{  or } \quad
 \lambda E_{n}^{\alpha-1} \approx \vert Q\vert E_{n-1}.
-$$ 
+$$  {#eq-nonlin47}
 Applying @eq-bb8 one more time (with $n$ replaced by $n-1$), we obtain 
 $$
 \lambda \left(\lambda E_{n-1}^{\alpha}\right)^{\alpha-1} \approx \vert Q\vert E_{n-1}
-$$ 
+$$  {#eq-nonlin48}
 or, equivalently, 
 $$
 \lambda^{\alpha} E_{n-1}^{\alpha(\alpha-1)} \approx \vert Q\vert E_{n-1}.
-$$ 
+$$  {#eq-nonlin49}
 The last equation will be satisfied provided that 
 $$
 \lambda^{\alpha}=\vert Q\vert, \quad \alpha(\alpha-1)=1 ,
-$$ 
+$$  {#eq-nonlin50}
 which requires that 
 $$
 \lambda=\vert Q\vert^{1/\alpha}, \quad \alpha=(1+\sqrt{5})/2\approx 1.62.
-$$ 
+$$  {#eq-nonlin51}
 Thus, we have shown that if $\{x_{n}\}$ is a convergent sequence generated by the secant method, then 
 $$
 \lim_{n\to\infty}\frac{E_{n+1}}{E_{n}^{\alpha}}=\vert Q\vert^{1/\alpha}.
-$$ 
+$$  {#eq-nonlin52}
 Thus, the secant method has *superlinear* convergence.
 
 Further reading: Section 2.4 of [@Burden_Faires].
@@ -865,7 +866,7 @@ Further reading: Section 2.4 of [@Burden_Faires].
 Consider the bisection method for finding the zero of
 $$
   f(x) = \sqrt{x} - \cos{x}
-$$
+$$ {#eq-nonlin53}
 on $x\in[0,1]$
 
 a) Using the starting values of $a=0.5$ and $b=1.0$, calculate the first 5 steps of the bisection method.
@@ -881,7 +882,7 @@ the bisection method converges linearly?
 Consider the fixed point iteration
 $$
   x_{n+1} = \frac{x^3_n+3ax_n}{3x^2_n+a},
-$$
+$$ {#eq-nonlin54}
 where $a>0$ is given.
 
 a) What does this fixed point iteration approximate?
@@ -895,18 +896,18 @@ Consider the problem of finding a numerical approximation to $\sqrt{3}$ using th
 iteration method with the function
 $$
   g(x)= x + \lambda P(x) (x^2 - 3)
-$$
+$$ {#eq-nonlin54}
 where $P(x)$ is a general polynomial of degree $m$. 
   
 For the case $P(x) = 1$ and $\lambda = -1/4$,
 $g(x)$ satisfies the fixed point theorem on the domain $[1,2]$, i.e.
 $$
   g:[1,2] \to [1,2]
-$$
+$$ {#eq-nonlin55}
 with
 $$
   |g'(x)| < k, 0 < k < 1, x \in [1,2].
-$$
+$$ {#eq-nonlin56}
 
 a) For $P(x) = 1$ and $\lambda = -1/4$, show that the sequence $\{x_n\}$ defined by $x_{n+1}=g(x_n)$ converges linearly to $\sqrt{3}$.
 
@@ -920,7 +921,7 @@ d) Given a starting value of $x_0 = 1$, calculate the number $n$ of iterations r
 Find the small root of
 $$
 x^2-10^4 x + 2 = 0
-$$
+$$ {#eq-nonlin57}
 to at least 17 significant figures, writing out all steps of your calculation.
 :::
 
@@ -928,9 +929,9 @@ to at least 17 significant figures, writing out all steps of your calculation.
 
 ::: {#exr-c3p1}
 In many physics and engineering applications, the Bessel functions $J_n(x)$ are the radial solutions to the Laplacian operator in cylindrical coordinates, i.e. $\nabla^2 f(r,\theta,z) = 0$. Applying boundary conditions to the problem usually results in the need to compute the roots of $J_n(x)$. Here we will use the **Bisection Method** to identify roots of $J_n(x)$ using the following generalized formula
- $$
+$$
  J_n(x) = \left(\frac{x}{2}\right)^n \sum^\infty_{k=0} \frac{(-1)^k x^{2k}}{k!(n+k)! 4^k}.
- $$
+$$ {#eq-nonlin58}
 
 a) The c++ code `bessel_root.c` (or FORTRAN code `bessel_root.f90`) is set up to compute roots of the Bessel function $J_0(x)$. It takes input from the user for the two points $a$ and $b$ that bracket the root and the maximum error $\epsilon$ to compute the root to. Alter the code and compute the first three positive roots for $J_1(x)$ to an accuracy of $\epsilon=1.0\times 10^{-5}$.
 
@@ -944,7 +945,7 @@ c) For mathematical thought - i.e. there is no "right answer". Instead of using 
 Consider the problem of finding the root to the function
 $$
 f(x) = \exp(x) - 10 x^2
-$$
+$$ {#eq-nonlin59}
 
 a) The C++ code `newton_root.c` (or FORTRAN code `newton_root.f90`) is set up to compute roots of this function using **Newton's method** that we learned in lecture. It takes input from the user on an initial guess for the root $a$ and the maximum error $\epsilon$ to compute the root to. Find three roots of the function.
 
@@ -963,7 +964,7 @@ Consider the surface that is described by the cylindrical shape of length $L$ an
 The surface area of this cylinder is given by:
 $$
 A = 2\pi \int_0^L s(z) \sqrt{1 + s'(z)^2} dz.
-$$
+$$ {#eq-nonlin60}
 We wish to identify the radial function $s(z)$ that minimizes the surface area of the cylinder.
 
 a) Use the Euler-Lagrange equations to find the ODE for $s(z)$ that minimizes the area.
@@ -971,7 +972,7 @@ a) Use the Euler-Lagrange equations to find the ODE for $s(z)$ that minimizes th
 b) Verify that
 $$
   s(z) = \alpha \cosh\left( \frac{z-\beta}{\alpha}\right)
-$$
+$$ {#eq-nonlin61}
   is a solution to the ODE.
 
 c) Apply the boundary conditions $s(0) = s(L) = R$ to the solution in part (b). Use the two equations that you get from the boundary conditions to obtain a single equation in terms of $R,L$ and a single unknown $\alpha$.
