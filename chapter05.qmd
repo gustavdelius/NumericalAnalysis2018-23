@@ -254,22 +254,22 @@ Note that a lower-triangular matrix is nonsingular iff its diagonal elements are
 We will use the following notation 
 $$
 E_{i}^{(k)} = \vert x_{i}^{(k)} - x_{i}\vert
-$$ {#eq-c0}
+$$ {#eq-error-def}
 and 
 $$
 E^{(k)} = \Vert \mathbf{x}^{(k)}-\mathbf{x}\Vert_{\infty}=\max\{E_{1}^{(k)}, \dots, E_{n}^{(k)}\}.
-$$ {#eq-c1}
+$$ {#eq-error-max}
 Then $\mathbf{x}^{(k)}\to\mathbf{x}$ is equivalent to $E^{(k)}\to 0$ as $k\to\infty$. We assume that $a_{ii}\neq 0$ for all $i$ (otherwise both methods will not work).
 
 For the Jacobi method we have 
 $$ 
 x_{i}=\frac{1}{a_{ii}}\left( \sum_{j=1, j\neq i}^{n} \left(-a_{ij}x_{j}\right)+ b_{i}\right)
-$${#eq-c0}
+$${#eq-xi-exact}
 and 
 $$ 
-x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( \sum_{j=1, j\neq i}^{n} \left(-a_{ij}x_{j}^{(k)}\right)+ b_{i}\right)    \text{  for }   i=1,2,...,n
-$${#eq-c1}
-Subtracting @eq-c0 from @eq-c1 and using the triangle inequality, we obtain 
+x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( \sum_{j=1, j\neq i}^{n} \left(-a_{ij}x_{j}^{(k)}\right)+ b_{i}\right)    \text{  for }   i=1,2,...,n
+$${#eq-xi-iter}
+Subtracting @eq-xi-exact from @eq-xi-iter and using the triangle inequality, we obtain 
 $$
 \begin{split}
 E_{i}^{(k+1)}&=\frac{1}{\vert a_{ii}\vert}\left\vert
@@ -282,18 +282,18 @@ a_{ij}\left(x_{j}^{(k)}-x_{j}\right)\right\vert \leq
 \leq \sum_{j=1, j\neq i}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert}E^{(k)}
 \leq \mu E^{(k)}, 
 \end{split}
-$$ {#eq-c2}
+$$ {#eq-error-bound}
 where 
 $$ 
 \mu=\max_{i}\sum_{j=1, j\neq i}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert} .
-$${#eq-c2}
+$${#eq-diagonal-dominance}
 Therefore, 
 $$ 
 E^{(k+1)}\leq \mu , E^{(k)}, 
-$$ {#eq-c3}
+$$ {#eq-error-inequality}
 and if $\mu < 1$, then $\mathbf{x}^{(k)}$ converges to $\mathbf{x}$ strongly linearly, with rate of convergence $\mu$.
 
-Note that $\mu$ depends only on the coefficient matrix $A$. Note also that the terms in @eq-c2 are the absolute values of the entries of $T_{J}$, summed in each row, so that $\mu=\Vert T_{J}\Vert_{\infty}$. In the example, we considered in the previous chapter, 
+Note that $\mu$ depends only on the coefficient matrix $A$. Note also that the terms in @eq-error-bound are the absolute values of the entries of $T_{J}$, summed in each row, so that $\mu=\Vert T_{J}\Vert_{\infty}$. In the example, we considered in the previous chapter, 
 $$
 A=\left(
 \begin{array}{ccc}
@@ -315,19 +315,19 @@ T_{J}=\left(
 \end{array}
 \right).
 $$ {#eq-tc}
-So, it follows from @eq-c2 that in our example $\mu = 1/2$. In general, the condition $\mu < 1$ is equivalent to 
+So, it follows from @eq-error-bound that in our example $\mu = 1/2$. In general, the condition $\mu < 1$ is equivalent to 
 $$
 \sum_{j=1, j\neq i}^{n}\vert a_{ij}\vert < \vert a_{ii}\vert \quad \text{  for \ all } \ \ i.
-$$ {#eq-c4}
+$$ {#eq-diagonal-dominance}
 Matrices $A$ with this property are said to be *strictly diagonally dominant*. It follows that every strictly diagonally dominant square matrix is invertible. In fact it is not difficult to prove this directly, using elementary linear algebra.
 
 For the Gauss-Seidel scheme the situation is slightly more complicated. Here we have 
 $$ 
 x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( -\sum_{j=1}^{i-1} a_{ij}x_{j}^{(k+1)}- 
 \sum_{j=i+1}^{n} a_{ij}x_{j}^{(k)} + b_{i}\right) 
-$${#eq-c3}
+$${#eq-gs-update}
 for $i=1,2, \dots, n$.
-Subtracting @eq-c0 from @eq-c3, we obtain 
+Subtracting @eq-xi-exact from @eq-gs-update, we obtain 
 $$
 \begin{split}
 E_{i}^{(k+1)}&=\frac{1}{\vert a_{ii}\vert}\left\vert
@@ -345,7 +345,7 @@ a_{ij}\left(x_{j}^{(k)}-x_{j}\right)\right\vert \\
 +\sum_{j=i+1}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert}E_{j}^{(k)}
 \leq \alpha_{i} E^{(k+1)}+\beta_{i} E^{(k)}, 
 \end{split}
-$$ {#eq-c4}
+$$ {#eq-gs-error-bound}
 where 
 $$
 \begin{split}
@@ -353,27 +353,27 @@ $$
 \beta_{i}&=\sum{j=i+1}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert},\\
 \alpha_{1}&=\beta_{n}=0.
 \end{split}
-$${#eq-c2a}
+$${#eq-alpha-beta-def}
 Evidently, $\mu = \max_{i}(\alpha_{i}+\beta_{i})$. From our analysis of the Jacobi method it is appropriate to assume $\mu < 1$, so that $\alpha_{i}+\beta_{i} < 1$ for all $i$ and also $1-\alpha_{i} > 0$ for all $i$ . Suppose now that $E^{(k+1)}=E_{m}^{(k+1)}$ for some $m$ (recalling that $E^{(k+1)}$ is the maximum of the $E_{i}^{(k+1)}$). Then we have 
 $$ 
 E^{(k+1)}=E_{m}^{(k+1)}\leq \alpha_{m} E^{(k+1)}+\beta_{m} E^{(k)}. 
-$$ {#eq-c5}
+$$ {#eq-gs-max-error}
 Hence, 
 $$ 
 E^{(k+1)} \leq \frac{\beta_{m}}{1-\alpha_{m}}E^{(k)} \leq \eta \, E^{(k)}, 
-$$ {#eq-c6}
+$$ {#eq-gs-eta-bound}
 where 
 $$ 
 \eta=\max_{i} \frac{\beta_{i}}{1-\alpha_{i}}. 
-$$ {#eq-c7}
+$$ {#eq-eta-def}
 Finally, we note that for each $i$ we have 
 $$ 
 \alpha_{i}+\beta_{i}-\frac{\beta_{i}}{1-\alpha_{i}}= \frac{\alpha_{i}[1-(\alpha_{i}+\beta_{i})]}{1-\alpha_{i}}\geq \frac{\alpha_{i}[1-\mu]}{1-\alpha_{i}}\geq 0. 
-$$ {#eq-c8}
+$$ {#eq-mu-eta-inequality}
 This implies that $\mu\geq \eta$. Indeed, 
 $$ 
 \alpha_{i}+\beta_{i} \geq \frac{\beta_{i}}{1-\alpha_{i}} \quad \Rightarrow \quad \mu = \max{i}(\alpha_{i}+\beta_{i})\geq \frac{\beta_{i}}{1-\alpha_{i}} \quad \Rightarrow \quad \mu \geq \max_{i}\frac{\beta_{i}}{1-\alpha_{i}}=\eta . 
-$${#eq-c9}
+$${#eq-mu-eta-proof}
 
 So, the Gauss-Seidel imethod converges strongly linearly with rate $\eta$, which is at least as fast as that of the Jacobi method. Although straightforward, computation of $\eta$ is more complicated than $\mu$. In our example we have
 
