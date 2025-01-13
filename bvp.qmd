@@ -344,8 +344,7 @@ $w_i := y_i ^{(1)} + \gamma z_i ^{(1)}$ ($w_{0},\ldots,w_{N}$)
 :::
 :::
 
-Algorithm [\[alg:shootlin\]](#alg:shootlin){reference-type="ref"
-reference="alg:shootlin"} summarizes the Linear Shooting Method. We
+@alg-shootlin summarizes the Linear Shooting Method. We
 first rewrite the IVP
 @eq-ivpshooty0 for $y_0$ as a system of two first-order
 ODEs, and approximate its solution (lines 2--3). For concreteness' sake,
@@ -409,9 +408,16 @@ $$
 We can then
 rewrite @eq-ivpgamma *and*
 @eq-ivpgammap into an IVP for 4 first-order ODEs:
-
 $$
-     \end{pmatrix} .
+   \mathbf{u}' = \begin{pmatrix}
+               u^{(2)} \\ f(x,u^{(1)},u^{(2)}) \\ u^{(4)} \\
+    \dfrac{\partial f}{\partial y}(x,u^{(1)},u^{(2)}) \, u^{(3)} +\dfrac{\partial
+    f}{\partial y'}(x,u^{(1)},u^{(2)}) \, u^{(4)}        
+          \end{pmatrix},
+\quad a \leq x \leq b, \quad \mathbf{u}(a) = 
+   \begin{pmatrix}
+         \alpha \\ \gamma \\ 0 \\ 1
+     \end{pmatrix} . 
 $$ {#eq-ivpu4}
  From this IVP, which can be treated, e.g., with
 the classical Runge-Kutta method, we can now read off
@@ -439,21 +445,21 @@ finally allow us to compute the Newton step
     \Comment{boundary values $\alpha,\beta$; start value $\gamma_0$; number of Runge-Kutta steps $N$;}
   \State 
     \Comment{tolerance $T$; maximum number of Newton iterations $M$}
-  \State $F:=  (x,\uv) \mapsto \big(u\vc{2},  f(x,u\vc{1},u\vc{2}), u\vc{4} ,
-   \frac{\partial f}{\partial y}(x,u\vc{1},u\vc{2}) \, u\vc{3} +\frac{\partial
-    f}{\partial y'}(x,u\vc{1},u\vc{2}) \, u\vc{4} \big)$
+  \State $F:=  (x,\mathbf{u}) \mapsto \big(u^{(2)},  f(x,u^{(1)},u^{(2)}), u^{(4)} ,
+   \frac{\partial f}{\partial y}(x,u^{(1)},u^{(2)}) \, u^{(3)} +\frac{\partial
+    f}{\partial y'}(x,u^{(1)},u^{(2)}) \, u^{(4)} \big)$
   \State $\gamma := \gamma_0$;  $k:=0$
   \While{$k\leq M$}
-    \State $ \wv := $ 
+    \State $ \mathbf{w} := $ 
       \Call{RungeKutta}{$F, a,b, (\alpha,\gamma,0,1), N$}
-    \State \Comment{here $\wv = ( \wv_0,\ldots, \wv_N)$, each $\wv_j$ is a 4-vector}
-    \State $v := \dfrac{w_{N}\vc{1}-\beta}{w_{N}\vc{3}}$; $\gamma := \gamma - v$
+    \State \Comment{here $\mathbf{w} = ( \mathbf{w}_0,\ldots, \mathbf{w}_N)$, each $\mathbf{w}_j$ is a 4-vector}
+    \State $v := \dfrac{w_{N}^{(1)}-\beta}{w_{N}^{(3)}}$; $\gamma := \gamma - v$
     \If{$|v|<T$}
       \Break
     \EndIf
     \State $k:=k+1$
   \EndWhile
-  \Return ($w_{0}\vc{1},\ldots,w_{N}\vc{1}$)
+  \Return ($w_{0}^{(1)},\ldots,w_{N}^{(1)}$)
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -479,12 +485,8 @@ $k:=k+1$ **if** $k>M$ **then** **exception** ("Too many iterations")
 :::
 
 Let us summarize the Nonlinear Shooting Method in
-Algorithm [\[alg:shootnonlin\]](#alg:shootnonlin){reference-type="ref"
-reference="alg:shootnonlin"}. Its structure is of the now well-known
-Newton iteration type, with the Newton loop in lines
-[\[ali:nlsnewtonstart\]](#ali:nlsnewtonstart){reference-type="ref"
-reference="ali:nlsnewtonstart"}--[\[ali:nlsnewtonend\]](#ali:nlsnewtonend){reference-type="ref"
-reference="ali:nlsnewtonend"}. In each iteration of the loop, we solve
+@alg-shootnonlin. Its structure is of the now well-known
+Newton iteration type. In each iteration of the loop, we solve
 the IVP @eq-ivpu4 with the classical Runge-Kutta method. We then
 pick the approximation values at the rightmost mesh point and compute
 the next $\gamma$ value from them. The usual methods of breaking the
@@ -759,8 +761,7 @@ $\lVert \mathbf{v} \rVert<T$ **then** **break** **end if** $k:=k+1$
 :::
 
 All that's left to do is to assemble the algorithm. This is done in
-Algorithm [\[alg:fdmnonlin\]](#alg:fdmnonlin){reference-type="ref"
-reference="alg:fdmnonlin"}. The pattern follows our usual approach to
+@alg-fdmnonlin. The pattern follows our usual approach to
 Newton's method.
 
 In each step of the Newton iteration, we need to solve one linear

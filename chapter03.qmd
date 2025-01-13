@@ -38,8 +38,9 @@ The *bisection method* is a very simple approach to the root finding problem, an
 The idea behind it is as follows: One divides the interval $[a,b]$ into halves, and decides in which subinterval the zero is located (by looking at the sign of $f(x)$ in the midpoint of the interval).
 Then one repeats the method for this subinterval, and continues this until sufficient precision is reached.
 
-
+::: {.content-visible when-format="html"}
 ![Bisection method](figures/chapter03/bisect.gif){#fig-bisect}
+:::
 
 More formally, the bisection method would be described as follows:
 

@@ -112,9 +112,9 @@ $$ {#eq-eulerdiff1}
 $$
  w_2 := w_1 + h f(x_1,w_1),
 $$ {#eq-eulerdiff2}
-$$
+\begin{equation*}
 \vdots
-$$
+\end{equation*}
 $$
  w_{i+1} := w_i + h f(x_i,w_i).
 $$ {#eq-eulerdiffeq}
@@ -371,7 +371,7 @@ $y''(x)=2-e^x/2$, which, on the interval $[0,1]$, is bounded by $3/2$
 (its value at $0$). So $M = 3/2$. Inserting, this gives us
 $$
 |y(x_i)-w_i| \leq \frac{3}{40} \big( e^{(x_i-a)} - 1 \big).
-$$
+$$ {#eq-ivp1}
 These
 bounds are included in @tbl-eulerapp. You can see that the actual errors are indeed
 below the bounds, but not very much, particularly for small $x$.
@@ -687,7 +687,7 @@ $$
 \quad 0 \leq x \leq 1, \quad \mathbf{u}(0) = \begin{pmatrix} 
         \vphantom{-}2 \\ -3
         \end{pmatrix}.
-$$
+$$ {#eq-ivp2}
 Once we have found an (approximate) solution
 for this system, we would set $y(x):=u_1(x)$ and obtain an
 (approximate) solution of
@@ -750,7 +750,7 @@ $m$ variables). Instead of derivatives of functions of a single
 variable, one can consider *partial derivatives* of $f$, denoted as
 $$
 \frac{\partial f}{\partial x_j}(\mathbf{x}) = \frac{d}{dt} f(x_1, \ldots, x_j+t, \ldots,  x_m) \Big\vert_{t=0},
-$$
+$$ {#eq-ivp3}
 and higher order partial derivatives accordingly. If $\mathbf{f}$ is a
 vector-valued function, that is,
 $\mathbf{f}: \mathbb{R}^m \to \mathbb{R}^k$, then all partial
@@ -763,7 +763,7 @@ $$
          \vdots & & \vdots \\
         \frac{\partial f ^{(k)}}{\partial x_1} &\cdots& \frac{\partial f ^{(k)}}{\partial x_m} 
        \end{pmatrix}
-$$
+$$ {#eq-ivp4}
 The multi-dimensional chain rule can be expressed
 quite easily in this formalism: if $\mathbf{f}$ and $\mathbf{g}$ are
 vector-valued mappings such that
@@ -774,7 +774,7 @@ given by
 $$
 \frac{\partial (\mathbf{g}\circ \mathbf{f})}{\partial \mathbf{x}} 
 =  \frac{\partial \mathbf{g}}{\partial \mathbf{y}} \cdot \frac{\partial \mathbf{f}}{\partial \mathbf{x}}  .
-$$
+$$ {#eq-ivp5}
 where $\cdot$ represents matrix multiplication. Higher-order derivatives
 can be treated in a similar, though somewhat more complicated matrix
 formalism.
@@ -861,12 +861,12 @@ $$
 g'(t)&=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot\frac{d}{dt}((1-t)\hat{\mathbf{y}}+t\mathbf{y})\\
 &=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot(\mathbf{y}-\hat{\mathbf{y}}).
 \end{split}
-$$
+$$ {#eq-ivp6}
 Combining these gives us
 $$
 f_j(x,\mathbf{y}) - f_j(x,\hat{\mathbf{y}}) = 
 \frac{\partial f_j}{ \partial \mathbf{y}}(x,\boldsymbol{\eta}) \cdot (\mathbf{y}-\hat{\mathbf{y}})
-$$
+$$ {#eq-ivp7}
 where $\boldsymbol{\eta}=(1-t_0)\hat{\mathbf{y}}+t_0\mathbf{y}$.
 Using the property of the vector norm of the scalar product (see @def-vecnorm) we find
 $$
@@ -874,7 +874,7 @@ $$
    \Big\lVert \frac{\partial f_j}{ \partial \mathbf{y}} (x,\boldsymbol{\eta}) \Big\rVert
 \, \| \mathbf{y}-\hat{\mathbf{y}}\|
     \leq L \| \mathbf{y}-\hat{\mathbf{y}}\|
-$$
+$$ {#eq-ivp8}
 with $L$ as in
 @eq-lipschitzderiv. Taking the maximum over $j$ implies the
 result. ◻
@@ -925,26 +925,26 @@ cannot be applied. Actually, we can explicitly see that $f$ does *not*
 satisfy a Lipschitz condition. Namely, if it did, then the quotient
 $$
 \frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|}         \quad (\text{for }x \in [0,2],\; y \neq \hat{y} \in \mathbb{R})
-$$
+$$ {#eq-ivp9}
 would be bounded (by the Lipschitz constant $L$). However, in our case,
 set $\hat{y}=0$; then 
 $$
 \frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|} 
 = \frac{|y^2 +1-1|}{|y|} = |y|
-$$
+$$ {#eq-ivp10}
 which is *not* bounded. So $f$ cannot
 satisfy a Lipschitz condition.
 
 Hence, for the corresponding initial value problem,
 $$
 y' = y^2+1,  \quad 0 \leq x \leq 2, \quad y(0) = 0,
-$$
+$$ {#eq-ivp11}
 the existence
 and uniqueness result @thm-ivpunique does not apply. In fact, a solution for
 small $x$ is given by 
 $$
 y(x) = \tan(x),
-$$
+$$ {#eq-ivp12}
 but this solution does *not*
 exist for all $x \in [0,2]$.
 
@@ -970,7 +970,7 @@ cannot be applied. Indeed, set $\hat{y}=0$, then
 $$
 \frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|} 
 = \frac{|y|^{1/3}}{|y|} = |y|^{-2/3}
-$$
+$$ {#eq-ivp13}
 which is unbounded near $y=0$. So
 $f$ does not satisfy a Lipschitz condition, and we are not guaranteed a
 unique solution of the IVP 
@@ -983,7 +983,7 @@ $$
 y(x)= \Big(\frac{2x}{3}\Big)^{3/2},\quad 
  y(x)= -\Big(\frac{2x}{3}\Big)^{3/2},\quad 
  y(x) = 0.
-$$
+$$ {#eq-ivp14}
 
 This case is, in a sense, worse than the other examples above. Running
 our numerical methods for the IVP
@@ -998,7 +998,7 @@ We now return to the initial value problem
 @eq-ivpformaldef:
 $$
 \mathbf{y}'(x) = \mathbf{f}(x,\mathbf{y}(x)),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
-$$
+$$ {#eq-ivp15}
 As in Euler's method, we use equally-spaced mesh points $x_0,\ldots,x_N$
 in the interval $[a,b]$, with a uniform step size $h=(b-a)/N$, so
 $x_i=a+ih$, and we seek approximate values
@@ -1008,14 +1008,14 @@ $\mathbf{w}_i\approx\mathbf{y}(x_i)$.
 Euler's method was based on the Taylor expansion
 $$
 \underbrace{y(x+h)}_\text{exact}=\underbrace{y(x)+hy'(x)}_{\text{approx}}+\underbrace{\frac{h^2}{2}y''(\xi)}_{\text{error}}.
-$$
+$$ {#eq-ivp16}
 Any other formula of this type can be used to define a similar method
 and, if the error term is smaller than the one in Euler's method, should
 lead to smaller errors in the approximate solution. In complete
 generality, and for vectors instead of scalars, we consider a formula
 $$
 \mathbf{y}(x+h)=\mathbf{y}(x)+h\boldsymbol{\phi}(x,\mathbf{y}(x),h)+\text{error}
-$$
+$$ {#eq-ivp17}
 All the higher-order Taylor approximations fit in to this framework, as
 do the important Runge-Kutta methods described below. This leads to the
 general single-step method 
@@ -1029,7 +1029,7 @@ $$ {#eq-onestepdef}
 Introducing some notation for the error, we write
 $$
 \mathbf{y}(x_{i+1})=\mathbf{y}(x_i)+h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)+h\boldsymbol{\tau}_{i+1}(h)
-$$
+$$ {#eq-ivp18}
 where $\boldsymbol{\tau}_{i+1}(h)$, the *local truncation error*, is
 defined by 
 $$
@@ -1042,7 +1042,7 @@ step size. We assume we have an upper bound $\tau(h)$ such that, for
 some $h_0>0$, 
 $$
 \|\boldsymbol{\tau}_i(h)\|\leq\tau(h)
-$$
+$$ {#eq-ivp19}
 for all
 $i\in\{0,\ldots,N\}$ and all $h\in(0,h_0]$. For the method to be useful,
 we must have $\tau(h)\to 0$ as $h\to 0^+$; in Euler's method,
@@ -1051,7 +1051,7 @@ typically $\tau(h)=O(h^n)$ as $h\to 0^+$ for some $n>1$. We also assume
 the existence of a Lipschitz constant $L$ such that
 $$
 \|\boldsymbol{\phi}(x, \mathbf{y}, h)-\boldsymbol{\phi}(x, \hat{\mathbf{y}}, h)|\leq L\|\mathbf{y}-\hat{\mathbf{y}}\|
-$$
+$$ {#eq-ivp20}
 for all $x\in[a,b]$, for all
 $\mathbf{y},\hat{\mathbf{y}}\in\mathbb{R}^m$ and all $h\in(0,h_0]$ (this
 replaces the second use of Taylor's Theorem in the analysis of Euler's
@@ -1060,7 +1060,7 @@ that was needed). We conclude the setup by defining the actual error at
 step $i$ by 
 $$
 \boldsymbol{\varepsilon}_i=\mathbf{y}(x_i)-\mathbf{w}_i.
-$$
+$$ {#eq-ivp21}
 
 Under these hypotheses, we have:
 
@@ -1072,7 +1072,7 @@ described by @eq-onestepdef. Then,
 $$
 \lVert \mathbf{y}(x_i) - \mathbf{w}_i \rVert \leq \frac{\tau(h)}{L} \big(e^{L(x_i-a)}-1\big)
  \quad \text{for all } h\in(0,h_0], \; i \in \{0,\ldots,N\}.
-$$
+$$ {#eq-ivp22}
 
 :::
 
@@ -1088,24 +1088,24 @@ $$
              &= \boldsymbol{\varepsilon}_i+\underbrace{\mathbf{w}_i+h\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)}_{=\mathbf{w}_{i+1}}+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h) \\
            &= \boldsymbol{\varepsilon}_i+\mathbf{w}_{i+1}+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h) \\
 \end{aligned}
-$$
+$$ {#eq-ivp23}
 so, subtracting $\mathbf{w}_{i+1}$ from both sides,
 $$
 \boldsymbol{\varepsilon}_{i+1}=\boldsymbol{\varepsilon}_i+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h)
-$$
+$$ {#eq-ivp24}
 Exactly as for Euler's method, we estimate using the triangle inequality
 $$
 \begin{split}
 \|\boldsymbol{\varepsilon}_{i+1}\|&\leq\|\boldsymbol{\varepsilon}_i\|+h\|\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)\|+\|\boldsymbol{\tau}_{i+1}(h)\|\\
 &\leq(1+hL)\|\boldsymbol{\varepsilon}_i\|+h\tau(h)
 \end{split}
-$$
+$$ {#eq-ivp25}
 using the Lipschitz hypothesis on $\boldsymbol{\phi}$ and the upper
 bound $\tau$ for the local truncation errors. This is exactly the same
 formula as for Euler, so we can read off the same answer:
 $$
 \|\boldsymbol{\varepsilon}_n\|\leq\frac{\tau(h)}{L}(e^{L(x_n-a)}-1)\leq\frac{\tau(h)}{L}(e^{L(b-a)}-1)
-$$
+$$ {#eq-ivp26}
 
 :::
 
@@ -1283,7 +1283,7 @@ consider (the outermost function) is the mapping from $\mathbb{R}^{m+1}$
 to $\mathbb{R}^m$
 $$
 (x,y_1,\dots,y_m)\mapsto \mathbf{f}(x,\mathbf{y})
-$$
+$$ {#eq-ivp27}
 The derivative of this is the $m\times(m+1)$ matrix given by
 
 $$
@@ -1297,7 +1297,7 @@ function we need to consider (the innermost function) is the mapping
 from $\mathbb{R}$ to $\mathbb{R}^{m+1}$
 $$
 x\mapsto[x,\mathbf{y}(x)]:=(x,y_1(x),\dots,y_m(x))
-$$
+$$ {#eq-ivp28}
 whose
 derivative is the $m+1$ dimensional column vector 
 $$
@@ -1310,7 +1310,6 @@ $$
 1 \\
 \mathbf{f}(x, \mathbf{y}(x)) \\
 \end{bmatrix}
-
 $$ {#eq-inner}
  where we have substituted for $\mathbf{y}'(x)$ using the
 differential equation. Here we have stacked the scalar $1$ on top of the
@@ -1323,12 +1322,11 @@ matrix @eq-outer and the $m+1$ dimensional vector
 @eq-inner.
 This product has the general form 
 $$
+\begin{bmatrix} A, B \end{bmatrix}
 \cdot
-\begin{bmatrix}
-C \\
-D
-\end{bmatrix}=A\cdot C+B\cdot D
-$$
+\begin{bmatrix} C \\ D \end{bmatrix}
+=A\cdot C+B\cdot D
+$$ {#eq-ivp29}
 (which works for any block matrices,
 provided all the sizes are compatible, i.e. provided $A\cdot C+B\cdot D$
 makes sense). We need to substitute
@@ -1337,7 +1335,7 @@ A=\frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial x}; \qquad
 B= \frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial \mathbf{y}}; \qquad
 C= 1; \qquad
 D= \mathbf{f}(x,\mathbf{y}(x))
-$$
+$$ {#eq-ivp30}
 which gives us
 
 $$
@@ -1353,7 +1351,7 @@ $$\begin{split}
     \frac{ \mathrm{d}^{j+1} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j+1} }  &:=
  \frac{\partial}{\partial x}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} } 
  + \Big( \frac{\partial}{\partial \mathbf{y}}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} }  \Big) \cdot \mathbf{f}(x,\mathbf{y}).
-\end{split}$$
+\end{split}$$ {#eq-ivp31}
 Then we know that, when evaluated on the exact solution, we have
 
 $$
@@ -1362,7 +1360,6 @@ $$ {#eq-totaldery}
 Hence, @eq-ytaylorn rewrites to 
 $$
 \mathbf{y}(x_{i+1}) = \mathbf{y}(x_i) + hf(x_i, \mathbf{y}(x_i)) + \underbrace{\frac{h^2}{2} \frac{d\mathbf{f}}{dx}(x_i, \mathbf{y}(x_i)) + \cdots + \frac{h^n}{n!} \frac{d^{n-1}\mathbf{f}}{dx^{n-1}}(x_i, \mathbf{y}(x_i))}_{=:\mathbf{h}\phi(x, \mathbf{y}(x_i),h)=:\mathbf{hT}_n(x, \mathbf{y}(x_i),h)} + \mathbf{R}_i.
-
 $$ {#eq-ftaylorn}
  This motivates us to define the *Taylor method of
 order $n$* by the difference equation 
@@ -1377,7 +1374,7 @@ $$
   \\
  &\hphantom{:}= \mathbf{w}_{i} + h \mathbf{T}_n(x_i,\mathbf{w}_i,h) ,
 \end{aligned}
-$$
+$$ {#eq-ivp32}
 where 
 $$
  \mathbf{T}_n(x,\mathbf{y},h) := \sum_{j=0}^{n-1} \frac{h^{j}}{(j+1)!}  \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} } (x,\mathbf{y}).
@@ -1396,27 +1393,27 @@ $n$ satisfies the bound
 $$
 \|\boldsymbol{\tau}_{i}(h)\| \leq \frac{h^{n}}{(n+1)!} \sup_{x \in [a,b]}
  \Big\lVert   \frac{ \mathrm{d}^{n+1} \mathbf{y} }{\mathrm{d}x^{n+1} }  (x)  \Big\rVert=:\tau(h),
-$$
+$$ {#eq-ivp33}
 supposing that the exact solution $\mathbf{y}(x)$ has $(n+1)$ continuous
 derivatives.
 :::
 
 ::: {.proof}
 By definition of the local truncation error in
-Eq. @eq-lteonestep, we have 
+Eq. @eq-lteonestep and using @eq-tndef, we have 
 $$
 \begin{aligned}
  \|\boldsymbol{\tau}_{i+1}(h)\| &= \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i}) - h \,\mathbf{T}_n(x_i,\mathbf{y}(x_i),h)  \big\rVert
 \\
- &\overset{\eqref{eq:tndef}}{=} \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i})
+ &= \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i})
 - \sum_{j=0}^{n-1} \frac{h^{j+1}}{(j+1)!}  \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} } (x_i,\mathbf{y}(x_i))  \big\rVert.
 \end{aligned}
-$$
+$$ {#eq-ivp34}
 However, comparing with
 @eq-ftaylorn, this means
 $$
 \|\boldsymbol{\tau}_{i+1}(h)\| = \frac{1}{h} \lVert  \mathbf{R}_i  \rVert,
-$$
+$$ {#eq-ivp35}
 and the proposed statement now follows from
 @eq-tmremainder. ◻
 :::
@@ -1433,7 +1430,7 @@ Let us once again consider the example IVP
 @eq-eulerivpexample,
 $$
 y'(x) = y(x)-x^2+1,  \quad 0 \leq x \leq 1, \quad y(0) = \frac{1}{2}.
-$$
+$$ {#eq-ivp40}
 Thus $f(x,y)=y-x^2+1$. To set up the Taylor methods, say of order up
 to 4, we need to compute the first 3 total derivatives of $f$. In our
 example, this yields: 
@@ -1447,7 +1444,7 @@ $$
    \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} } & = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{2} (x,y)f }{\mathrm{d}x^{2} }   f(x,y)\\
   &= (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1.
 \end{aligned}
-$$
+$$ {#eq-ivp41}
 In this simple example, we can now see that *all*
 higher-order total derivatives are equal to
 $\mathrm{d}^2f(x,y)/\mathrm{d}x^2$; this will not normally be true.
@@ -1457,13 +1454,13 @@ $$\begin{split}
 T_2(x,y,h) &= f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }\\
 &= (y-x^2+1) + \frac{h}{2}(y-x^2-2x+1)\\
 &= (1+\frac{h}{2}) (y-x^2+1)-hx.
-\end{split}$$
+\end{split}$$ {#eq-ivp42}
 The second-order Taylor method
 therefore reads, 
 $$\begin{split}
 w_0 :=& \frac{1}{2},\\
 w_{i+1} :=& w_i+hT_2(x_i,w_i,h) \\=& w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1) - h^2 x_i.
-\end{split}$$
+\end{split}$$ {#eq-ivp43}
 Analogously, one finds after a bit of computation that 
 $$
 \begin{aligned}
@@ -1473,7 +1470,7 @@ $$
 &\quad+ \Big( 1 +\frac{h}{3} + \frac{h^2}{12} \Big) h x\\
 &\quad+ \Big( 1 +\frac{h}{2} - \frac{h^2}{6} - \frac{h^3}{24} \Big).
 \end{aligned}
-$$
+$$ {#eq-ivp44}
 
 :::
 
@@ -1522,18 +1519,18 @@ Recall that, if $g$ is a twice differentiable function, then we can use
 Taylor's Theorem to write 
 $$
 g(x+h)=g(x)+hg'(x)+O(h^2)
-$$
+$$ {#eq-ivp45}
 and rearrange to
 give 
 $$
 g'(x) = \frac{g(x+h)-g(x)}{h} + O(h).
-$$
+$$ {#eq-ivp46}
 The fraction on the
 r.h.s. is called a finite difference quotient. We also remark that, by
 the MVT (or Taylor's Theorem) 
 $$
 g(x+h)=g(x)+O(h).
-$$
+$$ {#eq-ivp47}
 We can replace $h$ by
 $O(h^k)$ here to give 
 $$
@@ -1550,29 +1547,29 @@ We use a difference quotient to approximate the total derivative,
 evaluated on the exact solution $y(x)$:
 $$
 \frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y(x)) = \frac{f\big(x+h,y(x+h)\big)-f\big(x,y(x)\big)}{h} + O(h).
-$$
+$$ {#eq-ivp48}
 Inside this expression, for the term $y(x+h)$, we use a Taylor
 approximation: 
 $$
 y(x+h) = y(x) + h y'(x) + O(h^2)
  = y(x) + h f\big(x,y(x)\big) + O(h^2).
-$$
+$$ {#eq-ivp49}
 Using @eq-bigOcommute we obtain
 $$
 \frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y(x)) = \frac{1}{h} \Big( f\big(x+h,y(x)+hf(x,y(x)) \big)-f(x,y(x)) \Big) + O(h).
-$$
+$$ {#eq-ivp50}
 Inserting into @eq-t2repeat, we have
 $$
 T_2(x,y(x),h) = \frac{1}{2} f(x,y(x))
  + \frac{1}{2}   f\big(x+h,y(x)+hf(x,y(x)) \big)
   + O(h^2).
-$$
+$$ {#eq-ivp51}
 Thus, if instead of the function $T_2$, we use the
 function
 $$
 \phi(x,y,h) = \frac{1}{2} f(x,y)
  + \frac{1}{2}   f\big(x+h,y+hf(x,y) \big) 
-$$
+$${#eq-ivp52}
 for our one-step method, we will incur an
 additional local truncation error of order $O(h^2)$. However, this is
 not "much worse" than the Taylor method, which already has an error of
@@ -1592,7 +1589,7 @@ $$
 \\
 w_{i+1} &:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 \end{aligned}
-$$
+$${#eq-ivp53}
 This shows in particular that only *two* evaluations of
 $f$ are needed in each step of the method. That is important to know,
 since the evaluation of $f$ is usually the time-consuming part when the
@@ -1623,12 +1620,11 @@ $$
 & c_1 & c_2 & \ldots & c_{s-1} & c_s
 \end{array}
 \text{where $a_i$, $b_{ij}$, $c_i$ are real numbers.}
-$$
+$${#eq-ivp54}
 The tableau is a
 shorthand notation for the associated difference equation of a one-step
 method: 
 $$
-%
 \begin{aligned}
 \mathbf{w}_0 &:= \alpha;
 \\
@@ -1643,16 +1639,13 @@ $$
    \quad&\quad \mathbf{k}_s := h \mathbf{f}(x_i + a_s h, \mathbf{w}_i + \sum_{j=1}^{s-1} b_{sj} \mathbf{k}_j);
 \\
     \mathbf{w}_{i+1} &:= \mathbf{w}_i + \sum_{j=1}^s c_j \mathbf{k}_j
-%
 \end{aligned}
-%
-$$
+$${#eq-ivp55}
 (The $\mathbf{k}_j$ depend in addition on the step $i$, but they are
 regarded as "intermediate results", and we do not denote this dependence
 explicitly.) Our Modified Euler method is an example of such a scheme,
 namely with the tableau 
 $$
-%
 \begin{array}{c|cc}
    0
   \\
@@ -1660,9 +1653,8 @@ $$
  \\
   \hline
     & \;\tfrac{1}{2} \; & \;\tfrac{1}{2}  \;
-%
 \end{array}
-$$
+$$ {#eq-ivp56}
 
 We do not discuss here in general how these tableaux are obtained, or
 how to prove in general of what order their local truncation error is.
@@ -1681,12 +1673,12 @@ $$
     & \;0 \; & \;1 \;
 %
 \end{array}
-$$
+$$ {#eq-ivp57}
 and its difference equation can be written explicitly as
 $$
 \mathbf{w}_0 := \boldsymbol{\alpha}, \quad \mathbf{w}_{i+1} = \mathbf{w}_i + h \, \mathbf{f}\big(x_i + \frac{h}{2}, \mathbf{w}_i + \frac{h}{2} \mathbf{f}(x_i,\mathbf{w}_i)
 \big).
-$$
+$$ {#eq-ivp58}
 There are more methods of order $O(h^2)$; for example, *Heun's
 method*:
 ^[The names of methods may vary in the literature; it is best to
@@ -1699,14 +1691,13 @@ $$
  \\
   \hline
     & \;\tfrac{1}{4} \; & \;\tfrac{3}{4}  \;
-%
 \end{array}
-$$
+$$ {#eq-ivp59}
 The explicit form of the difference equation is
 $$
 \mathbf{w}_0 := \boldsymbol{\alpha}, \quad \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{4} \Big(\mathbf{f}(x_i,\mathbf{w}_i) + 3 \mathbf{f}\big(x_i
 + \frac{2}{3}h, \mathbf{w}_i + \frac{2}{3}{h} \,\mathbf{f}(x_i,\mathbf{w}_i) \big) \Big).
-$$
+$$ {#eq-ivp60}
 Finally, let us mention the "classical" Runge-Kutta method
 ^[If you hear someone speaking of "the Runge-Kutta method", they are
     probably referring to this $O(h^4)$ method.] 
@@ -1737,7 +1728,7 @@ $\boldsymbol{\phi}_\text{RK}(x,y,h)$ that defines the method (as a
 one-step difference method), one would try to prove that
 
 $$
-   \leq c h^n
+   ||\mathbf{\phi}_\text{RK}(x,\mathbf{y}(x),h) - \mathbf{T}_n(x,\mathbf{y}(x),h) ||\leq c h^n
 $$ {#eq-rktaylorcompare}
  with a constant $c>0$. This proof will usually involve a
 Taylor expansion of the function $\mathbf{f}$ within
@@ -1748,14 +1739,14 @@ of the local truncation error
 @eq-lteonestep and the triangle inequality that
 $$
 \tau_\text{RK}(h) \leq \tau_\text{Taylor-$n$}(h) + c \,h^n.
-$$
+$$ {#eq-ivp61}
 With the
 estimate for $\tau_\text{Taylor-$n$}(h)$ (the truncation error of the
 $n$-th order Taylor method) known from
 @thm-taylorerr this yields
 $$
 \tau_\text{RK}(h) \leq c' \,h^n.
-$$
+$$ {#eq-ivp62}
 with another constant $c'>0$.
 @thm-globalerr then tells us that the global error of the
 Runge-Kutta method is of order $O(h^n)$.
@@ -1769,8 +1760,16 @@ becomes quite lengthy.
 Here, we will give the proof only for $O(h^2)$ methods with a Butcher
 tableau of the form 
 $$
-\quad \text{where } c,d \in (0,1], \quad cd = \frac{1}{2}.
+\begin{array}{c|cc}
+   0
+  \\
+   c & c
+ \\
+  \hline
+    & \;(1\!-\!d) \; & \;d \;
+\end{array}
 $$ {#eq-butcherorder2}
+where $c,d \in (0,1], \quad cd = \frac{1}{2}$.
  This
 includes the Modified Euler method ($c=1$, $d=1/2$), the Midpoint method
 ($c=1/2$, $d=1$), and Heun's method ($c=2/3$, $d=3/4$).
@@ -1788,7 +1787,7 @@ Then, there
 exists a constant $C$ such that the local truncation error is bounded by
 $$
 \|\boldsymbol{\tau}_i(h)\| \leq C h^2.
-$$
+$$ {#eq-ivp63}
 
 :::
 
@@ -1803,12 +1802,28 @@ $$ {#eq-phirk2}
 and we need to compare it to the Taylor method of order 2, given by
 $$
 \mathbf{T}_2(x,y,h) =  \mathbf{f}(x,\mathbf{y}) + \frac{h}{2}  \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x, \mathbf{y}).
-$$
+$$ {#eq-ivp64}
 We first take the term $\mathbf{k}$ from
 @eq-phirk2, and use a first-order Taylor expansion of the
 function $\mathbf{f}$ around the point $(x,\mathbf{y})$, in the form of
 @thm-taylororder1. This gives 
 $$
+\begin{aligned}
+ \mathbf{k} &= \mathbf{f}(x,\mathbf{y}) +
+  \frac{\partial \mathbf{f}(x,\mathbf{y})}{\partial(x,y^{(1)},\ldots,y^{(m)})}
+\cdot \begin{pmatrix}
+         ch
+  \\
+   ch\,f^{(1)}(x,\mathbf{y})
+  \\
+  \vdots
+  \\
+   ch\,f^{(m)}(x,\mathbf{y})
+      \end{pmatrix} + \mathbf{R}
+\\
+  &=\mathbf{f}(x,\mathbf{y}) + ch\frac{\partial \mathbf{f}}{\partial x} + ch \frac{\partial \mathbf{f}}{\partial \mathbf{y}} \cdot \mathbf{f}(x,\mathbf{y}) + \mathbf{R}
+\\
+  &=\mathbf{f}(x,\mathbf{y}) + ch \frac{d\mathbf{f}}{dx}(x,\mathbf{y}) + \mathbf{R}.
 \end{aligned}
 $$ {#eq-kcompute}
  We assume that all second partial derivatives of
@@ -1828,8 +1843,11 @@ $$
 Inserting @eq-kcompute into
 @eq-phirk2 yields
 $$
-\boldsymbol{\phi}(x,\mathbf{y},h) = (1-d) \mathbf{f}(x,\mathbf{y}) + d \mathbf{k}
-= \mathbf{f}(x,\mathbf{y}) + cdh   \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\mathbf{y}) + d\mathbf{R}= \mathbf{T}_2(x,y,h)+d\mathbf{R},
+\begin{split}
+\boldsymbol{\phi}(x,\mathbf{y},h) &= (1-d) \mathbf{f}(x,\mathbf{y}) + d \mathbf{k}\\
+&= \mathbf{f}(x,\mathbf{y}) + cdh   \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\boldsymbol{y}) + d\mathbf{R}\\
+&= \mathbf{T}_2(x,y,h)+d\mathbf{R},
+\end{split}
 $$
 since $cd=1/2$. Consequently,
 $$
@@ -1920,7 +1938,6 @@ approximately by evaluating the functions $\boldsymbol{\phi}$ and
 $\tilde{\boldsymbol{\phi}}$.
 
 $$
-%
 \begin{array}{c|ccccccl}
    0 &  
   \\
@@ -1933,17 +1950,13 @@ $$
    1 & \frac{439}{216} & -8 & \frac{3680}{513} & - \frac{845}{4104}
 \\
    \frac{1}{2} & -\frac{8}{27} & 2 & -\frac{3544}{2565} &  \frac{1859}{4104} & -\frac{11}{40}
-%
 \\
 \hline
   \text{\textbf{(a)}}  & \frac{25}{216} & 0 & \frac{1408}{2565} &  \frac{2197}{4104} & -\frac{1}{5} &
-%
 \\
 \hline
   \text{\textbf{(b)}}  & \frac{16}{135} & 0 & \frac{6656}{12825} & \frac{28561}{56430} & - \frac{9}{50} & \frac{2}{55} 
-%
 \end{array}
-%
 $$
 
 However, what we actually want is to choose the step size $h$ so that
@@ -1953,7 +1966,7 @@ $\|\boldsymbol{\tau}_{i+1}(h)\|$ is not only of order $O(h^n)$, but in
 fact (roughly) proportional to $h^n$: 
 $$
    \|\boldsymbol{\tau}_{i+1} (h)\| \approx K \, h^n \quad \text{for some $K>0$}.
-$$ 
+$$ {#eq-ltescale}
 We proceed as follows. We start with some fixed step size $h$ and
 compute the related function values: 
 $$
@@ -1970,10 +1983,10 @@ $$ {#eq-tauqh}
 Dividing @eq-tauqh by @eq-tauh yields
 $$
 q^n\approx \frac{T}{\lVert  \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert},
-$$
+$$ {#eq-ivpqn}
 thus we should choose 
 $$
-   =  \left( \frac{hT}{\lVert  \tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/n},
+q =  \left( \frac{T}{\lVert\tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) \rVert} \right)^{1/n}   =  \left( \frac{hT}{  \lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/n},
 $$ {#eq-qtheory}
 
 where it is understood that $\mathbf{w}_{i+1},\tilde{\mathbf{w}}_{i+1}$
@@ -2015,8 +2028,7 @@ $\mathbf{w}$
 :::
 :::
 
-Algorithm [\[alg:rkf\]](#alg:rkf){reference-type="ref"
-reference="alg:rkf"} shows the Runge-Kutta-Fehlberg method in
+@alg-rkf shows the Runge-Kutta-Fehlberg method in
 pseudocode. It works roughly by the principles discussed above, but with
 some modification in detail. In lines 4--8, the next approximation value
 $\mathbf{w}_{i+1}$ is computed; however, this happens only if the
@@ -2107,43 +2119,6 @@ oreder $O(h^{k+1})$,
 
 Notation: $\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)$.
 
-::: {#tbl-abmethod}
-  Method                Difference equation                                                                                                                  Error order
-  --------------------- ----------------------------------------------------------------------------------------------------------------------------------- -------------
-  Two-step explicit     
-$$
-%                                                                                                                                   $O(h^2)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{2} (3 \mathbf{f}_i - \mathbf{f}_{i-1})                                                   
-                        %
-$$
-                                                                                                                                
-  Three-step explicit   
-$$
-%                                                                                                                                   $O(h^3)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{12} (23 \mathbf{f}_i - 16 \mathbf{f}_{i-1} + 5 \mathbf{f}_{i-2})                         
-                        %
-$$
-                                                                                                                                
-  Four-step explicit    
-$$
-%                                                                                                                                   $O(h^4)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (55 \mathbf{f}_i - 59 \mathbf{f}_{i-1} + 37 \mathbf{f}_{i-2} - 9 \mathbf{f}_{i-3})   
-                        %
-$$
-                                                                                                                                
-  Five-step explicit    
-$$
-\begin{gathered}                                                                                                                    $O(h^5)$
-                        %                                                                                                                                   
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{720} (1901 \mathbf{f}_i - 2774 \mathbf{f}_{i-1}                                          
-                         \\ + 2616 \mathbf{f}_{i-2} - 1274 \mathbf{f}_{i-3} + 251 \mathbf{f}_{i-4})                                                         
-                        %                                                                                                                                   
-                        \end{gathered}
-$$
-                                                                                                                   
-
-  : Adams-Bashforth methods
-:::
 
 As with Taylor and Runge-Kutta methods, the estimates for the local
 truncation error depend on higher-order total derivatives of
@@ -2158,48 +2133,7 @@ Runge-Kutta method of order $O(h^4)$.
 
 Notation: $\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)$.
 
-::: {#tbl-ammethod}
-  Method                Difference equation                                                                                                              Error order
-  --------------------- ------------------------------------------------------------------------------------------------------------------------------- -------------
-  Two-step implicit     
-$$
-%                                                                                                                               $O(h^3)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{12} (5 \mathbf{f}_{i+1} + 8 \mathbf{f}_i - \mathbf{f}_{i-1})                         
-                        %
-$$
-                                                                                                                            
-  Three-step implicit   
-$$
-%                                                                                                                               $O(h^4)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (9 \mathbf{f}_{i+1} + 19 \mathbf{f}_i - 5 \mathbf{f}_{i-1} + \mathbf{f}_{i-2})   
-                        %
-$$
-                                                                                                                            
-  Four-step implicit    
-$$
-\begin{gathered}                                                                                                                $O(h^5)$
-                        %                                                                                                                               
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{720} (251 \mathbf{f}_{i+1} + 646 \mathbf{f}_i - 264 \mathbf{f}_{i-1}                 
-                        \\+ 106                                                                                                                         
-                        \mathbf{f}_{i-2} - 19 \mathbf{f}_{i-3})                                                                                         
-                        %                                                                                                                               
-                        \end{gathered}
-$$
-                                                                                                               
-  Five-step implicit    
-$$
-\begin{gathered}                                                                                                                $O(h^6)$
-                        %                                                                                                                               
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{1440} (475 \mathbf{f}_{i+1} + 1427 \mathbf{f}_i - 798 \mathbf{f}_{i-1}               
-                        \\+ 482                                                                                                                         
-                        \mathbf{f}_{i-2} - 173 \mathbf{f}_{i-3} + 27 \mathbf{f}_{i-4})                                                                  
-                        %                                                                                                                               
-                        \end{gathered}
-$$
-                                                                                                               
 
-  : Adams-Moulton methods
-:::
 
 ### Predictor-corrector methods
 
@@ -2261,8 +2195,7 @@ $\mathbf{f}_3 := \mathbf{f}(x,\mathbf{w})$; $\mathbf{w}$
 :::
 :::
 
-Algorithm [\[alg:adams4\]](#alg:adams4){reference-type="ref"
-reference="alg:adams4"} shows this predictor-corrector method in
+@alg-adams4 shows this predictor-corrector method in
 pseudocode. Lines 3--6 use the classical Runge-Kutta method to set up
 the required initial values, while lines 7--15 implement the actual
 multistep method. The scheme is quite efficient, since in each step of
