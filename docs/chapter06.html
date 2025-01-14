@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - 6&nbsp; Approximation and interpolation</title>
+<title>6&nbsp; Approximation and interpolation – Numerical Analysis 2018-23</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,10 +57,12 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -88,8 +90,26 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script>
+MathJax = {
+  loader: {
+    load: ['[tex]/boldsymbol']
+  },
+  tex: {
+    tags: "all",
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    packages: {
+      '[+]': ['boldsymbol']
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -119,10 +139,10 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - 6&nbsp; Approximation and interpolation">
+<meta property="og:title" content="6&nbsp; Approximation and interpolation – Numerical Analysis 2018-23">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - 6&nbsp; Approximation and interpolation">
+<meta name="twitter:title" content="6&nbsp; Approximation and interpolation – Numerical Analysis 2018-23">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -133,13 +153,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter06.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Approximation and interpolation</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -240,9 +260,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -306,11 +326,11 @@ window.Quarto = {
 <p>In this chapter we consider the case where the values of a function <span class="math inline">\(f\)</span> are given only at at certain discrete points <span class="math inline">\(x=x_i\)</span>, that is, <span class="math inline">\(f\)</span> is given in the form of a table. For example, <span class="math inline">\(f(x_i)\)</span> might be the result of an experimental measurement or of numerical approximations. In this case, we would like to connect the points <span class="math inline">\((x_i,f(x_i))\)</span> with a simple, reasonably smooth curve; this is called <strong>interpolation</strong>.</p>
 <section id="polynomial-interpolation" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="polynomial-interpolation"><span class="header-section-number">6.1</span> Polynomial interpolation</h2>
-<p>The “simple” functions that we will consider here are <em>polynomials</em>, that is, functions of the form <span id="eq-c6"><span class="math display">\[
+<p>The “simple” functions that we will consider here are <em>polynomials</em>, that is, functions of the form <span id="eq-polynomial-general"><span class="math display">\[
 P(x)=a_nx^{n}+a_{n-1}x^{n-1}+\ldots+a_1x+a_0,
 \tag{6.1}\]</span></span> where <span class="math inline">\(a_0, \ldots, a_n\)</span> are real numbers, with <span class="math inline">\(a_n\neq 0\)</span> is the <em>leading order coefficient</em> and where <span class="math inline">\(n\)</span> is a nonnegative integer, called the <em>degree</em> of <span class="math inline">\(P\)</span> and denoted <span class="math inline">\(\deg P\)</span>.</p>
 <p>The problem that we want to consider can be stated as follows:</p>
-<p>Given distinct points <span class="math inline">\(x_0, x_1, \dots , x_n\)</span> (not necessarily in increasing magnitude) in the domain of a function <span class="math inline">\(f\)</span>, find a polynomial <span class="math inline">\(P\)</span> with <span class="math inline">\(\deg P \leq n\)</span> such that <span id="eq-c7"><span class="math display">\[
+<p>Given distinct points <span class="math inline">\(x_0, x_1, \dots , x_n\)</span> (not necessarily in increasing magnitude) in the domain of a function <span class="math inline">\(f\)</span>, find a polynomial <span class="math inline">\(P\)</span> with <span class="math inline">\(\deg P \leq n\)</span> such that <span id="eq-interpolation-conditions"><span class="math display">\[
 \begin{aligned}
 P(x_0) &amp;= f(x_0), &amp; P(x_1) &amp;= f(x_1), &amp;&amp; \dots &amp; P(x_n) &amp;= f(x_n).
 \end{aligned}
@@ -323,36 +343,36 @@ P(x_0) &amp;= f(x_0), &amp; P(x_1) &amp;= f(x_1), &amp;&amp; \dots &amp; P(x_n) 
 </div>
 <section id="the-lagrange-interpolating-polynomial" class="level3" data-number="6.1.1">
 <h3 data-number="6.1.1" class="anchored" data-anchor-id="the-lagrange-interpolating-polynomial"><span class="header-section-number">6.1.1</span> The Lagrange interpolating polynomial</h3>
-<p>We will now discuss a method of finding an interpolating polynomial. Let us first consider the simplest case, <span class="math inline">\(n=1\)</span>. Suppose we know the value of a function <span class="math inline">\(f\)</span> at two points <span class="math inline">\(x_0,x_1\)</span>. To interpolate the values of <span class="math inline">\(f\)</span> by a first-degree polynomial means to determine a polynomial <span class="math inline">\(P\)</span> of degree 1 (i.e., a straight line) that passes through two points <span class="math inline">\((x_0, f(x_0))\)</span> and <span class="math inline">\((x_1, f(x_1)).\)</span> This polynomial has the form <span id="eq-6.5"><span class="math display">\[
+<p>We will now discuss a method of finding an interpolating polynomial. Let us first consider the simplest case, <span class="math inline">\(n=1\)</span>. Suppose we know the value of a function <span class="math inline">\(f\)</span> at two points <span class="math inline">\(x_0,x_1\)</span>. To interpolate the values of <span class="math inline">\(f\)</span> by a first-degree polynomial means to determine a polynomial <span class="math inline">\(P\)</span> of degree 1 (i.e., a straight line) that passes through two points <span class="math inline">\((x_0, f(x_0))\)</span> and <span class="math inline">\((x_1, f(x_1)).\)</span> This polynomial has the form <span id="eq-linear-polynomial"><span class="math display">\[
 P(x)=a_0+a_1x .
-\tag{6.4}\]</span></span> The conditions <span class="math inline">\(P(x_0)=f(x_0)\)</span> and <span class="math inline">\(P(x_1)=f(x_1)\)</span> give us the following system of linear equations for&nbsp;<span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span>: <span id="eq-6.6"><span class="math display">\[
+\tag{6.4}\]</span></span> The conditions <span class="math inline">\(P(x_0)=f(x_0)\)</span> and <span class="math inline">\(P(x_1)=f(x_1)\)</span> give us the following system of linear equations for&nbsp;<span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span>: <span id="eq-linear-system"><span class="math display">\[
 \begin{aligned}
 a_0+a_1x_0&amp;=f(x_0),  &amp;
 a_0+a_1x_1&amp;=f(x_1).
 \end{aligned}
-\tag{6.5}\]</span></span> This system is solved easily for <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span>, and we obtain <span id="eq-6.7"><span class="math display">\[
+\tag{6.5}\]</span></span> This system is solved easily for <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span>, and we obtain <span id="eq-linear-coefficients"><span class="math display">\[
 \begin{aligned}
 a_1&amp;=\frac{f(x_1)-f(x_0)}{x_1-x_0},  &amp;
 a_0&amp;=\frac{x_0f(x_1)-x_1f(x_0)}{x_1-x_0}.
 \end{aligned}
-\tag{6.6}\]</span></span> Thus, we have <span id="eq-c8"><span class="math display">\[
+\tag{6.6}\]</span></span> Thus, we have <span id="eq-linear-interpolant"><span class="math display">\[
 P(x)=\frac{x_0f(x_1)-x_1f(x_0)}{x_1-x_0} + \frac{f(x_1)-f(x_0)}{x_1-x_0}\, x .
 \tag{6.7}\]</span></span></p>
-<p>Let us now rewrite this polynomial in a slightly different form: <span id="eq-6.9"><span class="math display">\[
+<p>Let us now rewrite this polynomial in a slightly different form: <span id="eq-lagrange-linear"><span class="math display">\[
 P(x) = f(x_0)\frac{x-x_1}{x_0-x_1} + f(x_1)\frac{x-x_0}{x_1-x_0}
-\tag{6.8}\]</span></span> If we introduce functions <span id="eq-6.10"><span class="math display">\[
+\tag{6.8}\]</span></span> If we introduce functions <span id="eq-lagrange-basis-linear"><span class="math display">\[
 L_0(x) = \frac{x-x_1}{x_0-x_1}, \quad L_1(x) = \frac{x-x_0}{x_1-x_0},
-\tag{6.9}\]</span></span> then we can write <a href="#eq-6.9" class="quarto-xref">Eq.&nbsp;<span>6.8</span></a> as the polynomial <span class="math inline">\(P\)</span> can be written as <span id="eq-interp1"><span class="math display">\[
+\tag{6.9}\]</span></span> then we can write <a href="#eq-linear-interpolant" class="quarto-xref">Eq.&nbsp;<span>6.7</span></a> as the polynomial <span class="math inline">\(P\)</span> can be written as <span id="eq-lagrange-form-linear"><span class="math display">\[
 P(x) = f(x_0)L_0(x) + f(x_1)L_1(x).
-\tag{6.10}\]</span></span> Note that functions <span class="math inline">\(L_0(x)\)</span> and <span class="math inline">\(L_1(x)\)</span> have the property that <span id="eq-6.12"><span class="math display">\[
+\tag{6.10}\]</span></span> Note that functions <span class="math inline">\(L_0(x)\)</span> and <span class="math inline">\(L_1(x)\)</span> have the property that <span id="eq-lagrange-basis-properties"><span class="math display">\[
 L_0(x_0)=1=L_1(x_1), \quad L_0(x_1)=0=L_1(x_0).
-\tag{6.11}\]</span></span> This property ensures that <span class="math inline">\(P(x)\)</span>, given by <a href="#eq-interp1" class="quarto-xref">Eq.&nbsp;<span>6.10</span></a>, satisfies the required conditions <span class="math inline">\(P(x_0)=f(x_0)\)</span> and <span class="math inline">\(P(x_1)=f(x_1)\)</span>. Indeed, <span id="eq-6.13"><span class="math display">\[
+\tag{6.11}\]</span></span> This property ensures that <span class="math inline">\(P(x)\)</span>, given by <a href="#eq-linear-interpolant" class="quarto-xref">Eq.&nbsp;<span>6.7</span></a>, satisfies the required conditions <span class="math inline">\(P(x_0)=f(x_0)\)</span> and <span class="math inline">\(P(x_1)=f(x_1)\)</span>. Indeed, <span id="eq-lagrange-verification"><span class="math display">\[
 \begin{split}
 P(x_0)&amp;=f(x_0)L_0(x_0) + f(x_1)L_1(x_0)=f(x_0)\cdot 1 + f(x_1)\cdot 0 = f(x_0), \\
 P(x_1)&amp;=f(x_0)L_0(x_1) + f(x_1)L_1(x_1)=f(x_0)\cdot 0 + f(x_1)\cdot 1 = f(x_1).
 \end{split}
 \tag{6.12}\]</span></span></p>
-<p>Let us now consider the general case. We construct a polynomial of degree at most <span class="math inline">\(n\)</span> that passes through the <span class="math inline">\((n+1)\)</span> points <span class="math inline">\((x_0, f(x_0))\)</span>, <span class="math inline">\((x_1, f(x_1))\)</span>, …, <span class="math inline">\((x_n, f(x_n))\)</span>. As a first step, we need a generalization of the functions <span class="math inline">\(L_0\)</span> and <span class="math inline">\(L_1\)</span> above; namely, we are looking for polynomials <span class="math inline">\(L_0,\ldots,L_n\)</span> of degree <span class="math inline">\(n\)</span> such that <span id="eq-lkdelta"><span class="math display">\[
+<p>Let us now consider the general case. We construct a polynomial of degree at most <span class="math inline">\(n\)</span> that passes through the <span class="math inline">\((n+1)\)</span> points <span class="math inline">\((x_0, f(x_0))\)</span>, <span class="math inline">\((x_1, f(x_1))\)</span>, …, <span class="math inline">\((x_n, f(x_n))\)</span>. As a first step, we need a generalization of the functions <span class="math inline">\(L_0\)</span> and <span class="math inline">\(L_1\)</span> above; namely, we are looking for polynomials <span class="math inline">\(L_0,\ldots,L_n\)</span> of degree <span class="math inline">\(n\)</span> such that <span id="eq-lagrange-basis-delta"><span class="math display">\[
 L_k(x_i)=\delta_{ik} = \left\{
 \begin{array}{ll}
 0 &amp;\text{  if } \ i\neq k, \\
@@ -360,29 +380,29 @@ L_k(x_i)=\delta_{ik} = \left\{
 \end{array}\right.
 \tag{6.13}\]</span></span></p>
 <p>(The definition of these <span class="math inline">\(L_k\)</span> also depends on <span class="math inline">\(x_0,\ldots,x_n\)</span>, and in particular on <span class="math inline">\(n\)</span>. For ease of reading, we do not indicate this dependence explicitly.)</p>
-<p>A short computation shows that polynomials with this property are given by <span id="eq-c10"><span class="math display">\[
+<p>A short computation shows that polynomials with this property are given by <span id="eq-lagrange-basis-general"><span class="math display">\[
 L_k(x)=\prod_{i=0, i\neq k}^{n} \frac{x-x_i}{x_k-x_i}.
-\tag{6.14}\]</span></span> We then set <span id="eq-lagrangeform"><span class="math display">\[
+\tag{6.14}\]</span></span> We then set <span id="eq-lagrange-form-general"><span class="math display">\[
 P(x) = \sum_{j=0}^n f(x_j) L_j(x).
 \tag{6.15}\]</span></span> This is indeed a suitable interpolating polynomial. In fact it is the only possible interpolating polynomial, as the following theorem shows.</p>
 <div id="thm-lagrangepoly" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 6.2 (Lagrange interpolating polynomial)</strong></span> Suppose that <span class="math inline">\(x_0, x_1, \ldots, x_n\in\mathbb{R}\)</span> are distinct numbers in the domain of a function&nbsp;<span class="math inline">\(f\)</span>. There exists a unique polynomial <span class="math inline">\(P\)</span> with <span class="math inline">\(\deg P \leq n\)</span> such that <span id="eq-6.16"><span class="math display">\[
+<p><span class="theorem-title"><strong>Theorem 6.2 (Lagrange interpolating polynomial)</strong></span> Suppose that <span class="math inline">\(x_0, x_1, \ldots, x_n\in\mathbb{R}\)</span> are distinct numbers in the domain of a function&nbsp;<span class="math inline">\(f\)</span>. There exists a unique polynomial <span class="math inline">\(P\)</span> with <span class="math inline">\(\deg P \leq n\)</span> such that <span id="eq-interpolation-conditions-general"><span class="math display">\[
 f(x_k)=P(x_k) \quad \text{for all } k=0, 1, \ldots, n.
-\tag{6.16}\]</span></span> This polynomial, called the <span class="math inline">\(n^\text{th}\)</span> <em>Lagrange interpolating polynomial</em>, is given by <a href="#eq-lagrangeform" class="quarto-xref">Eq.&nbsp;<span>6.15</span></a>, where the functions* <span class="math inline">\(L_k(x)\)</span> are given by <a href="#eq-c10" class="quarto-xref">Eq.&nbsp;<span>6.14</span></a>.</p>
+\tag{6.16}\]</span></span> This polynomial, called the <span class="math inline">\(n^\text{th}\)</span> <em>Lagrange interpolating polynomial</em>, is given by <a href="#eq-lagrange-form-general" class="quarto-xref">Eq.&nbsp;<span>6.15</span></a>, where the functions* <span class="math inline">\(L_k(x)\)</span> are given by <a href="#eq-lagrange-basis-general" class="quarto-xref">Eq.&nbsp;<span>6.14</span></a>.</p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>It is evident from <a href="#eq-c10" class="quarto-xref">Eq.&nbsp;<span>6.14</span></a>–<a href="#eq-lagrangeform" class="quarto-xref">Eq.&nbsp;<span>6.15</span></a> that <span class="math inline">\(\deg P \leq n\)</span>. Moreover, by <a href="#eq-lkdelta" class="quarto-xref">Eq.&nbsp;<span>6.13</span></a>, we have for <span class="math inline">\(k=0,\ldots,n\)</span> <span id="eq-6.17"><span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>It is evident from <a href="#eq-lagrange-basis-general" class="quarto-xref">Eq.&nbsp;<span>6.14</span></a>–<a href="#eq-lagrange-form-general" class="quarto-xref">Eq.&nbsp;<span>6.15</span></a> that <span class="math inline">\(\deg P \leq n\)</span>. Moreover, by <a href="#eq-lagrange-basis-delta" class="quarto-xref">Eq.&nbsp;<span>6.13</span></a>, we have for <span class="math inline">\(k=0,\ldots,n\)</span> <span id="eq-interpolation-uniqueness"><span class="math display">\[
 P(x_k)=\sum_{j=0}^{n}f(x_{j})L_{j}(x_k) = \sum_{j=0}^{n}f(x_{j})\delta_{jk} = f(x_k).
-\tag{6.17}\]</span></span> The only remaining point is uniqueness. Suppose that <span class="math inline">\(P\)</span> and <span class="math inline">\(\hat P\)</span> are two interpolating polynomials with degree at most&nbsp;<span class="math inline">\(n\)</span>. Then <span id="eq-6.18"><span class="math display">\[
+\tag{6.17}\]</span></span> The only remaining point is uniqueness. Suppose that <span class="math inline">\(P\)</span> and <span class="math inline">\(\hat P\)</span> are two interpolating polynomials with degree at most&nbsp;<span class="math inline">\(n\)</span>. Then <span id="eq-polynomial-difference"><span class="math display">\[
 Q(x):=P(x)-\hat P(x)
-\tag{6.18}\]</span></span> is another polynomial, and&nbsp;<span class="math inline">\(\deg Q\leq n\)</span>. However, since <span id="eq-6.19"><span class="math display">\[
+\tag{6.18}\]</span></span> is another polynomial, and&nbsp;<span class="math inline">\(\deg Q\leq n\)</span>. However, since <span id="eq-interpolation-uniqueness"><span class="math display">\[
 P(x_k)=f(x_k)=\hat P (x_k) \quad\text{for all }k=0,\ldots,n,
 \tag{6.19}\]</span></span> we know that <span class="math inline">\(Q\)</span> has <span class="math inline">\(n+1\)</span> zeros, namely <span class="math inline">\(x_0,\ldots,x_n\)</span>. This contravenes the Fundamental Theorem of Algebra, and so the only possibility is <span class="math inline">\(Q=0\)</span>, whence <span class="math inline">\(P=\hat P\)</span>.&nbsp;◻</p>
 </div>
 <div id="exm-12" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> The values of a function <span class="math inline">\(f\)</span> are given in the table:</p>
 <div class="center">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(k\)</span></th>
@@ -409,7 +429,7 @@ P(x_k)=f(x_k)=\hat P (x_k) \quad\text{for all }k=0,\ldots,n,
 </tbody>
 </table>
 </div>
-<p>Let us construct the Lagrange interpolating polynomial of degree 2 for this data. From&nbsp;<a href="#eq-c10" class="quarto-xref">Eq.&nbsp;<span>6.14</span></a> we have <span id="eq-6.20"><span class="math display">\[
+<p>Let us construct the Lagrange interpolating polynomial of degree 2 for this data. From&nbsp;<a href="#eq-lagrange-basis-general" class="quarto-xref">Eq.&nbsp;<span>6.14</span></a> we have <span id="eq-lagrange-basis-example"><span class="math display">\[
 \begin{split}
 L_0(x)&amp;=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}
 =\frac{(x-1)(x-2)}{(-1-1)(-1-2)}=
@@ -420,7 +440,7 @@ L_1(x)&amp;=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}
 L_2(x)&amp;=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}
 =\frac{(x+1)(x-1)}{(2+1)(2-1)}=\tfrac{1}{3}(x^2-1).
 \end{split}
-\tag{6.20}\]</span></span> Hence <span id="eq-6.21"><span class="math display">\[
+\tag{6.20}\]</span></span> Hence <span id="eq-lagrange-example-result"><span class="math display">\[
 \begin{split}
 P(x)&amp;=\sum_{j=0}^2f(x_{j})L_{j}(x) \\
 &amp;=-1\cdot\tfrac{1}{6}(x^2-3x+2)-3\cdot\tfrac{1}{2}(x^2-x-2)+8\cdot\tfrac{1}{3}(x^2-1) \\
@@ -430,46 +450,46 @@ P(x)&amp;=\sum_{j=0}^2f(x_{j})L_{j}(x) \\
 </div>
 <p>Above we have constructed the polynomial <span class="math inline">\(P\)</span> to interpolate the values of a function <span class="math inline">\(f\)</span> at the points <span class="math inline">\(x_0,\ldots,x_n\)</span>. But is <span class="math inline">\(P\)</span> also a good approximation to <span class="math inline">\(f\)</span> between these points? The theorem below gives an answer.</p>
 <div id="thm-Lagrange-error" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 6.3 (Error term for interpolating polynomials)</strong></span> Suppose that <span class="math inline">\(x_0, \ldots, x_n\)</span> are distinct numbers in the interval <span class="math inline">\([a, b]\)</span> and that <span class="math inline">\(f\in C^{n+1}[a, b]\)</span>. Then, for each <span class="math inline">\(x\in[a, b]\)</span>, there exists a number <span class="math inline">\(\xi\in (a, b)\)</span> such that <span id="eq-c11"><span class="math display">\[
+<p><span class="theorem-title"><strong>Theorem 6.3 (Error term for interpolating polynomials)</strong></span> Suppose that <span class="math inline">\(x_0, \ldots, x_n\)</span> are distinct numbers in the interval <span class="math inline">\([a, b]\)</span> and that <span class="math inline">\(f\in C^{n+1}[a, b]\)</span>. Then, for each <span class="math inline">\(x\in[a, b]\)</span>, there exists a number <span class="math inline">\(\xi\in (a, b)\)</span> such that <span id="eq-interpolation-error"><span class="math display">\[
 f(x)=P(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!} \prod_{k=0}^n(x-x_k),
 \tag{6.22}\]</span></span> where <span class="math inline">\(P\)</span> is the <span class="math inline">\(n^\text{th}\)</span> interpolating polynomial.</p>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>We use <em>Rolle’s theorem</em> in this proof. Rolle’s theorem states that, if <span class="math inline">\(h \in C^1[c,d]\)</span> with <span class="math inline">\(h(c)=h(d)=0\)</span>, then there exists <span class="math inline">\(x \in (c,d)\)</span> such that <span class="math inline">\(h'(x)=0\)</span>.</p>
-<p>If <span class="math inline">\(x=x_k\)</span> for some <span class="math inline">\(k\)</span>, then <span class="math inline">\(f(x_k)=P(x_k)\)</span> and <a href="#eq-c11" class="quarto-xref">Eq.&nbsp;<span>6.22</span></a> holds for any choice of <span class="math inline">\(\xi\)</span>. Therefore for the rest of this proof we assume that <span id="eq-approx:2"><span class="math display">\[
+<p>If <span class="math inline">\(x=x_k\)</span> for some <span class="math inline">\(k\)</span>, then <span class="math inline">\(f(x_k)=P(x_k)\)</span> and <a href="#eq-interpolation-error" class="quarto-xref">Eq.&nbsp;<span>6.22</span></a> holds for any choice of <span class="math inline">\(\xi\)</span>. Therefore for the rest of this proof we assume that <span id="eq-x-distinct"><span class="math display">\[
 x \neq x_k \quad\text{for all }k=0, \ldots, n.
 \tag{6.23}\]</span></span> Define the function <span class="math display">\[
 g(t):=f(t)-P(t)-[f(x)-P(x)]\prod_{i=0}^{n}\frac{t-x_i}{x-x_i}\quad \text{for }t\in [a, b].
-\]</span> {eq-6.24} Since <span class="math inline">\(f\in C^{n+1}[a, b]\)</span>, <span class="math inline">\(P\in C^{\infty}[a, b]\)</span> and in view of <a href="#eq-approx:2" class="quarto-xref">Eq.&nbsp;<span>6.23</span></a>, it follows that <span class="math inline">\(g\in C^{n+1}[a, b]\)</span>. Applying <span class="math inline">\(g\)</span> at <span class="math inline">\(t=x\)</span> and at <span class="math inline">\(t=x_k\)</span> for <span class="math inline">\(k=0,\ldots,n\)</span>, we obtain <span id="eq-6.25"><span class="math display">\[
+\]</span> {eq-error-function-zeros} Since <span class="math inline">\(f\in C^{n+1}[a, b]\)</span>, <span class="math inline">\(P\in C^{\infty}[a, b]\)</span> and in view of <a href="#eq-x-distinct" class="quarto-xref">Eq.&nbsp;<span>6.23</span></a>, it follows that <span class="math inline">\(g\in C^{n+1}[a, b]\)</span>. Applying <span class="math inline">\(g\)</span> at <span class="math inline">\(t=x\)</span> and at <span class="math inline">\(t=x_k\)</span> for <span class="math inline">\(k=0,\ldots,n\)</span>, we obtain <span id="eq-error-function-zeros"><span class="math display">\[
 \begin{split}
 g(x)&amp;=f(x)-P(x)-[f(x)-P(x)]\prod_{i=0}^{n}\frac{x-x_i}{x-x_i}=0,\\
 g(x_k)&amp;=f(x_k)-P(x_k)-[f(x)-P(x)]\prod_{i=0}^{n}\frac{x_k-x_i}{x-x_i}=0.
 \end{split}
-\tag{6.24}\]</span></span> Thus <span class="math inline">\(g\in C^{n+1}[a, b]\)</span> and <span class="math inline">\(g\)</span> has <span class="math inline">\(n+2\)</span> distinct zeros at <span class="math inline">\(x, x_0, x_1, \ldots, x_n\)</span>. Applying Rolle’s theorem to each of the <span class="math inline">\(n+1\)</span> subintervals between these zeros, it follows that the derivative <span class="math inline">\(g'\in C^n[a, b]\)</span> has at least <span class="math inline">\(n+1\)</span> zeros in <span class="math inline">\([a,b]\)</span>. Again applying Rolle’s theorem, the second derivative <span class="math inline">\(g''\in C^{n-1}[a, b]\)</span> has at least <span class="math inline">\(n\)</span> zeros in <span class="math inline">\([a,b]\)</span>. Applying the same argument to successive derivatives of <span class="math inline">\(g\)</span>, it follows finally that the <span class="math inline">\((n+1)^\text{th}\)</span> derivative <span class="math inline">\(g^{(n+1)}\)</span> has at least one zero, which we call&nbsp;<span class="math inline">\(\xi\)</span>. This means that <span id="eq-c17"><span class="math display">\[
+\tag{6.24}\]</span></span> Thus <span class="math inline">\(g\in C^{n+1}[a, b]\)</span> and <span class="math inline">\(g\)</span> has <span class="math inline">\(n+2\)</span> distinct zeros at <span class="math inline">\(x, x_0, x_1, \ldots, x_n\)</span>. Applying Rolle’s theorem to each of the <span class="math inline">\(n+1\)</span> subintervals between these zeros, it follows that the derivative <span class="math inline">\(g'\in C^n[a, b]\)</span> has at least <span class="math inline">\(n+1\)</span> zeros in <span class="math inline">\([a,b]\)</span>. Again applying Rolle’s theorem, the second derivative <span class="math inline">\(g''\in C^{n-1}[a, b]\)</span> has at least <span class="math inline">\(n\)</span> zeros in <span class="math inline">\([a,b]\)</span>. Applying the same argument to successive derivatives of <span class="math inline">\(g\)</span>, it follows finally that the <span class="math inline">\((n+1)^\text{th}\)</span> derivative <span class="math inline">\(g^{(n+1)}\)</span> has at least one zero, which we call&nbsp;<span class="math inline">\(\xi\)</span>. This means that <span id="eq-error-derivative"><span class="math display">\[
 0=g^{(n+1)}(\xi)=f^{(n+1)}(\xi)-P^{(n+1)}(\xi)-(f(x)-P(x)) \left.\frac{d^{n+1}}{dt^{n+1}}\prod_{i=0}^{n}\frac{t-x_i}{x-x_i}\right\rvert_{t=\xi}.
-\tag{6.25}\]</span></span> Considering each of the elements of this equation in turn, we have <span class="math inline">\(P^{(n+1)}(\xi)=0\)</span> as <span class="math inline">\(\deg P \leq n\)</span>. Also, we have <span id="eq-6.27"><span class="math display">\[
+\tag{6.25}\]</span></span> Considering each of the elements of this equation in turn, we have <span class="math inline">\(P^{(n+1)}(\xi)=0\)</span> as <span class="math inline">\(\deg P \leq n\)</span>. Also, we have <span id="eq-derivative-product"><span class="math display">\[
 \frac{d^{n+1}}{dt^{n+1}}\prod_{i=0}^{n}\frac{t-x_i}{x-x_i}= \frac{d^{n+1}}{dt^{n+1}}\frac{t^{n+1}}{\prod_{i=0}^{n}(x-x_i)}= \frac{(n+1)!}{\prod_{i=0}^{n}(x-x_i)}.
-\tag{6.26}\]</span></span> Substituting this into <a href="#eq-c17" class="quarto-xref">Eq.&nbsp;<span>6.25</span></a>, we obtain the equation <span id="eq-6.28"><span class="math display">\[
+\tag{6.26}\]</span></span> Substituting this into <a href="#eq-error-derivative" class="quarto-xref">Eq.&nbsp;<span>6.25</span></a>, we obtain the equation <span id="eq-error-final"><span class="math display">\[
 0=f^{(n+1)}(\xi)-(f(x)-P(x))\frac{(n+1)! }{ \prod_{i=0}^{n}(x-x_i)},
-\tag{6.27}\]</span></span> which is equivalent to <a href="#eq-c17" class="quarto-xref">Eq.&nbsp;<span>6.25</span></a>.&nbsp;◻</p>
+\tag{6.27}\]</span></span> which is equivalent to <a href="#eq-error-derivative" class="quarto-xref">Eq.&nbsp;<span>6.25</span></a>.&nbsp;◻</p>
 </div>
 <div id="exm-13" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.2</strong></span> Let <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 6.2</strong></span> Let <span id="eq-reciprocal-function"><span class="math display">\[
 f(x)=\frac{1}{x}.
-\]</span> {eq-6.29} The interpolating polynomial determined by the values of <span class="math inline">\(f\)</span> at the points <span class="math inline">\(x_0=2.0\)</span>, <span class="math inline">\(x_1=2.5\)</span> and <span class="math inline">\(x_2=4\)</span> is given by <span id="eq-6.30"><span class="math display">\[
+\tag{6.28}\]</span></span> The interpolating polynomial determined by the values of <span class="math inline">\(f\)</span> at the points <span class="math inline">\(x_0=2.0\)</span>, <span class="math inline">\(x_1=2.5\)</span> and <span class="math inline">\(x_2=4\)</span> is given by <span id="eq-reciprocal-interpolant"><span class="math display">\[
 P(x) = \tfrac{1}{20}x^2-\tfrac{17}{40}x+\tfrac{23}{20}.
-\tag{6.28}\]</span></span></p>
-<p>Let us obtain the theoretical bound for the error of approximation of <span class="math inline">\(f(3)\)</span> by <span class="math inline">\(P(3)\)</span>. We have <span id="eq-approx:3"><span class="math display">\[
+\tag{6.29}\]</span></span></p>
+<p>Let us obtain the theoretical bound for the error of approximation of <span class="math inline">\(f(3)\)</span> by <span class="math inline">\(P(3)\)</span>. We have <span id="eq-reciprocal-derivative-bound"><span class="math display">\[
 \vert f^{\prime\prime\prime}(\xi)\vert =
 \left\lvert-\frac{6}{\xi^{4}}\right\rvert\leq \frac{3}{8} \quad \text{for all } \xi\in[2, 4].
-\tag{6.29}\]</span></span> Therefore, <span id="eq-6.32"><span class="math display">\[
+\tag{6.30}\]</span></span> Therefore, <span id="eq-reciprocal-error-bound"><span class="math display">\[
 \vert f(3)-P(3)\vert\leq
 \max_{\xi\in[2,4]}\left\lvert \frac{f^{\prime\prime\prime}(\xi)}{3!}
 (3-2)(3-2.5)(3-4) \right\rvert \leq \frac{1}{32}=0.03125 .
-\tag{6.30}\]</span></span> The actual error of this approximation is <span id="eq-6.33"><span class="math display">\[
+\tag{6.31}\]</span></span> The actual error of this approximation is <span id="eq-reciprocal-actual-error"><span class="math display">\[
 E=\vert f(3)- P(3)\vert=\frac{1}{3}-0.325=0.008333\dots,
-\tag{6.31}\]</span></span> which is smaller than our theoretical bound (as one would expect).</p>
-<p>Now let us evaluate the error involved in approximating <span class="math inline">\(f\)</span> by <span class="math inline">\(P\)</span> on the whole interval <span class="math inline">\([2, 4]\)</span>. Again using <a href="#eq-approx:3" class="quarto-xref">Eq.&nbsp;<span>6.29</span></a>, we have <span id="eq-approx:4"><span class="math display">\[
+\tag{6.32}\]</span></span> which is smaller than our theoretical bound (as one would expect).</p>
+<p>Now let us evaluate the error involved in approximating <span class="math inline">\(f\)</span> by <span class="math inline">\(P\)</span> on the whole interval <span class="math inline">\([2, 4]\)</span>. Again using <a href="#eq-reciprocal-derivative-bound" class="quarto-xref">Eq.&nbsp;<span>6.30</span></a>, we have <span id="eq-reciprocal-global-error"><span class="math display">\[
 \begin{split}
 \vert f(x)-P(x)\vert &amp;\leq
 \max_{\xi\in[2,4]}\left\lvert \frac{f^{\prime\prime\prime}(\xi)}{3!}
@@ -479,92 +499,92 @@ E=\vert f(3)- P(3)\vert=\frac{1}{3}-0.325=0.008333\dots,
 \frac{1}{16} \, \max_{x\in[2,4]}
 \vert \phi(x)\vert,
 \end{split}
-\tag{6.32}\]</span></span> where <span id="eq-6.35"><span class="math display">\[
+\tag{6.33}\]</span></span> where <span id="eq-phi-definition"><span class="math display">\[
 \phi(x):=(x-2)(x-2.5)(x-4)\quad\text{for }x\in[2,4].
-\tag{6.33}\]</span></span> The function <span class="math inline">\(\phi\)</span> has a maximum at <span class="math inline">\(x':=\tfrac{17}{6}-\tfrac{\sqrt{13}}{6}\approx 2.232\)</span>, with <span class="math inline">\(\phi(x')\approx0.110\)</span>, and a minimum at <span class="math inline">\(x'':=\tfrac{17}{6}+\tfrac{\sqrt{13}}{6}\approx 3.434\)</span>, where <span class="math inline">\(\phi(x'')\approx-0.758\)</span>. By <a href="#eq-approx:4" class="quarto-xref">Eq.&nbsp;<span>6.32</span></a> we obtain <span id="eq-6.36"><span class="math display">\[
+\tag{6.34}\]</span></span> The function <span class="math inline">\(\phi\)</span> has a maximum at <span class="math inline">\(x':=\tfrac{17}{6}-\tfrac{\sqrt{13}}{6}\approx 2.232\)</span>, with <span class="math inline">\(\phi(x')\approx0.110\)</span>, and a minimum at <span class="math inline">\(x'':=\tfrac{17}{6}+\tfrac{\sqrt{13}}{6}\approx 3.434\)</span>, where <span class="math inline">\(\phi(x'')\approx-0.758\)</span>. By <a href="#eq-reciprocal-global-error" class="quarto-xref">Eq.&nbsp;<span>6.33</span></a> we obtain <span id="eq-reciprocal-max-error"><span class="math display">\[
 \vert f(x)-P(x)\vert\leq \frac{\vert\phi(x'')\vert}{ 16}\approx 0.048.
-\tag{6.34}\]</span></span></p>
-<p>Finally, let us add one more point to our data, say, <span class="math inline">\(x_3=3.5\)</span>. Then the polynomial interpolating the values of <span class="math inline">\(f\)</span> at the four points <span class="math inline">\(x_0=2\)</span>, <span class="math inline">\(x_1=2.5\)</span>, <span class="math inline">\(x_2=4\)</span> and <span class="math inline">\(x_3=3.5\)</span> is given by <span id="eq-6.37"><span class="math display">\[
+\tag{6.35}\]</span></span></p>
+<p>Finally, let us add one more point to our data, say, <span class="math inline">\(x_3=3.5\)</span>. Then the polynomial interpolating the values of <span class="math inline">\(f\)</span> at the four points <span class="math inline">\(x_0=2\)</span>, <span class="math inline">\(x_1=2.5\)</span>, <span class="math inline">\(x_2=4\)</span> and <span class="math inline">\(x_3=3.5\)</span> is given by <span id="eq-reciprocal-interpolant-4points"><span class="math display">\[
 P(x) = -\tfrac{1}{70}x^3+\tfrac{6}{35}x^2-\tfrac{211}{280}x+\tfrac{201}{140}.
-\tag{6.35}\]</span></span> In this case, <span class="math inline">\(P(3)=\tfrac{93}{280}\)</span> and the actual error is <span id="eq-6.38"><span class="math display">\[
+\tag{6.36}\]</span></span> In this case, <span class="math inline">\(P(3)=\tfrac{93}{280}\)</span> and the actual error is <span id="eq-reciprocal-error-4points"><span class="math display">\[
 \lvert f(3)- P(3)\rvert = \left\lvert\tfrac{1}{3} - \tfrac{93}{280}\right\rvert = \tfrac{1}{840} \approx 0.0012.
-\tag{6.36}\]</span></span> This is almost 8 times smaller than the error of the interpolating polynomial based on the original three points.</p>
+\tag{6.37}\]</span></span> This is almost 8 times smaller than the error of the interpolating polynomial based on the original three points.</p>
 </div>
 <p>Further reading: Section 3.1 of <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
 </section>
 <section id="divided-differences" class="level3" data-number="6.1.2">
 <h3 data-number="6.1.2" class="anchored" data-anchor-id="divided-differences"><span class="header-section-number">6.1.2</span> Divided differences</h3>
-<p>As we saw in <a href="#thm-lagrangepoly" class="quarto-xref">Theorem&nbsp;<span>6.2</span></a>, the interpolating polynomial (of minimal degree) for a function at distinct points <span class="math inline">\(x_0, x_1, \ldots, x_n\)</span> is unique. However, it can be rewritten in many different ways. The Lagrange form <a href="#eq-lagrangeform" class="quarto-xref">Eq.&nbsp;<span>6.15</span></a> may not always be the optimal one for numerical purposes, since computing its value requires a large number of multiplications. Here we present an alternative form of the same polynomial, known as the <em>Newton form</em>.</p>
-<p>Let us illustrate the idea again in the case of a linear polynomial, interpolating a function&nbsp;<span class="math inline">\(f\)</span> between two points <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_1\)</span>. It seems natural to write this straight line in the form&nbsp; <span id="eq-dd0"><span class="math display">\[
+<p>As we saw in <a href="#thm-lagrangepoly" class="quarto-xref">Theorem&nbsp;<span>6.2</span></a>, the interpolating polynomial (of minimal degree) for a function at distinct points <span class="math inline">\(x_0, x_1, \ldots, x_n\)</span> is unique. However, it can be rewritten in many different ways. The Lagrange form <a href="#eq-lagrange-form-general" class="quarto-xref">Eq.&nbsp;<span>6.15</span></a> may not always be the optimal one for numerical purposes, since computing its value requires a large number of multiplications. Here we present an alternative form of the same polynomial, known as the <em>Newton form</em>.</p>
+<p>Let us illustrate the idea again in the case of a linear polynomial, interpolating a function&nbsp;<span class="math inline">\(f\)</span> between two points <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_1\)</span>. It seems natural to write this straight line in the form&nbsp; <span id="eq-linear-slope-form"><span class="math display">\[
 f(x_0) + m (x-x_0)
-\tag{6.37}\]</span></span> with slope <span class="math inline">\(m=\frac{f(x_1)-f(x_0)}{x_1-x_0}\)</span>. We thus arrive at <span id="eq-dd1"><span class="math display">\[
+\tag{6.38}\]</span></span> with slope <span class="math inline">\(m=\frac{f(x_1)-f(x_0)}{x_1-x_0}\)</span>. We thus arrive at <span id="eq-divided-diff-linear"><span class="math display">\[
    P(x) = f(x_0) + \frac{f(x_1)-f(x_0)}{x_1-x_0} (x-x_0).
-\tag{6.38}\]</span></span> Indeed, one checks that <span class="math inline">\(P(x_0)=f(x_0)\)</span>, <span class="math inline">\(P(x_1)=f(x_1)\)</span>, and so this is the unique interpolating polynomial between these points. The slope <span class="math inline">\(\frac{f(x_1)-f(x_0)}{x_1-x_0}\)</span>, which looks a bit like the derivative of&nbsp;<span class="math inline">\(f\)</span>, is called the <span class="math inline">\(1^\text{st}\)</span> divided difference and we write <span id="eq-dd1a"><span class="math display">\[
+\tag{6.39}\]</span></span> Indeed, one checks that <span class="math inline">\(P(x_0)=f(x_0)\)</span>, <span class="math inline">\(P(x_1)=f(x_1)\)</span>, and so this is the unique interpolating polynomial between these points. The slope <span class="math inline">\(\frac{f(x_1)-f(x_0)}{x_1-x_0}\)</span>, which looks a bit like the derivative of&nbsp;<span class="math inline">\(f\)</span>, is called the <span class="math inline">\(1^\text{st}\)</span> divided difference and we write <span id="eq-divided-diff-first"><span class="math display">\[
 f[x_0,x_1]:=\frac{f(x_1)-f(x_0)}{x_1-x_0}.
-\tag{6.39}\]</span></span></p>
-<p>How does this generalize to higher-order polynomials? It turns out that the second-order interpolating polynomial through the points <span class="math inline">\(x_0,x_1,x_2\)</span> is given by <span id="eq-dd2"><span class="math display">\[
+\tag{6.40}\]</span></span></p>
+<p>How does this generalize to higher-order polynomials? It turns out that the second-order interpolating polynomial through the points <span class="math inline">\(x_0,x_1,x_2\)</span> is given by <span id="eq-divided-diff-quadratic"><span class="math display">\[
 \begin{split}
    P(x) = f(x_0) &amp;+ \frac{f(x_1)-f(x_0)}{x_1-x_0} (x-x_0) +\\
    &amp;+ \underbrace{\dfrac{\dfrac{f(x_2)-f(x_1)}{x_2-x_1}-\dfrac{f(x_1)-f(x_0)}{x_1-x_0}}{x_2-x_0}}_{=:f[x_0,x_1,x_2]} (x-x_0)(x-x_1).
 \end{split}
-\tag{6.40}\]</span></span> (It is clear that <span class="math inline">\(P(x_0)=f(x_0)\)</span>, <span class="math inline">\(P(x_1)=f(x_1)\)</span>, and some computation yields <span class="math inline">\(P(x_2)=f(x_2)\)</span>.) The term <span class="math inline">\(f[x_0,x_1,x_2]\)</span> is called the <span class="math inline">\(2^\text{nd}\)</span> divided difference and reminds one of the second derivative.</p>
-<p>Let us define these concepts more generally. We introduce the <span class="math inline">\(0^\text{th}\)</span> divided difference as <span id="eq-dd0a"><span class="math display">\[
+\tag{6.41}\]</span></span> (It is clear that <span class="math inline">\(P(x_0)=f(x_0)\)</span>, <span class="math inline">\(P(x_1)=f(x_1)\)</span>, and some computation yields <span class="math inline">\(P(x_2)=f(x_2)\)</span>.) The term <span class="math inline">\(f[x_0,x_1,x_2]\)</span> is called the <span class="math inline">\(2^\text{nd}\)</span> divided difference and reminds one of the second derivative.</p>
+<p>Let us define these concepts more generally. We introduce the <span class="math inline">\(0^\text{th}\)</span> divided difference as <span id="eq-divided-diff-zeroth"><span class="math display">\[
 f[x_i]:=f(x_i),
-\tag{6.41}\]</span></span> and then define the <span class="math inline">\(k^\text{th}\)</span> divided difference recursively as <span id="eq-dd2a"><span class="math display">\[
+\tag{6.42}\]</span></span> and then define the <span class="math inline">\(k^\text{th}\)</span> divided difference recursively as <span id="eq-divided-diff-recursive"><span class="math display">\[
 f[x_i, x_{i+1}, \ldots, x_{i+k}]:=\frac{f[x_{i+1}, x_{i+2},\ldots, x_{i+k}]-
 f[x_i,x_{i+1}, \ldots, x_{i+k-1}]}{x_{i+k}-x_i}.
-\tag{6.42}\]</span></span> This agrees with the examples above.</p>
-<p>We now claim that all interpolating polynomials can be written in terms of divided differences, in generalization of equations&nbsp;<a href="#eq-dd1" class="quarto-xref">Eq.&nbsp;<span>6.38</span></a> and <a href="#eq-dd2" class="quarto-xref">Eq.&nbsp;<span>6.40</span></a>.</p>
+\tag{6.43}\]</span></span> This agrees with the examples above.</p>
+<p>We now claim that all interpolating polynomials can be written in terms of divided differences, in generalization of equations&nbsp;<a href="#eq-divided-diff-linear" class="quarto-xref">Eq.&nbsp;<span>6.39</span></a> and <a href="#eq-divided-diff-quadratic" class="quarto-xref">Eq.&nbsp;<span>6.41</span></a>.</p>
 <div id="thm-newtondiff" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 6.4</strong></span> Let <span class="math inline">\(P\)</span> be the <span class="math inline">\(n^\text{th}\)</span> order interpolating polynomial for a function <span class="math inline">\(f\)</span> at the points <span class="math inline">\(x_0,\ldots,x_n\)</span>. It holds that <span id="eq-newtonddf"><span class="math display">\[
+<p><span class="theorem-title"><strong>Theorem 6.4</strong></span> Let <span class="math inline">\(P\)</span> be the <span class="math inline">\(n^\text{th}\)</span> order interpolating polynomial for a function <span class="math inline">\(f\)</span> at the points <span class="math inline">\(x_0,\ldots,x_n\)</span>. It holds that <span id="eq-newton-divided-diff"><span class="math display">\[
 P(x) = \sum_{k=0}^{n} f[x_0, x_1, \ldots, x_k] \prod_{0 \leq j &lt; k} (x-x_j) .
-\tag{6.43}\]</span></span></p>
+\tag{6.44}\]</span></span></p>
 </div>
-<p>This relation is known as <em>Newton’s divided-difference formula</em>. Note that an empty product is defined to be equal to <span class="math inline">\(1\)</span>, so in the <span class="math inline">\(k=0\)</span> term in <a href="#eq-newtonddf" class="quarto-xref">Eq.&nbsp;<span>6.43</span></a> the factor <span class="math inline">\(\prod_{0 \leq j &lt; 0} (x-x_0)=1\)</span> , so the first term in the sum is <span class="math inline">\(f[x_0]\)</span>.</p>
+<p>This relation is known as <em>Newton’s divided-difference formula</em>. Note that an empty product is defined to be equal to <span class="math inline">\(1\)</span>, so in the <span class="math inline">\(k=0\)</span> term in <a href="#eq-newton-divided-diff" class="quarto-xref">Eq.&nbsp;<span>6.44</span></a> the factor <span class="math inline">\(\prod_{0 \leq j &lt; 0} (x-x_0)=1\)</span> , so the first term in the sum is <span class="math inline">\(f[x_0]\)</span>.</p>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>We use induction on <span class="math inline">\(n\)</span>. For <span class="math inline">\(n=0\)</span>, we have <span class="math inline">\(P(x)=f(x_0)=f[x_0]\)</span> and <a href="#eq-newtonddf" class="quarto-xref">Eq.&nbsp;<span>6.43</span></a> holds. Now suppose that <a href="#eq-newtonddf" class="quarto-xref">Eq.&nbsp;<span>6.43</span></a> is already known for <span class="math inline">\(n-1\)</span> in place of <span class="math inline">\(n\)</span>. Denote by <span class="math inline">\(\hat P\)</span> the interpolating polynomial through <span class="math inline">\(x_0,\ldots,x_{n-1}\)</span>, and with <span class="math inline">\(\check P\)</span> the interpolating polynomial through <span class="math inline">\(x_1,\ldots,x_n\)</span>. By the induction hypothesis, <span id="eq-phat"><span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>We use induction on <span class="math inline">\(n\)</span>. For <span class="math inline">\(n=0\)</span>, we have <span class="math inline">\(P(x)=f(x_0)=f[x_0]\)</span> and <a href="#eq-newton-divided-diff" class="quarto-xref">Eq.&nbsp;<span>6.44</span></a> holds. Now suppose that <a href="#eq-newton-divided-diff" class="quarto-xref">Eq.&nbsp;<span>6.44</span></a> is already known for <span class="math inline">\(n-1\)</span> in place of <span class="math inline">\(n\)</span>. Denote by <span class="math inline">\(\hat P\)</span> the interpolating polynomial through <span class="math inline">\(x_0,\ldots,x_{n-1}\)</span>, and with <span class="math inline">\(\check P\)</span> the interpolating polynomial through <span class="math inline">\(x_1,\ldots,x_n\)</span>. By the induction hypothesis, <span id="eq-newton-divided-diff-parts"><span class="math display">\[
 \begin{split}
 \hat P(x) &amp;= \sum_{k=0}^{n-1} f[x_0, x_1, \ldots, x_k] \prod_{0 \leq j &lt; k} (x-x_j),\\
 \check P(x) &amp;= \sum_{k=1}^n f[x_1, x_2, \ldots, x_k] \prod_{1 \leq j &lt; k} (x-x_j).
 \end{split}
-\tag{6.44}\]</span></span></p>
-<p>Let <span class="math inline">\(P\)</span> be the interpolating polynomial for <span class="math inline">\(f\)</span> at <span class="math inline">\(x_0,\ldots,x_n\)</span>. We first prove that <span id="eq-pfrac"><span class="math display">\[
+\tag{6.45}\]</span></span></p>
+<p>Let <span class="math inline">\(P\)</span> be the interpolating polynomial for <span class="math inline">\(f\)</span> at <span class="math inline">\(x_0,\ldots,x_n\)</span>. We first prove that <span id="eq-newton-divided-diff-combine"><span class="math display">\[
 P(x) = \frac{(x-x_0) \check P(x) - (x-x_n) \hat P(x) }{x_n-x_0}.
-\tag{6.45}\]</span></span> Indeed, one verifies the equality at <span class="math inline">\(x=x_0\)</span>, and <span class="math inline">\(x=x_1,\ldots,x_{n-1}\)</span>, and at <span class="math inline">\(x=x_n\)</span> by a short computation in each case. Then <a href="#eq-pfrac" class="quarto-xref">Eq.&nbsp;<span>6.45</span></a> holds in generality due to the uniqueness of the interpolating polynomial (established in <a href="#thm-lagrangepoly" class="quarto-xref">Theorem&nbsp;<span>6.2</span></a>).</p>
-<p>Now we compute the leading order coefficient <span class="math inline">\(c_n\)</span> of <span class="math inline">\(P\)</span>, i.e., the constant <span class="math inline">\(c_n\)</span> such that <span class="math inline">\(P(x)= c_n x^n + \text{lower order terms}\)</span>. From <a href="#eq-phat" class="quarto-xref">Eq.&nbsp;<span>6.44</span></a>, <a href="#eq-pfrac" class="quarto-xref">Eq.&nbsp;<span>6.45</span></a> one can directly read off that <span id="eq-cn"><span class="math display">\[
+\tag{6.46}\]</span></span> Indeed, one verifies the equality at <span class="math inline">\(x=x_0\)</span>, and <span class="math inline">\(x=x_1,\ldots,x_{n-1}\)</span>, and at <span class="math inline">\(x=x_n\)</span> by a short computation in each case. Then <a href="#eq-newton-divided-diff-combine" class="quarto-xref">Eq.&nbsp;<span>6.46</span></a> holds in generality due to the uniqueness of the interpolating polynomial (established in <a href="#thm-lagrangepoly" class="quarto-xref">Theorem&nbsp;<span>6.2</span></a>).</p>
+<p>Now we compute the leading order coefficient <span class="math inline">\(c_n\)</span> of <span class="math inline">\(P\)</span>, i.e., the constant <span class="math inline">\(c_n\)</span> such that <span class="math inline">\(P(x)= c_n x^n + \text{lower order terms}\)</span>. From <a href="#eq-newton-divided-diff-parts" class="quarto-xref">Eq.&nbsp;<span>6.45</span></a>, <a href="#eq-newton-divided-diff-combine" class="quarto-xref">Eq.&nbsp;<span>6.46</span></a> one can directly read off that <span id="eq-leading-coefficient"><span class="math display">\[
 c_n = \frac{ f[x_1,\ldots, x_n] - f[x_0, \ldots, x_{n-1}] }{x_n-x_0} = f[x_0,\ldots, x_n].
-\tag{6.46}\]</span></span></p>
-<p>Finally, let us define <span id="eq-qdef"><span class="math display">\[
+\tag{6.47}\]</span></span></p>
+<p>Finally, let us define <span id="eq-newton-divided-diff-q"><span class="math display">\[
 Q(x) := P(x) - f[x_0,\ldots, x_n](x-x_0) \cdots (x-x_{n-1}).
-\tag{6.47}\]</span></span> This <span class="math inline">\(Q\)</span> is a polynomial of at most order <span class="math inline">\(n-1\)</span>, since the leading coefficients of the two summands cancel. Also, <span class="math inline">\(Q(x_i)=P(x_i)=f_i\)</span> for all <span class="math inline">\(0 \leq i &lt; n\)</span>. Uniqueness of the interpolating polynomial <a href="#thm-lagrangepoly" class="quarto-xref">Theorem&nbsp;<span>6.2</span></a> implies <span class="math inline">\(Q(x)=\hat P(x)\)</span>. This yields <span id="eq-newtonddf2"><span class="math display">\[
+\tag{6.48}\]</span></span> This <span class="math inline">\(Q\)</span> is a polynomial of at most order <span class="math inline">\(n-1\)</span>, since the leading coefficients of the two summands cancel. Also, <span class="math inline">\(Q(x_i)=P(x_i)=f_i\)</span> for all <span class="math inline">\(0 \leq i &lt; n\)</span>. Uniqueness of the interpolating polynomial <a href="#thm-lagrangepoly" class="quarto-xref">Theorem&nbsp;<span>6.2</span></a> implies <span class="math inline">\(Q(x)=\hat P(x)\)</span>. This yields <span id="eq-newton-divided-diff-final"><span class="math display">\[
 \begin{split}
   P(x) &amp;= \hat P(x) + f[x_0,\ldots, x_n](x-x_0) \cdots (x-x_{n-1}) \\
   &amp;= \sum_{k=0}^{n} f[x_0, x_1, \ldots, x_k] \prod_{0 \leq j &lt; k} (x-x_j)
 \end{split}
-\tag{6.48}\]</span></span> by <a href="#eq-phat" class="quarto-xref">Eq.&nbsp;<span>6.44</span></a>, which completes the proof.&nbsp;◻</p>
+\tag{6.49}\]</span></span> by <a href="#eq-newton-divided-diff-parts" class="quarto-xref">Eq.&nbsp;<span>6.45</span></a>, which completes the proof.&nbsp;◻</p>
 </div>
 <div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>Note that nowhere in the proof we had to use that the interpolation points <span class="math inline">\(x_i\)</span> had to be arranged in increasing order.</p>
 </div>
 <p>Writing the interpolating polynomial in terms of divided differences has several advantages:</p>
 <ul>
-<li><p>The polynomial requires fewer algebraic operations to evaluate. In fact, one might rewrite it as <span id="eq-newtonddf3"><span class="math display">\[
+<li><p>The polynomial requires fewer algebraic operations to evaluate. In fact, one might rewrite it as <span id="eq-newton-divided-diff-nested"><span class="math display">\[
 P(x) = f(x_0) + (x-x_0) \big( f[x_0,x_1] + (x-x_1)\big( f[x_0,x_1,x_2] + \ldots
-\tag{6.49}\]</span></span></p></li>
+\tag{6.50}\]</span></span></p></li>
 <li><p>If extra precision is required, it is easy to add an extra interpolation point <span class="math inline">\(x_{n+1}\)</span> without recomputing the lower-order divided differences.</p></li>
-<li><p>We can see from <a href="#eq-newtonddf" class="quarto-xref">Eq.&nbsp;<span>6.43</span></a> that, if the <span class="math inline">\(k^\text{th}\)</span> divided difference is constant, this means that the degree of the interpolating polynomial is <span class="math inline">\(k\)</span> (because higher divided differences are all zero), so that we do not need to use all the data in the table (<span class="math inline">\(k+1\)</span> points will be enough).</p></li>
+<li><p>We can see from <a href="#eq-newton-divided-diff" class="quarto-xref">Eq.&nbsp;<span>6.44</span></a> that, if the <span class="math inline">\(k^\text{th}\)</span> divided difference is constant, this means that the degree of the interpolating polynomial is <span class="math inline">\(k\)</span> (because higher divided differences are all zero), so that we do not need to use all the data in the table (<span class="math inline">\(k+1\)</span> points will be enough).</p></li>
 <li><p>The divided differences can be computed easily (by hand or with a computer) in a simple scheme, as shown in the next example.</p></li>
 </ul>
 <div id="exm-div-diff" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.3</strong></span> Suppose that the values of a function <span class="math inline">\(f\)</span> at <span class="math inline">\(7\)</span> points are as in <a href="#tbl-div-diff" class="quarto-xref">Table&nbsp;<span>6.1</span></a>. The remaining columns of that table illustrates how the divided differences are calulated.</p>
 <div class="center">
-<div id="tbl-div-diff" class="quarto-float anchored">
+<div id="tbl-div-diff" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-div-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;6.1: <em>Numerical example for divided difference method</em>
 </figcaption>
 <div aria-describedby="tbl-div-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 8%">
 <col style="width: 11%">
@@ -709,24 +729,24 @@ Table&nbsp;6.1: <em>Numerical example for divided difference method</em>
 </figure>
 </div>
 </div>
-<p>The third divided difference is constant, so the interpolating polynomial is cubic. We obtain <span id="eq-6.39"><span class="math display">\[
+<p>The third divided difference is constant, so the interpolating polynomial is cubic. We obtain <span id="eq-divided-diff-example"><span class="math display">\[
 \begin{split}
 P(x) &amp;= f[x_0]+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)\\
 &amp;\qquad +f[x_0,x_1,x_2,x_3](x-x_0)(x-x_1)(x-x_2)  \\
 &amp;= -2+3 (x+1)+0(x+1)x+(x+1)x(x-1)=x^3+2x+1.
 \end{split}
-\tag{6.50}\]</span></span></p>
+\tag{6.51}\]</span></span></p>
 </div>
-<p>Further reading: Section 3.3 of <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span></p>
+<p>Further reading: Section 3.3 of <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
 </section>
 </section>
 <section id="cubic-spline-interpolation" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="cubic-spline-interpolation"><span class="header-section-number">6.2</span> Cubic spline interpolation</h2>
 <p>In the previous sections we considered the approximation of arbitrary functions on closed intervals using a single polynomial. However, this does not always lead to satisfactory approximations because high-degree polynomials can oscillate erratically, and the error bounds can become large if the derivatives of the approximated functions are not bounded. An alternative approach is to divide the approximation interval into a collection of subintervals and construct a (generally) different approximating polynomial on each subinterval. This is called <em>piecewise-polynomial approximation</em>.</p>
-<p>In this section we consider a function <span class="math inline">\(f\)</span> defined at the points <span class="math inline">\(x_0,\ldots,x_n\)</span>. In contrast to the previous sections, we assume here that <span id="eq-6.40"><span class="math display">\[
+<p>In this section we consider a function <span class="math inline">\(f\)</span> defined at the points <span class="math inline">\(x_0,\ldots,x_n\)</span>. In contrast to the previous sections, we assume here that <span id="eq-nodes-ordered"><span class="math display">\[
 x_0 &lt; x_1 &lt; \cdots &lt; x_n.
-\tag{6.51}\]</span></span></p>
-<p>The simplest such piecewise-polynomial approximation is <em>linear interpolation</em>, which consists of joining the data points <span class="math inline">\((x_0,f(x_0)), (x_1,f(x_1)), \ldots, (x_n,f(x_n))\)</span> by a series of straight lines, i.e.&nbsp;the interpolating function <span class="math inline">\(S\)</span> satisfies <span id="eq-6.41"><span class="math display">\[
+\tag{6.52}\]</span></span></p>
+<p>The simplest such piecewise-polynomial approximation is <em>linear interpolation</em>, which consists of joining the data points <span class="math inline">\((x_0,f(x_0)), (x_1,f(x_1)), \ldots, (x_n,f(x_n))\)</span> by a series of straight lines, i.e.&nbsp;the interpolating function <span class="math inline">\(S\)</span> satisfies <span id="eq-piecewise-linear"><span class="math display">\[
 S(x) =
 \begin{cases}
 f(x_0) + \frac{f(x_1)-f(x_0)}{x_1-x_0} (x-x_0) &amp;\text{for }x\in[x_0,x_1],\\
@@ -734,44 +754,44 @@ f(x_1) + \frac{f(x_2)-f(x_1)}{x_2-x_1} (x-x_1) &amp;\text{for }x\in[x_1,x_2], \\
 \vdots\\
 f(x_{n-1}) + \frac{f(x_n)-f(x_{n-1})}{x_n-x_{n-1}} (x-x_{n-1}) &amp;\text{for }x\in[x_{n-1},x_n].
 \end{cases}
-\tag{6.52}\]</span></span> Linear interpolation is simple, but it has the disadvantage that the interpolating function <span class="math inline">\(S\)</span> is generally not differentiable at the interpolation points <span class="math inline">\(x_1,\ldots,x_{n-1}\)</span>.</p>
+\tag{6.53}\]</span></span> Linear interpolation is simple, but it has the disadvantage that the interpolating function <span class="math inline">\(S\)</span> is generally not differentiable at the interpolation points <span class="math inline">\(x_1,\ldots,x_{n-1}\)</span>.</p>
 <p>The most common piecewise-polynomial approximation uses cubic polynomials between each successive pair of nodes and is called <em>cubic spline interpolation</em>. We will discuss this here only in the context of approximating functions, but splines more generally can approximate curves in the plane or in higher dimensions. This is useful for example for applications in digital art. For a very good introduction to splines in this context, see <a href="https://www.youtube.com/watch?v=jvPPXbo87ds">this YouTube video</a>.</p>
 <div id="def-cubic_spline" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 6.1 (Cubic spline interpolant)</strong></span> A cubic spline interpolant <span class="math inline">\(S\)</span> for a function <span class="math inline">\(f\)</span> with known values at points <span class="math inline">\(x_0 &lt; x_1 &lt; \cdots &lt; x_n\)</span> is a twice continuously differentiable function on <span class="math inline">\([x_0,x_n]\)</span> (i.e.&nbsp;<span class="math inline">\(S\in C^{2}[x_0,x_n]\)</span>) such that it is equal to a cubic polynomial, denoted&nbsp;<span class="math inline">\(S_k\)</span>, on the interval <span class="math inline">\([x_{k-1},x_{k}]\)</span> for each <span class="math inline">\(k=1,\ldots,n\)</span> and <span class="math inline">\(S(x_k)=f(x_k)\)</span> for <span class="math inline">\(k=0,\ldots,n\)</span>.</p>
 </div>
-<p>This definition implies that <span id="eq-ki77"><span class="math display">\[
+<p>This definition implies that <span id="eq-cubic-spline-piece"><span class="math display">\[
 S_{i}(x)=a_{i}+b_{i}(x-x_{i})+c_{i}(x-x_{i})^{2} +d_{i}(x-x_{i})^{3}
-\tag{6.53}\]</span></span> for <span class="math inline">\(x\in [x_{i-1}, x_{i}]\)</span> (<span class="math inline">\(i=1, 2, \dots, n\)</span>) and that <span class="math inline">\(S_i\)</span> satisfy the following requirements:</p>
-<p><span id="eq-dc1"><span class="math display">\[S(x_{i})=f_{i} \text{ for } i=0, 1, \dots, n; \tag{6.54}\]</span></span></p>
-<p><span id="eq-dc2"><span class="math display">\[S_{i}(x_{i})=S_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1; \tag{6.55}\]</span></span></p>
-<p><span id="eq-dc3"><span class="math display">\[S^{\prime}_{i}(x_{i})=S^{\prime}_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1; \tag{6.56}\]</span></span></p>
-<p><span id="eq-dc4"><span class="math display">\[S^{\prime\prime}_{i}(x_{i})= S^{\prime\prime}_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1. \tag{6.57}\]</span></span></p>
-<p>It is not obvious <em>a priori</em> that such an interpolant exists, or, if so, that it is unique. We have <span class="math inline">\(4n\)</span> unknown coefficients <span class="math inline">\(a_{i}\)</span>, <span class="math inline">\(b_{i}\)</span>, <span class="math inline">\(c_{i}\)</span>, <span class="math inline">\(d_{i}\)</span> (<span class="math inline">\(i=1, 2, \dots, n\)</span>). <a href="#eq-dc1" class="quarto-xref">Condition&nbsp;<span>6.54</span></a> gives <span class="math inline">\(n+1\)</span> equations. <a href="#eq-dc2" class="quarto-xref">Conditions&nbsp;<span>6.55</span></a>, <a href="#eq-dc3" class="quarto-xref"><span>6.56</span></a>, <a href="#eq-dc4" class="quarto-xref"><span>6.57</span></a> give <span class="math inline">\(3(n-1)\)</span> equations. Thus, we have <span class="math inline">\(n+1+3(n-1)=4n-2\)</span> equations for <span class="math inline">\(4n\)</span> unknowns. So, we need to specify two more conditions to define <span class="math inline">\(S(x)\)</span> uniquely. Common choices are:</p>
+\tag{6.54}\]</span></span> for <span class="math inline">\(x\in [x_{i-1}, x_{i}]\)</span> (<span class="math inline">\(i=1, 2, \dots, n\)</span>) and that <span class="math inline">\(S_i\)</span> satisfy the following requirements:</p>
+<p><span id="eq-spline-interpolation"><span class="math display">\[S(x_{i})=f_{i} \text{ for } i=0, 1, \dots, n; \tag{6.55}\]</span></span></p>
+<p><span id="eq-spline-continuity"><span class="math display">\[S_{i}(x_{i})=S_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1; \tag{6.56}\]</span></span></p>
+<p><span id="eq-spline-derivative-continuity"><span class="math display">\[S^{\prime}_{i}(x_{i})=S^{\prime}_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1; \tag{6.57}\]</span></span></p>
+<p><span id="eq-spline-second-derivative-continuity"><span class="math display">\[S^{\prime\prime}_{i}(x_{i})= S^{\prime\prime}_{i+1}(x_{i}) \text{ for } i=1, 2, \dots, n-1. \tag{6.58}\]</span></span></p>
+<p>It is not obvious <em>a priori</em> that such an interpolant exists, or, if so, that it is unique. We have <span class="math inline">\(4n\)</span> unknown coefficients <span class="math inline">\(a_{i}\)</span>, <span class="math inline">\(b_{i}\)</span>, <span class="math inline">\(c_{i}\)</span>, <span class="math inline">\(d_{i}\)</span> (<span class="math inline">\(i=1, 2, \dots, n\)</span>). <a href="#eq-spline-interpolation" class="quarto-xref">Condition&nbsp;<span>6.55</span></a> gives <span class="math inline">\(n+1\)</span> equations. <a href="#eq-spline-continuity" class="quarto-xref">Conditions&nbsp;<span>6.56</span></a>, <a href="#eq-spline-derivative-continuity" class="quarto-xref"><span>6.57</span></a>, <a href="#eq-spline-second-derivative-continuity" class="quarto-xref"><span>6.58</span></a> give <span class="math inline">\(3(n-1)\)</span> equations. Thus, we have <span class="math inline">\(n+1+3(n-1)=4n-2\)</span> equations for <span class="math inline">\(4n\)</span> unknowns. So, we need to specify two more conditions to define <span class="math inline">\(S(x)\)</span> uniquely. Common choices are:</p>
 <ul>
 <li><p><span class="math inline">\(S^{\prime\prime}(x_{0})=S^{\prime\prime}(x_{n})=0\)</span> (natural cubic spline);</p></li>
 <li><p><span class="math inline">\(S^{\prime}(x_{0})=f^{\prime}(x_{0})\)</span>, <span class="math inline">\(S^{\prime}(x_{n})=f^{\prime}(x_{n})\)</span> (clamped cubic spline).</p></li>
 </ul>
-<p><strong>Natural cubic spline.</strong> Let <span class="math inline">\(h_{i}=x_{i}-x_{i-1}\)</span>. <a href="#eq-dc1" class="quarto-xref">Condition&nbsp;<span>6.54</span></a> gives <span id="eq-d4"><span class="math display">\[
+<p><strong>Natural cubic spline.</strong> Let <span class="math inline">\(h_{i}=x_{i}-x_{i-1}\)</span>. <a href="#eq-spline-interpolation" class="quarto-xref">Condition&nbsp;<span>6.55</span></a> gives <span id="eq-spline-coeff-a"><span class="math display">\[
 a_{i}=f_{i} \quad \text{  for }\quad i=1, 2, \dots, n
-\tag{6.58}\]</span></span> and <span id="eq-d4b"><span class="math display">\[
+\tag{6.59}\]</span></span> and <span id="eq-spline-endpoint"><span class="math display">\[
 a_{1}-b_{1}h_1+c_{1}h_1^{2} -d_{1}h_1^{3}=f_0 .
-\tag{6.59}\]</span></span> <a href="#eq-dc2" class="quarto-xref">Condition&nbsp;<span>6.55</span></a> gives <span id="eq-d5"><span class="math display">\[
+\tag{6.60}\]</span></span> <a href="#eq-spline-continuity" class="quarto-xref">Condition&nbsp;<span>6.56</span></a> gives <span id="eq-spline-continuity-system"><span class="math display">\[
 a_{i}=a_{i+1}-b_{i+1}h_{i+1}+c_{i+1}h_{i+1}^{2}- d_{i+1}h_{i+1}^{3} \quad \text{  for }\quad i=1, 2, \dots, n-1.
-\tag{6.60}\]</span></span> <a href="#eq-dc3" class="quarto-xref">Condition&nbsp;<span>6.56</span></a> gives <span id="eq-d6"><span class="math display">\[
+\tag{6.61}\]</span></span> <a href="#eq-spline-derivative-continuity" class="quarto-xref">Condition&nbsp;<span>6.57</span></a> gives <span id="eq-spline-derivative-system"><span class="math display">\[
 b_{i}=b_{i+1}-2c_{i+1}h_{i+1}+3d_{i+1}h_{i+1}^{2} \quad \text{  for }\quad i=1, 2, \dots, n-1.
-\tag{6.61}\]</span></span> <a href="#eq-dc4" class="quarto-xref">Condition&nbsp;<span>6.57</span></a> gives <span id="eq-d7"><span class="math display">\[
+\tag{6.62}\]</span></span> <a href="#eq-spline-second-derivative-continuity" class="quarto-xref">Condition&nbsp;<span>6.58</span></a> gives <span id="eq-spline-second-derivative-system"><span class="math display">\[
 2c_{i}=2c_-6d_{i+1}h_{i+1} \quad \text{  for }\quad i=1, 2, \dots, n-1.
-\tag{6.62}\]</span></span> It follows from <a href="#eq-d7" class="quarto-xref">Eq.&nbsp;<span>6.62</span></a> that <span id="eq-d8"><span class="math display">\[
+\tag{6.63}\]</span></span> It follows from <a href="#eq-spline-second-derivative-system" class="quarto-xref">Eq.&nbsp;<span>6.63</span></a> that <span id="eq-spline-coeff-d"><span class="math display">\[
 d_{i}=\frac{c_{i}-c_{i-1}}{3h_{i}} \quad \text{  for }\quad i=2, \dots, n.
-\tag{6.63}\]</span></span> From the (endpoint) conditions <span class="math inline">\(S^{\prime\prime}(x_{0})=S^{\prime\prime}(x_{n})=0\)</span> (corresponding to the natural cubic spline), it follows that <span id="eq-d9"><span class="math display">\[
+\tag{6.64}\]</span></span> From the (endpoint) conditions <span class="math inline">\(S^{\prime\prime}(x_{0})=S^{\prime\prime}(x_{n})=0\)</span> (corresponding to the natural cubic spline), it follows that <span id="eq-spline-natural-conditions"><span class="math display">\[
 d_{1}=\frac{c_{1}}{3h_{1}} \quad \text{  and } \quad c_{n}=0.
-\tag{6.64}\]</span></span> It follows from <a href="#eq-d5" class="quarto-xref">Eq.&nbsp;<span>6.60</span></a> that <span class="math display">\[
+\tag{6.65}\]</span></span> It follows from <a href="#eq-spline-continuity-system" class="quarto-xref">Eq.&nbsp;<span>6.61</span></a> that <span class="math display">\[
 b_{i+1}=\frac{a_{i+1}-a_{i}+c_{i+1}h_{i+1}^{2}
--d_{i+1}h_{i+1}^{3}}{h_{i+1}} \quad \text{  for }\quad i=1, 2, \dots, n-1. \]</span> and <span id="eq-d10"><span class="math display">\[
+-d_{i+1}h_{i+1}^{3}}{h_{i+1}} \quad \text{  for }\quad i=1, 2, \dots, n-1. \]</span> and <span id="eq-spline-coeff-b"><span class="math display">\[
 b_{i}=\frac{a_{i}-a_{i-1}+c_{i}h_{i}^{2}
 -d_{i}h_{i}^{3}}{h_{i}} \quad \text{  for }\quad i=2, 3, \dots, n,
-\tag{6.65}\]</span></span> so that <span class="math display">\[
-b_{i+1}-b_{i}=\frac{a_{i+1}-a_{i}}{h_{i+1}}- \frac{a_{i}-a_{i-1}}{h_{i}}+c_{i+1}h_{i+1}-c_{i}h_{i} -d_{i+1}h_{i+1}^{2}+d_{i}h_{i}^{2} \]</span> for <span class="math inline">\(i= 2, \dots, n-1\)</span>. Substituting this into <a href="#eq-d6" class="quarto-xref">Eq.&nbsp;<span>6.61</span></a> and using <a href="#eq-d4" class="quarto-xref">Eq.&nbsp;<span>6.58</span></a> and <a href="#eq-d8" class="quarto-xref">Eq.&nbsp;<span>6.63</span></a> we find that <span id="eq-d11"><span class="math display">\[
+\tag{6.66}\]</span></span> so that <span class="math display">\[
+b_{i+1}-b_{i}=\frac{a_{i+1}-a_{i}}{h_{i+1}}- \frac{a_{i}-a_{i-1}}{h_{i}}+c_{i+1}h_{i+1}-c_{i}h_{i} -d_{i+1}h_{i+1}^{2}+d_{i}h_{i}^{2} \]</span> for <span class="math inline">\(i= 2, \dots, n-1\)</span>. Substituting this into <a href="#eq-spline-derivative-system" class="quarto-xref">Eq.&nbsp;<span>6.62</span></a> and using <a href="#eq-spline-coeff-a" class="quarto-xref">Eq.&nbsp;<span>6.59</span></a> and <a href="#eq-spline-coeff-d" class="quarto-xref">Eq.&nbsp;<span>6.64</span></a> we find that <span id="eq-spline-system"><span class="math display">\[
 \begin{split}
 h_{i}c_{i-1}+2(h_{i}+h_{i+1})c_{i}+h_{i+1}c_{i+1}&amp;= 3
 \left(\frac{f_{i+1}-f_{i}}{h_{i+1}}-
@@ -779,11 +799,11 @@ h_{i}c_{i-1}+2(h_{i}+h_{i+1})c_{i}+h_{i+1}c_{i+1}&amp;= 3
 &amp;= 3(f[x_{i},x_{i+1}]-f[x_{i-1},x_{i}]) \\
 &amp;=3(h_{i}+h_{i+1})f[x_{i-1},x_{i},x_{i+1}]
 \end{split}
-\tag{6.66}\]</span></span> for <span class="math inline">\(i= 2, \dots, n-1\)</span>. Thus, we have obtained <span class="math inline">\(n-2\)</span> linear equations for <span class="math inline">\(n-1\)</span> unknowns <span class="math inline">\(c_{1}, \dots, c_{n-1}\)</span> (we already know that <span class="math inline">\(c_{n}=0\)</span>). One more equation is obtained as follows. First, the condition <span class="math inline">\(S(x_{0})=S_{1}(x_{0})=f_{0}\)</span> and <a href="#eq-d9" class="quarto-xref">Eq.&nbsp;<span>6.64</span></a> yield <span id="eq-d12"><span class="math display">\[
+\tag{6.67}\]</span></span> for <span class="math inline">\(i= 2, \dots, n-1\)</span>. Thus, we have obtained <span class="math inline">\(n-2\)</span> linear equations for <span class="math inline">\(n-1\)</span> unknowns <span class="math inline">\(c_{1}, \dots, c_{n-1}\)</span> (we already know that <span class="math inline">\(c_{n}=0\)</span>). One more equation is obtained as follows. First, the condition <span class="math inline">\(S(x_{0})=S_{1}(x_{0})=f_{0}\)</span> and <a href="#eq-spline-natural-conditions" class="quarto-xref">Eq.&nbsp;<span>6.65</span></a> yield <span id="eq-spline-first-b"><span class="math display">\[
 b_{1}=\frac{f_{1}-f_{0}}{h_{1}}+\frac{2}{3}h_{1}c_{1}.
-\tag{6.67}\]</span></span> On substituting this into <a href="#eq-d6" class="quarto-xref">Eq.&nbsp;<span>6.61</span></a> for <span class="math inline">\(i=1\)</span> and using <a href="#eq-d10" class="quarto-xref">Eq.&nbsp;<span>6.65</span></a> for <span class="math inline">\(i=2\)</span>, we obtain <span id="eq-d13"><span class="math display">\[
+\tag{6.68}\]</span></span> On substituting this into <a href="#eq-spline-derivative-system" class="quarto-xref">Eq.&nbsp;<span>6.62</span></a> for <span class="math inline">\(i=1\)</span> and using <a href="#eq-spline-coeff-b" class="quarto-xref">Eq.&nbsp;<span>6.66</span></a> for <span class="math inline">\(i=2\)</span>, we obtain <span id="eq-spline-first-equation"><span class="math display">\[
 2(h_{1}+h_{2})c_{1}+h_{2}c_{2}=3 \left(\frac{f_{2}-f_{1}}{h_{2}}- \frac{f_{1}-f_{0}}{h_{1}}\right)=3(h_{1}+h_{2})f(x_{0},x_{1},x_{2}) .
-\tag{6.68}\]</span></span> <a href="#eq-d11" class="quarto-xref">Eq.&nbsp;<span>6.66</span></a>, <a href="#eq-d13" class="quarto-xref">Eq.&nbsp;<span>6.68</span></a> can be written as <span id="eq-d14"><span class="math display">\[
+\tag{6.69}\]</span></span> <a href="#eq-spline-system" class="quarto-xref">Eq.&nbsp;<span>6.67</span></a>, <a href="#eq-spline-first-equation" class="quarto-xref">Eq.&nbsp;<span>6.69</span></a> can be written as <span id="eq-spline-matrix-system"><span class="math display">\[
 \left(
 \begin{array}{ccccccc}
           A_{1} &amp;h_{2} &amp;0     &amp;\dots &amp;\dots &amp;0 \\
@@ -814,21 +834,21 @@ b_{1}=\frac{f_{1}-f_{0}}{h_{1}}+\frac{2}{3}h_{1}c_{1}.
           F_{n-1}
 \end{array}
 \right),
-\tag{6.69}\]</span></span> where <span id="eq-d15"><span class="math display">\[
+\tag{6.70}\]</span></span> where <span id="eq-spline-matrix-coefficients"><span class="math display">\[
 A_{i}=2(h_{i}+h_{i+1}) \quad \text{  and } \quad F_{i}=(h_{i}+h_{i+1})f(x_{i-1},x_{i},x_{i+1})
-\tag{6.70}\]</span></span> for <span class="math inline">\(i=1,\dots, n-1\)</span> The matrix of this system is symmetric and tridiagonal. Moreover, it is strictly diagonally dominant. So, it can be solved numerically using both Gaussian elimination and iterative techniques.</p>
-<p>When <span class="math inline">\(c_{1}, \dots, c_{n}\)</span> are known, coefficients <span class="math inline">\(d_{1}\dots, d_{n}\)</span> and <span class="math inline">\(b_{1}\dots, b_{n}\)</span> can be determined using <a href="#eq-d8" class="quarto-xref">Eq.&nbsp;<span>6.63</span></a>, <a href="#eq-d9" class="quarto-xref">Eq.&nbsp;<span>6.64</span></a>, <a href="#eq-d10" class="quarto-xref">Eq.&nbsp;<span>6.65</span></a> and <a href="#eq-d12" class="quarto-xref">Eq.&nbsp;<span>6.67</span></a>.</p>
+\tag{6.71}\]</span></span> for <span class="math inline">\(i=1,\dots, n-1\)</span> The matrix of this system is symmetric and tridiagonal. Moreover, it is strictly diagonally dominant. So, it can be solved numerically using both Gaussian elimination and iterative techniques.</p>
+<p>When <span class="math inline">\(c_{1}, \dots, c_{n}\)</span> are known, coefficients <span class="math inline">\(d_{1}\dots, d_{n}\)</span> and <span class="math inline">\(b_{1}\dots, b_{n}\)</span> can be determined using <a href="#eq-spline-coeff-d" class="quarto-xref">Eq.&nbsp;<span>6.64</span></a>, <a href="#eq-spline-natural-conditions" class="quarto-xref">Eq.&nbsp;<span>6.65</span></a>, <a href="#eq-spline-coeff-b" class="quarto-xref">Eq.&nbsp;<span>6.66</span></a>, <a href="#eq-spline-first-b" class="quarto-xref">Eq.&nbsp;<span>6.68</span></a>, <a href="#eq-spline-first-equation" class="quarto-xref">Eq.&nbsp;<span>6.69</span></a>.</p>
 <div id="exm-spline" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.4</strong></span> Let us compute the natural spline for the function <span class="math inline">\(f\)</span> given in <a href="#tbl-spline" class="quarto-xref">Table&nbsp;<span>6.2</span></a>.</p>
 <div class="center">
 <div>
-<div id="tbl-spline" class="quarto-float anchored">
+<div id="tbl-spline" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-spline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;6.2: Numerical example for spline interpolation
 </figcaption>
 <div aria-describedby="tbl-spline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(k\)</span></th>
@@ -869,13 +889,13 @@ Table&nbsp;6.2: Numerical example for spline interpolation
 </div>
 </div>
 </div>
-<p>From <a href="#eq-d4" class="quarto-xref">Eq.&nbsp;<span>6.58</span></a>, we obtain <span id="eq-d16"><span class="math display">\[
+<p>From <a href="#eq-spline-coeff-a" class="quarto-xref">Eq.&nbsp;<span>6.59</span></a>, we obtain <span id="eq-spline-example-a"><span class="math display">\[
 a_1=0, \ \ a_2=-1, \ \ a_3=0, \ \ a_4=1 .
-\tag{6.71}\]</span></span> Also, we have <span id="eq-d17"><span class="math display">\[
+\tag{6.72}\]</span></span> Also, we have <span id="eq-spline-example-f"><span class="math display">\[
 \begin{aligned}
 F_1 &amp;= 0, &amp; F_2 &amp;= 12, &amp; F_3 &amp;= 0.
 \end{aligned}
-\tag{6.72}\]</span></span> We then need to solve the system <span id="eq-d18"><span class="math display">\[
+\tag{6.73}\]</span></span> We then need to solve the system <span id="eq-spline-example-system"><span class="math display">\[
 \begin{pmatrix}
 2 &amp; \frac{1}{2} &amp; 0 \\
 \frac{1}{2} &amp; 2 &amp; \frac{1}{2}  \\
@@ -890,17 +910,17 @@ c_1 \\ c_2 \\ c_3
 12\\
 0
 \end{pmatrix},
-\tag{6.73}\]</span></span> which gives <span id="eq-d19"><span class="math display">\[
+\tag{6.74}\]</span></span> which gives <span id="eq-spline-example-c"><span class="math display">\[
 \begin{aligned}
 c_1 &amp;= -\frac{12}{7}, &amp; c_2 &amp;= \frac{48}{7}, &amp; c_3 &amp;= -\frac{12}{7}.
 \end{aligned}
-\tag{6.74}\]</span></span> We also have <span class="math inline">\(c_4=0\)</span>.</p>
-<p>Substituting these into <a href="#eq-d8" class="quarto-xref">Eq.&nbsp;<span>6.63</span></a>–<a href="#eq-d10" class="quarto-xref">Eq.&nbsp;<span>6.65</span></a>, we find <span id="eq-d20"><span class="math display">\[
+\tag{6.75}\]</span></span> We also have <span class="math inline">\(c_4=0\)</span>.</p>
+<p>Substituting these into <a href="#eq-spline-coeff-d" class="quarto-xref">Eq.&nbsp;<span>6.64</span></a>–<a href="#eq-spline-coeff-b" class="quarto-xref">Eq.&nbsp;<span>6.66</span></a>, we find <span id="eq-spline-example-bd"><span class="math display">\[
 \begin{aligned}
 b_1 &amp;= -\frac{18}{7}, &amp; b_2 &amp;= 0, &amp; b_3 &amp;= \frac{18}{7}, &amp; b_4 &amp;= \frac{12}{7}, \\
 d_1 &amp;=  -\frac{8}{7}, &amp; d_2 &amp;= \frac{40}{7}, &amp; d_3 &amp;=  -\frac{40}{7}, &amp; d_4 &amp;= \frac{8}{7}.
 \end{aligned}
-\tag{6.75}\]</span></span> which allows us to write the spline interpolant as <span id="eq-d21"><span class="math display">\[
+\tag{6.76}\]</span></span> which allows us to write the spline interpolant as <span id="eq-spline-example-result"><span class="math display">\[
 S(x) =
 \begin{cases}
 -(8/7)x^3-(12/7)x+1 &amp; \text{if } x\in[0,0.5),\\
@@ -908,7 +928,7 @@ S(x) =
 -(40/7)x^3+24x^2-(216/7)x+81/7 &amp; \text{if } x\in[1,1.5),\\
 (8/7)x^3-(48/7)x^2+(108/7)x-81/7 &amp; \text{if } x\in[1.5,2].
 \end{cases}
-\tag{6.76}\]</span></span></p>
+\tag{6.77}\]</span></span></p>
 </div>
 <p>Further reading: Section 3.5 of <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
 
@@ -956,18 +976,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -999,7 +1008,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1007,10 +1036,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -1052,7 +1086,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1100,7 +1138,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1328,19 +1365,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter05.html" class="pagination-link  aria-label=" &lt;span="" techniques="" for="" solving="" systems="" of="" linear="" equations&lt;="" span&gt;"="">
+      <a href="./chapter05.html" class="pagination-link" aria-label="Iterative techniques for solving systems of linear equations">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative techniques for solving systems of linear equations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter07.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>Numerical integration</span>">
+      <a href="./chapter07.html" class="pagination-link" aria-label="Numerical integration">
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Numerical integration</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+    <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

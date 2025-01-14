@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - 5&nbsp; Iterative techniques for solving systems of linear equations</title>
+<title>5&nbsp; Iterative techniques for solving systems of linear equations – Numerical Analysis 2018-23</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -37,10 +37,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -68,8 +70,26 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+MathJax = {
+  loader: {
+    load: ['[tex]/boldsymbol']
+  },
+  tex: {
+    tags: "all",
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    packages: {
+      '[+]': ['boldsymbol']
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -99,10 +119,10 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - 5&nbsp; Iterative techniques for solving systems of linear equations">
+<meta property="og:title" content="5&nbsp; Iterative techniques for solving systems of linear equations – Numerical Analysis 2018-23">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - 5&nbsp; Iterative techniques for solving systems of linear equations">
+<meta name="twitter:title" content="5&nbsp; Iterative techniques for solving systems of linear equations – Numerical Analysis 2018-23">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -113,13 +133,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative techniques for solving systems of linear equations</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -220,9 +240,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -262,7 +282,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative techniques for solving systems of linear equations</span></h1>
+<h1 class="title"><span id="sec-linsys" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative techniques for solving systems of linear equations</span></span></h1>
 </div>
 
 
@@ -279,9 +299,9 @@ window.Quarto = {
 </header>
 
 
-<p>Consider the system of linear equations <span class="math display">\[
+<p>Consider the system of linear equations <span id="eq-sys1"><span class="math display">\[
 A{\mathbf{x}}={\mathbf{b}}
-\]</span> where <span class="math display">\[
+\tag{5.1}\]</span></span> where <span id="eq-matrices"><span class="math display">\[
 A=\left(
 \begin{array}{cccc}
 a_{11} &amp;a_{12} &amp;\dots &amp;a_{1n} \\
@@ -303,32 +323,32 @@ b_{2} \\
 \vdots \\
 b_{n}
 \end{array}\right)
-\]</span> for a vector <span class="math inline">\(\mathbf{x}\)</span> of unknowns. An iterative method for a linear system starts with an initial approximation <span class="math inline">\(\mathbf{x}^{(0)}\)</span> and generates a sequence of vectors <span class="math inline">\(\{\mathbf{x}^{(k)}\}\)</span> that converges to the solution <span class="math inline">\(\mathbf{x}\)</span>. In constructing an iterative method, we first convert the system <span class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> to the form <span id="eq-xyz1"><span class="math display">\[
+\tag{5.2}\]</span></span> for a vector <span class="math inline">\(\mathbf{x}\)</span> of unknowns. An iterative method for a linear system starts with an initial approximation <span class="math inline">\(\mathbf{x}^{(0)}\)</span> and generates a sequence of vectors <span class="math inline">\(\{\mathbf{x}^{(k)}\}\)</span> that converges to the solution <span class="math inline">\(\mathbf{x}\)</span>. In constructing an iterative method, we first convert the system <span class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> to the form <span id="eq-xyz1"><span class="math display">\[
 \mathbf{x}=T\mathbf{x}+ \mathbf{c}
-\tag{5.1}\]</span></span> where <span class="math inline">\(T\)</span> is a fixed matrix and <span class="math inline">\(\mathbf{c}\)</span> is a fixed vector. Then, we compute a sequence of approximations using the formula <span id="eq-xyz2"><span class="math display">\[
+\tag{5.3}\]</span></span> where <span class="math inline">\(T\)</span> is a fixed matrix and <span class="math inline">\(\mathbf{c}\)</span> is a fixed vector. Then, we compute a sequence of approximations using the formula <span id="eq-xyz2"><span class="math display">\[
 \mathbf{x}^{(k+1)}=T\mathbf{x}^{(k)} + \mathbf{c}&nbsp;&nbsp;&nbsp;\text{  for } &nbsp;&nbsp;k=0, 1, 2, ...
-\tag{5.2}\]</span></span> Note that this can be viewed as the fixed point iteration for function <span class="math inline">\(\mathbf{g}(\mathbf{x})=T\mathbf{x}^{(k)} + \mathbf{c}\)</span>.</p>
-<p>Let us say a few words about the convergence of sequences of vectors generated by formula <a href="#eq-xyz2" class="quarto-xref">Eq.&nbsp;<span>5.2</span></a> (a more detailed analysis for concrete methods will be given later). Subtracting <a href="#eq-xyz1" class="quarto-xref">Eq.&nbsp;<span>5.1</span></a> from <a href="#eq-xyz2" class="quarto-xref">Eq.&nbsp;<span>5.2</span></a>, we obtain <span class="math display">\[
+\tag{5.4}\]</span></span> Note that this can be viewed as the fixed point iteration for function <span class="math inline">\(\mathbf{g}(\mathbf{x})=T\mathbf{x}^{(k)} + \mathbf{c}\)</span>.</p>
+<p>Let us say a few words about the convergence of sequences of vectors generated by formula <a href="#eq-xyz2" class="quarto-xref">Eq.&nbsp;<span>5.4</span></a> (a more detailed analysis for concrete methods will be given later). Subtracting <a href="#eq-xyz1" class="quarto-xref">Eq.&nbsp;<span>5.3</span></a> from <a href="#eq-xyz2" class="quarto-xref">Eq.&nbsp;<span>5.4</span></a>, we obtain <span id="eq-diff"><span class="math display">\[
 \mathbf{x}^{(k+1)}-\mathbf{x}=T(\mathbf{x}^{(k)}-\mathbf{x})
-\]</span> from which it follows that <span id="eq-xyz3"><span class="math display">\[
+\tag{5.5}\]</span></span> from which it follows that <span id="eq-xyz3"><span class="math display">\[
 \Vert\mathbf{x}^{(k+1)}-\mathbf{x}\Vert=\Vert T(\mathbf{x}^{(k)}-\mathbf{x})\Vert \leq \Vert T\Vert , \Vert\mathbf{x}^{(k)}-\mathbf{x}\Vert ,
-\tag{5.3}\]</span></span> where we have used the property of the natural matrix norm, <a href="chapter04.html#thm-b" class="quarto-xref">Theorem&nbsp;<span>4.2</span></a>. It follows from <a href="#eq-xyz3" class="quarto-xref">Eq.&nbsp;<span>5.3</span></a> and the contraction mapping theorem that the sequence will converge linearly provided that <span class="math inline">\(\Vert T\Vert \, \Vert &lt; 1\)</span>.</p>
+\tag{5.6}\]</span></span> where we have used the property of the natural matrix norm, <a href="chapter04.html#thm-b" class="quarto-xref">Theorem&nbsp;<span>4.2</span></a>. It follows from <a href="#eq-xyz3" class="quarto-xref">Eq.&nbsp;<span>5.6</span></a> and the contraction mapping theorem that the sequence will converge linearly provided that <span class="math inline">\(\Vert T\Vert \, \Vert &lt; 1\)</span>.</p>
 <section id="the-jacobi-method" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="the-jacobi-method"><span class="header-section-number">5.1</span> The Jacobi method</h2>
 <div id="exm-jacobimethod" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.1</strong></span> Consider the system <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 5.1</strong></span> Consider the system <span id="eq-system1"><span class="math display">\[
 \begin{split}
 10x_{1} + 2x_{2}-x_{3} &amp;= 7,  \\
 x_{1} +8 x_{2} +3x_{3}&amp;= -4,  \\
 -2x_{1}-x_{2}+10x_{3} &amp;= 9,  
 \end{split}
-\]</span> Its unique solution is <span class="math inline">\(\mathbf{x}=(1, -1,1)^{t}\)</span>. First, we convert the system to the form <span class="math inline">\(\mathbf{x}=T\mathbf{x}+ \mathbf{c}\)</span> by solving the first equation for <span class="math inline">\(x_{1}\)</span>, the second for <span class="math inline">\(x_{2}\)</span> and the third for <span class="math inline">\(x_{3}\)</span>: <span class="math display">\[
+\tag{5.7}\]</span></span> Its unique solution is <span class="math inline">\(\mathbf{x}=(1, -1,1)^{t}\)</span>. First, we convert the system to the form <span class="math inline">\(\mathbf{x}=T\mathbf{x}+ \mathbf{c}\)</span> by solving the first equation for <span class="math inline">\(x_{1}\)</span>, the second for <span class="math inline">\(x_{2}\)</span> and the third for <span class="math inline">\(x_{3}\)</span>: <span id="eq-system2"><span class="math display">\[
 \begin{split}
 x_{1} &amp;= -\frac{2}{10}x_{2}+\frac{1}{10}x_{3} + \frac{7}{10},  \\
 x_{2} &amp;=-\frac{1}{8}x_{1} -\frac{3}{8}x_{3}-\frac{1}{2},  \\
 x_{3} &amp;=\frac{2}{10} x_{1}+\frac{1}{10}x_{2} +\frac{9}{10} ,
 \end{split}
-\]</span> Thus, <span class="math inline">\(\mathbf{x}=T\mathbf{x}+ \mathbf{c}\)</span> with <span class="math display">\[
+\tag{5.8}\]</span></span> Thus, <span class="math inline">\(\mathbf{x}=T\mathbf{x}+ \mathbf{c}\)</span> with <span id="eq-tc"><span class="math display">\[
 T=\left(
 \begin{array}{ccc}
 0 &amp;-\frac{2}{10} &amp;\frac{1}{10} \\
@@ -343,7 +363,7 @@ T=\left(
 \frac{9}{10}
 \end{array}
 \right).
-\]</span> Let the initial approximation be <span class="math inline">\(\mathbf{x}^{(0)}=(0, 0,0)^{t}\)</span>. Then, <span class="math display">\[
+\tag{5.9}\]</span></span> Let the initial approximation be <span class="math inline">\(\mathbf{x}^{(0)}=(0, 0,0)^{t}\)</span>. Then, <span id="eq-iter1"><span class="math display">\[
 \begin{split}
 x_{1}^{(1)} &amp;= -\frac{2}{10}x_{2}^{(0)}+\frac{1}{10}x_{3}^{(0)} +
 \frac{7}{10}=\frac{7}{10},   \\
@@ -352,7 +372,7 @@ x_{2}^{(1)} &amp;=-\frac{1}{8}x_{1}^{(0)} -\frac{3}{8}x_{3}^{(0)}-
 x_{3}^{(1)} &amp;=\frac{2}{10} x_{1}^{(0)}+\frac{1}{10}x_{2}^{(0)} +
 \frac{9}{10}=\frac{9}{10} .
 \end{split}
-\]</span> and <span class="math display">\[
+\tag{5.10}\]</span></span> and <span id="eq-iter2"><span class="math display">\[
 \begin{split}
 x_{1}^{(2)} &amp;= -\frac{2}{10}x_{2}^{(1)}+\frac{1}{10}x_{3}^{(1)} +
 \frac{7}{10}=0.89,  \\
@@ -361,9 +381,9 @@ x_{2}^{(2)} &amp;=-\frac{1}{8}x_{1}^{(1)} -\frac{3}{8}x_{3}^{(1)}-
 x_{3}^{(2)} &amp;=\frac{2}{10} x_{1}^{(1)}+\frac{1}{10}x_{2}^{(1)} +
 \frac{9}{10}=0.99.
 \end{split}
-\]</span> One can see that just two iterations give a fairly good approximation to the solution <span class="math inline">\(\mathbf{x}=(1, -1, 1)^{t}\)</span>. Further calculations yield:</p>
+\tag{5.11}\]</span></span> One can see that just two iterations give a fairly good approximation to the solution <span class="math inline">\(\mathbf{x}=(1, -1, 1)^{t}\)</span>. Further calculations yield:</p>
 <div class="center">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(k\)</span></th>
@@ -419,13 +439,13 @@ x_{3}^{(2)} &amp;=\frac{2}{10} x_{1}^{(1)}+\frac{1}{10}x_{2}^{(1)} +
 </table>
 </div>
 </div>
-<p>The method we have used is called the <em>Jacobi iterative method</em>. In general, it consists of solving the <span class="math inline">\(i\)</span>th equation of the system <span class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> for <span class="math inline">\(x_{i}\)</span> to obtain <span class="math display">\[
+<p>The method we have used is called the <em>Jacobi iterative method</em>. In general, it consists of solving the <span class="math inline">\(i\)</span>th equation of the system <span class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> for <span class="math inline">\(x_{i}\)</span> to obtain <span id="eq-jacobi-form"><span class="math display">\[
 x_{i}=\sum_{j=1, j\neq i}^{n}
 \left(-\frac{a_{ij}x_{j}}{a_{ii}}\right)+
 \frac{b_{i}}{a_{ii}} \ \ \ \text{  for } \ \ i=1,2,...,n
-\]</span> and calculating <span class="math inline">\(\mathbf{x}^{(k+1)}\)</span> from <span class="math inline">\(\mathbf{x}^{(k)}\)</span> for <span class="math inline">\(k\geq 0\)</span> by <span id="eq-b7"><span class="math display">\[
+\tag{5.12}\]</span></span> and calculating <span class="math inline">\(\mathbf{x}^{(k+1)}\)</span> from <span class="math inline">\(\mathbf{x}^{(k)}\)</span> for <span class="math inline">\(k\geq 0\)</span> by <span id="eq-b7"><span class="math display">\[
 x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( \sum_{j=1, j\neq i}^{n} \left(-a{ij}x_{j}^{(k)}\right)+ b_{i}\right) &nbsp;&nbsp;&nbsp;\text{  for } &nbsp;&nbsp;i=1,2,...,n.
-\tag{5.4}\]</span></span> Let us write the Jacobi method in matrix form <span class="math inline">\(\mathbf{x}^{(k+1)}=T\mathbf{x}^{(k)} + \mathbf{c}\)</span>. To do this, we decompose the matrix <span class="math inline">\(A\)</span> in the form <span class="math inline">\(A=D+L+U\)</span>, where <span class="math inline">\(D\)</span> is the diagonal part of <span class="math inline">\(A\)</span>, <span class="math inline">\(L\)</span> is the strictly lower-triangular part of <span class="math inline">\(A\)</span>, and <span class="math inline">\(U\)</span> is the strictly upper-triangular part of <span class="math inline">\(A\)</span>: <span class="math display">\[
+\tag{5.13}\]</span></span> Let us write the Jacobi method in matrix form <span class="math inline">\(\mathbf{x}^{(k+1)}=T\mathbf{x}^{(k)} + \mathbf{c}\)</span>. To do this, we decompose the matrix <span class="math inline">\(A\)</span> in the form <span class="math inline">\(A=D+L+U\)</span>, where <span class="math inline">\(D\)</span> is the diagonal part of <span class="math inline">\(A\)</span>, <span class="math inline">\(L\)</span> is the strictly lower-triangular part of <span class="math inline">\(A\)</span>, and <span class="math inline">\(U\)</span> is the strictly upper-triangular part of <span class="math inline">\(A\)</span>: <span id="eq-matrix-decomp"><span class="math display">\[
 A =\left(
 \begin{array}{cccc}
 a_{11} &amp;a_{12} &amp;\dots &amp;a_{1n} \\
@@ -454,15 +474,15 @@ a_{n2} &amp;\dots &amp;a_{n,n-1} &amp;0
 \vdots &amp;       &amp;\ddots &amp;a_{n-1,n}  \\
 0      &amp;\dots  &amp;\dots &amp;0  \end{array}
 \right).
-\]</span> Now we have <span class="math display">\[
+\tag{5.14}\]</span></span> Now we have <span id="eq-jacobi-matrix"><span class="math display">\[
 (D+L+U)\mathbf{x}=\mathbf{b} &nbsp;&nbsp;\Leftrightarrow &nbsp;&nbsp;D\mathbf{x}=-(L+U)\mathbf{x}+\mathbf{b} &nbsp;&nbsp;\Leftrightarrow &nbsp;&nbsp;\mathbf{x}=-D^{-1}(L+U)^\mathbf{x}+D{-1}\mathbf{b}.
-\]</span> Thus, we have converted the initial system <span class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> to the form <span class="math inline">\(\mathbf{x}=T_{J}\mathbf{x}+ \mathbf{c}_{J}\)</span> with <span class="math inline">\(T_{J}=-D^{-1}(L+U)\)</span> and <span class="math inline">\(\mathbf{c}_{J}=D^{-1}\mathbf{b}\)</span>, so that the Jacobi iterative method has the form <span class="math display">\[
+\tag{5.15}\]</span></span> Thus, we have converted the initial system <span class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> to the form <span class="math inline">\(\mathbf{x}=T_{J}\mathbf{x}+ \mathbf{c}_{J}\)</span> with <span class="math inline">\(T_{J}=-D^{-1}(L+U)\)</span> and <span class="math inline">\(\mathbf{c}_{J}=D^{-1}\mathbf{b}\)</span>, so that the Jacobi iterative method has the form <span id="eq-jacobi-iter"><span class="math display">\[
 \mathbf{x}^{(k+1)}=T_{J}^\mathbf{x}{(k)} + \mathbf{c}_{J} .
-\]</span> The Jacobi method requires that <span class="math inline">\(a_{ii}\neq 0\)</span> for each <span class="math inline">\(i=1, 2, ..., n\)</span>. Therefore, if one of the elements <span class="math inline">\(a_{ii}\)</span> is zero, we need to reorder the equation so that <span class="math inline">\(a_{ii}\neq 0\)</span> for each <span class="math inline">\(i=1, 2, ..., n\)</span>.</p>
+\tag{5.16}\]</span></span> The Jacobi method requires that <span class="math inline">\(a_{ii}\neq 0\)</span> for each <span class="math inline">\(i=1, 2, ..., n\)</span>. Therefore, if one of the elements <span class="math inline">\(a_{ii}\)</span> is zero, we need to reorder the equation so that <span class="math inline">\(a_{ii}\neq 0\)</span> for each <span class="math inline">\(i=1, 2, ..., n\)</span>.</p>
 </section>
 <section id="the-gauss-seidel-method" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="the-gauss-seidel-method"><span class="header-section-number">5.2</span> The Gauss-Seidel method</h2>
-<p>How to improve the Jacobi method? In the <a href="#exm-jacobimethod" class="quarto-xref">Example&nbsp;<span>5.1</span></a>, we used the iteration procedure <span class="math display">\[
+<p>How to improve the Jacobi method? In the <a href="#exm-jacobimethod" class="quarto-xref">Example&nbsp;<span>5.1</span></a>, we used the iteration procedure <span id="eq-jacobi-example"><span class="math display">\[
 \begin{split}
 x_{1}^{(k+1)} &amp;= -\frac{2}{10}x_{2}^{(k)}+\frac{1}{10}x_{3}^{(k)} +
 \frac{7}{10}, \\
@@ -471,7 +491,7 @@ x_{2}^{(k+1)} &amp;=-\frac{1}{8}x_{1}^{(k)} -\frac{3}{8}x_{3}^{(k)}-
 x_{3}^{(k+1)} &amp;=\frac{2}{10} x_{1}^{(k)}+\frac{1}{10}x_{2}^{(k)} +
 \frac{9}{10} .
 \end{split}
-\]</span> When we calculate <span class="math inline">\(x_{2}^{(k+1)}\)</span>, we use <span class="math inline">\(x_{1}^{(k)}\)</span> and <span class="math inline">\(x_{3}^{(k)}\)</span>, which have been calculated at the previous step. We may notice however that this stage we already know <span class="math inline">\(x_{1}^{(k+1)}\)</span> which is assumed to be a better approximation to <span class="math inline">\(x_{1}\)</span>. It is natural therefore to replace <span class="math inline">\(x_{1}^{(k)}\)</span> in the second equation by <span class="math inline">\(x_{1}^{(k+1)}\)</span>. Similarly, we may replace <span class="math inline">\(x_{1}^{(k)}\)</span> and <span class="math inline">\(x_{2}^{(k)}\)</span> in the third equation by <span class="math inline">\(x_{1}^{(k+1)}\)</span> and <span class="math inline">\(x_{2}^{(k+1)}\)</span>. This yields the formula <span id="eq-b11"><span class="math display">\[
+\tag{5.17}\]</span></span> When we calculate <span class="math inline">\(x_{2}^{(k+1)}\)</span>, we use <span class="math inline">\(x_{1}^{(k)}\)</span> and <span class="math inline">\(x_{3}^{(k)}\)</span>, which have been calculated at the previous step. We may notice however that this stage we already know <span class="math inline">\(x_{1}^{(k+1)}\)</span> which is assumed to be a better approximation to <span class="math inline">\(x_{1}\)</span>. It is natural therefore to replace <span class="math inline">\(x_{1}^{(k)}\)</span> in the second equation by <span class="math inline">\(x_{1}^{(k+1)}\)</span>. Similarly, we may replace <span class="math inline">\(x_{1}^{(k)}\)</span> and <span class="math inline">\(x_{2}^{(k)}\)</span> in the third equation by <span class="math inline">\(x_{1}^{(k+1)}\)</span> and <span class="math inline">\(x_{2}^{(k+1)}\)</span>. This yields the formula <span id="eq-b11"><span class="math display">\[
 \begin{split}
 x_{1}^{(k+1)} &amp;= -\frac{2}{10}x_{2}^{(k)}+\frac{1}{10}x_{3}^{(k)} +
 \frac{7}{10},  \\
@@ -480,9 +500,9 @@ x_{2}^{(k+1)} &amp;=-\frac{1}{8}x_{1}^{(k+1)} -\frac{3}{8}x_{3}^{(k)}
 x_{3}^{(k+1)} &amp;=\frac{2}{10} x_{1}^{(k+1)}+\frac{1}{10}x_{2}^{(k+1)}
 +\frac{9}{10} .
 \end{split}
-\tag{5.5}\]</span></span> <a href="#eq-b11" class="quarto-xref">Eq.&nbsp;<span>5.5</span></a> with the initial approximation <span class="math inline">\(\mathbf{x}^{(0)}=(0, 0, 0)^{t}\)</span> generate the sequence</p>
+\tag{5.18}\]</span></span> <a href="#eq-b11" class="quarto-xref">Eq.&nbsp;<span>5.18</span></a> with the initial approximation <span class="math inline">\(\mathbf{x}^{(0)}=(0, 0, 0)^{t}\)</span> generate the sequence</p>
 <div class="center">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(k\)</span></th>
@@ -538,11 +558,11 @@ x_{3}^{(k+1)} &amp;=\frac{2}{10} x_{1}^{(k+1)}+\frac{1}{10}x_{2}^{(k+1)}
 </table>
 </div>
 <p>This modification of the Jacobi technique is called the <em>Gauss-Seidel iterative method</em>. Comparing <span class="math inline">\(\mathbf{x}^{(6)}\)</span> obtained using the Jacobi and Gauss-Seidel methods, we see that the Gauss-Seidel method produces a better approximation to the exact solution <span class="math inline">\(\mathbf{x}=(1,-1,1)^{t}\)</span>.</p>
-<p>The general formula for the Gauss-Seidel method is (cf. <a href="#eq-b7" class="quarto-xref">Eq.&nbsp;<span>5.4</span></a>) <span id="eq-b12"><span class="math display">\[
+<p>The general formula for the Gauss-Seidel method is (cf. <a href="#eq-b7" class="quarto-xref">Eq.&nbsp;<span>5.13</span></a>) <span id="eq-b12"><span class="math display">\[
 x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( -\sum_{j=1}^{i-1} a_{ij}x_{j}^{(k+1)}- \sum_{j=i+1}^{n} a_{ij}x_{j}^{(k)} + b_{i}\right)
-\tag{5.6}\]</span></span> for <span class="math inline">\(i=1, \dots, n\)</span>. Let us rewrite the Gauss-Seidel method in matrix form. To do this, we multiply both sides of <a href="#eq-b12" class="quarto-xref">Eq.&nbsp;<span>5.6</span></a> by <span class="math inline">\(a_{ii}\)</span> and collect all terms of the <span class="math inline">\(k\)</span>th iteration. This yields <span class="math display">\[
+\tag{5.19}\]</span></span> for <span class="math inline">\(i=1, \dots, n\)</span>. Let us rewrite the Gauss-Seidel method in matrix form. To do this, we multiply both sides of <a href="#eq-b12" class="quarto-xref">Eq.&nbsp;<span>5.19</span></a> by <span class="math inline">\(a_{ii}\)</span> and collect all terms of the <span class="math inline">\(k\)</span>th iteration. This yields <span id="eq-gs-expanded"><span class="math display">\[
 a_{i1}x_{1}^{(k+1)}+a_{i2}x_{2}^{(k+1)}+...+a_{ii}x_{i}^{(k+1)}= -a_{i, i+1}x_{i+1}^{(k)}-...- a_{in}x_{n}^{(k)}+b_{i}
-\]</span> for <span class="math inline">\(i=1, \dots, n\)</span>, or, equivalently, <span class="math display">\[
+\tag{5.20}\]</span></span> for <span class="math inline">\(i=1, \dots, n\)</span>, or, equivalently, <span id="eq-gs-expanded2"><span class="math display">\[
 \begin{aligned}
 &amp;&amp;a_{11}x_{1}^{(k+1)} \qquad\qquad\qquad\qquad\qquad\quad\quad\quad =
 -a_{12}x_{2}^{(k)}-a_{13}x_{3}^{(k)}-...-
@@ -555,25 +575,25 @@ a_{2n}x_{n}^{(k)}+b_{2} \\
 \qquad\qquad\qquad\qquad\qquad\qquad
 \qquad\quad \ \ \  b_{n} .
 \end{aligned}
-\]</span> Therefore, <span class="math display">\[
+\tag{5.21}\]</span></span> Therefore, <span id="eq-gs-matrix"><span class="math display">\[
 (D+L)\mathbf{x}^{(k+1)}=-U\mathbf{x}^{(k)}+\mathbf{b}&nbsp;&nbsp;&nbsp;\Leftrightarrow &nbsp;&nbsp;\
 \mathbf{x}^{(k+1)}=-(D+L)^{-1}U\mathbf{x}^{(k)}+(D+L)^{-1}\mathbf{b}&nbsp;&nbsp;&nbsp;\
-\]</span> for <span class="math inline">\(k=1, 2, \dots.\)</span> Introducing the notation <span class="math inline">\(T_{G}=-(D+L)^{-1}U\)</span> and <span class="math inline">\(\mathbf{c}_{G}=(D+L)^{-1}\mathbf{b}\)</span>, we rewrite the Gauss-Seidel method in the form <span class="math display">\[
+\tag{5.22}\]</span></span> for <span class="math inline">\(k=1, 2, \dots.\)</span> Introducing the notation <span class="math inline">\(T_{G}=-(D+L)^{-1}U\)</span> and <span class="math inline">\(\mathbf{c}_{G}=(D+L)^{-1}\mathbf{b}\)</span>, we rewrite the Gauss-Seidel method in the form <span id="eq-gs-iter"><span class="math display">\[
 \mathbf{x}^{(k+1)}=T_{G}\mathbf{x}^{(k)} + \mathbf{c}_{G} .
-\]</span> Note that a lower-triangular matrix is nonsingular iff its diagonal elements are nonzero. In particular, <span class="math inline">\(D+L\)</span> is nonsingular (i.e.&nbsp;its inverse exists) iff <span class="math inline">\(a_{ii}\neq 0\)</span> for each <span class="math inline">\(i=1, 2, ..., n\)</span>.</p>
+\tag{5.23}\]</span></span> Note that a lower-triangular matrix is nonsingular iff its diagonal elements are nonzero. In particular, <span class="math inline">\(D+L\)</span> is nonsingular (i.e.&nbsp;its inverse exists) iff <span class="math inline">\(a_{ii}\neq 0\)</span> for each <span class="math inline">\(i=1, 2, ..., n\)</span>.</p>
 </section>
 <section id="the-convergence-of-iterative-techniques." class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="the-convergence-of-iterative-techniques."><span class="header-section-number">5.3</span> The convergence of iterative techniques.</h2>
-<p>We will use the following notation <span class="math display">\[
+<p>We will use the following notation <span id="eq-error-def"><span class="math display">\[
 E_{i}^{(k)} = \vert x_{i}^{(k)} - x_{i}\vert
-\]</span> and <span class="math display">\[
+\tag{5.24}\]</span></span> and <span id="eq-error-max"><span class="math display">\[
 E^{(k)} = \Vert \mathbf{x}^{(k)}-\mathbf{x}\Vert_{\infty}=\max\{E_{1}^{(k)}, \dots, E_{n}^{(k)}\}.
-\]</span> Then <span class="math inline">\(\mathbf{x}^{(k)}\to\mathbf{x}\)</span> is equivalent to <span class="math inline">\(E^{(k)}\to 0\)</span> as <span class="math inline">\(k\to\infty\)</span>. We assume that <span class="math inline">\(a_{ii}\neq 0\)</span> for all <span class="math inline">\(i\)</span> (otherwise both methods will not work).</p>
-<p>For the Jacobi method we have <span id="eq-c0"><span class="math display">\[
+\tag{5.25}\]</span></span> Then <span class="math inline">\(\mathbf{x}^{(k)}\to\mathbf{x}\)</span> is equivalent to <span class="math inline">\(E^{(k)}\to 0\)</span> as <span class="math inline">\(k\to\infty\)</span>. We assume that <span class="math inline">\(a_{ii}\neq 0\)</span> for all <span class="math inline">\(i\)</span> (otherwise both methods will not work).</p>
+<p>For the Jacobi method we have <span id="eq-xi-exact"><span class="math display">\[
 x_{i}=\frac{1}{a_{ii}}\left( \sum_{j=1, j\neq i}^{n} \left(-a_{ij}x_{j}\right)+ b_{i}\right)
-\tag{5.7}\]</span></span> and <span id="eq-c1"><span class="math display">\[
-x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( \sum_{j=1, j\neq i}^{n} \left(-a_{ij}x_{j}^{(k)}\right)+ b_{i}\right) &nbsp;&nbsp;&nbsp;\text{  for } &nbsp;&nbsp;i=1,2,...,n
-\tag{5.8}\]</span></span> Subtracting <a href="#eq-c0" class="quarto-xref">Eq.&nbsp;<span>5.7</span></a> from <a href="#eq-c1" class="quarto-xref">Eq.&nbsp;<span>5.8</span></a> and using the triangle inequality, we obtain <span class="math display">\[
+\tag{5.26}\]</span></span> and <span id="eq-xi-iter"><span class="math display">\[
+x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( \sum_{j=1, j\neq i}^{n} \left(-a_{ij}x_{j}^{(k)}\right)+ b_{i}\right)    \text{  for }   i=1,2,...,n
+\tag{5.27}\]</span></span> Subtracting <a href="#eq-xi-exact" class="quarto-xref">Eq.&nbsp;<span>5.26</span></a> from <a href="#eq-xi-iter" class="quarto-xref">Eq.&nbsp;<span>5.27</span></a> and using the triangle inequality, we obtain <span id="eq-error-bound"><span class="math display">\[
 \begin{split}
 E_{i}^{(k+1)}&amp;=\frac{1}{\vert a_{ii}\vert}\left\vert
 \sum_{j=1, j\neq i}^{n}
@@ -585,12 +605,12 @@ a_{ij}\left(x_{j}^{(k)}-x_{j}\right)\right\vert \leq
 \leq \sum_{j=1, j\neq i}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert}E^{(k)}
 \leq \mu E^{(k)},
 \end{split}
-\]</span> where <span id="eq-c2"><span class="math display">\[
+\tag{5.28}\]</span></span> where <span id="eq-diagonal-dominance"><span class="math display">\[
 \mu=\max_{i}\sum_{j=1, j\neq i}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert} .
-\tag{5.9}\]</span></span> Therefore, <span class="math display">\[
+\tag{5.29}\]</span></span> Therefore, <span id="eq-error-inequality"><span class="math display">\[
 E^{(k+1)}\leq \mu , E^{(k)},
-\]</span> and if <span class="math inline">\(\mu &lt; 1\)</span>, then <span class="math inline">\(\mathbf{x}^{(k)}\)</span> converges to <span class="math inline">\(\mathbf{x}\)</span> strongly linearly, with rate of convergence <span class="math inline">\(\mu\)</span>.</p>
-<p>Note that <span class="math inline">\(\mu\)</span> depends only on the coefficient matrix <span class="math inline">\(A\)</span>. Note also that the terms in <a href="#eq-c2" class="quarto-xref">Eq.&nbsp;<span>5.9</span></a> are the absolute values of the entries of <span class="math inline">\(T_{J}\)</span>, summed in each row, so that <span class="math inline">\(\mu=\Vert T_{J}\Vert_{\infty}\)</span>. In the example, we considered in the previous chapter, <span class="math display">\[
+\tag{5.30}\]</span></span> and if <span class="math inline">\(\mu &lt; 1\)</span>, then <span class="math inline">\(\mathbf{x}^{(k)}\)</span> converges to <span class="math inline">\(\mathbf{x}\)</span> strongly linearly, with rate of convergence <span class="math inline">\(\mu\)</span>.</p>
+<p>Note that <span class="math inline">\(\mu\)</span> depends only on the coefficient matrix <span class="math inline">\(A\)</span>. Note also that the terms in <a href="chapter08.html#eq-error-bound" class="quarto-xref">Eq.&nbsp;<span>8.34</span></a> are the absolute values of the entries of <span class="math inline">\(T_{J}\)</span>, summed in each row, so that <span class="math inline">\(\mu=\Vert T_{J}\Vert_{\infty}\)</span>. In the example, we considered in the previous chapter, <span id="eq-tc"><span class="math display">\[
 A=\left(
 \begin{array}{ccc}
 10 &amp;2 &amp;-1 \\
@@ -610,13 +630,13 @@ T_{J}=\left(
 \frac{2}{10} &amp;\frac{1}{10}  &amp;0
 \end{array}
 \right).
-\]</span> So, it follows from <a href="#eq-c2" class="quarto-xref">Eq.&nbsp;<span>5.9</span></a> that in our example <span class="math inline">\(\mu = 1/2\)</span>. In general, the condition <span class="math inline">\(\mu &lt; 1\)</span> is equivalent to <span class="math display">\[
+\tag{5.31}\]</span></span> So, it follows from <a href="chapter08.html#eq-error-bound" class="quarto-xref">Eq.&nbsp;<span>8.34</span></a> that in our example <span class="math inline">\(\mu = 1/2\)</span>. In general, the condition <span class="math inline">\(\mu &lt; 1\)</span> is equivalent to <span id="eq-diagonal-dominance"><span class="math display">\[
 \sum_{j=1, j\neq i}^{n}\vert a_{ij}\vert &lt; \vert a_{ii}\vert \quad \text{  for \ all } \ \ i.
-\]</span> Matrices <span class="math inline">\(A\)</span> with this property are said to be <em>strictly diagonally dominant</em>. It follows that every strictly diagonally dominant square matrix is invertible. In fact it is not difficult to prove this directly, using elementary linear algebra.</p>
-<p>For the Gauss-Seidel scheme the situation is slightly more complicated. Here we have <span id="eq-c3"><span class="math display">\[
+\tag{5.32}\]</span></span> Matrices <span class="math inline">\(A\)</span> with this property are said to be <em>strictly diagonally dominant</em>. It follows that every strictly diagonally dominant square matrix is invertible. In fact it is not difficult to prove this directly, using elementary linear algebra.</p>
+<p>For the Gauss-Seidel scheme the situation is slightly more complicated. Here we have <span id="eq-gs-update"><span class="math display">\[
 x_{i}^{(k+1)}=\frac{1}{a_{ii}}\left( -\sum_{j=1}^{i-1} a_{ij}x_{j}^{(k+1)}-
 \sum_{j=i+1}^{n} a_{ij}x_{j}^{(k)} + b_{i}\right)
-\tag{5.10}\]</span></span> for <span class="math inline">\(i=1,2, \dots, n\)</span>. Subtracting <a href="#eq-c0" class="quarto-xref">Eq.&nbsp;<span>5.7</span></a> from <a href="#eq-c3" class="quarto-xref">Eq.&nbsp;<span>5.10</span></a>, we obtain <span class="math display">\[
+\tag{5.33}\]</span></span> for <span class="math inline">\(i=1,2, \dots, n\)</span>. Subtracting <a href="#eq-xi-exact" class="quarto-xref">Eq.&nbsp;<span>5.26</span></a> from <a href="#eq-gs-update" class="quarto-xref">Eq.&nbsp;<span>5.33</span></a>, we obtain <span id="eq-gs-error-bound"><span class="math display">\[
 \begin{split}
 E_{i}^{(k+1)}&amp;=\frac{1}{\vert a_{ii}\vert}\left\vert
 \sum_{j=1}^{i-1}
@@ -633,26 +653,26 @@ a_{ij}\left(x_{j}^{(k)}-x_{j}\right)\right\vert \\
 +\sum_{j=i+1}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert}E_{j}^{(k)}
 \leq \alpha_{i} E^{(k+1)}+\beta_{i} E^{(k)},
 \end{split}
-\]</span> where <span id="eq-c2a"><span class="math display">\[
+\tag{5.34}\]</span></span> where <span id="eq-alpha-beta-def"><span class="math display">\[
 \begin{split}
 \alpha_{i}&amp;=\sum{j=1}^{i-1}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert},\\
 \beta_{i}&amp;=\sum{j=i+1}^{n}\frac{\left\vert a_{ij}\right\vert}{\vert a_{ii}\vert},\\
 \alpha_{1}&amp;=\beta_{n}=0.
 \end{split}
-\tag{5.11}\]</span></span> Evidently, <span class="math inline">\(\mu = \max_{i}(\alpha_{i}+\beta_{i})\)</span>. From our analysis of the Jacobi method it is appropriate to assume <span class="math inline">\(\mu &lt; 1\)</span>, so that <span class="math inline">\(\alpha_{i}+\beta_{i} &lt; 1\)</span> for all <span class="math inline">\(i\)</span> and also <span class="math inline">\(1-\alpha_{i} &gt; 0\)</span> for all <span class="math inline">\(i\)</span> . Suppose now that <span class="math inline">\(E^{(k+1)}=E_{m}^{(k+1)}\)</span> for some <span class="math inline">\(m\)</span> (recalling that <span class="math inline">\(E^{(k+1)}\)</span> is the maximum of the <span class="math inline">\(E_{i}^{(k+1)}\)</span>). Then we have <span class="math display">\[
+\tag{5.35}\]</span></span> Evidently, <span class="math inline">\(\mu = \max_{i}(\alpha_{i}+\beta_{i})\)</span>. From our analysis of the Jacobi method it is appropriate to assume <span class="math inline">\(\mu &lt; 1\)</span>, so that <span class="math inline">\(\alpha_{i}+\beta_{i} &lt; 1\)</span> for all <span class="math inline">\(i\)</span> and also <span class="math inline">\(1-\alpha_{i} &gt; 0\)</span> for all <span class="math inline">\(i\)</span> . Suppose now that <span class="math inline">\(E^{(k+1)}=E_{m}^{(k+1)}\)</span> for some <span class="math inline">\(m\)</span> (recalling that <span class="math inline">\(E^{(k+1)}\)</span> is the maximum of the <span class="math inline">\(E_{i}^{(k+1)}\)</span>). Then we have <span id="eq-gs-max-error"><span class="math display">\[
 E^{(k+1)}=E_{m}^{(k+1)}\leq \alpha_{m} E^{(k+1)}+\beta_{m} E^{(k)}.
-\]</span> Hence, <span class="math display">\[
+\tag{5.36}\]</span></span> Hence, <span id="eq-gs-eta-bound"><span class="math display">\[
 E^{(k+1)} \leq \frac{\beta_{m}}{1-\alpha_{m}}E^{(k)} \leq \eta \, E^{(k)},
-\]</span> where <span class="math display">\[
+\tag{5.37}\]</span></span> where <span id="eq-eta-def"><span class="math display">\[
 \eta=\max_{i} \frac{\beta_{i}}{1-\alpha_{i}}.
-\]</span> Finally, we note that for each <span class="math inline">\(i\)</span> we have <span class="math display">\[
+\tag{5.38}\]</span></span> Finally, we note that for each <span class="math inline">\(i\)</span> we have <span id="eq-mu-eta-inequality"><span class="math display">\[
 \alpha_{i}+\beta_{i}-\frac{\beta_{i}}{1-\alpha_{i}}= \frac{\alpha_{i}[1-(\alpha_{i}+\beta_{i})]}{1-\alpha_{i}}\geq \frac{\alpha_{i}[1-\mu]}{1-\alpha_{i}}\geq 0.
-\]</span> This implies that <span class="math inline">\(\mu\geq \eta\)</span>. Indeed, <span class="math display">\[
+\tag{5.39}\]</span></span> This implies that <span class="math inline">\(\mu\geq \eta\)</span>. Indeed, <span id="eq-mu-eta-proof"><span class="math display">\[
 \alpha_{i}+\beta_{i} \geq \frac{\beta_{i}}{1-\alpha_{i}} \quad \Rightarrow \quad \mu = \max{i}(\alpha_{i}+\beta_{i})\geq \frac{\beta_{i}}{1-\alpha_{i}} \quad \Rightarrow \quad \mu \geq \max_{i}\frac{\beta_{i}}{1-\alpha_{i}}=\eta .
-\]</span></p>
+\tag{5.40}\]</span></span></p>
 <p>So, the Gauss-Seidel imethod converges strongly linearly with rate <span class="math inline">\(\eta\)</span>, which is at least as fast as that of the Jacobi method. Although straightforward, computation of <span class="math inline">\(\eta\)</span> is more complicated than <span class="math inline">\(\mu\)</span>. In our example we have</p>
 <div class="center">
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 6%">
 <col style="width: 18%">
@@ -743,18 +763,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -786,7 +795,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -794,10 +823,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -839,7 +873,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -887,7 +925,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1115,19 +1152,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter04.html" class="pagination-link  aria-label=" &lt;span="" systems="" of="" nonlinear="" equations&lt;="" span&gt;"="">
+      <a href="./chapter04.html" class="pagination-link" aria-label="Solving systems of nonlinear equations">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving systems of nonlinear equations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter06.html" class="pagination-link" aria-label="<span class='chapter-number'>6</span>&nbsp; <span class='chapter-title'>Approximation and interpolation</span>">
+      <a href="./chapter06.html" class="pagination-link" aria-label="Approximation and interpolation">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Approximation and interpolation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+    <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

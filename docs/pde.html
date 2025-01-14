@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - 12&nbsp; Partial Differential Equations</title>
+<title>12&nbsp; Partial Differential Equations – Numerical Analysis 2018-23</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,10 +57,12 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -88,8 +90,26 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script>
+MathJax = {
+  loader: {
+    load: ['[tex]/boldsymbol']
+  },
+  tex: {
+    tags: "all",
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    packages: {
+      '[+]': ['boldsymbol']
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -119,10 +139,10 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - 12&nbsp; Partial Differential Equations">
+<meta property="og:title" content="12&nbsp; Partial Differential Equations – Numerical Analysis 2018-23">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - 12&nbsp; Partial Differential Equations">
+<meta name="twitter:title" content="12&nbsp; Partial Differential Equations – Numerical Analysis 2018-23">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -133,13 +153,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pde.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Partial Differential Equations</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -240,9 +260,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -337,7 +357,7 @@ h := \frac{b-a}{N+1}, \quad k := \frac{d-c}{M+1}.
 \]</span> We then define <span class="math inline">\(N \times M\)</span> mesh points <span class="math inline">\((x_i, y_j)\)</span> as <span class="math display">\[
 (x_i, y_j) = (a + i h, c + j k), \quad 1 \leq i \leq N, \; 1 \leq j \leq M.
 \]</span> These lie on a rectangular grid within the rectangle <span class="math inline">\(R\)</span>.</p>
-<p>Our next step is to approximate the relevant derivatives of <span class="math inline">\(u\)</span> at the mesh points. We use the centred difference formula <a href="bvp.html#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.24</span></a> twice, once in <span class="math inline">\(x\)</span> direction (at fixed <span class="math inline">\(y\)</span>) and once in <span class="math inline">\(y\)</span> direction (at fixed <span class="math inline">\(x\)</span>). This gives <span id="eq-cd"><span class="math display">\[
+<p>Our next step is to approximate the relevant derivatives of <span class="math inline">\(u\)</span> at the mesh points. We use the centred difference formula <a href="bvp.html#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.43</span></a> twice, once in <span class="math inline">\(x\)</span> direction (at fixed <span class="math inline">\(y\)</span>) and once in <span class="math inline">\(y\)</span> direction (at fixed <span class="math inline">\(x\)</span>). This gives <span id="eq-cd"><span class="math display">\[
 \begin{aligned}
 \frac{\partial^2 u}{\partial x^2} (x_i,y_j)
   = \frac{ u(x_{i+1},y_j) - 2 u(x_i,y_j) + u(x_{i-1},y_j) }{h^2} - \frac{h^2}{12} \frac{\partial^4 u}{\partial x^4}(\xi_i,y_j),
@@ -352,6 +372,10 @@ h := \frac{b-a}{N+1}, \quad k := \frac{d-c}{M+1}.
 2 \Big(\big(\tfrac{h}{k}\big)^2+1\Big) w_{i,j} -  w_{i+1,j} - w_{i-1,j}  -  \big(\tfrac{h}{k}\big)^2 w_{i,j+1} - \big(\tfrac{h}{k}\big)^2 w_{i,j-1}  = -h^2 f(x_i,y_j).
 \tag{12.5}\]</span></span></p>
 <p>The boundary conditions are then expressed by setting the values of <span class="math inline">\(w_{i,j}\)</span> for <span class="math inline">\(i=0\)</span>, <span class="math inline">\(j=0\)</span>, <span class="math inline">\(i=N+1\)</span> or <span class="math inline">\(j=M+1\)</span> to the required boundary values: <span id="eq-ellboundary"><span class="math display">\[
+\begin{aligned}
+  w_{0,j} &amp;= g(x_0,y_j),  &amp;w_{N+1,j} &amp;= g(x_{N+1},y_j) &amp; \text{for } 1 \leq j \leq M,
+  \\
+  w_{i,0} &amp;= g(x_i,y_0),  &amp;w_{i,M+1} &amp;= g(x_{j},y_{M+1}) &amp; \text{for } 1 \leq i \leq N.
 \end{aligned}
 \tag{12.6}\]</span></span> Together, <a href="#eq-elldifference" class="quarto-xref">Eq.&nbsp;<span>12.5</span></a> and <a href="#eq-ellboundary" class="quarto-xref">Eq.&nbsp;<span>12.6</span></a> form a linear equation system that can be solved to obtain approximation values <span class="math inline">\(w_{i,j}\)</span>. To that end, it may be useful to renumber the “double indices” <span class="math inline">\(i,j\)</span> with a single index, setting, e.g., <span class="math inline">\(\ell := N(i-1)+j\)</span>. The index <span class="math inline">\(k\)</span> then runs from <span class="math inline">\(1\)</span> to <span class="math inline">\(NM\)</span>, and we may rewrite the equation system as <span class="math inline">\(\mathbf{A}\mathbf{w}= \mathbf{b}\)</span> with a <span class="math inline">\(NM \times NM\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> and a vector <span class="math inline">\(\mathbf{b}\in\mathbb{R}^{NM}\)</span>.</p>
 <p>Like in the one-dimensional case, the matrix <span class="math inline">\(\mathbf{A}\)</span> is sparse, that is, many of its entries are known to be zero. (It is not tridiagonal, however.) This makes the system <span class="math inline">\(\mathbf{A}\mathbf{w}= \mathbf{b}\)</span> fast to solve. Nevertheless, it is evident that the number of mesh points (and hence of vector dimensions) can become rather large quite easily, which sets practical limits to the accuracy of this and other approximation methods for PDEs.</p>
@@ -359,6 +383,10 @@ h := \frac{b-a}{N+1}, \quad k := \frac{d-c}{M+1}.
 <section id="parabolic-pdes" class="level2" data-number="12.3">
 <h2 data-number="12.3" class="anchored" data-anchor-id="parabolic-pdes"><span class="header-section-number">12.3</span> Parabolic PDEs</h2>
 <p>As a second class of PDEs to be treated with the Finite Difference method, we consider <em>parabolic PDEs</em>. A typical example – and the only one we will consider – is the one-dimensional <em>heat equation</em> (also known as <em>diffusion equation</em>). This equation for a function <span class="math inline">\(u\)</span> of two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span> has the form[^19] <span id="eq-heat"><span class="math display">\[
+\begin{aligned}
+&amp;\alpha^2 \frac{\partial^2 u}{\partial x^2} =  \frac{\partial u}{\partial t}  \quad \text{on } R := \{ (x,t) : 0 \leq x \leq L, 0 \leq t \},\\
+&amp;u(x,0) = g(x) \text{ for } 0 &lt; x &lt; L,\\
+&amp;u(0,t) = u(L,t) = 0 \text{ for all } t &gt; 0.
 \end{aligned}
 \tag{12.7}\]</span></span> The boundary of the region <span class="math inline">\(R\)</span> consists of <em>three</em> pieces here. One also refers to the condition <span class="math inline">\(u(x,0) = g(x)\)</span> as <em>initial condition</em>; as we will see, it has some similarities to initial conditions for ODEs.</p>
 <p>In applications, <span class="math inline">\(u(x,t)\)</span> might have the interpretation of a local temperature – say, in a homogeneous wall of width <span class="math inline">\(L\)</span> –, depending on the spatial position <span class="math inline">\(x\)</span> and on time <span class="math inline">\(t\)</span>. The initial condition is the temperature in the wall at time 0, and the remaining boundary conditions represent the temperature of the environment, depending on time <span class="math inline">\(t\)</span>.</p>
@@ -367,7 +395,7 @@ h := \frac{L}{N+1}, \quad k := \frac{T}{M}
 \]</span> (note the slightly different convention for <span class="math inline">\(k\)</span> from before). Once more, we define mesh points <span class="math inline">\((x_i, t_j)\)</span> as <span class="math display">\[
 (x_i, t_j) = (i h, j k), \quad 0 \leq i \leq N+1, \; 0 \leq j \leq M.
 \]</span></p>
-<p>The next step is to approximate the derivatives of <span class="math inline">\(u\)</span>, and here the very specific properties of the equation <a href="#eq-heat" class="quarto-xref">Eq.&nbsp;<span>12.7</span></a> show up. In the variable <span class="math inline">\(x\)</span>, we once more use the centred difference formula <a href="bvp.html#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.24</span></a>, leading to <span id="eq-heatfdx"><span class="math display">\[
+<p>The next step is to approximate the derivatives of <span class="math inline">\(u\)</span>, and here the very specific properties of the equation <a href="#eq-heat" class="quarto-xref">Eq.&nbsp;<span>12.7</span></a> show up. In the variable <span class="math inline">\(x\)</span>, we once more use the centred difference formula <a href="bvp.html#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.43</span></a>, leading to <span id="eq-heatfdx"><span class="math display">\[
   = \frac{ u(x_{i+1},t_j) - 2 u(x_i,t_j) + u(x_{i-1},t_j) }{h^2} + O(h^2).
 \tag{12.8}\]</span></span></p>
 <p>However, for the derivative by <span class="math inline">\(t\)</span>, we cannot follow the same approach. The problem here is that the centred difference formula for the first derivative would involve <span class="math inline">\(u(x_i,t_{j+1})\)</span> and <span class="math inline">\(u(x_i,t_{j-1})\)</span>, but we have only <em>one</em> boundary (or initial) condition to fix the value if the mesh point is on the boundary of <span class="math inline">\(R\)</span>, and this would lead to an under-determined linear equation system later. As a way out, we use the (much simpler) <em>forward difference formula</em>, <span id="eq-heatfdt"><span class="math display">\[
@@ -397,7 +425,8 @@ h := \frac{L}{N+1}, \quad k := \frac{T}{M}
 <p>The Forward Difference method is very simple to apply, but it has a major disadvantage: it becomes unstable if the the step size <span class="math inline">\(k\)</span> is not chosen very small (cf.&nbsp;Maple worksheet used in the lecture). This phenomenon is closely related to the one we saw for stiff equations in <a href="ivp.html#sec-stiff" class="quarto-xref"><span>Section 10.9</span></a>. We will skip a more in-depth analysis here; see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 12.2</a>)</span>.</p>
 <p>We do, however, want to present a solution to the stability problem here, which is similar to the one found for stiff equations: we use an “implicit method” for approximation, the <em>Backward Difference method</em>. To that end, instead of the forward difference formula <a href="#eq-heatfdt" class="quarto-xref">Eq.&nbsp;<span>12.9</span></a>, we use the backward difference formula</p>
 <p><span id="eq-heatfdtback"><span class="math display">\[
-  = \frac{ u(x_{i},t_{j}) -  u(x_i,t_{j-1}) }{k} + O(k).
+\frac{\partial u}{\partial t} (x_i,t_j)
+    = \frac{ u(x_{i},t_{j}) -  u(x_i,t_{j-1}) }{k} + O(k).
 \tag{12.11}\]</span></span> Leaving all other construction steps the same, we arrive at another method of order <span class="math inline">\(O(h^2+k)\)</span> where the equation system <a href="#eq-fwdifference" class="quarto-xref">Eq.&nbsp;<span>12.10</span></a> is now replaced by</p>
 <p><span id="eq-bwdifference"><span class="math display">\[
   w_{i,j-1} = (1+2\lambda) w_{i,j} - \lambda (w_{i+1,j}+w_{i-1,j}).
@@ -489,18 +518,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -532,7 +550,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -540,10 +578,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -585,7 +628,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -633,7 +680,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -861,19 +907,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./bvp.html" class="pagination-link  aria-label=" &lt;span="" value="" problems&lt;="" span&gt;"="">
+      <a href="./bvp.html" class="pagination-link" aria-label="Boundary Value Problems">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Boundary Value Problems</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./appendix.html" class="pagination-link" aria-label="<span class='chapter-number'>A</span>&nbsp; <span class='chapter-title'>Taylor's theorem</span>">
+      <a href="./appendix.html" class="pagination-link" aria-label="Taylor's theorem">
         <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Taylor’s theorem</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+    <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/pde.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/pde.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

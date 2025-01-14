@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - 3&nbsp; Solving nonlinear equations</title>
+<title>3&nbsp; Solving nonlinear equations – Numerical Analysis 2018-23</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -91,10 +91,12 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -125,8 +127,26 @@ div.csl-indent {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script>
+MathJax = {
+  loader: {
+    load: ['[tex]/boldsymbol']
+  },
+  tex: {
+    tags: "all",
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    packages: {
+      '[+]': ['boldsymbol']
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -156,12 +176,14 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - 3&nbsp; Solving nonlinear equations">
+<meta property="og:title" content="3&nbsp; Solving nonlinear equations – Numerical Analysis 2018-23">
 <meta property="og:description" content="">
+<meta property="og:image" content="figures/chapter03/bisect.gif">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - 3&nbsp; Solving nonlinear equations">
+<meta name="twitter:title" content="3&nbsp; Solving nonlinear equations – Numerical Analysis 2018-23">
 <meta name="twitter:description" content="">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="figures/chapter03/bisect.gif">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating">
@@ -170,13 +192,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Solving nonlinear equations</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -277,9 +299,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -370,7 +392,7 @@ f(p)=0.
 <section id="bisection-method" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="bisection-method"><span class="header-section-number">3.2</span> Bisection method</h2>
 <p>The <em>bisection method</em> is a very simple approach to the root finding problem, and one where the approximation error is very easy to control. The idea behind it is as follows: One divides the interval <span class="math inline">\([a,b]\)</span> into halves, and decides in which subinterval the zero is located (by looking at the sign of <span class="math inline">\(f(x)\)</span> in the midpoint of the interval). Then one repeats the method for this subinterval, and continues this until sufficient precision is reached.</p>
-<div id="fig-bisect" class="quarto-figure quarto-figure-left quarto-float anchored">
+<div id="fig-bisect" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bisect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/chapter03/bisect.gif" class="img-fluid figure-img">
@@ -399,24 +421,24 @@ Figure&nbsp;3.1: Bisection method
 \tag{3.2}\]</span></span></p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>For <span class="math inline">\(n\geq 1\)</span>, we have by construction <span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>For <span class="math inline">\(n\geq 1\)</span>, we have by construction <span id="eq-nonlin1"><span class="math display">\[
 a_{n} \leq p \leq b_{n} .
-\]</span> Subtracting <span class="math inline">\(x_{n}\)</span> from this inequality yields <span id="eq-apb"><span class="math display">\[
+\tag{3.3}\]</span></span> Subtracting <span class="math inline">\(x_{n}\)</span> from this inequality yields <span id="eq-apb"><span class="math display">\[
 a_n-x_{n}  \leq p - x_n \leq b_n - x_{n}.
-\tag{3.3}\]</span></span> Recalling that <span class="math inline">\(x_{n}=(a_{n}+b_{n})/2\)</span>, we can rewrite this as <span class="math display">\[
+\tag{3.4}\]</span></span> Recalling that <span class="math inline">\(x_{n}=(a_{n}+b_{n})/2\)</span>, we can rewrite this as <span id="eq-nonlin2"><span class="math display">\[
 -\frac{b_{n}- a_{n}}{2} \leq p - x_{n}  \leq \frac{b_{n}- a_{n}}{2},
-\]</span> or equivalently, since <span class="math inline">\(b_n-a_n=(b-a)/2^{n-1}\)</span>, <span class="math display">\[
+\tag{3.5}\]</span></span> or equivalently, since <span class="math inline">\(b_n-a_n=(b-a)/2^{n-1}\)</span>, <span id="eq-nonlin3"><span class="math display">\[
 \left\vert p-x_{n}\right\vert
 \leq \frac{1}{2}\left(b_{n} - a_{n}\right)
 = \frac{ b-a}{2^{n}} .
-\]</span> This implies that <span class="math inline">\(x_{n} \to p\)</span> as <span class="math inline">\(n \to \infty\)</span> and also gives us the proposed error estimate.&nbsp; ◻</p>
+\tag{3.6}\]</span></span> This implies that <span class="math inline">\(x_{n} \to p\)</span> as <span class="math inline">\(n \to \infty\)</span> and also gives us the proposed error estimate.&nbsp; ◻</p>
 </div>
 <div id="exm-bisection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.1</strong></span> Let us find an approximation to <span class="math inline">\(\sqrt{2}\)</span> correct to within <span class="math inline">\(10^{-3}\)</span>. Consider the function <span class="math inline">\(f(x)=x^{2}-2\)</span>. One of its zeros is <span class="math inline">\(\sqrt{2}\)</span>. If we take <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=2\)</span>, then <span class="math inline">\(f(a)=-1&lt;0\)</span> and <span class="math inline">\(f(b)=2&gt;0\)</span>. In addition, we know that <span class="math inline">\(\sqrt{2}\)</span> is the unique zero of <span class="math inline">\(f\)</span> on the interval <span class="math inline">\([a, b]\)</span>. Now we can apply the bisection method and calculate an approximation to <span class="math inline">\(\sqrt{2}\)</span>.</p>
-<p>First, we calculate the number of steps necessary to compute <span class="math inline">\(\sqrt{2}\)</span> with accuracy <span class="math inline">\(10^{-3}\)</span>. This requires to find an integer <span class="math inline">\(N\)</span> such that <span class="math display">\[
+<p>First, we calculate the number of steps necessary to compute <span class="math inline">\(\sqrt{2}\)</span> with accuracy <span class="math inline">\(10^{-3}\)</span>. This requires to find an integer <span class="math inline">\(N\)</span> such that <span id="eq-nonlin4"><span class="math display">\[
 \vert x_{N}-p\vert\leq \frac{b-a}{2^{N}}=2^{-N}&lt; 10^{-3}.
-\]</span> Since <span class="math inline">\(2^{10}=1024\)</span>, this inequality is satisfied if we take <span class="math inline">\(N=10\)</span>. <a href="#tbl-bisection" class="quarto-xref">Table&nbsp;<span>3.1</span></a> shows the results of the bisection method.</p>
-<div class="cell" data-execution_count="1">
+\tag{3.7}\]</span></span> Since <span class="math inline">\(2^{10}=1024\)</span>, this inequality is satisfied if we take <span class="math inline">\(N=10\)</span>. <a href="#tbl-bisection" class="quarto-xref">Table&nbsp;<span>3.1</span></a> shows the results of the bisection method.</p>
+<div class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -449,7 +471,7 @@ a_n-x_{n}  \leq p - x_n \leq b_n - x_{n}.
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="tbl-bisection" class="cell quarto-float anchored" data-execution_count="1">
+<div id="tbl-bisection" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="2">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bisection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3.1: Ten iterations of the bisection method for approximating <span class="math inline">\(\sqrt{2}\)</span>
@@ -459,7 +481,7 @@ Table&nbsp;3.1: Ten iterations of the bisection method for approximating <span c
 <div>
 
 
-<table class="dataframe do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -564,7 +586,7 @@ Table&nbsp;3.1: Ten iterations of the bisection method for approximating <span c
 <p>This example illustrates that the method converges, although rather slowly—we will come across much faster methods in due course. Also, it appears that the method is unnecessarily inefficient—note that <span class="math inline">\(x_7\)</span> was a better approximation to <span class="math inline">\(\sqrt{2}\)</span> than <span class="math inline">\(x_{10}\)</span>. On the other hand, the advantage is the simple and clear error estimate.</p>
 </div>
 <p>Finally, let us write the algorithm in a form that is more adapted to a computer implementation. We do not use a specific programming language here, but <strong>pseudocode</strong>. The bisection method is formulated in Algorithm&nbsp;2.1. This matches our heuristic description above; note however that there are a number of efficiency improvements: We do not need to store the entire sequences <span class="math inline">\(\{a_n\}\)</span>, <span class="math inline">\(\{b_n\}\)</span>, <span class="math inline">\(\{x_n\}\)</span>, but only their “current” values, which we label <span class="math inline">\(a,b,x\)</span>. Also, by storing intermediate results, one tries to evaluate <span class="math inline">\(f\)</span> as few times as possible, which means that the implementation is efficient even if evaluating <span class="math inline">\(f\)</span> is time consuming.</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 100%">
 </colgroup>
@@ -600,13 +622,13 @@ Table&nbsp;3.1: Ten iterations of the bisection method for approximating <span c
 </section>
 <section id="method-of-false-position" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="method-of-false-position"><span class="header-section-number">3.3</span> Method of false position</h2>
-<p>The <em>method of false position</em> (or <em>regula falsi</em> method) is a slight variation of the bisection method. The idea is to choose a more efficient intermediate point <span class="math inline">\(x\)</span> than just the midpoint of the interval <span class="math inline">\([a,b]\)</span>. Instead, one joins the points <span class="math inline">\((a, f(a))\)</span> and <span class="math inline">\((b, f(b))\)</span> with a straight line (the <em>secant</em> line) and find the point where this line intersects the <span class="math inline">\(x\)</span> axis. Since the line is given by <span class="math display">\[
+<p>The <em>method of false position</em> (or <em>regula falsi</em> method) is a slight variation of the bisection method. The idea is to choose a more efficient intermediate point <span class="math inline">\(x\)</span> than just the midpoint of the interval <span class="math inline">\([a,b]\)</span>. Instead, one joins the points <span class="math inline">\((a, f(a))\)</span> and <span class="math inline">\((b, f(b))\)</span> with a straight line (the <em>secant</em> line) and find the point where this line intersects the <span class="math inline">\(x\)</span> axis. Since the line is given by <span id="eq-nonlin10"><span class="math display">\[
 y=f(a)+\frac{f(b)-f(a)}{b-a}(x-a),
-\]</span> this intersection point is located at <span class="math display">\[
+\tag{3.8}\]</span></span> this intersection point is located at <span id="eq-nonlin11"><span class="math display">\[
 \quad x =  a-\frac{f(a)}{f(b)-f(a)}(b-a) .
-\]</span></p>
+\tag{3.9}\]</span></span></p>
 <p>This method is illustrated in <a href="#fig-false" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
-<div id="fig-false" class="quarto-figure quarto-figure-left quarto-float anchored">
+<div id="fig-false" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-false-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/chapter03/false_position.png" class="img-fluid figure-img">
@@ -619,13 +641,13 @@ Figure&nbsp;3.2: Method of false position
 <p>The algorithm for the method of false position is just the same as Algorithm&nbsp;2.1, except that in line&nbsp;4, the statement <span class="math inline">\(x \gets (a+b)/2\)</span> is replaced by <span class="math inline">\(x \gets a-\frac{f(a)}{f(b)-f(a)}(b-a)\)</span>. (Again, one may optimize this to avoid evaluating <span class="math inline">\(f\)</span> too often.)</p>
 <div id="exm-false_position" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.2</strong></span> Let us return to the problem of finding an approximation to <span class="math inline">\(\sqrt{2}\)</span> correct to within <span class="math inline">\(10^{-3}\)</span> by finding a zero of the function <span class="math inline">\(f(x)=x^{2}-2\)</span>. Again taking <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=2\)</span>, we have <span class="math inline">\(f(a)=-1&lt;0\)</span> and <span class="math inline">\(f(b)=2&gt;0\)</span>, and so <span class="math inline">\(\sqrt{2}\)</span> is the unique zero of <span class="math inline">\(f\)</span> on the interval <span class="math inline">\([a, b]\)</span>. Carrying out 10 steps of the method of false position, we obtain the results in <a href="#tbl-false_position" class="quarto-xref">Table&nbsp;<span>3.2</span></a>. The desired accuracy is obtained after the fourth step. Moreover, comparing with <a href="#tbl-bisection" class="quarto-xref">Table&nbsp;<span>3.1</span></a>, it appears that the method of False Position converges much faster than the Bisection method in this example.</p>
-<div id="tbl-false_position" class="quarto-float anchored">
+<div id="tbl-false_position" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-false_position-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3.2: Numerical example for method of false position
 </figcaption>
 <div aria-describedby="tbl-false_position-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -720,7 +742,7 @@ Table&nbsp;3.2: Numerical example for method of false position
 </div>
 </div>
 <p>The animation in <a href="#fig-false-animation" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> shows the method of false position in action.</p>
-<div id="fig-false-animation" class="quarto-figure quarto-figure-left quarto-float anchored">
+<div id="fig-false-animation" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-false-animation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/chapter03/false.gif" class="img-fluid figure-img">
@@ -735,16 +757,16 @@ Figure&nbsp;3.3: Method of false position
 </section>
 <section id="sec-fixedpoint1d" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-fixedpoint1d"><span class="header-section-number">3.4</span> Fixed point iteration</h2>
-<p>We will now investigate a different problem that is closely related to root finding: the fixed point problem. Given a function <span class="math inline">\(g\)</span> (of one real argument with real values), we look for a number <span class="math inline">\(p\)</span> such that <span class="math display">\[
+<p>We will now investigate a different problem that is closely related to root finding: the fixed point problem. Given a function <span class="math inline">\(g\)</span> (of one real argument with real values), we look for a number <span class="math inline">\(p\)</span> such that <span id="eq-nonlin12"><span class="math display">\[
 g(p)=p.
-\]</span> This <span class="math inline">\(p\)</span> is called a <strong>fixed point</strong> of <span class="math inline">\(g\)</span>.</p>
-<p>Any root finding problem <span class="math inline">\(f(x)=0\)</span> can be reformulated as a fixed point problem, and this can be done in many (in fact, infinitely many) ways. For example, given <span class="math inline">\(f\)</span>, we can define <span class="math inline">\(g(x):=f(x) + x\)</span>; then <span class="math display">\[
+\tag{3.10}\]</span></span> This <span class="math inline">\(p\)</span> is called a <strong>fixed point</strong> of <span class="math inline">\(g\)</span>.</p>
+<p>Any root finding problem <span class="math inline">\(f(x)=0\)</span> can be reformulated as a fixed point problem, and this can be done in many (in fact, infinitely many) ways. For example, given <span class="math inline">\(f\)</span>, we can define <span class="math inline">\(g(x):=f(x) + x\)</span>; then <span id="eq-nonlin13"><span class="math display">\[
 f(x) = 0 \quad \Leftrightarrow\quad g(x)=x.
-\]</span> Just as well, we could set <span class="math inline">\(g(x):=\lambda f(x) + x\)</span> with any <span class="math inline">\(\lambda\in{\mathbb R}\backslash\{0\}\)</span>, and there are many other possibilities.</p>
-<p>The heuristic idea for approximating a fixed point of a function <span class="math inline">\(g\)</span> is quite simple. We take an initial approximation <span class="math inline">\(x_{0}\)</span> and calculate subsequent approximations using the formula <span class="math display">\[
+\tag{3.11}\]</span></span> Just as well, we could set <span class="math inline">\(g(x):=\lambda f(x) + x\)</span> with any <span class="math inline">\(\lambda\in{\mathbb R}\backslash\{0\}\)</span>, and there are many other possibilities.</p>
+<p>The heuristic idea for approximating a fixed point of a function <span class="math inline">\(g\)</span> is quite simple. We take an initial approximation <span class="math inline">\(x_{0}\)</span> and calculate subsequent approximations using the formula <span id="eq-nonlin14"><span class="math display">\[
 x_{n}:=g(x_{n-1}).
-\]</span> A graphical representation of this sequence is shown in <a href="#fig-fixed" class="quarto-xref">Figure&nbsp;<span>3.4</span></a>.</p>
-<div id="fig-fixed" class="quarto-figure quarto-figure-left quarto-float anchored">
+\tag{3.12}\]</span></span> A graphical representation of this sequence is shown in <a href="#fig-fixed" class="quarto-xref">Figure&nbsp;<span>3.4</span></a>.</p>
+<div id="fig-fixed" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/chapter03/cobweb.gif" class="img-fluid figure-img">
@@ -757,7 +779,7 @@ Figure&nbsp;3.4: Fixed point iteration
 <p>Why is this sequence expected to approximate a fixed point? Suppose for a moment that the sequence <span class="math inline">\((x_n)\)</span> converges to some number <span class="math inline">\(p\)</span>, and that <span class="math inline">\(g\)</span> is continuous. Then <span id="eq-pfixed"><span class="math display">\[
 p=\lim_{n\to\infty}x_{n}=\lim_{n\to\infty}g(x_{n-1})=
 g\left(\lim_{n\to\infty}x_{n-1}\right)=g(p).
-\tag{3.4}\]</span></span> Thus, <em>if</em> the sequence converges, then it converges to a fixed point. However, this resolves the problem only partially. One would like to know:</p>
+\tag{3.13}\]</span></span> Thus, <em>if</em> the sequence converges, then it converges to a fixed point. However, this resolves the problem only partially. One would like to know:</p>
 <ul>
 <li><p>Under what conditions does the sequence <span class="math inline">\((x_n)\)</span> converge?</p></li>
 <li><p>How fast is the convergence, i.e., can one obtain an estimate for the approximation error?</p></li>
@@ -766,51 +788,52 @@ g\left(\lim_{n\to\infty}x_{n-1}\right)=g(p).
 <div id="thm-fixedpoint1d" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 3.2 (Fixed Point Theorem)</strong></span> Suppose that <span class="math inline">\(g:[a,b]\to [a,b]\)</span> is differentiable, and that there exists <span class="math inline">\(0&lt;k&lt;1\)</span> such that <span id="eq-thm:fixedpoint1d:1"><span class="math display">\[
 \lvert g^{\prime}(x)\rvert\leq k\quad \text{for all }x \in (a,b).
-\tag{3.5}\]</span></span> Then, <span class="math inline">\(g\)</span> has a unique fixed point <span class="math inline">\(p\in [a,b]\)</span>; and for any choice of <span class="math inline">\(x_0 \in [a,b]\)</span>, the sequence defined by <span id="eq-thm:fixedpoint1d:2"><span class="math display">\[
+\tag{3.14}\]</span></span> Then, <span class="math inline">\(g\)</span> has a unique fixed point <span class="math inline">\(p\in [a,b]\)</span>; and for any choice of <span class="math inline">\(x_0 \in [a,b]\)</span>, the sequence defined by <span id="eq-thm:fixedpoint1d:2"><span class="math display">\[
 x_{n}:=g(x_{n-1}) \quad \text{for all }n\ge1
-\tag{3.6}\]</span></span> converges to <span class="math inline">\(p\)</span>. The following estimate holds: <span id="eq-fperr"><span class="math display">\[
+\tag{3.15}\]</span></span> converges to <span class="math inline">\(p\)</span>. The following estimate holds: <span id="eq-fperr"><span class="math display">\[
 \lvert p- x_{n}\rvert \leq k^n \lvert p-x_{0}\rvert \quad \text{for all }n\geq1.
-\tag{3.7}\]</span></span></p>
+\tag{3.16}\]</span></span></p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>We first show that <span class="math inline">\(g\)</span> has a fixed point <span class="math inline">\(p\)</span> in <span class="math inline">\([a,b]\)</span>. If <span class="math inline">\(g(a)=a\)</span> or <span class="math inline">\(g(b)=b\)</span> then <span class="math inline">\(g\)</span> has a fixed point at an endpoint. If not, then it must be true that <span class="math inline">\(g(a)&gt;a\)</span> and <span class="math inline">\(g(b)&lt;b\)</span>. This means that the function <span class="math inline">\(h(x):=g(x)-x\)</span> satisfies <span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>We first show that <span class="math inline">\(g\)</span> has a fixed point <span class="math inline">\(p\)</span> in <span class="math inline">\([a,b]\)</span>. If <span class="math inline">\(g(a)=a\)</span> or <span class="math inline">\(g(b)=b\)</span> then <span class="math inline">\(g\)</span> has a fixed point at an endpoint. If not, then it must be true that <span class="math inline">\(g(a)&gt;a\)</span> and <span class="math inline">\(g(b)&lt;b\)</span>. This means that the function <span class="math inline">\(h(x):=g(x)-x\)</span> satisfies <span id="eq-nonlin15"><span class="math display">\[
 \begin{aligned}
 h(a) &amp;= g(a)-a&gt;0, &amp; h(b)&amp;=g(b)-b&lt;0
 \end{aligned}
-\]</span> and since <span class="math inline">\(h\)</span> is continuous on <span class="math inline">\([a,b]\)</span> the Intermediate Value Theorem guarantees the existence of <span class="math inline">\(p\in(a,b)\)</span> for which <span class="math inline">\(h(p)=0\)</span>, equivalently <span class="math inline">\(g(p)=p\)</span>, so that <span class="math inline">\(p\)</span> is a fixed point of <span class="math inline">\(g\)</span>.</p>
-<p>To show that the fixed point is unique, suppose that <span class="math inline">\(q\neq p\)</span> is a fixed point of <span class="math inline">\(g\)</span> in <span class="math inline">\([a,b]\)</span>. The Mean Value Theorem implies the existence of a number <span class="math inline">\(\xi\in(\min\{p,q\},\max\{p,q\})\subseteq(a,b)\)</span> such that <span class="math display">\[
+\tag{3.17}\]</span></span> and since <span class="math inline">\(h\)</span> is continuous on <span class="math inline">\([a,b]\)</span> the Intermediate Value Theorem guarantees the existence of <span class="math inline">\(p\in(a,b)\)</span> for which <span class="math inline">\(h(p)=0\)</span>, equivalently <span class="math inline">\(g(p)=p\)</span>, so that <span class="math inline">\(p\)</span> is a fixed point of <span class="math inline">\(g\)</span>.</p>
+<p>To show that the fixed point is unique, suppose that <span class="math inline">\(q\neq p\)</span> is a fixed point of <span class="math inline">\(g\)</span> in <span class="math inline">\([a,b]\)</span>. The Mean Value Theorem implies the existence of a number <span class="math inline">\(\xi\in(\min\{p,q\},\max\{p,q\})\subseteq(a,b)\)</span> such that <span id="eq-nonlin16"><span class="math display">\[
 \frac{g(p)-g(q)}{p-q}=g'(\xi).
-\]</span> Then <span class="math display">\[
+\tag{3.18}\]</span></span> Then <span id="eq-nonlin17"><span class="math display">\[
 \lvert p - q\rvert = \lvert g(p)-g(q) \rvert = \lvert (p-q)g'(\xi) \rvert = \lvert p-q\rvert \lvert g'(\xi) \rvert \le  k\lvert p-q\rvert &lt; \lvert p-q\rvert,
-\]</span> where the inequalities follow from <a href="#eq-thm:fixedpoint1d:1" class="quarto-xref">Eq.&nbsp;<span>3.5</span></a>. This is a contradiction, which must have come from the assumption <span class="math inline">\(p\neq q\)</span>. Thus <span class="math inline">\(p=q\)</span> and the fixed point is unique.</p>
-<p>Since <span class="math inline">\(g\)</span> maps <span class="math inline">\([a,b]\)</span> onto itself, the sequence <span class="math inline">\(\{x_n\}\)</span> is well defined. For each <span class="math inline">\(n\ge0\)</span> the Mean Value Theorem gives the existence of a <span class="math inline">\(\xi\in(\min\{x_n,p\},\max\{x_n,p\})\subseteq(a,b)\)</span> such that <span class="math display">\[
+\tag{3.19}\]</span></span> where the inequalities follow from <a href="#eq-thm:fixedpoint1d:1" class="quarto-xref">Eq.&nbsp;<span>3.14</span></a>. This is a contradiction, which must have come from the assumption <span class="math inline">\(p\neq q\)</span>. Thus <span class="math inline">\(p=q\)</span> and the fixed point is unique.</p>
+<p>Since <span class="math inline">\(g\)</span> maps <span class="math inline">\([a,b]\)</span> onto itself, the sequence <span class="math inline">\(\{x_n\}\)</span> is well defined. For each <span class="math inline">\(n\ge0\)</span> the Mean Value Theorem gives the existence of a <span class="math inline">\(\xi\in(\min\{x_n,p\},\max\{x_n,p\})\subseteq(a,b)\)</span> such that <span id="eq-nonlin18"><span class="math display">\[
 \frac{g(x_n)-g(p)}{x_n-p}=g'(\xi).
-\]</span> Thus for each <span class="math inline">\(n\ge1\)</span> by <a href="#eq-thm:fixedpoint1d:1" class="quarto-xref">Eq.&nbsp;<span>3.5</span></a>, <a href="#eq-thm:fixedpoint1d:2" class="quarto-xref">Eq.&nbsp;<span>3.6</span></a> <span class="math display">\[
+\tag{3.20}\]</span></span> Thus for each <span class="math inline">\(n\ge1\)</span> by <a href="#eq-thm:fixedpoint1d:1" class="quarto-xref">Eq.&nbsp;<span>3.14</span></a>, <a href="#eq-thm:fixedpoint1d:2" class="quarto-xref">Eq.&nbsp;<span>3.15</span></a> <span id="eq-nonlin19"><span class="math display">\[
 \lvert x_n-p\rvert = \lvert g(x_{n-1})-g(p) \rvert = \lvert (x_{n-1}-p)g'(\xi) \rvert = \lvert x_{n-1}-p\rvert \lvert g'(\xi) \rvert \le  k\lvert x_{n-1}-p\rvert.
-\]</span> Applying this inequality inductively, we obtain the error estimate <a href="#eq-fperr" class="quarto-xref">Eq.&nbsp;<span>3.7</span></a>. Moreover since <span class="math inline">\(k &lt;1\)</span> we have <span class="math display">\[\lim_{n\rightarrow\infty}\lvert x_{n}-p\rvert \le \lim_{n\rightarrow\infty} k^n \lvert x_{0}-p\rvert = 0,
-\]</span> which implies that <span class="math inline">\((x_n)\)</span> converges to <span class="math inline">\(p\)</span>.&nbsp; ◻</p>
+\tag{3.21}\]</span></span> Applying this inequality inductively, we obtain the error estimate <a href="#eq-fperr" class="quarto-xref">Eq.&nbsp;<span>3.16</span></a>. Moreover since <span class="math inline">\(k &lt;1\)</span> we have <span id="eq-nonlin20"><span class="math display">\[
+\lim_{n\rightarrow\infty}\lvert x_{n}-p\rvert \le \lim_{n\rightarrow\infty} k^n \lvert x_{0}-p\rvert = 0,
+\tag{3.22}\]</span></span> which implies that <span class="math inline">\((x_n)\)</span> converges to <span class="math inline">\(p\)</span>.&nbsp; ◻</p>
 </div>
 <p>The following example shows why the conditions of the <a href="#thm-fixedpoint1d" class="quarto-xref">Theorem&nbsp;<span>3.2</span></a> are important.</p>
 <div id="exm-fixedpoint" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.3</strong></span> The equation <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.3</strong></span> The equation <span id="eq-nonlin21"><span class="math display">\[
 f(x)=x^{2}-2=0
-\]</span> has a unique root <span class="math inline">\(\sqrt{2}\)</span> in <span class="math inline">\([1, 2]\)</span>. There are many ways of writing this equation in the form <span class="math inline">\(x=g(x)\)</span>; we consider two of them: <span class="math display">\[
+\tag{3.23}\]</span></span> has a unique root <span class="math inline">\(\sqrt{2}\)</span> in <span class="math inline">\([1, 2]\)</span>. There are many ways of writing this equation in the form <span class="math inline">\(x=g(x)\)</span>; we consider two of them: <span id="eq-nonlin22"><span class="math display">\[
 \begin{aligned}
 x&amp;=g(x)=x-(x^{2}-2), &amp;
   x&amp;=h(x)=x-\frac{x^{2}-2}{3}.
 \end{aligned}
-\]</span> Which of these fixed point problems generate a rapidly converging sequence?</p>
-<p>It is easy to see that the condition of the fixed point theorem is not satisfied by the function <span class="math inline">\(g\)</span> on <span class="math inline">\([1,2]\)</span>: Namely, <span class="math inline">\(g(2)=0\)</span>, so that <span class="math inline">\(g(2)\not\in[1, 2]\)</span>. On the other hand <span class="math inline">\(h\)</span> satisfies the conditions because <span class="math display">\[
+\tag{3.24}\]</span></span> Which of these fixed point problems generate a rapidly converging sequence?</p>
+<p>It is easy to see that the condition of the fixed point theorem is not satisfied by the function <span class="math inline">\(g\)</span> on <span class="math inline">\([1,2]\)</span>: Namely, <span class="math inline">\(g(2)=0\)</span>, so that <span class="math inline">\(g(2)\not\in[1, 2]\)</span>. On the other hand <span class="math inline">\(h\)</span> satisfies the conditions because <span id="eq-nonlin23"><span class="math display">\[
 h(x)\in [1, 2]   \quad \left(\max_{x\in[1, 2]}h(x)=\frac{17}{12},
 \; \min_{x\in[1, 2]}h(x)=\frac{4}{3}\right) \quad \text{and} \quad \lvert h^{\prime}(x)\rvert\leq 1/3.
-\]</span> Thus, the fixed point theorem guarantees that the sequence <span class="math inline">\((x_n)\)</span> produced by the fixed point iteration procedure <span class="math inline">\(x_{n}=h(x_{n-1})\)</span> converges to <span class="math inline">\(p=\sqrt{2}\)</span>.</p>
-<div id="tbl-fixedpoint" class="quarto-float anchored" data-caption="Fixed point iteration for $g$ and $h$">
+\tag{3.25}\]</span></span> Thus, the fixed point theorem guarantees that the sequence <span class="math inline">\((x_n)\)</span> produced by the fixed point iteration procedure <span class="math inline">\(x_{n}=h(x_{n-1})\)</span> converges to <span class="math inline">\(p=\sqrt{2}\)</span>.</p>
+<div id="tbl-fixedpoint" class="quarto-float quarto-figure quarto-figure-left anchored" data-caption="Fixed point iteration for $g$ and $h$">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fixedpoint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3.3: Fixed point iteration converges quickly for <span class="math inline">\(h\)</span>
 </figcaption>
 <div aria-describedby="tbl-fixedpoint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;"><span class="math inline">\(n\)</span></th>
@@ -866,7 +889,7 @@ Table&nbsp;3.3: Fixed point iteration converges quickly for <span class="math in
 </tr>
 </tbody>
 </table>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;"><span class="math inline">\(n\)</span></th>
@@ -928,9 +951,9 @@ Table&nbsp;3.3: Fixed point iteration converges quickly for <span class="math in
 <p><a href="#tbl-fixedpoint" class="quarto-xref">Table&nbsp;<span>3.3</span></a> shows the sequences generated by fixed point iteration on <span class="math inline">\(g\)</span> and <span class="math inline">\(h\)</span> with start value <span class="math inline">\(x_0=1\)</span>. It is apparent that the sequence generated by <span class="math inline">\(h\)</span> converges quite fast, whereas the one generated by <span class="math inline">\(g\)</span> does not converge at all. The example is explored further in Practical 2.</p>
 </div>
 <p>The example illustrates that one needs to be careful in rewriting root finding problems as fixed point problems—there are many ways to do so, but not all lead to a good approximation. Note at this point that <a href="#thm-fixedpoint1d" class="quarto-xref">Theorem&nbsp;<span>3.2</span></a> gives only sufficient conditions for convergence; in practice, convergence might occur even if the conditions are violated.</p>
-<p>For implementing the fixed point method as a computer algorithm, there’s one more complication to be taken into account: how many steps of the iteration should be taken, i.e., how large should <span class="math inline">\(n\)</span> be chosen, in order to reach the desired precision? For the bisection method, the error estimate <a href="#eq-bisecterror" class="quarto-xref">Eq.&nbsp;<span>3.2</span></a> allows an easy answer. The estimate in fixed point iteration, <a href="#eq-fperr" class="quarto-xref">Eq.&nbsp;<span>3.7</span></a>, turns out to be more difficult to use. While we can certainly estimate <span class="math display">\[
+<p>For implementing the fixed point method as a computer algorithm, there’s one more complication to be taken into account: how many steps of the iteration should be taken, i.e., how large should <span class="math inline">\(n\)</span> be chosen, in order to reach the desired precision? For the bisection method, the error estimate <a href="#eq-bisecterror" class="quarto-xref">Eq.&nbsp;<span>3.2</span></a> allows an easy answer. The estimate in fixed point iteration, <a href="#eq-fperr" class="quarto-xref">Eq.&nbsp;<span>3.16</span></a>, turns out to be more difficult to use. While we can certainly estimate <span id="eq-nonlin24"><span class="math display">\[
 \lvert x_{0}-p\rvert  \leq \max\{ \lvert x_{0}-a\rvert, \lvert x_{0}-b\rvert\},
-\]</span> the constant <span class="math inline">\(k\)</span> (which influences the speed of convergence significantly) is often difficult to obtain in practice, since it involves estimates on the derivative of <span class="math inline">\(g\)</span>.</p>
+\tag{3.26}\]</span></span> the constant <span class="math inline">\(k\)</span> (which influences the speed of convergence significantly) is often difficult to obtain in practice, since it involves estimates on the derivative of <span class="math inline">\(g\)</span>.</p>
 <p>Instead, one uses a different <strong>stopping condition</strong> for the algorithm. Since the sequence is expected to converge rapidly, one uses the difference <span class="math inline">\(|x_n-x_{n-1}|\)</span> to measure the precision reached. If this difference is below a specified limit, say <span class="math inline">\(\tau\)</span>, the iteration is stopped. Since it is possible that the iteration does <em>not</em> converge—see the example above—one would also stop the iteration (with an error message) if a certain number of steps is exceeded, in order to avoid infinite loops. Algorithm&nbsp;2.2 shows all this combined in pseudocode.</p>
 <hr>
 <p><strong>Algorithm 2.2: Fixed point iteration</strong></p>
@@ -960,27 +983,27 @@ Table&nbsp;3.3: Fixed point iteration converges quickly for <span class="math in
 <h2 data-number="3.5" class="anchored" data-anchor-id="sec-newton1d"><span class="header-section-number">3.5</span> Newton’s method</h2>
 <p>Newton’s method is one of the most effective numerical methods for solving a root-finding problem <span class="math inline">\(f(x)=0\)</span>. To derive this method, we need Taylor’s theorem in its simplest form, for a real-valued function of one real variable, with the remainder in Lagrange form.</p>
 <div id="thm-taylor1d" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 3.3 (Taylor’s Theorem in 1d)</strong></span> Suppose that <span class="math inline">\(f \in C^{k+1}(I)\)</span> for some <span class="math inline">\(I\subset\mathbb{R}\)</span>. For each <span class="math inline">\(a \in I\)</span> and <span class="math inline">\(x \in I\)</span>, there exists <span class="math inline">\(\xi\)</span> between <span class="math inline">\(a\)</span> and <span class="math inline">\(x\)</span> such that <span class="math display">\[
+<p><span class="theorem-title"><strong>Theorem 3.3 (Taylor’s Theorem in 1d)</strong></span> Suppose that <span class="math inline">\(f \in C^{k+1}(I)\)</span> for some <span class="math inline">\(I\subset\mathbb{R}\)</span>. For each <span class="math inline">\(a \in I\)</span> and <span class="math inline">\(x \in I\)</span>, there exists <span class="math inline">\(\xi\)</span> between <span class="math inline">\(a\)</span> and <span class="math inline">\(x\)</span> such that <span id="eq-nonlin25"><span class="math display">\[
 f(x) = f(a) + (x-a)f'(a)+ \dots +
    \frac{(x-a)^{k}}{(k)!} f^{(k)}(a)   + \frac{(x-a)^{k+1}}{(k+1)!}  f^{(k+1)}(\xi).
-\]</span> Here <span class="math inline">\(f^{(k)}(a)\)</span> denotes the <span class="math inline">\(k\)</span>th derivative of <span class="math inline">\(f\)</span> at <span class="math inline">\(x=a\)</span>.</p>
+\tag{3.27}\]</span></span> Here <span class="math inline">\(f^{(k)}(a)\)</span> denotes the <span class="math inline">\(k\)</span>th derivative of <span class="math inline">\(f\)</span> at <span class="math inline">\(x=a\)</span>.</p>
 </div>
-<p>The idea behind Newton’s method is as follows. We assume that <span class="math inline">\(f\in C^{2}[a,b]\)</span>. Let <span class="math inline">\(p\)</span> be the root of <span class="math inline">\(f(x)=0\)</span>, and let <span class="math inline">\(x^{*}\)</span> be an (initial) approximation to <span class="math inline">\(p\)</span> such that <span class="math inline">\(\lvert x^{*}-p\rvert\)</span> is small. The first-order Taylor expansion of <span class="math inline">\(f(x)\)</span> about <span class="math inline">\(x^{*}\)</span> is <span class="math display">\[
+<p>The idea behind Newton’s method is as follows. We assume that <span class="math inline">\(f\in C^{2}[a,b]\)</span>. Let <span class="math inline">\(p\)</span> be the root of <span class="math inline">\(f(x)=0\)</span>, and let <span class="math inline">\(x^{*}\)</span> be an (initial) approximation to <span class="math inline">\(p\)</span> such that <span class="math inline">\(\lvert x^{*}-p\rvert\)</span> is small. The first-order Taylor expansion of <span class="math inline">\(f(x)\)</span> about <span class="math inline">\(x^{*}\)</span> is <span id="eq-nonlin26"><span class="math display">\[
 f(x)=f(x^{*})+(x-x^{*})f^{\prime}(x^{*})+ \frac{(x-x^{*})^{2}}{2}
 f^{\prime\prime}(\xi)
-\]</span> with some <span class="math inline">\(\xi\)</span> between <span class="math inline">\(x\)</span> and <span class="math inline">\(x^*\)</span> (so that <span class="math inline">\(\xi\in[a,b]\)</span>). Setting <span class="math inline">\(x=p\)</span>, we have <span class="math display">\[
+\tag{3.28}\]</span></span> with some <span class="math inline">\(\xi\)</span> between <span class="math inline">\(x\)</span> and <span class="math inline">\(x^*\)</span> (so that <span class="math inline">\(\xi\in[a,b]\)</span>). Setting <span class="math inline">\(x=p\)</span>, we have <span id="eq-nonlin27"><span class="math display">\[
 0=f(x^{*})+(p-x^{*})f^{\prime}(x^{*})+ \frac{(p-x^{*})^{2}}{2}
 f^{\prime\prime}(\xi).
-\]</span> Since <span class="math inline">\(\vert x^{*}-p\vert\)</span> is small, we ignore the last term in this formula and obtain <span class="math display">\[
+\tag{3.29}\]</span></span> Since <span class="math inline">\(\vert x^{*}-p\vert\)</span> is small, we ignore the last term in this formula and obtain <span id="eq-nonlin28"><span class="math display">\[
 0\approx f(x^{*})+(p-x^{*})f^{\prime}(x^{*}) \ \ \ \Rightarrow \ \ \
 p\approx x^{*}-\frac{f(x^{*})}{f^{\prime}(x^{*})} .
-\]</span> Of course, <span class="math inline">\(p\)</span> computed using this formula will not be the exact root, but it is natural to expect it to be a better approximation than <span class="math inline">\(x^{*}\)</span>.</p>
+\tag{3.30}\]</span></span> Of course, <span class="math inline">\(p\)</span> computed using this formula will not be the exact root, but it is natural to expect it to be a better approximation than <span class="math inline">\(x^{*}\)</span>.</p>
 <p>Let us formulate this as an iterative algorithm. Starting with an initial approximation <span class="math inline">\(x_{0}\)</span>, we define a sequence of approximation values <span class="math inline">\((x_n)\)</span> by <span id="eq-neqtonseq"><span class="math display">\[
 x_{n+1}:=x_{n}-\frac{f(x_{n})}{f^{\prime}(x_{n})} .
-\tag{3.8}\]</span></span> Note that this is just a fixed point iteration with the function <span id="eq-newtonfp"><span class="math display">\[
+\tag{3.31}\]</span></span> Note that this is just a fixed point iteration with the function <span id="eq-newtonfp"><span class="math display">\[
 g(x) := x - \frac{f(x)}{f'(x)}.
-\tag{3.9}\]</span></span> Geometrically, at the <span class="math inline">\(n\)</span>th iteration, we consider the tangent to <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x=x_{n-1}\)</span>, and finding its intersection with the <span class="math inline">\(x\)</span> axis—see <a href="#fig-newton" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>.</p>
-<div id="fig-newton" class="quarto-figure quarto-figure-left quarto-float anchored">
+\tag{3.32}\]</span></span> Geometrically, at the <span class="math inline">\(n\)</span>th iteration, we consider the tangent to <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x=x_{n-1}\)</span>, and finding its intersection with the <span class="math inline">\(x\)</span> axis—see <a href="#fig-newton" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>.</p>
+<div id="fig-newton" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-newton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/chapter03/newton.png" class="img-fluid figure-img">
@@ -994,20 +1017,20 @@ Figure&nbsp;3.5: Newton’s method
 <div id="thm-newton1d" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 3.4</strong></span> Let <span class="math inline">\(f\in C^{2}[a, b]\)</span>. If <span class="math inline">\(p\in (a, b)\)</span> is such that <span class="math inline">\(f(p)=0\)</span> and <span class="math inline">\(f^{\prime}(p)\neq 0\)</span>, then there exists a <span class="math inline">\(\delta &gt;0\)</span> such that the sequence <span class="math inline">\((x_n)\)</span> generated by Newton’s method converges to <span class="math inline">\(p\)</span> for any initial approximation <span class="math inline">\(x_{0}\in [p-\delta, p+\delta]\)</span>.</p>
 </div>
-<p>The idea of the proof is to show that for some <span class="math inline">\(\delta\)</span> the conditions of the fixed point theorem for function <span class="math inline">\(g(x)\)</span> (given by <a href="#eq-newtonfp" class="quarto-xref">Eq.&nbsp;<span>3.9</span></a>) are satisfied. The proof can be found in the book by <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
+<p>The idea of the proof is to show that for some <span class="math inline">\(\delta\)</span> the conditions of the fixed point theorem for function <span class="math inline">\(g(x)\)</span> (given by <a href="#eq-newtonfp" class="quarto-xref">Eq.&nbsp;<span>3.32</span></a>) are satisfied. The proof can be found in the book by <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
 <p>We did not give an explicit error estimate, but it will turn out later that Newton’s method, under suitable conditions, converges even much faster than a general fixed point method.</p>
 <p>Unfortunately, the conditions of the above theorem are such that it is hard to predict in concrete examples whether Newton’s method will produce a converging sequence for a given initial approximation. Sometimes, a combination of the bisection method and Newton’s method is used in practice: the first method is employed to obtain a sufficiently good initial approximation for the second one, which then produces a fast and precise approximation.</p>
 <div id="exm-newton1d" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.4</strong></span> For <span class="math inline">\(f(x)=x^{2}-2\)</span>, <span class="math inline">\(x\in (0,\infty)\)</span>, equation&nbsp;<a href="#eq-newtonfp" class="quarto-xref">Eq.&nbsp;<span>3.9</span></a> yields the function <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.4</strong></span> For <span class="math inline">\(f(x)=x^{2}-2\)</span>, <span class="math inline">\(x\in (0,\infty)\)</span>, equation&nbsp;<a href="#eq-newtonfp" class="quarto-xref">Eq.&nbsp;<span>3.32</span></a> yields the function <span id="eq-nonlin29"><span class="math display">\[
 g(x)=x-\frac{f(x) }{ f^{\prime}(x)}=x-\frac{x^{2}-2}{2x}=\frac{x}{2}+\frac{1}{x}.
-\]</span> The sequence generated by the formula <span class="math inline">\(x_{n}=\frac{x_{n-1}}{2}+\frac{1}{x_{n-1}}\)</span> (<span class="math inline">\(n\geq 1\)</span>) converges to the root <span class="math inline">\(\sqrt{2}\)</span> of the equation <span class="math inline">\(f(x)=0\)</span> for any choice of <span class="math inline">\(x_0\in (0, \infty)\)</span> (prove it!). Calculations yield the values in <a href="#tbl-newton1d" class="quarto-xref">Table&nbsp;<span>3.4</span></a>, which shows a very fast convergence. (Compare this with the result of fixed point iteration in <a href="#tbl-fixedpoint" class="quarto-xref">Table&nbsp;<span>3.3</span></a>.)</p>
-<div id="tbl-newton1d" class="quarto-float anchored">
+\tag{3.33}\]</span></span> The sequence generated by the formula <span class="math inline">\(x_{n}=\frac{x_{n-1}}{2}+\frac{1}{x_{n-1}}\)</span> (<span class="math inline">\(n\geq 1\)</span>) converges to the root <span class="math inline">\(\sqrt{2}\)</span> of the equation <span class="math inline">\(f(x)=0\)</span> for any choice of <span class="math inline">\(x_0\in (0, \infty)\)</span> (prove it!). Calculations yield the values in <a href="#tbl-newton1d" class="quarto-xref">Table&nbsp;<span>3.4</span></a>, which shows a very fast convergence. (Compare this with the result of fixed point iteration in <a href="#tbl-fixedpoint" class="quarto-xref">Table&nbsp;<span>3.3</span></a>.)</p>
+<div id="tbl-newton1d" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-newton1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3.4: Numerical example for Newton’s method
 </figcaption>
 <div aria-describedby="tbl-newton1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;"><span class="math inline">\(n\)</span></th>
@@ -1075,20 +1098,20 @@ Table&nbsp;3.4: Numerical example for Newton’s method
 \end{array}
 \]</span></p>
 <hr>
-<p>As a final remark, let us mention that Newton’s method works just the same for analytic function on <span class="math inline">\(\mathbb{C}\)</span>, rather than real-valued functions on <span class="math inline">\(\mathbb{R}\)</span>. The definition of the approximating sequence is identical to <a href="#eq-neqtonseq" class="quarto-xref">Eq.&nbsp;<span>3.8</span></a>, where subtraction and division are now read in terms of complex numbers. We will not go into detail here, but you will investigate an example in Practical A3.</p>
+<p>As a final remark, let us mention that Newton’s method works just the same for analytic function on <span class="math inline">\(\mathbb{C}\)</span>, rather than real-valued functions on <span class="math inline">\(\mathbb{R}\)</span>. The definition of the approximating sequence is identical to <a href="#eq-neqtonseq" class="quarto-xref">Eq.&nbsp;<span>3.31</span></a>, where subtraction and division are now read in terms of complex numbers. We will not go into detail here, but you will investigate an example in Practical A3.</p>
 <p>Further reading: Section 2.3 of <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
 </section>
 <section id="secant-method" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="secant-method"><span class="header-section-number">3.6</span> Secant method</h2>
 <p>While Newton’s method is often convenient, one problem is that it requires explicit knowledge of the derivative of <span class="math inline">\(f\)</span>. In practice, this may not always be available; e.g., when the function&nbsp;<span class="math inline">\(f\)</span> itself is approximated by a piece of computer code. In this situation, one can use a slightly different method, called the <em>secant method</em>.</p>
-<p>The idea here is to replace the derivative with a finite difference quotient. By definition of the derivative, we have <span class="math display">\[
+<p>The idea here is to replace the derivative with a finite difference quotient. By definition of the derivative, we have <span id="eq-nonlin30"><span class="math display">\[
 f^{\prime}(x_{n})=\lim_{x\to x_{n}} \frac{f(x)-f(x_{n})}{x-x_{n}}.
-\]</span> Replacing <span class="math inline">\(x\)</span> by <span class="math inline">\(x_{n-1}\)</span>, we obtain <span class="math display">\[
+\tag{3.34}\]</span></span> Replacing <span class="math inline">\(x\)</span> by <span class="math inline">\(x_{n-1}\)</span>, we obtain <span id="eq-nonlin31"><span class="math display">\[
 f^{\prime}(x_{n})\approx \frac{f(x_{n-1})-f(x_{n})}{x_{n-1}-x_{n}}.
-\]</span> Using this approximation, the definition <a href="#eq-neqtonseq" class="quarto-xref">Eq.&nbsp;<span>3.8</span></a> of the approximating sequence is replaced by <span id="eq-secantseq"><span class="math display">\[
+\tag{3.35}\]</span></span> Using this approximation, the definition <a href="#eq-neqtonseq" class="quarto-xref">Eq.&nbsp;<span>3.31</span></a> of the approximating sequence is replaced by <span id="eq-secantseq"><span class="math display">\[
 x_{n+1} := x_{n}- \frac{f(x_{n})(x_{n}-x_{n-1})}{f(x_{n})-f(x_{n-1})}.
-\tag{3.10}\]</span></span> This defines the secant method. In geometrical terms, we have replaced the tangent used in Newton’s method (<a href="#fig-newton" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>) by a secant (<a href="#fig-secant" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>).</p>
-<div id="fig-secant" class="quarto-figure quarto-figure-left quarto-float anchored">
+\tag{3.36}\]</span></span> This defines the secant method. In geometrical terms, we have replaced the tangent used in Newton’s method (<a href="#fig-newton" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>) by a secant (<a href="#fig-secant" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>).</p>
+<div id="fig-secant" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-secant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/chapter03/secant.png" class="img-fluid figure-img">
@@ -1098,16 +1121,16 @@ Figure&nbsp;3.6: Secant method
 </figcaption>
 </figure>
 </div>
-<p>Note that the secant method is <em>not</em> an example of fixed point iteration as discussed in <a href="#sec-fixedpoint1d" class="quarto-xref"><span>Section 3.4</span></a>, since the expression for <span class="math inline">\(x_{n+1}\)</span> in equation&nbsp;<a href="#eq-secantseq" class="quarto-xref">Eq.&nbsp;<span>3.10</span></a> involves both <span class="math inline">\(x_n\)</span> and <span class="math inline">\(x_{n-1}\)</span>. For the same reason, the method requires <em>two</em> initial approximations, <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{1}\)</span>.</p>
+<p>Note that the secant method is <em>not</em> an example of fixed point iteration as discussed in <a href="#sec-fixedpoint1d" class="quarto-xref"><span>Section 3.4</span></a>, since the expression for <span class="math inline">\(x_{n+1}\)</span> in equation&nbsp;<a href="#eq-secantseq" class="quarto-xref">Eq.&nbsp;<span>3.36</span></a> involves both <span class="math inline">\(x_n\)</span> and <span class="math inline">\(x_{n-1}\)</span>. For the same reason, the method requires <em>two</em> initial approximations, <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{1}\)</span>.</p>
 <div id="exm-secant" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.5</strong></span> Applying the secant method to the same example <span class="math inline">\(f(x)=x^2-2\)</span> with <span class="math inline">\(x_{0}=1\)</span> and <span class="math inline">\(x_{1}=1.1\)</span>, we obtain the data in <a href="#tbl-secant" class="quarto-xref">Table&nbsp;<span>3.5</span></a>. We see that the convergence of the method is quite fast, although slower than the convergence of the Newton method applied to the same problem.</p>
-<div id="tbl-secant" class="quarto-float anchored">
+<div id="tbl-secant" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-secant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3.5: Numerical example for secant method
 </figcaption>
 <div aria-describedby="tbl-secant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;"><span class="math inline">\(n\)</span></th>
@@ -1171,16 +1194,16 @@ Table&nbsp;3.5: Numerical example for secant method
 <div id="def-a" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 3.1</strong></span> Suppose that <span class="math inline">\(x_{n}\to p\)</span> as <span class="math inline">\(n\to\infty\)</span> and <span class="math inline">\(x_n\neq p\)</span> for all <span class="math inline">\(n\)</span>. The sequence <span class="math inline">\(\{x_{n}\}\)</span> is said to have <strong>order of convergence</strong> <span class="math inline">\(\alpha \ge 1\)</span> if there exists a constant <span class="math inline">\(\lambda &gt;0\)</span> such that <span id="eq-b2"><span class="math display">\[
 \lim_{n\to\infty}\frac{E_{n+1}}{E_{n}^{\alpha}}=\lambda .
-\tag{3.11}\]</span></span> Here <span class="math inline">\(E_n\)</span> denotes the absolute error in the <span class="math inline">\(n\)</span>th approximation: <span class="math inline">\(E_{n}=\vert x_{n}-p\vert\)</span>.</p>
+\tag{3.37}\]</span></span> Here <span class="math inline">\(E_n\)</span> denotes the absolute error in the <span class="math inline">\(n\)</span>th approximation: <span class="math inline">\(E_{n}=\vert x_{n}-p\vert\)</span>.</p>
 </div>
 <p>If <span class="math inline">\(\alpha=1,2,3,\dots\)</span>, the convergence is said to be <em>linear</em>, <em>quadratic</em>, <em>cubic</em>, <span class="math inline">\(\dots\)</span>, respectively. Note that if the convergence is linear, then the positive constant <span class="math inline">\(\lambda\)</span> that appears in the above definition must be smaller than 1 (<span class="math inline">\(0&lt;\lambda&lt;1\)</span>), because otherwise the sequence will not converge.</p>
 <p>A sequence with a higher order of convergence converges much more rapidly than a sequence with a lower order of convergence. To see this, let us consider the following example:</p>
 <div id="exm-9" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.6</strong></span> Let <span class="math inline">\(\{x_{n}\}\)</span> and <span class="math inline">\(\{y_{n}\}\)</span> be sequences converging to zero and let, for <span class="math inline">\(n\geq 0\)</span>, <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.6</strong></span> Let <span class="math inline">\(\{x_{n}\}\)</span> and <span class="math inline">\(\{y_{n}\}\)</span> be sequences converging to zero and let, for <span class="math inline">\(n\geq 0\)</span>, <span id="eq-nonlin32"><span class="math display">\[
 \vert x_{n+1}\vert = k \vert x_{n}\vert \quad \text{  and  } \quad
 \vert y_{n+1}\vert = k \vert y_{n}\vert^{2},
-\]</span> where <span class="math inline">\(0&lt; k &lt; 1\)</span>. According to the definition, <span class="math inline">\(\{x_{n}\}\)</span> is linearly convergent and <span class="math inline">\(\{y_{n}\}\)</span> is quadratically convergent.</p>
-<p>Also, we have <span class="math display">\[
+\tag{3.38}\]</span></span> where <span class="math inline">\(0&lt; k &lt; 1\)</span>. According to the definition, <span class="math inline">\(\{x_{n}\}\)</span> is linearly convergent and <span class="math inline">\(\{y_{n}\}\)</span> is quadratically convergent.</p>
+<p>Also, we have <span id="eq-nonlin33"><span class="math display">\[
 \begin{split}
 \vert x_{n}\vert&amp;=k\vert x_{n-1}\vert=
 k^{2}\vert x_{n-2}\vert=...=k^{n}\vert x_{0}\vert ,\\
@@ -1189,46 +1212,46 @@ k\vert k\vert y_{n-2}\vert^{2}\vert^{2}=k^{3}\vert y_{n-2}\vert^{4}=
 k^{7}\vert y_{n-3}\vert^{8}=...
 =k^{2^{n}-1}\vert y_{0}\vert^{2^{n}}.
 \end{split}
-\]</span> This illustrates that the quadratic convergence is much faster that the linear convergence.</p>
+\tag{3.39}\]</span></span> This illustrates that the quadratic convergence is much faster that the linear convergence.</p>
 </div>
 </section>
 <section id="order-of-convergence-for-the-fixed-point-iteration" class="level3" data-number="3.7.2">
 <h3 data-number="3.7.2" class="anchored" data-anchor-id="order-of-convergence-for-the-fixed-point-iteration"><span class="header-section-number">3.7.2</span> Order of convergence for the Fixed Point Iteration</h3>
-<p>Suppose that <span class="math inline">\(g(x)\)</span> satisfies the conditions of the Fixed Point Theorem on interval <span class="math inline">\([a,b]\)</span>, so that the sequence <span class="math inline">\(\{x_{n}\}\)</span> generated by the formula <span class="math inline">\(x_{n+1}=g(x_{n})\)</span> with <span class="math inline">\(x_{0}\in [a,b]\)</span> converges to a fixed point <span class="math inline">\(p\)</span>. Then, using the Mean Value Theorem, we obtain <span class="math display">\[
+<p>Suppose that <span class="math inline">\(g(x)\)</span> satisfies the conditions of the Fixed Point Theorem on interval <span class="math inline">\([a,b]\)</span>, so that the sequence <span class="math inline">\(\{x_{n}\}\)</span> generated by the formula <span class="math inline">\(x_{n+1}=g(x_{n})\)</span> with <span class="math inline">\(x_{0}\in [a,b]\)</span> converges to a fixed point <span class="math inline">\(p\)</span>. Then, using the Mean Value Theorem, we obtain <span id="eq-nonlin34"><span class="math display">\[
 E_{n+1}=\vert x_{n+1}-p\vert=\vert g(x_{n})-g(p)\vert=\vert g'(\xi)( x_{n}-p)\vert = E_{n}\vert g'(\xi_{n})\vert,
-\]</span> where <span class="math inline">\(\xi_{n}\)</span> is a number between <span class="math inline">\(x_n\)</span> and <span class="math inline">\(p\)</span>. This implies that if <span class="math inline">\(x_n\to p\)</span>, then <span class="math inline">\(\xi_n\to p\)</span> as <span class="math inline">\(n\to\infty\)</span>. Therefore, <span class="math display">\[
+\tag{3.40}\]</span></span> where <span class="math inline">\(\xi_{n}\)</span> is a number between <span class="math inline">\(x_n\)</span> and <span class="math inline">\(p\)</span>. This implies that if <span class="math inline">\(x_n\to p\)</span>, then <span class="math inline">\(\xi_n\to p\)</span> as <span class="math inline">\(n\to\infty\)</span>. Therefore, <span id="eq-nonlin35"><span class="math display">\[
 \lim_{n\to\infty}\frac{E_{n+1}}{E_{n}}=\vert g'(p)\vert .
-\]</span> In general, <span class="math inline">\(g'(p)\neq 0\)</span>, so that the fixed point iteration produces a linearly convergent sequence.</p>
+\tag{3.41}\]</span></span> In general, <span class="math inline">\(g'(p)\neq 0\)</span>, so that the fixed point iteration produces a linearly convergent sequence.</p>
 <p><em>Can the fixed-point iteration produce convergent sequences with convergence of order 2, 3, etc. ?</em> It turns out that, under certain conditions, this is possible.</p>
 <p>We will prove the following</p>
 <div id="thm-a" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 3.5</strong></span> Let <span class="math inline">\(m &gt; 1\)</span> be an integer, and let <span class="math inline">\(g\in C^{m}[a,b]\)</span>. Suppose that <span class="math inline">\(p\in [a,b]\)</span> is a fixed point of <span class="math inline">\(g\)</span>, and a point <span class="math inline">\(x_{0}\in [a,b]\)</span> exists such that the sequence generated by the formula <span class="math inline">\(x_{n+1}=g(x_{n})\)</span> converges to <span class="math inline">\(p\)</span>. If <span class="math inline">\(g'(p)=\dots =g^{(m-1)}(p)=0\)</span>, then <span class="math inline">\(\{x_{n}\}\)</span> has the order of convergence <span class="math inline">\(m\)</span>.</p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Expanding <span class="math inline">\(g(x_{n})\)</span> in Taylor’s series at point <span class="math inline">\(p\)</span>, we obtain: <span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>Expanding <span class="math inline">\(g(x_{n})\)</span> in Taylor’s series at point <span class="math inline">\(p\)</span>, we obtain: <span id="eq-nonlin36"><span class="math display">\[
 \begin{split}
 x_{n+1}=g(x_{n}) &amp;= g(p) + (x_{n}-p)g'(p)+\dots  \\
 &amp;\qquad + \frac{(x_{n}-p)^{m -1}}{(m -1)!}g^{(m -1)}(p)+
 \frac{(x_{n}-p)^{m}}{m!}g^{(m)}(\xi_n) \\
 &amp;=p+\frac{(x_{n}-p)^{m}}{(m)!}g^{(m)}(\xi_n),
 \end{split}
-\]</span> where <span class="math inline">\(\xi_n\)</span> is between <span class="math inline">\(x_{n}\)</span> and <span class="math inline">\(p\)</span> and, therefore, in <span class="math inline">\([a,b]\)</span> (<span class="math inline">\(x_{n}\in[a,b]\)</span> at least for sufficiently large <span class="math inline">\(n\)</span>). Then we have <span class="math display">\[
+\tag{3.42}\]</span></span> where <span class="math inline">\(\xi_n\)</span> is between <span class="math inline">\(x_{n}\)</span> and <span class="math inline">\(p\)</span> and, therefore, in <span class="math inline">\([a,b]\)</span> (<span class="math inline">\(x_{n}\in[a,b]\)</span> at least for sufficiently large <span class="math inline">\(n\)</span>). Then we have <span id="eq-nonlin37"><span class="math display">\[
 \begin{split}
 E_{n+1}&amp;=\vert x_{n+1}-p\vert=\vert g(x_{n})-p\vert= \left\vert\frac{(x_{n}-p)^{m}}{(m)!}g^{(m)}(\xi_n)\right\vert\\
 &amp;= E_{n}^m \frac{\vert g^{(m)}(\xi_n)\vert}{m!}.
 \end{split}
-\]</span> Therefore (using the fact that <span class="math inline">\(\xi_n\to p\)</span>), <span class="math display">\[
+\tag{3.43}\]</span></span> Therefore (using the fact that <span class="math inline">\(\xi_n\to p\)</span>), <span id="eq-nonlin38"><span class="math display">\[
 \lim_{n\to\infty}\frac{E_{n+1}}{E_{n}^m}= \frac{\vert g^{(m)}(p)\vert}{m!} ,
-\]</span> which means that <span class="math inline">\(\{x_{n}\}\)</span> has convergence of order <span class="math inline">\(m\)</span>.</p>
+\tag{3.44}\]</span></span> which means that <span class="math inline">\(\{x_{n}\}\)</span> has convergence of order <span class="math inline">\(m\)</span>.</p>
 </div>
 </section>
 <section id="order-of-convergence-of-newtons-method" class="level3" data-number="3.7.3">
 <h3 data-number="3.7.3" class="anchored" data-anchor-id="order-of-convergence-of-newtons-method"><span class="header-section-number">3.7.3</span> Order of convergence of Newton’s method</h3>
-<p>Newton’s method for approximating the root <span class="math inline">\(p\)</span> of the equation <span class="math inline">\(f(x)=0\)</span> is equivalent to the fixed-point iteration <span class="math inline">\(x_{n+1}=g(x_{n})\)</span> with <span class="math display">\[
+<p>Newton’s method for approximating the root <span class="math inline">\(p\)</span> of the equation <span class="math inline">\(f(x)=0\)</span> is equivalent to the fixed-point iteration <span class="math inline">\(x_{n+1}=g(x_{n})\)</span> with <span id="eq-nonlin39"><span class="math display">\[
 g(x)=x-\frac{f(x)}{f'(x)}.
-\]</span> Suppose that sequence <span class="math inline">\(\{x_{n}\}\)</span> converges to <span class="math inline">\(p\)</span> and <span class="math inline">\(f'(p)\neq 0\)</span>. We have <span class="math display">\[
+\tag{3.45}\]</span></span> Suppose that sequence <span class="math inline">\(\{x_{n}\}\)</span> converges to <span class="math inline">\(p\)</span> and <span class="math inline">\(f'(p)\neq 0\)</span>. We have <span id="eq-nonlin40"><span class="math display">\[
 g'(x)=\frac{f(x)f''(x)}{[f'(x)]^2} \quad \Rightarrow \quad g'(p)=\frac{f(p)f''(p)}{[f'(p)]^2}=0 .
-\]</span> It follows from the above theorem that the order of convergence of Newton’s method is 2 (except in the special case where <span class="math inline">\(g''(p)=0\)</span>).</p>
+\tag{3.46}\]</span></span> It follows from the above theorem that the order of convergence of Newton’s method is 2 (except in the special case where <span class="math inline">\(g''(p)=0\)</span>).</p>
 </section>
 <section id="order-of-convergence-of-the-secant-method" class="level3" data-number="3.7.4">
 <h3 data-number="3.7.4" class="anchored" data-anchor-id="order-of-convergence-of-the-secant-method"><span class="header-section-number">3.7.4</span> Order of convergence of the secant method</h3>
@@ -1236,11 +1259,11 @@ g'(x)=\frac{f(x)f''(x)}{[f'(x)]^2} \quad \Rightarrow \quad g'(p)=\frac{f(p)f''(p
 <p>Note that <span class="math inline">\(\alpha\)</span> is known as the <em>golden ratio</em>. If you are intrigued to see the golden ratio appear in this context, you can find a proof below. If you are happy to just accept the miracle, you can skip the proof and go on to the <a href="#exercises">Exercises</a>.</p>
 <p>Suppose that a sequence <span class="math inline">\(\{x_{n}\}\)</span>, generated by the secant method <span id="eq-secant1"><span class="math display">\[
 x_{n+1}=x_{n}- \frac{f(x_{n})(x_{n}-x_{n-1})}{f(x_{n})-f(x_{n-1})},
-\tag{3.12}\]</span></span> converges to <span class="math inline">\(p\)</span>. Let <span class="math display">\[
+\tag{3.47}\]</span></span> converges to <span class="math inline">\(p\)</span>. Let <span id="eq-nonlin41"><span class="math display">\[
 e_{n}=x_{n}-p,
-\]</span> so that <span class="math inline">\(E_n=\vert e_n\vert\)</span>, and we assume that <span class="math inline">\(E_n \ll 1\)</span>, which is definitely true for sufficiently large <span class="math inline">\(n\)</span> (since the sequence <span class="math inline">\(\{x_n\}\)</span> is converging to <span class="math inline">\(p\)</span>). Subtracting <span class="math inline">\(p\)</span> from both sides of <a href="#eq-secant1" class="quarto-xref">Eq.&nbsp;<span>3.12</span></a>, we obtain <span id="eq-secant2"><span class="math display">\[
+\tag{3.48}\]</span></span> so that <span class="math inline">\(E_n=\vert e_n\vert\)</span>, and we assume that <span class="math inline">\(E_n \ll 1\)</span>, which is definitely true for sufficiently large <span class="math inline">\(n\)</span> (since the sequence <span class="math inline">\(\{x_n\}\)</span> is converging to <span class="math inline">\(p\)</span>). Subtracting <span class="math inline">\(p\)</span> from both sides of <a href="#eq-secant1" class="quarto-xref">Eq.&nbsp;<span>3.47</span></a>, we obtain <span id="eq-secant2"><span class="math display">\[
 e_{n+1}=e_{n}- \frac{f(p+e_{n})(e_{n}-e_{n-1})}{f(p+e_{n})-f(p+e_{n-1})},
-\tag{3.13}\]</span></span> Expanding <span class="math inline">\(f(p+e_{n})\)</span> and <span class="math inline">\(f(p+e_{n-1})\)</span> in Taylor series about <span class="math inline">\(p\)</span> and taking into account that <span class="math inline">\(f(p)=0\)</span>, we find that <span id="eq-secant3"><span class="math display">\[
+\tag{3.49}\]</span></span> Expanding <span class="math inline">\(f(p+e_{n})\)</span> and <span class="math inline">\(f(p+e_{n-1})\)</span> in Taylor series about <span class="math inline">\(p\)</span> and taking into account that <span class="math inline">\(f(p)=0\)</span>, we find that <span id="eq-secant3"><span class="math display">\[
 \begin{split}
 f(p+e_{n})&amp;=e_{n}f^{\prime}(p)+
 \frac{e_{n}^{2}}{2}f^{\prime\prime}(p)+ \dots \\
@@ -1249,41 +1272,41 @@ f(p+e_{n-1})&amp;=e_{n-1}f^{\prime}(p)+
 \frac{e_{n-1}^{2}}{2}f^{\prime\prime}(p)+ \dots  \\
 &amp;=e_{n-1}f^{\prime}(p)(1+e_{n-1}Q)+ \dots,
 \end{split}
-\tag{3.14}\]</span></span> where <span class="math display">\[
+\tag{3.50}\]</span></span> where <span id="eq-nonlin42"><span class="math display">\[
 Q=\frac{f^{\prime\prime}(p)}{2f^{\prime}(p)}.
-\]</span> Substitution of <a href="#eq-secant3" class="quarto-xref">Eq.&nbsp;<span>3.14</span></a> into <a href="#eq-secant2" class="quarto-xref">Eq.&nbsp;<span>3.13</span></a> yields <span class="math display">\[
+\tag{3.51}\]</span></span> Substitution of <a href="#eq-secant3" class="quarto-xref">Eq.&nbsp;<span>3.50</span></a> into <a href="#eq-secant2" class="quarto-xref">Eq.&nbsp;<span>3.49</span></a> yields <span id="eq-nonlin43"><span class="math display">\[
 \begin{split}
 e_{n+1}&amp;=e_{n}- \frac{e_{n}(e_{n}-e_{n-1})f^{\prime}(p)(1+e_{n}Q)+\dots}{f^{\prime}(p)
 \left[e_{n}-e_{n-1}+Q(e_{n}^2-e_{n-1}^2)\right]} \\
 &amp;=e_{n}\left(1-\frac{1+e_{n}Q+\dots}{1+Q(e_{n}+e_{n-1})+\dots}\right).
 \end{split}
-\]</span> Since, for small <span class="math inline">\(x\)</span>, <span class="math display">\[
+\tag{3.52}\]</span></span> Since, for small <span class="math inline">\(x\)</span>, <span id="eq-nonlin44"><span class="math display">\[
 \frac{1}{1+x+\dots}= 1-x+\dots ,
-\]</span> we obtain <span class="math display">\[
+\tag{3.53}\]</span></span> we obtain <span id="eq-nonlin45"><span class="math display">\[
 \begin{split}
 e_{n+1}&amp;=e_{n}\left(1-\left(1+e_{n}Q+\dots\right)\left(1-Q(e_{n}+e_{n-1})+\dots\right)\right)\\
 &amp;=Q e_{n}e_{n-1}+\dots.
 \end{split}
-\]</span> Thus, for sufficiently large <span class="math inline">\(n\)</span>, we have <span class="math display">\[
+\tag{3.54}\]</span></span> Thus, for sufficiently large <span class="math inline">\(n\)</span>, we have <span id="eq-nonlin46"><span class="math display">\[
 e_{n+1} \approx Q e_{n}e_{n-1}.
-\]</span> Hence, <span id="eq-bb7"><span class="math display">\[
+\tag{3.55}\]</span></span> Hence, <span id="eq-bb7"><span class="math display">\[
 E_{n+1} \approx \vert Q\vert \, E_{n}E_{n-1}.
-\tag{3.15}\]</span></span> Now we assume that (for all sufficiently large <span class="math inline">\(n\)</span>) <span id="eq-bb8"><span class="math display">\[
+\tag{3.56}\]</span></span> Now we assume that (for all sufficiently large <span class="math inline">\(n\)</span>) <span id="eq-bb8"><span class="math display">\[
 E_{n+1} \approx \lambda E_{n}^{\alpha},
-\tag{3.16}\]</span></span> where <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> are positive constants. Substituting <a href="#eq-bb8" class="quarto-xref">Eq.&nbsp;<span>3.16</span></a> into <a href="#eq-bb7" class="quarto-xref">Eq.&nbsp;<span>3.15</span></a>, we find <span class="math display">\[
+\tag{3.57}\]</span></span> where <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> are positive constants. Substituting <a href="#eq-bb8" class="quarto-xref">Eq.&nbsp;<span>3.57</span></a> into <a href="#eq-bb7" class="quarto-xref">Eq.&nbsp;<span>3.56</span></a>, we find <span id="eq-nonlin47"><span class="math display">\[
 \lambda E_{n}^{\alpha} \approx \vert Q\vert E_{n}E_{n-1} \quad \text{  or } \quad
 \lambda E_{n}^{\alpha-1} \approx \vert Q\vert E_{n-1}.
-\]</span> Applying <a href="#eq-bb8" class="quarto-xref">Eq.&nbsp;<span>3.16</span></a> one more time (with <span class="math inline">\(n\)</span> replaced by <span class="math inline">\(n-1\)</span>), we obtain <span class="math display">\[
+\tag{3.58}\]</span></span> Applying <a href="#eq-bb8" class="quarto-xref">Eq.&nbsp;<span>3.57</span></a> one more time (with <span class="math inline">\(n\)</span> replaced by <span class="math inline">\(n-1\)</span>), we obtain <span id="eq-nonlin48"><span class="math display">\[
 \lambda \left(\lambda E_{n-1}^{\alpha}\right)^{\alpha-1} \approx \vert Q\vert E_{n-1}
-\]</span> or, equivalently, <span class="math display">\[
+\tag{3.59}\]</span></span> or, equivalently, <span id="eq-nonlin49"><span class="math display">\[
 \lambda^{\alpha} E_{n-1}^{\alpha(\alpha-1)} \approx \vert Q\vert E_{n-1}.
-\]</span> The last equation will be satisfied provided that <span class="math display">\[
+\tag{3.60}\]</span></span> The last equation will be satisfied provided that <span id="eq-nonlin50"><span class="math display">\[
 \lambda^{\alpha}=\vert Q\vert, \quad \alpha(\alpha-1)=1 ,
-\]</span> which requires that <span class="math display">\[
+\tag{3.61}\]</span></span> which requires that <span id="eq-nonlin51"><span class="math display">\[
 \lambda=\vert Q\vert^{1/\alpha}, \quad \alpha=(1+\sqrt{5})/2\approx 1.62.
-\]</span> Thus, we have shown that if <span class="math inline">\(\{x_{n}\}\)</span> is a convergent sequence generated by the secant method, then <span class="math display">\[
+\tag{3.62}\]</span></span> Thus, we have shown that if <span class="math inline">\(\{x_{n}\}\)</span> is a convergent sequence generated by the secant method, then <span id="eq-nonlin52"><span class="math display">\[
 \lim_{n\to\infty}\frac{E_{n+1}}{E_{n}^{\alpha}}=\vert Q\vert^{1/\alpha}.
-\]</span> Thus, the secant method has <em>superlinear</em> convergence.</p>
+\tag{3.63}\]</span></span> Thus, the secant method has <em>superlinear</em> convergence.</p>
 <p>Further reading: Section 2.4 of <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
 </section>
 </section>
@@ -1292,9 +1315,9 @@ E_{n+1} \approx \lambda E_{n}^{\alpha},
 <section id="written-exercises" class="level3" data-number="3.8.1">
 <h3 data-number="3.8.1" class="anchored" data-anchor-id="written-exercises"><span class="header-section-number">3.8.1</span> Written exercises</h3>
 <div id="exr-c3t1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> Consider the bisection method for finding the zero of <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> Consider the bisection method for finding the zero of <span id="eq-nonlin53"><span class="math display">\[
   f(x) = \sqrt{x} - \cos{x}
-\]</span> on <span class="math inline">\(x\in[0,1]\)</span></p>
+\tag{3.64}\]</span></span> on <span class="math inline">\(x\in[0,1]\)</span></p>
 <ol type="a">
 <li><p>Using the starting values of <span class="math inline">\(a=0.5\)</span> and <span class="math inline">\(b=1.0\)</span>, calculate the first 5 steps of the bisection method.</p></li>
 <li><p>How many steps of the bisection method would be need to ensure that the root is accurate to 10 significant figures?</p></li>
@@ -1302,23 +1325,23 @@ E_{n+1} \approx \lambda E_{n}^{\alpha},
 </ol>
 </div>
 <div id="exr-c3t2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.2</strong></span> Consider the fixed point iteration <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.2</strong></span> Consider the fixed point iteration <span id="eq-nonlin54"><span class="math display">\[
   x_{n+1} = \frac{x^3_n+3ax_n}{3x^2_n+a},
-\]</span> where <span class="math inline">\(a&gt;0\)</span> is given.</p>
+\tag{3.65}\]</span></span> where <span class="math inline">\(a&gt;0\)</span> is given.</p>
 <ol type="a">
 <li><p>What does this fixed point iteration approximate?</p></li>
 <li><p>Use the scheme to calculate <span class="math inline">\(\sqrt{23}\)</span> correct to 10 significant digits.</p></li>
 </ol>
 </div>
 <div id="exr-c3t3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.3</strong></span> Consider the problem of finding a numerical approximation to <span class="math inline">\(\sqrt{3}\)</span> using the fixed point iteration method with the function <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.3</strong></span> Consider the problem of finding a numerical approximation to <span class="math inline">\(\sqrt{3}\)</span> using the fixed point iteration method with the function <span id="eq-nonlin54"><span class="math display">\[
   g(x)= x + \lambda P(x) (x^2 - 3)
-\]</span> where <span class="math inline">\(P(x)\)</span> is a general polynomial of degree <span class="math inline">\(m\)</span>.</p>
-<p>For the case <span class="math inline">\(P(x) = 1\)</span> and <span class="math inline">\(\lambda = -1/4\)</span>, <span class="math inline">\(g(x)\)</span> satisfies the fixed point theorem on the domain <span class="math inline">\([1,2]\)</span>, i.e. <span class="math display">\[
+\tag{3.66}\]</span></span> where <span class="math inline">\(P(x)\)</span> is a general polynomial of degree <span class="math inline">\(m\)</span>.</p>
+<p>For the case <span class="math inline">\(P(x) = 1\)</span> and <span class="math inline">\(\lambda = -1/4\)</span>, <span class="math inline">\(g(x)\)</span> satisfies the fixed point theorem on the domain <span class="math inline">\([1,2]\)</span>, i.e. <span id="eq-nonlin55"><span class="math display">\[
   g:[1,2] \to [1,2]
-\]</span> with <span class="math display">\[
+\tag{3.67}\]</span></span> with <span id="eq-nonlin56"><span class="math display">\[
   |g'(x)| &lt; k, 0 &lt; k &lt; 1, x \in [1,2].
-\]</span></p>
+\tag{3.68}\]</span></span></p>
 <ol type="a">
 <li><p>For <span class="math inline">\(P(x) = 1\)</span> and <span class="math inline">\(\lambda = -1/4\)</span>, show that the sequence <span class="math inline">\(\{x_n\}\)</span> defined by <span class="math inline">\(x_{n+1}=g(x_n)\)</span> converges linearly to <span class="math inline">\(\sqrt{3}\)</span>.</p></li>
 <li><p>Show that <span class="math inline">\(g(x)\)</span> also satisfies the fixed point theorem on the domain <span class="math inline">\([1,2]\)</span> for the case <span class="math inline">\(P(x) = x(x^2-5)\)</span> and <span class="math inline">\(\lambda = +1/12\)</span>, and thus there exists a unique fixed point defined by <span class="math inline">\(x_{n+1}=g(x_n)\)</span>.</p></li>
@@ -1326,17 +1349,17 @@ E_{n+1} \approx \lambda E_{n}^{\alpha},
 </ol>
 </div>
 <div id="exr-c3t4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.4</strong></span> Find the small root of <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.4</strong></span> Find the small root of <span id="eq-nonlin57"><span class="math display">\[
 x^2-10^4 x + 2 = 0
-\]</span> to at least 17 significant figures, writing out all steps of your calculation.</p>
+\tag{3.69}\]</span></span> to at least 17 significant figures, writing out all steps of your calculation.</p>
 </div>
 </section>
 <section id="programming-exercises" class="level3" data-number="3.8.2">
 <h3 data-number="3.8.2" class="anchored" data-anchor-id="programming-exercises"><span class="header-section-number">3.8.2</span> Programming exercises</h3>
 <div id="exr-c3p1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.5</strong></span> In many physics and engineering applications, the Bessel functions <span class="math inline">\(J_n(x)\)</span> are the radial solutions to the Laplacian operator in cylindrical coordinates, i.e.&nbsp;<span class="math inline">\(\nabla^2 f(r,\theta,z) = 0\)</span>. Applying boundary conditions to the problem usually results in the need to compute the roots of <span class="math inline">\(J_n(x)\)</span>. Here we will use the <strong>Bisection Method</strong> to identify roots of <span class="math inline">\(J_n(x)\)</span> using the following generalized formula <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.5</strong></span> In many physics and engineering applications, the Bessel functions <span class="math inline">\(J_n(x)\)</span> are the radial solutions to the Laplacian operator in cylindrical coordinates, i.e.&nbsp;<span class="math inline">\(\nabla^2 f(r,\theta,z) = 0\)</span>. Applying boundary conditions to the problem usually results in the need to compute the roots of <span class="math inline">\(J_n(x)\)</span>. Here we will use the <strong>Bisection Method</strong> to identify roots of <span class="math inline">\(J_n(x)\)</span> using the following generalized formula <span id="eq-nonlin58"><span class="math display">\[
 J_n(x) = \left(\frac{x}{2}\right)^n \sum^\infty_{k=0} \frac{(-1)^k x^{2k}}{k!(n+k)! 4^k}.
-\]</span></p>
+\tag{3.70}\]</span></span></p>
 <ol type="a">
 <li><p>The c++ code <code>bessel_root.c</code> (or FORTRAN code <code>bessel_root.f90</code>) is set up to compute roots of the Bessel function <span class="math inline">\(J_0(x)\)</span>. It takes input from the user for the two points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> that bracket the root and the maximum error <span class="math inline">\(\epsilon\)</span> to compute the root to. Alter the code and compute the first three positive roots for <span class="math inline">\(J_1(x)\)</span> to an accuracy of <span class="math inline">\(\epsilon=1.0\times 10^{-5}\)</span>.</p></li>
 <li><p>You may have noticed when applying the code that unless you choose the initial points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> to bracket at least one root, the method does not converge. Alter the code to use the **Secant Method*, which does not require the root to be bracketed. Code for the Secant method is provided by <code>secant.c</code> (<code>secant.f90</code>).</p></li>
@@ -1344,9 +1367,9 @@ J_n(x) = \left(\frac{x}{2}\right)^n \sum^\infty_{k=0} \frac{(-1)^k x^{2k}}{k!(n+
 </ol>
 </div>
 <div id="exr-c3p2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.6</strong></span> Consider the problem of finding the root to the function <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.6</strong></span> Consider the problem of finding the root to the function <span id="eq-nonlin59"><span class="math display">\[
 f(x) = \exp(x) - 10 x^2
-\]</span></p>
+\tag{3.71}\]</span></span></p>
 <ol type="a">
 <li><p>The C++ code <code>newton_root.c</code> (or FORTRAN code <code>newton_root.f90</code>) is set up to compute roots of this function using <strong>Newton’s method</strong> that we learned in lecture. It takes input from the user on an initial guess for the root <span class="math inline">\(a\)</span> and the maximum error <span class="math inline">\(\epsilon\)</span> to compute the root to. Find three roots of the function.</p></li>
 <li><p>Try using a starting value of <span class="math inline">\(a=3.5\)</span>. Why does the method converge to the negative root instead of the two positive roots which are closer?</p></li>
@@ -1356,7 +1379,7 @@ f(x) = \exp(x) - 10 x^2
 </div>
 <div id="exr-c3p3" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.7</strong></span> Consider the surface that is described by the cylindrical shape of length <span class="math inline">\(L\)</span> and radius given by the general function <span class="math inline">\(s(z)\)</span></p>
-<div id="fig-1" class="quarto-figure quarto-figure-left quarto-float anchored">
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/chapter03/Fig1.jpg" class="img-fluid figure-img">
@@ -1366,14 +1389,14 @@ Figure&nbsp;3.7: A cylinder of length <span class="math inline">\(L\)</span> wit
 </figcaption>
 </figure>
 </div>
-<p>The surface area of this cylinder is given by: <span class="math display">\[
+<p>The surface area of this cylinder is given by: <span id="eq-nonlin60"><span class="math display">\[
 A = 2\pi \int_0^L s(z) \sqrt{1 + s'(z)^2} dz.
-\]</span> We wish to identify the radial function <span class="math inline">\(s(z)\)</span> that minimizes the surface area of the cylinder.</p>
+\tag{3.72}\]</span></span> We wish to identify the radial function <span class="math inline">\(s(z)\)</span> that minimizes the surface area of the cylinder.</p>
 <ol type="a">
 <li><p>Use the Euler-Lagrange equations to find the ODE for <span class="math inline">\(s(z)\)</span> that minimizes the area.</p></li>
-<li><p>Verify that <span class="math display">\[
+<li><p>Verify that <span id="eq-nonlin61"><span class="math display">\[
   s(z) = \alpha \cosh\left( \frac{z-\beta}{\alpha}\right)
-\]</span> is a solution to the ODE.</p></li>
+\tag{3.73}\]</span></span> is a solution to the ODE.</p></li>
 <li><p>Apply the boundary conditions <span class="math inline">\(s(0) = s(L) = R\)</span> to the solution in part (b). Use the two equations that you get from the boundary conditions to obtain a single equation in terms of <span class="math inline">\(R,L\)</span> and a single unknown <span class="math inline">\(\alpha\)</span>.</p></li>
 <li><p>Assuming <span class="math inline">\(R\)</span> and <span class="math inline">\(L\)</span> are known, choose an appropriate root finding technique (bisection,secant, or Newton) and create a root finding code that solves for the unknown <span class="math inline">\(\alpha\)</span>. Using <span class="math inline">\(R=5.0\)</span> and <span class="math inline">\(L=6.0\)</span>, identify the solution (or solutions) <span class="math inline">\(\alpha\)</span>. Plot the resulting function <span class="math inline">\(s(z)\)</span> that minimizes the surface area of the cylinder.</p></li>
 </ol>
@@ -1424,18 +1447,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1467,7 +1479,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1475,10 +1507,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -1520,7 +1557,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1568,7 +1609,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1796,19 +1836,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter02.html" class="pagination-link  aria-label=" &lt;span="">
+      <a href="./chapter02.html" class="pagination-link" aria-label="Errors">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Errors</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter04.html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>Solving systems of nonlinear equations</span>">
+      <a href="./chapter04.html" class="pagination-link" aria-label="Solving systems of nonlinear equations">
         <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving systems of nonlinear equations</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+    <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter03.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter03.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

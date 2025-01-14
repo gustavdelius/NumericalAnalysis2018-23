@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - 9&nbsp; A direct method for solving tridiagonal linear systems</title>
+<title>9&nbsp; A direct method for solving tridiagonal linear systems – Numerical Analysis 2018-23</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,10 +71,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -68,8 +104,26 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+MathJax = {
+  loader: {
+    load: ['[tex]/boldsymbol']
+  },
+  tex: {
+    tags: "all",
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    packages: {
+      '[+]': ['boldsymbol']
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -99,10 +153,10 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - 9&nbsp; A direct method for solving tridiagonal linear systems">
+<meta property="og:title" content="9&nbsp; A direct method for solving tridiagonal linear systems – Numerical Analysis 2018-23">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - 9&nbsp; A direct method for solving tridiagonal linear systems">
+<meta name="twitter:title" content="9&nbsp; A direct method for solving tridiagonal linear systems – Numerical Analysis 2018-23">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -113,13 +167,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">A direct method for solving tridiagonal linear systems</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -220,9 +274,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -246,7 +300,7 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
     </div>
 <!-- main -->
@@ -271,57 +325,165 @@ window.Quarto = {
 </header>
 
 
-<p>Consider the following system of linear equations <span class="math display">\[
+<p>Consider the following system of linear equations <span id="eq-tridiag1"><span class="math display">\[
 A\mathbf{x}= \mathbf{F},
-\]</span></p>
-<p>where <span class="math inline">\(\mathbf{F}\in\mathbb{R}^n\)</span> is a given vector, <span class="math inline">\(\mathbf{x}\in\mathbb{R}^n\)</span> is the vector of unknowns and <span class="math inline">\(A\)</span> is a given <span class="math inline">\(n\times n\)</span> tridiagonal matrix, i.e.&nbsp; <span class="math display">\[
+\tag{9.1}\]</span></span></p>
+<p>where <span class="math inline">\(\mathbf{F}\in\mathbb{R}^n\)</span> is a given vector, <span class="math inline">\(\mathbf{x}\in\mathbb{R}^n\)</span> is the vector of unknowns and <span class="math inline">\(A\)</span> is a given <span class="math inline">\(n\times n\)</span> tridiagonal matrix, i.e.&nbsp; <span id="eq-tridiag2"><span class="math display">\[
 A= \begin{pmatrix}
-       C_1      &amp;B_1    &amp;0      &amp;\cdots &amp;\cdots &amp;\cdots  &amp;0      \\
-       A_2      &amp;C_2    &amp;B_2    &amp;\ddots &amp;       &amp;        &amp;\vdots  \\
-       0        &amp;A_3    &amp;C_3    &amp;B_3    &amp;\ddots &amp;        &amp;\vdots  \\
+       D_1      &amp;U_1    &amp;0      &amp;\cdots &amp;\cdots &amp;\cdots  &amp;0      \\
+       L_2      &amp;D_2    &amp;U_2    &amp;\ddots &amp;       &amp;        &amp;\vdots  \\
+       0        &amp;L_3    &amp;D_3    &amp;U_3    &amp;\ddots &amp;        &amp;\vdots  \\
        \vdots   &amp;\ddots &amp;\ddots &amp;\ddots &amp;\ddots &amp;\ddots  &amp;\vdots  \\
        \vdots   &amp;       &amp;\ddots &amp;\ddots &amp;\ddots &amp;\ddots  &amp;0       \\
-       \vdots   &amp;       &amp;       &amp;\ddots &amp;\ddots &amp;C_{n-1} &amp;B_{n-1} \\
-       0        &amp;\cdots &amp;\cdots &amp;\cdots &amp;0      &amp;A_n     &amp;C_n
+       \vdots   &amp;       &amp;       &amp;\ddots &amp;\ddots &amp;D_{n-1} &amp;U_{n-1} \\
+       0        &amp;\cdots &amp;\cdots &amp;\cdots &amp;0      &amp;L_n     &amp;D_n
 \end{pmatrix}.
-\]</span></p>
-<p>A system like this has appeared when we discussed spline interpolation (see <a href="chapter06.html#eq-d14" class="quarto-xref">Eq.&nbsp;<span>6.69</span></a>). Similar linear systems also arise in finite-difference methods for solving differential equations. Of course, the solution of this system can be approximated using iterative techniques such as Jacobi or Gauss-Seidel methods. However, there are much more efficient direct methods for solving such systems. All direct methods are equivalent to Gaussian elimination applied to the above trigiagonal system. One of these, called the double-sweep method, is described below.</p>
+\tag{9.2}\]</span></span></p>
+<p>A system like this has appeared when we discussed spline interpolation (see <a href="chapter06.html#eq-spline-matrix-system" class="quarto-xref">Eq.&nbsp;<span>6.70</span></a>). Similar linear systems also arise in finite-difference methods for solving differential equations. Of course, the solution of this system can be approximated using iterative techniques such as Jacobi or Gauss-Seidel methods. However, there are much more efficient direct methods for solving such systems. All direct methods are equivalent to Gaussian elimination applied to the above trigiagonal system. One of these, called the double-sweep method, is described below.</p>
 <p>The above system of linear equations can be written as <span id="eq-dsweep1"><span class="math display">\[
 \begin{split}
-C_{1}x_{i}+B_{1}x_{2}&amp;=F_{1}, \\
-A_{i}x_{i-1}+C_{i}x_{i}+B_{i}x_{i+1}&amp;=F_{i} \quad \hbox{for}\quad i=2, \dots, n-1,\\
-A_{n}v_{n-1}+C_{n}v_{n}&amp;=F_{n}.
+D_{1}x_{i}+U_{1}x_{2}&amp;=F_{1}, \\
+L_{i}x_{i-1}+D_{i}x_{i}+U_{i}x_{i+1}&amp;=F_{i} \quad \hbox{for}\quad i=2, \dots, n-1,\\
+L_{n}x_{n-1}+D_{n}x_{n}&amp;=F_{n}.
 \end{split}
-\tag{9.1}\]</span></span></p>
+\tag{9.3}\]</span></span></p>
 <p>It is convenient to introduce <span id="eq-dsweep2"><span class="math display">\[
 x_0=0 \quad \hbox{and} \quad x_{n+1}=0.  
-\tag{9.2}\]</span></span></p>
-<p>Then <a href="#eq-dsweep1" class="quarto-xref">Eq.&nbsp;<span>9.1</span></a> can be rewritten as <span id="eq-dsweep3"><span class="math display">\[
-A_{i}x_{i-1}+C_{i}x_{i}+B_{i}x_{i+1}=F_{i} \quad \hbox{for}\quad i=1, \dots, n,
-\tag{9.3}\]</span></span></p>
-<p>and equations <a href="#eq-dsweep2" class="quarto-xref">Eq.&nbsp;<span>9.2</span></a> are now interpreted as boundary conditions for <a href="#eq-dsweep3" class="quarto-xref">Eq.&nbsp;<span>9.3</span></a>.</p>
-<p>To solve <a href="#eq-dsweep3" class="quarto-xref">Eq.&nbsp;<span>9.3</span></a>, we will seek <span class="math inline">\(\alpha_{i}\)</span> and <span class="math inline">\(\beta_{i}\)</span> such that <span id="eq-y24"><span class="math display">\[
+\tag{9.4}\]</span></span></p>
+<p>Then <a href="#eq-dsweep1" class="quarto-xref">Eq.&nbsp;<span>9.3</span></a> can be rewritten as <span id="eq-dsweep3"><span class="math display">\[
+L_{i}x_{i-1}+D_{i}x_{i}+U_{i}x_{i+1}=F_{i} \quad \hbox{for}\quad i=1, \dots, n.
+\tag{9.5}\]</span></span></p>
+<p>To solve <a href="#eq-dsweep3" class="quarto-xref">Eq.&nbsp;<span>9.5</span></a>, we will seek <span class="math inline">\(\alpha_{i}\)</span> and <span class="math inline">\(\beta_{i}\)</span> such that <span id="eq-y24"><span class="math display">\[
 x_{i-1}=\alpha_{i}x_{i}+\beta_{i}  \quad  \hbox{for} \quad
 i=1, 2, \dots, n+1.  
-\tag{9.4}\]</span></span> Substitution of <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.4</span></a> into <a href="#eq-dsweep3" class="quarto-xref">Eq.&nbsp;<span>9.3</span></a> yields <span id="eq-y25"><span class="math display">\[
-(\alpha_{i}A_{i}+C_{i})x_{i}+B_{i}x_{i+1}+\beta_{i}A_{i}-F_{i}=0 \quad \hbox{for}\quad i=1, \dots, n.
-\tag{9.5}\]</span></span> From <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.4</span></a>, we also have <span class="math display">\[
+\tag{9.6}\]</span></span> Substitution of <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.6</span></a> into <a href="#eq-dsweep3" class="quarto-xref">Eq.&nbsp;<span>9.5</span></a> yields <span id="eq-y25"><span class="math display">\[
+(\alpha_{i}L_{i}+D_{i})x_{i}+U_{i}x_{i+1}+\beta_{i}L_{i}-F_{i}=0 \quad \hbox{for}\quad i=1, \dots, n.
+\tag{9.7}\]</span></span> From <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.6</span></a>, we also have <span id="eq-y25b"><span class="math display">\[
 x_{i}=\alpha_{i+1}x_{i+1}+\beta_{i+1}  \quad  \hbox{for} \quad
 i=0, 1, \dots, n.
-\]</span> Substituting this into <a href="#eq-y25" class="quarto-xref">Eq.&nbsp;<span>9.5</span></a>, we find that <span class="math display">\[
-[(\alpha_{i}A_{i}+C_{i})\alpha_{i+1}+B_{i}]x_{i+1}+[
-(\alpha_{i}A_{i}+C_{i})\beta_{i+1}+\beta_{i}A_{i}-F_{i}]=0 \quad \hbox{for}\quad i=1, \dots, n.
-\]</span> The last equation is satisfied if the two expressions in the square brackets are both zero. This leads to the following recursive formulae: <span id="eq-y26"><span class="math display">\[
-\alpha_{i+1}=-\frac{B_{i}}{C_{i}+\alpha_{i}A_{i}}, \quad
-\beta_{i+1}=-\frac{\beta_{i}A_{i}-F_{i}}{C_{i}+\alpha_{i}A_{i}}, \quad
+\tag{9.8}\]</span></span> Substituting this into <a href="#eq-y25" class="quarto-xref">Eq.&nbsp;<span>9.7</span></a>, we find that <span id="eq-y27"><span class="math display">\[
+[(\alpha_{i}L_{i}+D_{i})\alpha_{i+1}+U_{i}]x_{i+1}+[
+(\alpha_{i}L_{i}+D_{i})\beta_{i+1}+\beta_{i}L_{i}-F_{i}]=0 \quad \hbox{for}\quad i=1, \dots, n.
+\tag{9.9}\]</span></span> The last equation is satisfied if the two expressions in the square brackets are both zero. This leads to the following recursive formulae: <span id="eq-y26"><span class="math display">\[
+\alpha_{i+1}=-\frac{U_{i}}{D_{i}+\alpha_{i}L_{i}}, \quad
+\beta_{i+1}=-\frac{\beta_{i}L_{i}-F_{i}}{D_{i}+\alpha_{i}L_{i}}, \quad
 \hbox{for}\quad i=1, \dots, n.
-\tag{9.6}\]</span></span> Now if <span class="math inline">\(\alpha_{1}\)</span> and <span class="math inline">\(\beta_{1}\)</span> are known, then <span class="math inline">\(\alpha_{i}\)</span> and <span class="math inline">\(\beta_{i}\)</span> for <span class="math inline">\(i=2, 3, \dots, n+1\)</span> can be computed from <a href="#eq-y26" class="quarto-xref">Eq.&nbsp;<span>9.6</span></a>. <span class="math inline">\(\alpha_{1}\)</span> and <span class="math inline">\(\beta_{1}\)</span> can be determined from <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.4</span></a> and the fact that <span class="math inline">\(x_{0}=0\)</span>. Indeed, <span class="math display">\[
+\tag{9.10}\]</span></span> Now if <span class="math inline">\(\alpha_{1}\)</span> and <span class="math inline">\(\beta_{1}\)</span> are known, then <span class="math inline">\(\alpha_{i}\)</span> and <span class="math inline">\(\beta_{i}\)</span> for <span class="math inline">\(i=2, 3, \dots, n+1\)</span> can be computed from <a href="#eq-y26" class="quarto-xref">Eq.&nbsp;<span>9.10</span></a>. <span class="math inline">\(\alpha_{1}\)</span> and <span class="math inline">\(\beta_{1}\)</span> can be determined from <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.6</span></a> and the fact that <span class="math inline">\(x_{0}=0\)</span>. Indeed, <span id="eq-y28"><span class="math display">\[
 x_{0}= \alpha_{1}x_{1}+\beta_{1} \quad \hbox{and} \quad x_{0}=0 \quad \Rightarrow \quad
 \alpha_{1}x_{1}+\beta_{1}=0.
-\]</span> To satisfy the last equation, we choose <span class="math inline">\(\alpha_{1}=0\)</span> and <span class="math inline">\(\beta_{1}=0\)</span>. Once we know all <span class="math inline">\(\alpha_{i}\)</span> and <span class="math inline">\(\beta_{i}\)</span>, we compute <span class="math inline">\(x_{n}, x_{n-1}, \dots, x_{1}\)</span> using formula <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.4</span></a>.</p>
-<p>Formulae <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.4</span></a> and <a href="#eq-y26" class="quarto-xref">Eq.&nbsp;<span>9.6</span></a> will work provided that the coefficients <span class="math inline">\(A_{i}\)</span>, <span class="math inline">\(B_{i}\)</span> and <span class="math inline">\(C_{i}\)</span> are such that <span class="math inline">\(C_{i}+\alpha_{i}A_{i}\neq 0\)</span> for <span class="math inline">\(i=1,\dots,n\)</span>. For tridiagonal systems that arise in finite-difference methods for differential equations, the coefficients <span class="math inline">\(A_{i}\)</span>, <span class="math inline">\(B_{i}\)</span> and <span class="math inline">\(C_{i}\)</span> usually satisfy the inequalities <span id="eq-y23"><span class="math display">\[
-A_{i}, B_{i} &gt; 0, \quad  C_{i} &lt; 0, \quad -C_{i} \geq A_{i} + B_{i}.  
-\tag{9.7}\]</span></span> It can be shown that these restrictions on <span class="math inline">\(A_{i}\)</span>, <span class="math inline">\(B_{i}\)</span> and <span class="math inline">\(C_{i}\)</span> are sufficient for the double-sweep method to work.</p>
+\tag{9.11}\]</span></span> To satisfy the last equation, we choose <span class="math inline">\(\alpha_{1}=0\)</span> and <span class="math inline">\(\beta_{1}=0\)</span>. Once we know all <span class="math inline">\(\alpha_{i}\)</span> and <span class="math inline">\(\beta_{i}\)</span>, we compute <span class="math inline">\(x_{n}, x_{n-1}, \dots, x_{1}\)</span> using formula <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.6</span></a>.</p>
+<p>Formulae <a href="#eq-y24" class="quarto-xref">Eq.&nbsp;<span>9.6</span></a> and <a href="#eq-y26" class="quarto-xref">Eq.&nbsp;<span>9.10</span></a> will work provided that the coefficients <span class="math inline">\(L_{i}\)</span>, <span class="math inline">\(U_{i}\)</span> and <span class="math inline">\(D_{i}\)</span> are such that <span class="math inline">\(D_{i}+\alpha_{i}L_{i}\neq 0\)</span> for <span class="math inline">\(i=1,\dots,n\)</span>. For tridiagonal systems that arise in finite-difference methods for differential equations, the coefficients <span class="math inline">\(L_{i}\)</span>, <span class="math inline">\(U_{i}\)</span> and <span class="math inline">\(D_{i}\)</span> usually satisfy the inequalities <span id="eq-y23"><span class="math display">\[
+L_{i}, U_{i} &gt; 0, \quad  D_{i} &lt; 0, \quad -D_{i} \geq L_{i} + U_{i}.  
+\tag{9.12}\]</span></span> It can be shown that these restrictions on <span class="math inline">\(L_{i}\)</span>, <span class="math inline">\(U_{i}\)</span> and <span class="math inline">\(D_{i}\)</span> are sufficient for the double-sweep method to work.</p>
+<p>The following function implements this method in Python:</p>
+<div id="3db27292" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_tridiagonal(U, L, D, F):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Solve a tridiagonal system using the double-sweep method.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    -----------</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    U : Upper diagonal elements (U[-1] is not used)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    L : Lower diagonal elements (L[0] is not used)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    D : Main diagonal elements</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    F : Right hand side vector</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    --------</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    x : ndarray</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">        Solution vector</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Raises:</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">    ValueError</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">        If the coefficients don't satisfy the conditions from equation (y23):</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">        L_i, U_i &gt; 0, D_i &lt; 0, and -D_i ≥ L_i + U_i</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(F)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check conditions from equation (y23)</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Skip U[-1] and L[0] as they are not used</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> np.<span class="bu">all</span>(U[:<span class="op">-</span><span class="dv">1</span>] <span class="op">&gt;</span> <span class="dv">0</span>):</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Condition U_i &gt; 0 not satisfied"</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> np.<span class="bu">all</span>(L[<span class="dv">1</span>:] <span class="op">&gt;</span> <span class="dv">0</span>):</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Condition L_i &gt; 0 not satisfied"</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> np.<span class="bu">all</span>(D <span class="op">&lt;</span> <span class="dv">0</span>):</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Condition D_i &lt; 0 not satisfied"</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check -D_i ≥ U_i + L_i for i=1,...,n-1</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For i=1: only need U[0] since L[1] is the first lower diagonal element</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">-</span>D[<span class="dv">0</span>] <span class="op">&lt;</span> U[<span class="dv">0</span>]:</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Condition -D_1 ≥ U_1 not satisfied"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For i=n: only need L[n] since U[n-1] is the last upper diagonal element</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">-</span>D[<span class="op">-</span><span class="dv">1</span>] <span class="op">&lt;</span> L[<span class="op">-</span><span class="dv">1</span>]:</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Condition -D_n ≥ L_n not satisfied"</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For i=2,...,n-1: need both L[i] and U[i-1]</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> np.<span class="bu">all</span>(<span class="op">-</span>D[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>] <span class="op">&gt;=</span> L[<span class="dv">2</span>:] <span class="op">+</span> U[:<span class="op">-</span><span class="dv">2</span>]):</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Condition -D_i ≥ L_i + U_i not satisfied"</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> np.zeros(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> np.zeros(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.zeros(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># First sweep: forward</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial conditions: alpha[1] = beta[1] = 0</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        denominator <span class="op">=</span> D[i] <span class="op">+</span> alpha[i] <span class="op">*</span> L[i]</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        alpha[i<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> <span class="op">-</span>U[i] <span class="op">/</span> denominator</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        beta[i<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> (F[i] <span class="op">-</span> L[i] <span class="op">*</span> beta[i]) <span class="op">/</span> denominator</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Second sweep: backward</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial condition: x[n+1] = 0</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="op">=</span> alpha[i<span class="op">+</span><span class="dv">1</span>] <span class="op">*</span> x[i<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span> beta[i<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x[<span class="dv">0</span>:n]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us look at a simple example of a tri-diagonal system:</p>
+<div id="5e871f65" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])  <span class="co"># lower diagonal (L₂ to Lₙ)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>])  <span class="co"># upper diagonal (U₁ to Uₙ₋₁)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>])  <span class="co"># main diagonal (D₁ to Dₙ)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])  <span class="co"># right-hand side</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Solve using our function</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> solve_tridiagonal(U, L, D, F)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Solution:"</span>, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Solution: [-1. -1. -1. -1. -1.]</code></pre>
+</div>
+</div>
+<p>Let’s check that <span class="math inline">\(x\)</span> does indeed satisfy <a href="#eq-tridiag1" class="quarto-xref">Eq.&nbsp;<span>9.1</span></a>. First we need to construct the full matrix <span class="math inline">\(A\)</span>.</p>
+<div id="4a725868" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, construct the full matrix</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> L.size</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.zeros((n, n))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&lt;</span> n<span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        A[i, i<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> U[i]  <span class="co"># upper diagonal</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    A[i, i] <span class="op">=</span> D[i]        <span class="co"># main diagonal</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        A[i, i<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> L[i]  <span class="co"># lower diagonal</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>array([[-2.,  1.,  0.,  0.,  0.],
+       [ 1., -2.,  1.,  0.,  0.],
+       [ 0.,  1., -2.,  1.,  0.],
+       [ 0.,  0.,  1., -2.,  1.],
+       [ 0.,  0.,  0.,  1., -2.]])</code></pre>
+</div>
+</div>
+<p>Now we can use Python’s matrix multiplication opeator <code>@</code> to calculate <span class="math inline">\(A\mathbf{x}\)</span>:</p>
+<div id="d2cbcaba" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">@</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>array([ 1.00000000e+00, -2.22044605e-16,  0.00000000e+00,  0.00000000e+00,
+        1.00000000e+00])</code></pre>
+</div>
+</div>
+<p>This indeed agrees with <span class="math inline">\(\mathbf{F}\)</span> up to rounding errors.</p>
 
 
 
@@ -361,18 +523,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -404,7 +555,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -412,10 +583,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -457,7 +633,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -505,7 +685,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -733,19 +912,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter08.html" class="pagination-link  aria-label=" &lt;span="" differentiation&lt;="" span&gt;"="">
+      <a href="./chapter08.html" class="pagination-link" aria-label="Numerical differentiation">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Numerical differentiation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ivp.html" class="pagination-link" aria-label="<span class='chapter-number'>10</span>&nbsp; <span class='chapter-title'>Initial Value Problems</span>">
+      <a href="./ivp.html" class="pagination-link" aria-label="Initial Value Problems">
         <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initial Value Problems</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+    <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter09.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter09.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -69,9 +69,9 @@ $$
 x_i = a + i h, \quad i = 0,\ldots,N.
 $$ {#eq-eulermesh}
 
-[Terminology: $N$
+Terminology: $N$
 is called the **number of steps** and $h$ is called the **step size**. The
-points $x_0,\ldots,x_N\in[a,b]$ are referred to as **mesh points**.]{.aside}
+points $x_0,\ldots,x_N\in[a,b]$ are referred to as **mesh points**.
 
 We will approximate the exact solution $y$ only at the mesh points
 $x_i$; that is, we are looking for numbers $w_0,\ldots,w_N$ such that
@@ -133,8 +133,8 @@ $$
   y(x) = (x+1)^2-\frac{1}{2} e^x.
 $$ {#eq-eulerexact} 
 This will allow us to compare the approximation with the exact solution.
-[It is generally a good idea to test one's numerical method on an example where one
-already knows the exact solution]{.aside}
+It is generally a good idea to test one's numerical method on an example where one
+already knows the exact solution.
 
 We choose $N=10$ steps, i.e., $h=1/10$. Here we shall only compute the
 first two steps. By @eq-eulerdiff0, we certainly have

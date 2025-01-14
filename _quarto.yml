@@ -83,6 +83,11 @@ format:
   pdf:
     documentclass: scrreprt
     papersize: a4
+    geometry:
+      - top=1.5cm
+      - bottom=1.5cm
+      - left=2.5cm
+      - right=1.5cm
     include-before-body:
       text: |
         \numberwithin{algorithm}{chapter}

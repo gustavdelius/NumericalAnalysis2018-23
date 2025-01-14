@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - 10&nbsp; Initial Value Problems</title>
+<title>10&nbsp; Initial Value Problems – Numerical Analysis 2018-23</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,10 +57,12 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -88,8 +90,26 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script>
+MathJax = {
+  loader: {
+    load: ['[tex]/boldsymbol']
+  },
+  tex: {
+    tags: "all",
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    packages: {
+      '[+]': ['boldsymbol']
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -119,27 +139,29 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - 10&nbsp; Initial Value Problems">
+<meta property="og:title" content="10&nbsp; Initial Value Problems – Numerical Analysis 2018-23">
 <meta property="og:description" content="">
+<meta property="og:image" content="figures/euler.png">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - 10&nbsp; Initial Value Problems">
+<meta name="twitter:title" content="10&nbsp; Initial Value Problems – Numerical Analysis 2018-23">
 <meta name="twitter:description" content="">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="figures/euler.png">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-sidebar floating slimcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ivp.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initial Value Problems</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -240,9 +262,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -316,7 +338,7 @@ window.Quarto = {
 <div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/ivp.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -349,15 +371,15 @@ y''(x) +  4 y'(x) + \sqrt[3]{y(x)} + \cos(x) = 0, \quad y(0)=2,\; y(1)=1.
 \tag{10.3}\]</span></span> This is called a <em>boundary value problem</em> (BVP).</p>
 <p>Both IVPs and BVPs have a unique solution (under certain mathematical conditions). However, while one can show on abstract grounds that these solutions exist, it is often not practicable to find an explicit expression for them. The best one can hope for is to approximate the solution numerically. This is exactly our topic: to find approximation algorithms for the solutions of IVPs (this chapter) and BVPs (in <a href="bvp.html" class="quarto-xref"><span>Chapter 11</span></a>).</p>
 </section>
-<section id="sec-euler" class="level2 page-columns page-full" data-number="10.2">
+<section id="sec-euler" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="sec-euler"><span class="header-section-number">10.2</span> Euler’s Method</h2>
 <p>For studying initial value problems (IVPs) for ordinary differential equations, let us start with the simplest known approximation scheme: <em>Euler’s method</em>. We will focus on direct computations here, and defer more in-depth discussions of the mathematical foundations to later.</p>
 <p>We consider an IVP for a first-order equation, of the form <span id="eq-ivpeuler"><span class="math display">\[
 y'(x) = f(x,y(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha.
 \tag{10.4}\]</span></span> Here <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(\alpha\)</span> are some real numbers, and <span class="math inline">\(f\)</span> is a function <span class="math inline">\(\mathbb{R}^2 \to \mathbb{R}\)</span>. (For a concrete example, see <a href="#exm-eulerivp" class="quarto-xref">Example&nbsp;<span>10.1</span></a> below.) Under certain conditions on <span class="math inline">\(f\)</span> — to be discussed in <a href="#sec-ivpfundam" class="quarto-xref"><span>Section 10.3</span></a> — one knows that the problem has a unique solution; that is, that there is exactly one function <span class="math inline">\(y(x)\)</span> defined on <span class="math inline">\([a,b]\)</span> which satisfies <a href="#eq-ivpeuler" class="quarto-xref">Eq.&nbsp;<span>10.4</span></a>. We often call <span class="math inline">\(y(x)\)</span> the <em>exact solution</em> of the IVP. However, it is often difficult or even impossible to find an explicit expression for <span class="math inline">\(y(x)\)</span>. Our aim here is to approximate the solution numerically.</p>
-<section id="the-method" class="level3 page-columns page-full" data-number="10.2.1">
+<section id="the-method" class="level3" data-number="10.2.1">
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="the-method"><span class="header-section-number">10.2.1</span> The method</h3>
-<div id="fig-euler" class="quarto-figure quarto-figure-left quarto-float anchored">
+<div id="fig-euler" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-euler-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/euler.png" class="img-fluid figure-img" style="width:80.0%">
@@ -370,7 +392,7 @@ Figure&nbsp;10.1: Euler’s method
 <p>The idea behind Euler’s method is as follows (see <a href="#fig-euler" class="quarto-xref">Figure&nbsp;<span>10.1</span></a> for a visualization): We pick <span class="math inline">\(N \in \mathbb{N}\)</span>, and divide the interval <span class="math inline">\([a,b]\)</span> into <span class="math inline">\(N\)</span> subintervals of equal length, <span class="math inline">\(h = (b-a)/N\)</span>. The end points of these intervals are <span id="eq-eulermesh"><span class="math display">\[
 x_i = a + i h, \quad i = 0,\ldots,N.
 \tag{10.5}\]</span></span></p>
-<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="margin-aside">Terminology: <span class="math inline">\(N\)</span> is called the <strong>number of steps</strong> and <span class="math inline">\(h\)</span> is called the <strong>step size</strong>. The points <span class="math inline">\(x_0,\ldots,x_N\in[a,b]\)</span> are referred to as <strong>mesh points</strong>.</span></div></div>
+<p>Terminology: <span class="math inline">\(N\)</span> is called the <strong>number of steps</strong> and <span class="math inline">\(h\)</span> is called the <strong>step size</strong>. The points <span class="math inline">\(x_0,\ldots,x_N\in[a,b]\)</span> are referred to as <strong>mesh points</strong>.</p>
 <p>We will approximate the exact solution <span class="math inline">\(y\)</span> only at the mesh points <span class="math inline">\(x_i\)</span>; that is, we are looking for numbers <span class="math inline">\(w_0,\ldots,w_N\)</span> such that <span class="math inline">\(y(x_i) \approx w_i\)</span>.</p>
 <p>The first approximation <span class="math inline">\(w_0\)</span> is easy to choose: We know that <span class="math inline">\(y\)</span> satisfies the initial condition, <span class="math inline">\(y(x_0) = y(a) = \alpha\)</span>. Thus we set <span class="math inline">\(w_0:=\alpha\)</span>; this is even exact.</p>
 <p>For finding <span class="math inline">\(w_1 \approx y(x_1)\)</span>, we use linear approximation: <span id="eq-linapprox"><span class="math display">\[
@@ -390,18 +412,18 @@ w_0 := \alpha,
 w_1 := w_0 + h f(x_0,w_0),
 \tag{10.9}\]</span></span> <span id="eq-eulerdiff2"><span class="math display">\[
 w_2 := w_1 + h f(x_1,w_1),
-\tag{10.10}\]</span></span> <span class="math display">\[
+\tag{10.10}\]</span></span> <span class="math display">\[\begin{equation*}
 \vdots
-\]</span> <span id="eq-eulerdiffeq"><span class="math display">\[
+\end{equation*}\]</span> <span id="eq-eulerdiffeq"><span class="math display">\[
 w_{i+1} := w_i + h f(x_i,w_i).
-\tag{10.11}\]</span></span> So the <span class="math inline">\(w_i\)</span> are defined recursively. Eq.&nbsp;<a href="#eq-eulerdiffeq" class="quarto-xref">Eq.&nbsp;<span>10.11</span></a> is called the <strong>difference equation</strong> of Euler’s method.</p>
-<div id="exm-eulerivp" class="theorem example page-columns page-full">
+\tag{10.11}\]</span></span> So the <span class="math inline">\(w_i\)</span> are defined recursively. <a href="#eq-eulerdiffeq" class="quarto-xref">Eq.&nbsp;<span>10.11</span></a> is called the <strong>difference equation</strong> of Euler’s method.</p>
+<div id="exm-eulerivp" class="theorem example">
 <p><span class="theorem-title"><strong>Example 10.1</strong></span> Let us consider the IVP <span id="eq-eulerivpexample"><span class="math display">\[
   y'(x) = y(x)-x^2+1,  \quad 0 \leq x \leq 1, \quad y(0) = \frac{1}{2}.
 \tag{10.12}\]</span></span> In this case, the exact solution can be found using an integrating factor. It is</p>
-<div class="page-columns page-full"><p><span id="eq-eulerexact"><span class="math display">\[
+<p><span id="eq-eulerexact"><span class="math display">\[
   y(x) = (x+1)^2-\frac{1}{2} e^x.
-\tag{10.13}\]</span></span> This will allow us to compare the approximation with the exact solution. </p><div class="no-row-height column-margin column-container"><span class="margin-aside">It is generally a good idea to test one’s numerical method on an example where one already knows the exact solution</span></div></div>
+\tag{10.13}\]</span></span> This will allow us to compare the approximation with the exact solution. It is generally a good idea to test one’s numerical method on an example where one already knows the exact solution.</p>
 <p>We choose <span class="math inline">\(N=10\)</span> steps, i.e., <span class="math inline">\(h=1/10\)</span>. Here we shall only compute the first two steps. By <a href="#eq-eulerdiff0" class="quarto-xref">Eq.&nbsp;<span>10.8</span></a>, we certainly have <span id="eq-eulerdiff0b"><span class="math display">\[
 x_0 = 0, \quad w_0=\frac{1}{2}.
 \tag{10.14}\]</span></span> This allows us to compute the approximation <span class="math inline">\(w_1\)</span> at the mesh point <span class="math inline">\(x_1=1/10\)</span>, namely, by <a href="#eq-eulerdiff1" class="quarto-xref">Eq.&nbsp;<span>10.9</span></a>, <span id="eq-eulerdiff1b"><span class="math display">\[
@@ -423,13 +445,13 @@ w_1&amp;=w_0+h f(x_0,w_0)
 \tag{10.16}\]</span></span></p>
 <p>Continuing further, we would obtain the values shown in <a href="#tbl-eulerapp" class="quarto-xref">Table&nbsp;<span>10.1</span></a>. The values of the exact solution <a href="#eq-eulerexact" class="quarto-xref">Eq.&nbsp;<span>10.13</span></a>, evaluated to 9 decimals, are added for comparison. The last column, the error bound, will be discussed shortly.</p>
 <div class="center">
-<div id="tbl-eulerapp" class="quarto-float anchored">
+<div id="tbl-eulerapp" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-eulerapp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;10.1: Approximation values and errors for Euler’s Method
 </figcaption>
 <div aria-describedby="tbl-eulerapp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(i\)</span></th>
@@ -541,7 +563,7 @@ Table&nbsp;10.1: Approximation values and errors for Euler’s Method
 <h3 data-number="10.2.2" class="anchored" data-anchor-id="sec-eulererror"><span class="header-section-number">10.2.2</span> Error bounds</h3>
 <p>Denote the error at step <span class="math inline">\(i\)</span> of Euler’s method by <span id="eq-eulererr"><span class="math display">\[
 \varepsilon_i=y(x_i)-w_i.
-\tag{10.17}\]</span></span> Clearly <span class="math inline">\(\varepsilon_0=0\)</span>. We can represent <span class="math inline">\(\varepsilon_1\)</span> as follows: assuming the second derivative <span class="math inline">\(y''\)</span> exists on <span class="math inline">\((a,b)\)</span>, we can use Taylor’s theorem to give <span id="eq-eulertaylor"><span class="math display">\[
+\tag{10.17}\]</span></span> Clearly <span class="math inline">\(\varepsilon_0=0\)</span>. We can represent <span class="math inline">\(\varepsilon_1\)</span> as follows: assuming the second derivative <span class="math inline">\(y''\)</span> exists on <span class="math inline">\((a,b)\)</span>, we can use Taylor’s Theorem to give <span id="eq-eulertaylor"><span class="math display">\[
 y(x_1)=y(x_0+h)=y(x_0)+hy'(x_0)+\frac{h^2y''(\xi_1)}{2}
 \tag{10.18}\]</span></span> for some <span class="math inline">\(\xi_1\in(x_0,x_1)\)</span>. Now, <span class="math inline">\(y\)</span> is a solution to the IVP so <span class="math inline">\(y(x_0)=y(a)=\alpha=w_0\)</span> and <span class="math inline">\(y'(x_0)=f(x_0,y(x_0))=f(x_0,\alpha)=f(x_0,w_0)\)</span> and, by definition of <span class="math inline">\(w_1\)</span>, <span id="eq-eulerw1"><span class="math display">\[
 y(x_0)+hy'(x_0)=w_0+hf(x_0,w_0)=w_1.
@@ -607,9 +629,9 @@ f(x_i,w_i+\varepsilon_i)-f(x_i,w_i)=\varepsilon_i\frac{\partial}{\partial z}f(x_
 \tag{10.38}\]</span></span></p>
 <p>In all cases, we see that the error is bounded above by a multiple of <span class="math inline">\(\tau(h)\)</span>, which is itself a multiple of <span class="math inline">\(h\)</span> (because <span class="math inline">\(\tau(h)=Mh/2\)</span>). The multiplier depends on the width of the interval on which we solve the equation but, crucially, if we fix the interval then the multiplier does not change as we decrease the step size. The error therefore tends to zero as <span class="math inline">\(h\to 0\)</span> (equivalently, as <span class="math inline">\(N\to\infty\)</span>), so the approximate solution converges to the exact solution.</p>
 <div id="exm-errorbounds" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.2 (Example for error bounds)</strong></span> Let us reconsider <a href="#exm-eulerivp" class="quarto-xref">Example&nbsp;<span>10.1</span></a>, with <span class="math inline">\(f(x,y)= y-x^2+1\)</span>, and compute the error bounds. We have <span class="math inline">\(\partial f / \partial y = 1\)</span>, so we have <span class="math inline">\(L=1\)</span> – see <a href="#eq-ldef" class="quarto-xref">Eq.&nbsp;<span>10.31</span></a>. For the constant <span class="math inline">\(M\)</span>, we use the fact that we know the exact solution: <span class="math inline">\(y(x)=(x+1)^2-e^x/2\)</span>. This gives us <span class="math inline">\(y''(x)=2-e^x/2\)</span>, which, on the interval <span class="math inline">\([0,1]\)</span>, is bounded by <span class="math inline">\(3/2\)</span> (its value at <span class="math inline">\(0\)</span>). So <span class="math inline">\(M = 3/2\)</span>. Inserting, this gives us <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 10.2 (Example for error bounds)</strong></span> Let us reconsider <a href="#exm-eulerivp" class="quarto-xref">Example&nbsp;<span>10.1</span></a>, with <span class="math inline">\(f(x,y)= y-x^2+1\)</span>, and compute the error bounds. We have <span class="math inline">\(\partial f / \partial y = 1\)</span>, so we have <span class="math inline">\(L=1\)</span> – see <a href="#eq-ldef" class="quarto-xref">Eq.&nbsp;<span>10.31</span></a>. For the constant <span class="math inline">\(M\)</span>, we use the fact that we know the exact solution: <span class="math inline">\(y(x)=(x+1)^2-e^x/2\)</span>. This gives us <span class="math inline">\(y''(x)=2-e^x/2\)</span>, which, on the interval <span class="math inline">\([0,1]\)</span>, is bounded by <span class="math inline">\(3/2\)</span> (its value at <span class="math inline">\(0\)</span>). So <span class="math inline">\(M = 3/2\)</span>. Inserting, this gives us <span id="eq-ivp1"><span class="math display">\[
 |y(x_i)-w_i| \leq \frac{3}{40} \big( e^{(x_i-a)} - 1 \big).
-\]</span> These bounds are included in <a href="#tbl-eulerapp" class="quarto-xref">Table&nbsp;<span>10.1</span></a>. You can see that the actual errors are indeed below the bounds, but not very much, particularly for small <span class="math inline">\(x\)</span>.</p>
+\tag{10.39}\]</span></span> These bounds are included in <a href="#tbl-eulerapp" class="quarto-xref">Table&nbsp;<span>10.1</span></a>. You can see that the actual errors are indeed below the bounds, but not very much, particularly for small <span class="math inline">\(x\)</span>.</p>
 </div>
 <p>Of course, using the exact solution in the error bounds can be considered “cheating” to some extent, since the exact solution of the ODE is in general unknown. There are methods for obtaining estimates for the constant <span class="math inline">\(M\)</span> even if <span class="math inline">\(y(x)\)</span> is not explicitly known, but we will not discuss them at this point.</p>
 <!---
@@ -642,7 +664,7 @@ We will see the use of this expression later. Let us try to find an
 estimate for it.
 
 To that end, we analyze the "linear approximation" of
-Eq. @eq-linapprox a bit more in detail. We suppose that the
+@eq-linapprox a bit more in detail. We suppose that the
 exact solution $y(x)$ is twice differentiable. Then, we expand it in a
 Taylor expansion at the point $x_i$, 
 $$
@@ -770,89 +792,89 @@ y_1\,'(x) &amp;= f_1(x,y_1(x),\ldots,y_m(x)), \\
 &amp;\vdots\\
 y_m\,'(x) &amp;= f_m(x,y_1(x),\ldots,y_m(x)),
 \end{aligned}
-\tag{10.39}\]</span></span> for <span class="math inline">\(x\)</span> in some interval <span class="math inline">\([a,b]\)</span>, with initial values <span id="eq-odesysivp"><span class="math display">\[
+\tag{10.40}\]</span></span> for <span class="math inline">\(x\)</span> in some interval <span class="math inline">\([a,b]\)</span>, with initial values <span id="eq-odesysivp"><span class="math display">\[
 y_1(a) = \alpha_1, \ldots, y_m(a) = \alpha_m.
-\tag{10.40}\]</span></span> Here <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(\alpha_1,\ldots,\alpha_m\)</span> are given constants, and <span class="math inline">\(f_1,\ldots,f_m\)</span> are functions from <span class="math inline">\(\mathbb{R}\times \mathbb{R}^m\)</span> to <span class="math inline">\(\mathbb{R}\)</span>. The exact solution of the system would consist of functions <span class="math inline">\(y_1,\ldots,y_m:[a,b] \to \mathbb{R}\)</span>.</p>
+\tag{10.41}\]</span></span> Here <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(\alpha_1,\ldots,\alpha_m\)</span> are given constants, and <span class="math inline">\(f_1,\ldots,f_m\)</span> are functions from <span class="math inline">\(\mathbb{R}\times \mathbb{R}^m\)</span> to <span class="math inline">\(\mathbb{R}\)</span>. The exact solution of the system would consist of functions <span class="math inline">\(y_1,\ldots,y_m:[a,b] \to \mathbb{R}\)</span>.</p>
 <p>The idea of handling these ODE systems mainly involves rewriting them in a convenient way. To that end, let us introduce the vectors <span id="eq-vecdef"><span class="math display">\[
 \begin{aligned}
   \boldsymbol{\alpha}&amp;= \left(\alpha_1,\ldots,\alpha_m\right),\\
   \mathbf{y}&amp;= \left(y_1,\ldots,y_m\right),
 \end{aligned}
-\tag{10.41}\]</span></span> and the vector-valued function <span class="math inline">\(\mathbf{f}: \mathbb{R} \times \mathbb{R}^m \to \mathbb{R}^m\)</span> given by <span id="eq-fdef"><span class="math display">\[
+\tag{10.42}\]</span></span> and the vector-valued function <span class="math inline">\(\mathbf{f}: \mathbb{R} \times \mathbb{R}^m \to \mathbb{R}^m\)</span> given by <span id="eq-fdef"><span class="math display">\[
 \mathbf{f}(x,\mathbf{y}) = \left(f_1(x,y_1,\ldots,y_m), \ldots, f_m(x,y_1,\ldots,y_m)\right).
-\tag{10.42}\]</span></span> With these, the IVP <a href="#eq-odesysexplicit" class="quarto-xref">Eq.&nbsp;<span>10.39</span></a> for the ODE system reads <span id="eq-ivpsys"><span class="math display">\[
+\tag{10.43}\]</span></span> With these, the IVP <a href="#eq-odesysexplicit" class="quarto-xref">Eq.&nbsp;<span>10.40</span></a> for the ODE system reads <span id="eq-ivpsys"><span class="math display">\[
 \mathbf{y}'(x) = \mathbf{f}(x,\mathbf{y}(x)),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
-\tag{10.43}\]</span></span></p>
+\tag{10.44}\]</span></span></p>
 <p>Note the formal similarity with the analogue <a href="#eq-ivpeuler" class="quarto-xref">Eq.&nbsp;<span>10.4</span></a> for a single ODE! Our exact solution <span class="math inline">\(\mathbf{y}\)</span> is now a function from <span class="math inline">\([a,b]\)</span> to <span class="math inline">\(\mathbb{R}^m\)</span>.</p>
 <p>The idea in generalizing our approximation methods to systems of ODEs is based on this formal similarity as well. For example, the difference equation for the “Euler method for ODE systems” reads <span id="eq-eulersys"><span class="math display">\[
 \begin{aligned}
    \mathbf{w}_0 &amp;:= \boldsymbol{\alpha},\\
    \mathbf{w}_{i+1} &amp;:= \mathbf{w}_i + h\, \mathbf{f}(x_i,\mathbf{w}_i) \quad (i=0,\ldots,N-1).
 \end{aligned}
-\tag{10.44}\]</span></span> The approximation values <span class="math inline">\(\mathbf{w}_i\)</span> are now vectors in <span class="math inline">\(\mathbb{R}^m\)</span>. The error estimates obtained in <a href="#sec-eulererror" class="quarto-xref"><span>Section 10.2.2</span></a> carry over very directly to the case of ODE systems; more on this will follow in later sections.</p>
+\tag{10.45}\]</span></span> The approximation values <span class="math inline">\(\mathbf{w}_i\)</span> are now vectors in <span class="math inline">\(\mathbb{R}^m\)</span>. The error estimates obtained in <a href="#sec-eulererror" class="quarto-xref"><span>Section 10.2.2</span></a> carry over very directly to the case of ODE systems; more on this will follow in later sections.</p>
 </section>
 <section id="second-order-odes" class="level3" data-number="10.2.4">
 <h3 data-number="10.2.4" class="anchored" data-anchor-id="second-order-odes"><span class="header-section-number">10.2.4</span> Second-order ODEs</h3>
 <p>In applications, one often meets second-order ODEs. Initial value problems for them can be defined as follows: <span id="eq-ivpsecond"><span class="math display">\[
 y'' (x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \, y'(a)=\alpha'.
-\tag{10.45}\]</span></span></p>
+\tag{10.46}\]</span></span></p>
 <p>Note that we need to specify an additional initial value <span class="math inline">\(\alpha'\in\mathbb{R}\)</span> for the first derivative.</p>
 <p>Fortunately, these can be rewritten into an equivalent system of first-order ODEs, so that they are — for our purposes — not really different from what was discussed above. Namely, we substitute <span class="math inline">\(y\)</span> and <span class="math inline">\(y'\)</span> with the components of a 2-vector <span class="math inline">\(\mathbf{u}\)</span>: We set <span class="math inline">\(u_1 = y\)</span>, <span class="math inline">\(u_2=y'\)</span>.</p>
-<p>More formally, this works as follows. Given a solution <span class="math inline">\(y(x)\)</span> of <a href="#eq-ivpsecond" class="quarto-xref">Eq.&nbsp;<span>10.45</span></a>, we set <span id="eq-secondsubs"><span class="math display">\[
+<p>More formally, this works as follows. Given a solution <span class="math inline">\(y(x)\)</span> of <a href="#eq-ivpsecond" class="quarto-xref">Eq.&nbsp;<span>10.46</span></a>, we set <span id="eq-secondsubs"><span class="math display">\[
    \mathbf{g}(x,\mathbf{u}) := \big(u_2, f(x,u_1,u_2)\big).
-\tag{10.46}\]</span></span></p>
+\tag{10.47}\]</span></span></p>
 <p>It is then easy to check that <span class="math inline">\(\mathbf{u}(x)\)</span> is a solution of the IVP</p>
 <p><span id="eq-ivpu"><span class="math display">\[
 \mathbf{u}' = \mathbf{g}(x,\mathbf{u}),  \quad a \leq x \leq b, \quad \mathbf{u}(a) = \boldsymbol{\beta}.
-\tag{10.47}\]</span></span></p>
-<p>On the other hand, given a solution <span class="math inline">\(\mathbf{u}(x)\)</span> of <a href="#eq-ivpu" class="quarto-xref">Eq.&nbsp;<span>10.47</span></a>, we set <span class="math inline">\(y(x):=u_1(x)\)</span>, <span class="math inline">\(\alpha := \beta_1\)</span>, <span class="math inline">\(\alpha' := \beta_2\)</span> and obtain a solution of <a href="#eq-ivpsecond" class="quarto-xref">Eq.&nbsp;<span>10.45</span></a>. In this sense, <a href="#eq-ivpsecond" class="quarto-xref">Eq.&nbsp;<span>10.45</span></a> and <a href="#eq-ivpu" class="quarto-xref">Eq.&nbsp;<span>10.47</span></a> are equivalent; and for the purpose of developing numerical methods, it is sufficient if we consider the first-order system <a href="#eq-ivpu" class="quarto-xref">Eq.&nbsp;<span>10.47</span></a>.</p>
+\tag{10.48}\]</span></span></p>
+<p>On the other hand, given a solution <span class="math inline">\(\mathbf{u}(x)\)</span> of <a href="#eq-ivpu" class="quarto-xref">Eq.&nbsp;<span>10.48</span></a>, we set <span class="math inline">\(y(x):=u_1(x)\)</span>, <span class="math inline">\(\alpha := \beta_1\)</span>, <span class="math inline">\(\alpha' := \beta_2\)</span> and obtain a solution of <a href="#eq-ivpsecond" class="quarto-xref">Eq.&nbsp;<span>10.46</span></a>. In this sense, <a href="#eq-ivpsecond" class="quarto-xref">Eq.&nbsp;<span>10.46</span></a> and <a href="#eq-ivpu" class="quarto-xref">Eq.&nbsp;<span>10.48</span></a> are equivalent; and for the purpose of developing numerical methods, it is sufficient if we consider the first-order system <a href="#eq-ivpu" class="quarto-xref">Eq.&nbsp;<span>10.48</span></a>.</p>
 <div id="exm-secondorder" class="theorem example">
 <p><span class="theorem-title"><strong>Example 10.3 (Example of a second-order ODE)</strong></span> Let us illustrate the substitution process in an example. Consider the IVP for a second-order ODE, <span id="eq-ivp2ex"><span class="math display">\[
 \begin{split}
 &amp;y''(x) = y'(x)\cos(x) +2 y(x),\quad 0 \leq x \leq 1, \\
 &amp;y(0) = 2, \, y'(0)=-3.
 \end{split}
-\tag{10.48}\]</span></span></p>
-<p>So, <span class="math inline">\(f(x,y,y')=y'\cos(x) +2 y\)</span> in the present case. Using the rules in <a href="#eq-secondsubs" class="quarto-xref">Eq.&nbsp;<span>10.46</span></a>, we obtain an equivalent IVP for a system of two first-order equations: <span class="math display">\[
+\tag{10.49}\]</span></span></p>
+<p>So, <span class="math inline">\(f(x,y,y')=y'\cos(x) +2 y\)</span> in the present case. Using the rules in <a href="#eq-secondsubs" class="quarto-xref">Eq.&nbsp;<span>10.47</span></a>, we obtain an equivalent IVP for a system of two first-order equations: <span id="eq-ivp2"><span class="math display">\[
 \mathbf{u}'(x) = \begin{pmatrix}
         u_2(x) \\ u_2(x)\cos(x) +2 u_1(x)           
         \end{pmatrix},
 \quad 0 \leq x \leq 1, \quad \mathbf{u}(0) = \begin{pmatrix}
         \vphantom{-}2 \\ -3
         \end{pmatrix}.
-\]</span> Once we have found an (approximate) solution for this system, we would set <span class="math inline">\(y(x):=u_1(x)\)</span> and obtain an (approximate) solution of <a href="#eq-ivp2ex" class="quarto-xref">Eq.&nbsp;<span>10.48</span></a>.</p>
+\tag{10.50}\]</span></span> Once we have found an (approximate) solution for this system, we would set <span class="math inline">\(y(x):=u_1(x)\)</span> and obtain an (approximate) solution of <a href="#eq-ivp2ex" class="quarto-xref">Eq.&nbsp;<span>10.49</span></a>.</p>
 </div>
 <p>With similar methods, one can rewrite third-order, fourth-order, etc. ODEs as systems of first-order ODEs. Equally, <em>systems</em> of higher-order ODEs can be transformed into systems of first-order ODEs by appropriate substitutions. For example, systems of second-order ODEs are very common in Newtonian Mechanics: <span class="math inline">\(N\)</span> particles moving in three-dimensional space are modelled using a system of <span class="math inline">\(3N\)</span> coupled second-order ODEs, which can be transformed into a system of <span class="math inline">\(6N\)</span> coupled first-order ODEs.</p>
-<p>Thus, the most general case of IVP that we need to consider is given by <a href="#eq-ivpsys" class="quarto-xref">Eq.&nbsp;<span>10.43</span></a>. In the following, we will formulate all our approximation methods for this case.</p>
+<p>Thus, the most general case of IVP that we need to consider is given by <a href="#eq-ivpsys" class="quarto-xref">Eq.&nbsp;<span>10.44</span></a>. In the following, we will formulate all our approximation methods for this case.</p>
 </section>
 </section>
 <section id="sec-ivpfundam" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="sec-ivpfundam"><span class="header-section-number">10.3</span> Fundamentals</h2>
-<p>We will now take a step back, and revisit the theory of initial value problems for ODEs and their numerical treatment from a more general perspective. In doing so, we will always consider initial value problems for systems of (first-order) ODEs, in the form <a href="#eq-ivpsys" class="quarto-xref">Eq.&nbsp;<span>10.43</span></a>. This means that we will make extensive use of techniques from Vector Calculus.</p>
+<p>We will now take a step back, and revisit the theory of initial value problems for ODEs and their numerical treatment from a more general perspective. In doing so, we will always consider initial value problems for systems of (first-order) ODEs, in the form <a href="#eq-ivpsys" class="quarto-xref">Eq.&nbsp;<span>10.44</span></a>. This means that we will make extensive use of techniques from Vector Calculus.</p>
 <section id="vectors-and-matrices" class="level3" data-number="10.3.1">
 <h3 data-number="10.3.1" class="anchored" data-anchor-id="vectors-and-matrices"><span class="header-section-number">10.3.1</span> Vectors and matrices</h3>
 <p>In order to describe numerical approximations of vectors, we will need a notion of distance between two vectors. Throughout this part of the course, we do not use the Euclidean norm for this purpose, but the <em>maximum norm</em> or <em><span class="math inline">\(\ell_\infty\)</span> norm</em>, which is given by</p>
 <p><span id="eq-vectornorm"><span class="math display">\[
 \lVert \mathbf{v} \rVert_\infty := \max_{1\leq i \leq m}\vert v_{i}\vert.
-\tag{10.49}\]</span></span></p>
+\tag{10.51}\]</span></span></p>
 <p>From now on, we will just write <span class="math inline">\(\lVert \mathbf{v} \rVert\)</span> instead of <span class="math inline">\(\lVert \mathbf{v} \rVert_\infty\)</span>.</p>
 <p>We also need a corresponding norm for matrices <span class="math inline">\(\mathbf{A}\in\mathcal{M}(m,m)\)</span>.</p>
 </section>
 <section id="calculus-in-several-variables" class="level3" data-number="10.3.2">
 <h3 data-number="10.3.2" class="anchored" data-anchor-id="calculus-in-several-variables"><span class="header-section-number">10.3.2</span> Calculus in several variables</h3>
 <p>We will also need to work with functions that depend on vectors, and with vector-valued functions. For a review of the techniques of Calculus in several variables, see for example <span class="citation" data-cites="Thomas:2010">(<a href="references.html#ref-Thomas:2010" role="doc-biblioref">Weir, Thomas, and Hass 2010</a> Ch.&nbsp;14)</span> or <span class="citation" data-cites="Stewart:1991">(<a href="references.html#ref-Stewart:1991" role="doc-biblioref">Stewart 1991</a> Ch.&nbsp;15)</span>. We give a very brief review here, in our notation.</p>
-<p>Let <span class="math inline">\(f\)</span> be a function from <span class="math inline">\(\mathbb{R}^m\)</span> to <span class="math inline">\(\mathbb{R}\)</span> (a function of <span class="math inline">\(m\)</span> variables). Instead of derivatives of functions of a single variable, one can consider <em>partial derivatives</em> of <span class="math inline">\(f\)</span>, denoted as <span class="math display">\[
+<p>Let <span class="math inline">\(f\)</span> be a function from <span class="math inline">\(\mathbb{R}^m\)</span> to <span class="math inline">\(\mathbb{R}\)</span> (a function of <span class="math inline">\(m\)</span> variables). Instead of derivatives of functions of a single variable, one can consider <em>partial derivatives</em> of <span class="math inline">\(f\)</span>, denoted as <span id="eq-ivp3"><span class="math display">\[
 \frac{\partial f}{\partial x_j}(\mathbf{x}) = \frac{d}{dt} f(x_1, \ldots, x_j+t, \ldots,  x_m) \Big\vert_{t=0},
-\]</span> and higher order partial derivatives accordingly. If <span class="math inline">\(\mathbf{f}\)</span> is a vector-valued function, that is, <span class="math inline">\(\mathbf{f}: \mathbb{R}^m \to \mathbb{R}^k\)</span>, then all partial derivatives are vector-valued as well (each component is differentiated). All first derivatives of such a function can conveniently be combined into an <span class="math inline">\(k\times m\)</span> matrix, <span class="math display">\[
+\tag{10.52}\]</span></span> and higher order partial derivatives accordingly. If <span class="math inline">\(\mathbf{f}\)</span> is a vector-valued function, that is, <span class="math inline">\(\mathbf{f}: \mathbb{R}^m \to \mathbb{R}^k\)</span>, then all partial derivatives are vector-valued as well (each component is differentiated). All first derivatives of such a function can conveniently be combined into an <span class="math inline">\(k\times m\)</span> matrix, <span id="eq-ivp4"><span class="math display">\[
 \frac{\partial \mathbf{f}}{\partial \mathbf{x}} =  \begin{pmatrix}
         \frac{\partial f_1}{\partial x_1} &amp;\cdots&amp; \frac{\partial f_1}{\partial x_m} \\
          \vdots &amp; &amp; \vdots \\
         \frac{\partial f ^{(k)}}{\partial x_1} &amp;\cdots&amp; \frac{\partial f ^{(k)}}{\partial x_m}
        \end{pmatrix}
-\]</span> The multi-dimensional chain rule can be expressed quite easily in this formalism: if <span class="math inline">\(\mathbf{f}\)</span> and <span class="math inline">\(\mathbf{g}\)</span> are vector-valued mappings such that <span class="math inline">\(\mathbf{g}\circ \mathbf{f}: \mathbf{x}\mapsto \mathbf{g}(\mathbf{f}(\mathbf{x}))\)</span> is defined (i.e.&nbsp;the range of <span class="math inline">\(\mathbf{f}\)</span> matches the domain of <span class="math inline">\(\mathbf{g}\)</span>) then the derivative of <span class="math inline">\(\mathbf{g}\circ \mathbf{f}\)</span> is given by <span class="math display">\[
+\tag{10.53}\]</span></span> The multi-dimensional chain rule can be expressed quite easily in this formalism: if <span class="math inline">\(\mathbf{f}\)</span> and <span class="math inline">\(\mathbf{g}\)</span> are vector-valued mappings such that <span class="math inline">\(\mathbf{g}\circ \mathbf{f}: \mathbf{x}\mapsto \mathbf{g}(\mathbf{f}(\mathbf{x}))\)</span> is defined (i.e.&nbsp;the range of <span class="math inline">\(\mathbf{f}\)</span> matches the domain of <span class="math inline">\(\mathbf{g}\)</span>) then the derivative of <span class="math inline">\(\mathbf{g}\circ \mathbf{f}\)</span> is given by <span id="eq-ivp5"><span class="math display">\[
 \frac{\partial (\mathbf{g}\circ \mathbf{f})}{\partial \mathbf{x}}
 =  \frac{\partial \mathbf{g}}{\partial \mathbf{y}} \cdot \frac{\partial \mathbf{f}}{\partial \mathbf{x}}  .
-\]</span> where <span class="math inline">\(\cdot\)</span> represents matrix multiplication. Higher-order derivatives can be treated in a similar, though somewhat more complicated matrix formalism.</p>
+\tag{10.54}\]</span></span> where <span class="math inline">\(\cdot\)</span> represents matrix multiplication. Higher-order derivatives can be treated in a similar, though somewhat more complicated matrix formalism.</p>
 <p>Also, a generalization of Taylor’s theorem holds for functions of several variables. This is summarized in <a href="appendix.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
 </section>
 <section id="odes" class="level3" data-number="10.3.3">
@@ -862,44 +884,44 @@ y'' (x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \, y'(a)
 <div id="def-ivp" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 10.1</strong></span> Let <span class="math inline">\(m \in \mathbb{N}\)</span>, <span class="math inline">\(a&lt;b \in \mathbb{R}\)</span>, <span class="math inline">\(\boldsymbol{\alpha}\in \mathbb{R}^m\)</span>, and <span class="math inline">\(\mathbf{f}: [a,b]\times \mathbb{R}^m \to \mathbb{R}^m\)</span>. We say that a function <span class="math inline">\(\mathbf{y}\in\mathcal{C}^1([a,b],\mathbb{R}^m)\)</span> is a <strong>solution of the initial value problem (IVP)</strong> <span id="eq-ivpformaldef"><span class="math display">\[
 \mathbf{y}' = \mathbf{f}(x,\mathbf{y}),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}
-\tag{10.50}\]</span></span></p>
+\tag{10.55}\]</span></span></p>
 <p>if for all <span class="math inline">\(x \in [a,b]\)</span>, <span id="eq-ivpformaldef2"><span class="math display">\[
 \mathbf{y}'(x) = \mathbf{f}(x,\mathbf{y}(x)) \quad \text{and}  \quad \mathbf{y}(a)=\boldsymbol{\alpha}.
-\tag{10.51}\]</span></span></p>
+\tag{10.56}\]</span></span></p>
 </div>
 <p>Our first question is when such an IVP has a unique solution (so that we can reasonably search for a numerical approximation of it). The key condition involved here is the so-called <em>Lipschitz condition</em>.</p>
 <div id="def-lipcond" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 10.2</strong></span> We say that <span class="math inline">\(\mathbf{f}:[a,b]\times \mathbb{R}^m \to \mathbb{R}^m\)</span> satisfies a <strong>Lipschitz condition</strong> if there is a constant <span class="math inline">\(L&gt;0\)</span> such that for all <span class="math inline">\(x \in [a,b]\)</span> and <span class="math inline">\(\mathbf{y},\hat{\mathbf{y}}\in\mathbb{R}^m\)</span>,</p>
 <p><span id="eq-lipschitzdef"><span class="math display">\[
   \lVert  \mathbf{f}(x,\mathbf{y}) - \mathbf{f}(x,\hat{\mathbf{y}})  \rVert \leq L \| \mathbf{y}-\hat{\mathbf{y}}\|.
-\tag{10.52}\]</span></span> The constant <span class="math inline">\(L\)</span> above is called a <strong>Lipschitz constant</strong>.</p>
+\tag{10.57}\]</span></span> The constant <span class="math inline">\(L\)</span> above is called a <strong>Lipschitz constant</strong>.</p>
 </div>
 <p>The Lipschitz condition is in a sense an intermediate concept between continuity and differentiability. Often, we can use a simple criterion to check it — in fact, we already have, in the definition of the constant <span class="math inline">\(L\)</span> in the error analysis of Euler’s method in one variable.</p>
 <div id="lem-lipderiv" class="theorem lemma">
 <p><span class="theorem-title"><strong>Lemma 10.1</strong></span> If <span class="math inline">\(\partial \mathbf{f}/ \partial \mathbf{y}\)</span> exists and is bounded, then <span class="math inline">\(\mathbf{f}\)</span> satisfies a Lipschitz condition with Lipschitz constant <span id="eq-lipschitzderiv"><span class="math display">\[
 L = \sup\left\{ \Big\lVert \frac{\partial \mathbf{f}}{\partial \mathbf{y}} (x,\mathbf{y}) \Big\rVert  : x \in [a,b], \mathbf{y}\in \mathbb{R}^m \right\}.
-\tag{10.53}\]</span></span></p>
+\tag{10.58}\]</span></span></p>
 </div>
 <p>Note here that <span class="math inline">\(\partial \mathbf{f}/ \partial \mathbf{y}\)</span> is an <span class="math inline">\(m \times m\)</span> <em>matrix</em>! Again, you may first want to consider the case <span class="math inline">\(m=1\)</span>.</p>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Given <span class="math inline">\(x \in [a,b]\)</span>, <span class="math inline">\(\mathbf{y},\hat{\mathbf{y}}\in \mathbb{R}^m\)</span>, and <span class="math inline">\(j \in \{1,\ldots, m\}\)</span>, consider the function <span class="math inline">\(g:[0,1]\to\mathbb{R}\)</span> defined by <span class="math inline">\(g(t)=f_j((1-t)\hat{\mathbf{y}}+t\mathbf{y})\)</span>, so <span class="math inline">\(g(0)=\hat{\mathbf{y}}\)</span> and <span class="math inline">\(g(1)=\mathbf{y}\)</span>, and apply the scalar MVT to give <span class="math inline">\(\mathbf{y}-\hat{\mathbf{y}}=g(1)-g(0)=g'(t_0)\)</span> for some <span class="math inline">\(t_0\in(0,1)\)</span>; now, using the chain rule, <span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>Given <span class="math inline">\(x \in [a,b]\)</span>, <span class="math inline">\(\mathbf{y},\hat{\mathbf{y}}\in \mathbb{R}^m\)</span>, and <span class="math inline">\(j \in \{1,\ldots, m\}\)</span>, consider the function <span class="math inline">\(g:[0,1]\to\mathbb{R}\)</span> defined by <span class="math inline">\(g(t)=f_j((1-t)\hat{\mathbf{y}}+t\mathbf{y})\)</span>, so <span class="math inline">\(g(0)=\hat{\mathbf{y}}\)</span> and <span class="math inline">\(g(1)=\mathbf{y}\)</span>, and apply the scalar MVT to give <span class="math inline">\(\mathbf{y}-\hat{\mathbf{y}}=g(1)-g(0)=g'(t_0)\)</span> for some <span class="math inline">\(t_0\in(0,1)\)</span>; now, using the chain rule, <span id="eq-ivp6"><span class="math display">\[
 \begin{split}
 g'(t)&amp;=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot\frac{d}{dt}((1-t)\hat{\mathbf{y}}+t\mathbf{y})\\
 &amp;=\frac{\partial f_j}{ \partial \mathbf{y}}(x,(1-t)\hat{\mathbf{y}}+t\mathbf{y})\cdot(\mathbf{y}-\hat{\mathbf{y}}).
 \end{split}
-\]</span> Combining these gives us <span class="math display">\[
+\tag{10.59}\]</span></span> Combining these gives us <span id="eq-ivp7"><span class="math display">\[
 f_j(x,\mathbf{y}) - f_j(x,\hat{\mathbf{y}}) =
 \frac{\partial f_j}{ \partial \mathbf{y}}(x,\boldsymbol{\eta}) \cdot (\mathbf{y}-\hat{\mathbf{y}})
-\]</span> where <span class="math inline">\(\boldsymbol{\eta}=(1-t_0)\hat{\mathbf{y}}+t_0\mathbf{y}\)</span>. Using the property of the vector norm of the scalar product (see <a href="chapter04.html#def-vecnorm" class="quarto-xref">Definition&nbsp;<span>4.1</span></a>) we find <span class="math display">\[
+\tag{10.60}\]</span></span> where <span class="math inline">\(\boldsymbol{\eta}=(1-t_0)\hat{\mathbf{y}}+t_0\mathbf{y}\)</span>. Using the property of the vector norm of the scalar product (see <a href="chapter04.html#def-vecnorm" class="quarto-xref">Definition&nbsp;<span>4.1</span></a>) we find <span id="eq-ivp8"><span class="math display">\[
 | f_j(x,\mathbf{y}) - f_j(x,\hat{\mathbf{y}}) | \leq  
    \Big\lVert \frac{\partial f_j}{ \partial \mathbf{y}} (x,\boldsymbol{\eta}) \Big\rVert
 \, \| \mathbf{y}-\hat{\mathbf{y}}\|
     \leq L \| \mathbf{y}-\hat{\mathbf{y}}\|
-\]</span> with <span class="math inline">\(L\)</span> as in <a href="#eq-lipschitzderiv" class="quarto-xref">Eq.&nbsp;<span>10.53</span></a>. Taking the maximum over <span class="math inline">\(j\)</span> implies the result.&nbsp;◻</p>
+\tag{10.61}\]</span></span> with <span class="math inline">\(L\)</span> as in <a href="#eq-lipschitzderiv" class="quarto-xref">Eq.&nbsp;<span>10.58</span></a>. Taking the maximum over <span class="math inline">\(j\)</span> implies the result.&nbsp;◻</p>
 </div>
 <p>Why do we consider this kind of condition? Because the Lipschitz condition is the essential ingredient for the well-definedness of the initial value problem. Namely, one has:</p>
 <div id="thm-ivpunique" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 10.1</strong></span> Let <span class="math inline">\(\mathbf{f}: [a,b]\times \mathbb{R}^m \to \mathbb{R}^m\)</span> be continuous and satisfy a Lipschitz condition. Then, for any <span class="math inline">\(\boldsymbol{\alpha}\in \mathbb{R}^m\)</span>, the initial value problem <a href="#eq-ivpformaldef" class="quarto-xref">Eq.&nbsp;<span>10.50</span></a> has a unique solution <span class="math inline">\(\mathbf{y}\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 10.1</strong></span> Let <span class="math inline">\(\mathbf{f}: [a,b]\times \mathbb{R}^m \to \mathbb{R}^m\)</span> be continuous and satisfy a Lipschitz condition. Then, for any <span class="math inline">\(\boldsymbol{\alpha}\in \mathbb{R}^m\)</span>, the initial value problem <a href="#eq-ivpformaldef" class="quarto-xref">Eq.&nbsp;<span>10.55</span></a> has a unique solution <span class="math inline">\(\mathbf{y}\)</span>.</p>
 </div>
 <p>This theorem is given here without proof. (It is one of the central theorems in the theory of ordinary differential equations. See <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a> Theorem&nbsp;5.17)</span> for references.)</p>
 <p>The Lipschitz condition is not only relevant for the abstract existence of a solution. Recalling Eqs.&nbsp;<a href="#eq-eulerlipstart" class="quarto-xref">Eq.&nbsp;<span>10.30</span></a>–<a href="#eq-ldef" class="quarto-xref">Eq.&nbsp;<span>10.31</span></a>, we see that it also enters our error estimates for numeric approximations. We will analyse this in more detail later.</p>
@@ -908,86 +930,86 @@ f_j(x,\mathbf{y}) - f_j(x,\hat{\mathbf{y}}) =
 <p><span class="theorem-title"><strong>Example 10.4 (Unique solution)</strong></span> Let us recall the example <a href="#eq-eulerivpexample" class="quarto-xref">Eq.&nbsp;<span>10.12</span></a>, with <span class="math inline">\(f(x,y)=y-x^2+1\)</span>. This function is certainly continuous in both variables, and differentiable in <span class="math inline">\(y\)</span>. We have <span class="math inline">\(\partial f(x,y) / \partial y = 1\)</span>; in particular, the derivative is bounded. By <a href="#lem-lipderiv" class="quarto-xref">Lemma&nbsp;<span>10.1</span></a>, we have a Lipschitz constant <span class="math inline">\(L=1\)</span> and thus, by <a href="#thm-ivpunique" class="quarto-xref">Theorem&nbsp;<span>10.1</span></a>, a unique solution of the IVP. In fact, for the initial condition <span class="math inline">\(y(0)=1/2\)</span>, the solution is given in <a href="#eq-eulerexact" class="quarto-xref">Eq.&nbsp;<span>10.13</span></a>.</p>
 </div>
 <div id="exm-nosolution" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.5 (No solution)</strong></span> Consider <span class="math inline">\(f(x,y)=y^2+1\)</span>. Again, the function is continuous and differentiable. However, <span class="math inline">\(\partial f(x,y) / \partial y = 2y\)</span> is unbounded, so <a href="#lem-lipderiv" class="quarto-xref">Lemma&nbsp;<span>10.1</span></a> cannot be applied. Actually, we can explicitly see that <span class="math inline">\(f\)</span> does <em>not</em> satisfy a Lipschitz condition. Namely, if it did, then the quotient <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 10.5 (No solution)</strong></span> Consider <span class="math inline">\(f(x,y)=y^2+1\)</span>. Again, the function is continuous and differentiable. However, <span class="math inline">\(\partial f(x,y) / \partial y = 2y\)</span> is unbounded, so <a href="#lem-lipderiv" class="quarto-xref">Lemma&nbsp;<span>10.1</span></a> cannot be applied. Actually, we can explicitly see that <span class="math inline">\(f\)</span> does <em>not</em> satisfy a Lipschitz condition. Namely, if it did, then the quotient <span id="eq-ivp9"><span class="math display">\[
 \frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|}         \quad (\text{for }x \in [0,2],\; y \neq \hat{y} \in \mathbb{R})
-\]</span> would be bounded (by the Lipschitz constant <span class="math inline">\(L\)</span>). However, in our case, set <span class="math inline">\(\hat{y}=0\)</span>; then <span class="math display">\[
+\tag{10.62}\]</span></span> would be bounded (by the Lipschitz constant <span class="math inline">\(L\)</span>). However, in our case, set <span class="math inline">\(\hat{y}=0\)</span>; then <span id="eq-ivp10"><span class="math display">\[
 \frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|}
 = \frac{|y^2 +1-1|}{|y|} = |y|
-\]</span> which is <em>not</em> bounded. So <span class="math inline">\(f\)</span> cannot satisfy a Lipschitz condition.</p>
-<p>Hence, for the corresponding initial value problem, <span class="math display">\[
+\tag{10.63}\]</span></span> which is <em>not</em> bounded. So <span class="math inline">\(f\)</span> cannot satisfy a Lipschitz condition.</p>
+<p>Hence, for the corresponding initial value problem, <span id="eq-ivp11"><span class="math display">\[
 y' = y^2+1,  \quad 0 \leq x \leq 2, \quad y(0) = 0,
-\]</span> the existence and uniqueness result <a href="#thm-ivpunique" class="quarto-xref">Theorem&nbsp;<span>10.1</span></a> does not apply. In fact, a solution for small <span class="math inline">\(x\)</span> is given by <span class="math display">\[
+\tag{10.64}\]</span></span> the existence and uniqueness result <a href="#thm-ivpunique" class="quarto-xref">Theorem&nbsp;<span>10.1</span></a> does not apply. In fact, a solution for small <span class="math inline">\(x\)</span> is given by <span id="eq-ivp12"><span class="math display">\[
 y(x) = \tan(x),
-\]</span> but this solution does <em>not</em> exist for all <span class="math inline">\(x \in [0,2]\)</span>.</p>
-<p>The problem here is that <span class="math inline">\(\partial f(x,y) / \partial y\)</span> is unbounded as <span class="math inline">\(y\)</span> grows large. One can still control IVPs of this kind, using so-called <em>local Lipschitz conditions</em>, where the estimate <a href="#eq-lipschitzdef" class="quarto-xref">Eq.&nbsp;<span>10.52</span></a> is required to hold only for <span class="math inline">\((x,\mathbf{y}),(x,\hat{\mathbf{y}})\in \mathcal{D}\)</span> with <span class="math inline">\(\mathcal{D}\)</span> any fixed compact set, and the Lipschitz constant <span class="math inline">\(L\)</span> is allowed to depend on <span class="math inline">\(\mathcal{D}\)</span>. Our numerical methods will still be applicable in this case, as long as we do not approach the possible singularities of the solution too closely. However, the formalism becomes much more complicated, and we do not treat these cases explicitly here.</p>
+\tag{10.65}\]</span></span> but this solution does <em>not</em> exist for all <span class="math inline">\(x \in [0,2]\)</span>.</p>
+<p>The problem here is that <span class="math inline">\(\partial f(x,y) / \partial y\)</span> is unbounded as <span class="math inline">\(y\)</span> grows large. One can still control IVPs of this kind, using so-called <em>local Lipschitz conditions</em>, where the estimate <a href="#eq-lipschitzdef" class="quarto-xref">Eq.&nbsp;<span>10.57</span></a> is required to hold only for <span class="math inline">\((x,\mathbf{y}),(x,\hat{\mathbf{y}})\in \mathcal{D}\)</span> with <span class="math inline">\(\mathcal{D}\)</span> any fixed compact set, and the Lipschitz constant <span class="math inline">\(L\)</span> is allowed to depend on <span class="math inline">\(\mathcal{D}\)</span>. Our numerical methods will still be applicable in this case, as long as we do not approach the possible singularities of the solution too closely. However, the formalism becomes much more complicated, and we do not treat these cases explicitly here.</p>
 </div>
 <div id="exm-nonunique" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.6 (Non-unique solution)</strong></span> Consider <span class="math inline">\(f(x,y)=\sqrt[3]{y}\)</span>. While <span class="math inline">\(f\)</span> is continuous, the partial derivative <span class="math inline">\(\partial f(x,y) / \partial y\)</span> does <em>not exist</em> at <span class="math inline">\(y=0\)</span>, so again, <a href="#lem-lipderiv" class="quarto-xref">Lemma&nbsp;<span>10.1</span></a> cannot be applied. Indeed, set <span class="math inline">\(\hat{y}=0\)</span>, then <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 10.6 (Non-unique solution)</strong></span> Consider <span class="math inline">\(f(x,y)=\sqrt[3]{y}\)</span>. While <span class="math inline">\(f\)</span> is continuous, the partial derivative <span class="math inline">\(\partial f(x,y) / \partial y\)</span> does <em>not exist</em> at <span class="math inline">\(y=0\)</span>, so again, <a href="#lem-lipderiv" class="quarto-xref">Lemma&nbsp;<span>10.1</span></a> cannot be applied. Indeed, set <span class="math inline">\(\hat{y}=0\)</span>, then <span id="eq-ivp13"><span class="math display">\[
 \frac{|f(x,y)-f(x,\hat{y})|}{|y-\hat{y}|}
 = \frac{|y|^{1/3}}{|y|} = |y|^{-2/3}
-\]</span> which is unbounded near <span class="math inline">\(y=0\)</span>. So <span class="math inline">\(f\)</span> does not satisfy a Lipschitz condition, and we are not guaranteed a unique solution of the IVP <span id="eq-badivp"><span class="math display">\[
+\tag{10.66}\]</span></span> which is unbounded near <span class="math inline">\(y=0\)</span>. So <span class="math inline">\(f\)</span> does not satisfy a Lipschitz condition, and we are not guaranteed a unique solution of the IVP <span id="eq-badivp"><span class="math display">\[
 y' = \sqrt[3]{y},  \quad 0 \leq x \leq 2, \quad y(0) = 0.
-\tag{10.54}\]</span></span> In fact, this IVP has at least <em>three</em> solutions: <span class="math display">\[
+\tag{10.67}\]</span></span> In fact, this IVP has at least <em>three</em> solutions: <span id="eq-ivp14"><span class="math display">\[
 y(x)= \Big(\frac{2x}{3}\Big)^{3/2},\quad
 y(x)= -\Big(\frac{2x}{3}\Big)^{3/2},\quad
 y(x) = 0.
-\]</span></p>
-<p>This case is, in a sense, worse than the other examples above. Running our numerical methods for the IVP <a href="#eq-badivp" class="quarto-xref">Eq.&nbsp;<span>10.54</span></a> is likely to give unpredictable results; even a small rounding error might cause us to “switch” between the different solutions of the IVP.</p>
+\tag{10.68}\]</span></span></p>
+<p>This case is, in a sense, worse than the other examples above. Running our numerical methods for the IVP <a href="#eq-badivp" class="quarto-xref">Eq.&nbsp;<span>10.67</span></a> is likely to give unpredictable results; even a small rounding error might cause us to “switch” between the different solutions of the IVP.</p>
 </div>
 </section>
 </section>
 <section id="sec-onestep" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="sec-onestep"><span class="header-section-number">10.4</span> One-Step Difference Methods</h2>
-<p>We now return to the initial value problem <a href="#eq-ivpformaldef" class="quarto-xref">Eq.&nbsp;<span>10.50</span></a>: <span class="math display">\[
+<p>We now return to the initial value problem <a href="#eq-ivpformaldef" class="quarto-xref">Eq.&nbsp;<span>10.55</span></a>: <span id="eq-ivp15"><span class="math display">\[
 \mathbf{y}'(x) = \mathbf{f}(x,\mathbf{y}(x)),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
-\]</span> As in Euler’s method, we use equally-spaced mesh points <span class="math inline">\(x_0,\ldots,x_N\)</span> in the interval <span class="math inline">\([a,b]\)</span>, with a uniform step size <span class="math inline">\(h=(b-a)/N\)</span>, so <span class="math inline">\(x_i=a+ih\)</span>, and we seek approximate values <span class="math inline">\(\mathbf{w}_i\in\mathbb{R}^m\)</span>, with <span class="math inline">\(\mathbf{w}_i\approx\mathbf{y}(x_i)\)</span>.</p>
-<p>Euler’s method was based on the Taylor expansion <span class="math display">\[
+\tag{10.69}\]</span></span> As in Euler’s method, we use equally-spaced mesh points <span class="math inline">\(x_0,\ldots,x_N\)</span> in the interval <span class="math inline">\([a,b]\)</span>, with a uniform step size <span class="math inline">\(h=(b-a)/N\)</span>, so <span class="math inline">\(x_i=a+ih\)</span>, and we seek approximate values <span class="math inline">\(\mathbf{w}_i\in\mathbb{R}^m\)</span>, with <span class="math inline">\(\mathbf{w}_i\approx\mathbf{y}(x_i)\)</span>.</p>
+<p>Euler’s method was based on the Taylor expansion <span id="eq-ivp16"><span class="math display">\[
 \underbrace{y(x+h)}_\text{exact}=\underbrace{y(x)+hy'(x)}_{\text{approx}}+\underbrace{\frac{h^2}{2}y''(\xi)}_{\text{error}}.
-\]</span> Any other formula of this type can be used to define a similar method and, if the error term is smaller than the one in Euler’s method, should lead to smaller errors in the approximate solution. In complete generality, and for vectors instead of scalars, we consider a formula <span class="math display">\[
+\tag{10.70}\]</span></span> Any other formula of this type can be used to define a similar method and, if the error term is smaller than the one in Euler’s method, should lead to smaller errors in the approximate solution. In complete generality, and for vectors instead of scalars, we consider a formula <span id="eq-ivp17"><span class="math display">\[
 \mathbf{y}(x+h)=\mathbf{y}(x)+h\boldsymbol{\phi}(x,\mathbf{y}(x),h)+\text{error}
-\]</span> All the higher-order Taylor approximations fit in to this framework, as do the important Runge-Kutta methods described below. This leads to the general single-step method <span id="eq-onestepdef"><span class="math display">\[
+\tag{10.71}\]</span></span> All the higher-order Taylor approximations fit in to this framework, as do the important Runge-Kutta methods described below. This leads to the general single-step method <span id="eq-onestepdef"><span class="math display">\[
 \begin{aligned}
   \mathbf{w}_0 &amp;:= \mathbf{\alpha},
 \\
   \mathbf{w}_{i+1} &amp;:= \mathbf{w}_i + h \boldsymbol{\phi}(x_i,\mathbf{w}_i,h).
 \end{aligned}
-\tag{10.55}\]</span></span> Introducing some notation for the error, we write <span class="math display">\[
+\tag{10.72}\]</span></span> Introducing some notation for the error, we write <span id="eq-ivp18"><span class="math display">\[
 \mathbf{y}(x_{i+1})=\mathbf{y}(x_i)+h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)+h\boldsymbol{\tau}_{i+1}(h)
-\]</span> where <span class="math inline">\(\boldsymbol{\tau}_{i+1}(h)\)</span>, the <em>local truncation error</em>, is defined by <span id="eq-lteonestep"><span class="math display">\[
+\tag{10.73}\]</span></span> where <span class="math inline">\(\boldsymbol{\tau}_{i+1}(h)\)</span>, the <em>local truncation error</em>, is defined by <span id="eq-lteonestep"><span class="math display">\[
 \boldsymbol{\tau}_{i+1}(h)=\frac{1}{h}\left[\mathbf{y}(x_{i+1})-\mathbf{y}(x_i)-h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)\right]
-\tag{10.56}\]</span></span></p>
-<p>In terms of the numerical method, this is the error that would occur at step <span class="math inline">\(i+1\)</span> if we started on the exact solution curve, divided by the step size. We assume we have an upper bound <span class="math inline">\(\tau(h)\)</span> such that, for some <span class="math inline">\(h_0&gt;0\)</span>, <span class="math display">\[
+\tag{10.74}\]</span></span></p>
+<p>In terms of the numerical method, this is the error that would occur at step <span class="math inline">\(i+1\)</span> if we started on the exact solution curve, divided by the step size. We assume we have an upper bound <span class="math inline">\(\tau(h)\)</span> such that, for some <span class="math inline">\(h_0&gt;0\)</span>, <span id="eq-ivp19"><span class="math display">\[
 \|\boldsymbol{\tau}_i(h)\|\leq\tau(h)
-\]</span> for all <span class="math inline">\(i\in\{0,\ldots,N\}\)</span> and all <span class="math inline">\(h\in(0,h_0]\)</span>. For the method to be useful, we must have <span class="math inline">\(\tau(h)\to 0\)</span> as <span class="math inline">\(h\to 0^+\)</span>; in Euler’s method, <span class="math inline">\(\tau(h)=Mh/2\)</span> but in other methods <span class="math inline">\(\tau(h)\)</span> is much smaller than this: typically <span class="math inline">\(\tau(h)=O(h^n)\)</span> as <span class="math inline">\(h\to 0^+\)</span> for some <span class="math inline">\(n&gt;1\)</span>. We also assume the existence of a Lipschitz constant <span class="math inline">\(L\)</span> such that <span class="math display">\[
+\tag{10.75}\]</span></span> for all <span class="math inline">\(i\in\{0,\ldots,N\}\)</span> and all <span class="math inline">\(h\in(0,h_0]\)</span>. For the method to be useful, we must have <span class="math inline">\(\tau(h)\to 0\)</span> as <span class="math inline">\(h\to 0^+\)</span>; in Euler’s method, <span class="math inline">\(\tau(h)=Mh/2\)</span> but in other methods <span class="math inline">\(\tau(h)\)</span> is much smaller than this: typically <span class="math inline">\(\tau(h)=O(h^n)\)</span> as <span class="math inline">\(h\to 0^+\)</span> for some <span class="math inline">\(n&gt;1\)</span>. We also assume the existence of a Lipschitz constant <span class="math inline">\(L\)</span> such that <span id="eq-ivp20"><span class="math display">\[
 \|\boldsymbol{\phi}(x, \mathbf{y}, h)-\boldsymbol{\phi}(x, \hat{\mathbf{y}}, h)|\leq L\|\mathbf{y}-\hat{\mathbf{y}}\|
-\]</span> for all <span class="math inline">\(x\in[a,b]\)</span>, for all <span class="math inline">\(\mathbf{y},\hat{\mathbf{y}}\in\mathbb{R}^m\)</span> and all <span class="math inline">\(h\in(0,h_0]\)</span> (this replaces the second use of Taylor’s Theorem in the analysis of Euler’s method; looking back at that calculation, the Lipschitz constant is all that was needed). We conclude the setup by defining the actual error at step <span class="math inline">\(i\)</span> by <span class="math display">\[
+\tag{10.76}\]</span></span> for all <span class="math inline">\(x\in[a,b]\)</span>, for all <span class="math inline">\(\mathbf{y},\hat{\mathbf{y}}\in\mathbb{R}^m\)</span> and all <span class="math inline">\(h\in(0,h_0]\)</span> (this replaces the second use of Taylor’s Theorem in the analysis of Euler’s method; looking back at that calculation, the Lipschitz constant is all that was needed). We conclude the setup by defining the actual error at step <span class="math inline">\(i\)</span> by <span id="eq-ivp21"><span class="math display">\[
 \boldsymbol{\varepsilon}_i=\mathbf{y}(x_i)-\mathbf{w}_i.
-\]</span></p>
+\tag{10.77}\]</span></span></p>
 <p>Under these hypotheses, we have:</p>
 <div id="thm-globalerr" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 10.2</strong></span> Consider an initial value problem as in <a href="#eq-ivpformaldef" class="quarto-xref">Eq.&nbsp;<span>10.50</span></a>, which we assume to have a solution <span class="math inline">\(\mathbf{y}\)</span>. For this IVP, consider the one-step difference method described by <a href="#eq-onestepdef" class="quarto-xref">Eq.&nbsp;<span>10.55</span></a>. Then, <span class="math display">\[
+<p><span class="theorem-title"><strong>Theorem 10.2</strong></span> Consider an initial value problem as in <a href="#eq-ivpformaldef" class="quarto-xref">Eq.&nbsp;<span>10.55</span></a>, which we assume to have a solution <span class="math inline">\(\mathbf{y}\)</span>. For this IVP, consider the one-step difference method described by <a href="#eq-onestepdef" class="quarto-xref">Eq.&nbsp;<span>10.72</span></a>. Then, <span id="eq-ivp22"><span class="math display">\[
 \lVert \mathbf{y}(x_i) - \mathbf{w}_i \rVert \leq \frac{\tau(h)}{L} \big(e^{L(x_i-a)}-1\big)
 \quad \text{for all } h\in(0,h_0], \; i \in \{0,\ldots,N\}.
-\]</span></p>
+\tag{10.78}\]</span></span></p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>We establish this in much the same way as we did the corresponding result for Euler’s method. Starting with the Taylor-like formula for <span class="math inline">\(\mathbf{y}(x_{i+1})\)</span> in terms of <span class="math inline">\(\mathbf{y}(x_i)\)</span>, <span class="math inline">\(\boldsymbol{\phi}\)</span> and <span class="math inline">\(\boldsymbol{\tau}_{i+1}\)</span>, we have: <span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>We establish this in much the same way as we did the corresponding result for Euler’s method. Starting with the Taylor-like formula for <span class="math inline">\(\mathbf{y}(x_{i+1})\)</span> in terms of <span class="math inline">\(\mathbf{y}(x_i)\)</span>, <span class="math inline">\(\boldsymbol{\phi}\)</span> and <span class="math inline">\(\boldsymbol{\tau}_{i+1}\)</span>, we have: <span id="eq-ivp23"><span class="math display">\[
 \begin{aligned}
 \mathbf{y}(x_{i+1}) &amp;= \mathbf{y}(x_i+h) \\
              &amp;= \mathbf{y}(x_i)+h\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)+h\boldsymbol{\tau}_{i+1}(h) \\
              &amp;= \boldsymbol{\varepsilon}_i+\underbrace{\mathbf{w}_i+h\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)}_{=\mathbf{w}_{i+1}}+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h) \\
            &amp;= \boldsymbol{\varepsilon}_i+\mathbf{w}_{i+1}+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h) \\
 \end{aligned}
-\]</span> so, subtracting <span class="math inline">\(\mathbf{w}_{i+1}\)</span> from both sides, <span class="math display">\[
+\tag{10.79}\]</span></span> so, subtracting <span class="math inline">\(\mathbf{w}_{i+1}\)</span> from both sides, <span id="eq-ivp24"><span class="math display">\[
 \boldsymbol{\varepsilon}_{i+1}=\boldsymbol{\varepsilon}_i+h[\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)]+h\boldsymbol{\tau}_{i+1}(h)
-\]</span> Exactly as for Euler’s method, we estimate using the triangle inequality <span class="math display">\[
+\tag{10.80}\]</span></span> Exactly as for Euler’s method, we estimate using the triangle inequality <span id="eq-ivp25"><span class="math display">\[
 \begin{split}
 \|\boldsymbol{\varepsilon}_{i+1}\|&amp;\leq\|\boldsymbol{\varepsilon}_i\|+h\|\boldsymbol{\phi}(x_i,\mathbf{y}(x_i),h)-\boldsymbol{\phi}(x_i,\mathbf{w}_i,h)\|+\|\boldsymbol{\tau}_{i+1}(h)\|\\
 &amp;\leq(1+hL)\|\boldsymbol{\varepsilon}_i\|+h\tau(h)
 \end{split}
-\]</span> using the Lipschitz hypothesis on <span class="math inline">\(\boldsymbol{\phi}\)</span> and the upper bound <span class="math inline">\(\tau\)</span> for the local truncation errors. This is exactly the same formula as for Euler, so we can read off the same answer: <span class="math display">\[
+\tag{10.81}\]</span></span> using the Lipschitz hypothesis on <span class="math inline">\(\boldsymbol{\phi}\)</span> and the upper bound <span class="math inline">\(\tau\)</span> for the local truncation errors. This is exactly the same formula as for Euler, so we can read off the same answer: <span id="eq-ivp26"><span class="math display">\[
 \|\boldsymbol{\varepsilon}_n\|\leq\frac{\tau(h)}{L}(e^{L(x_n-a)}-1)\leq\frac{\tau(h)}{L}(e^{L(b-a)}-1)
-\]</span></p>
+\tag{10.82}\]</span></span></p>
 </div>
 <p>The main conclusion is that if we leave the integration width fixed and decrease the step size, then the error at each point is bounded above by a fixed multiple of <span class="math inline">\(\tau(h)\)</span>: local error determines global error.</p>
 <!---
@@ -1020,7 +1042,7 @@ obtaining the function $\boldsymbol{\phi}$. However, let us first look
 at some general aspects.
 
 In generalization of
-Eq. @eq-lteeuler above, we define the local truncation
+@eq-lteeuler above, we define the local truncation
 error
 ^[$\tau_{i+1}$ obviously depends on $h$. We do not show this in the
     notation, however.]
@@ -1111,70 +1133,71 @@ This is the
 proposed estimate. ◻
 :::
 --->
-<p>Thus, also in the general case, if the local truncation order is of order <span class="math inline">\(O(h^n)\)</span>, then the the global error is of the same order. In the following, we will see a variety of one-step methods which aim at achieving a low local truncation error. We will then only need to prove an estimate for <span class="math inline">\(\tau_{i}\)</span> as defined in <a href="#eq-lteonestep" class="quarto-xref">Eq.&nbsp;<span>10.56</span></a>, and the behaviour of the global error with <span class="math inline">\(h\)</span> will be under control.</p>
+<p>Thus, also in the general case, if the local truncation order is of order <span class="math inline">\(O(h^n)\)</span>, then the the global error is of the same order. In the following, we will see a variety of one-step methods which aim at achieving a low local truncation error. We will then only need to prove an estimate for <span class="math inline">\(\tau_{i}\)</span> as defined in <a href="#eq-lteonestep" class="quarto-xref">Eq.&nbsp;<span>10.74</span></a>, and the behaviour of the global error with <span class="math inline">\(h\)</span> will be under control.</p>
 </section>
 <section id="taylor-methods" class="level2" data-number="10.5">
 <h2 data-number="10.5" class="anchored" data-anchor-id="taylor-methods"><span class="header-section-number">10.5</span> Taylor Methods</h2>
 <p>We will now see the first example of one-step difference methods (beyond Euler’s method), namely the so-called <em>Taylor Methods</em>.</p>
-<p>The idea here is as follows. In Euler’s Method, we approximated the exact solution <span class="math inline">\(y(x)\)</span> with a linear function, as in <a href="#eq-eulertaylor" class="quarto-xref">Eq.&nbsp;<span>10.23</span></a>. In other words, we used a first-order Taylor expansion. For a better approximation, we can use an <span class="math inline">\(n\)</span>-th order Taylor expansion, now for a vector-valued <span class="math inline">\(\mathbf{y}(x)\)</span>: <span id="eq-ytaylorn"><span class="math display">\[\begin{split}
+<p>The idea here is as follows. In Euler’s Method, we approximated the exact solution <span class="math inline">\(y(x)\)</span> with a linear function, as in <a href="#eq-eulertaylor" class="quarto-xref">Eq.&nbsp;<span>10.23</span></a>. In other words, we used a first-order Taylor expansion. For a better approximation, we can use an <span class="math inline">\(n\)</span>-th order Taylor expansion, now for a vector-valued <span class="math inline">\(\mathbf{y}(x)\)</span>: <span id="eq-ytaylorn"><span class="math display">\[
+\begin{split}
 \mathbf{y}(x_{i+1}) = \mathbf{y}(x_i + h) = \mathbf{y}(x_i)
 &amp;+ h \frac{d\mathbf{y}}{dx}(x_i) + \frac{h^2}{2} \frac{d^2\mathbf{y}}{dx^2}(x_i) + \cdots\\
 &amp;+ \frac{h^n}{n!} \frac{d^n\mathbf{y}}{dx^n}(x_i) + \mathbf{R}_i,
-\end{split} \tag{10.57}\]</span></span> where, according to <a href="appendix.html#thm-taylor1nd" class="quarto-xref">Theorem&nbsp;<span>A.3</span></a>, the remainder term <span class="math inline">\(\mathbf{R}_i\)</span> is bounded by <span id="eq-tmremainder"><span class="math display">\[
+\end{split}
+\tag{10.83}\]</span></span> where, according to <a href="appendix.html#thm-taylor1nd" class="quarto-xref">Theorem&nbsp;<span>A.3</span></a>, the remainder term <span class="math inline">\(\mathbf{R}_i\)</span> is bounded by <span id="eq-tmremainder"><span class="math display">\[
 \left\|\mathbf{R}_i\right\| \leq \frac{h^{n+1}}{(n+1)!} \sup_{x \in [x_i, x_{i+1}]} \left\| \frac{d^{n+1}\mathbf{y}}{dx^{n+1}} (x) \right\|.
-\tag{10.58}\]</span></span></p>
-<p>Following our approach in the Euler method, we now need to replace the unknown exact solution <span class="math inline">\(\mathbf{y}(x)\)</span> in the right-hand side of <a href="#eq-ytaylorn" class="quarto-xref">Eq.&nbsp;<span>10.57</span></a> with expressions in the function <span class="math inline">\(\mathbf{f}\)</span>. Since <span class="math inline">\(\mathbf{y}(x)\)</span> solves the ODE, we can certainly write</p>
+\tag{10.84}\]</span></span></p>
+<p>Following our approach in the Euler method, we now need to replace the unknown exact solution <span class="math inline">\(\mathbf{y}(x)\)</span> in the right-hand side of <a href="#eq-ytaylorn" class="quarto-xref">Eq.&nbsp;<span>10.83</span></a> with expressions in the function <span class="math inline">\(\mathbf{f}\)</span>. Since <span class="math inline">\(\mathbf{y}(x)\)</span> solves the ODE, we can certainly write</p>
 <p><span id="eq-firstderivative"><span class="math display">\[
     \frac{ \mathrm{d}^{} \mathbf{y} }{\mathrm{d}x^{} } (x) = \mathbf{f}(x,\mathbf{y}(x)),
-\tag{10.59}\]</span></span></p>
-<p>To obtain the second derivative, we need to differentiate this, which requires the use of the chain rule At this point, we <em>need</em> to use the chain rule in several variables: Even if <span class="math inline">\(m=1\)</span>, the function <span class="math inline">\(f\)</span> depends on two variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. One of the functions we need to consider (the outermost function) is the mapping from <span class="math inline">\(\mathbb{R}^{m+1}\)</span> to <span class="math inline">\(\mathbb{R}^m\)</span> <span class="math display">\[
+\tag{10.85}\]</span></span></p>
+<p>To obtain the second derivative, we need to differentiate this, which requires the use of the chain rule At this point, we <em>need</em> to use the chain rule in several variables: Even if <span class="math inline">\(m=1\)</span>, the function <span class="math inline">\(f\)</span> depends on two variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. One of the functions we need to consider (the outermost function) is the mapping from <span class="math inline">\(\mathbb{R}^{m+1}\)</span> to <span class="math inline">\(\mathbb{R}^m\)</span> <span id="eq-ivp27"><span class="math display">\[
 (x,y_1,\dots,y_m)\mapsto \mathbf{f}(x,\mathbf{y})
-\]</span> The derivative of this is the <span class="math inline">\(m\times(m+1)\)</span> matrix given by</p>
-<span id="eq-outer"><span class="math display">\[
+\tag{10.86}\]</span></span> The derivative of this is the <span class="math inline">\(m\times(m+1)\)</span> matrix given by</p>
+<p><span id="eq-outer"><span class="math display">\[
 \left[\frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial x}, \frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial \mathbf{y}}\right],
-\tag{10.60}\]</span></span> which represents the <span class="math inline">\(m\times 1\)</span> column vector <span class="math inline">\(\partial\mathbf{f}(x,\mathbf{y})/\partial x\)</span> being concatenated horizontally with the <span class="math inline">\(m\times m\)</span> matrix <span class="math inline">\(\partial\mathbf{f}(x,\mathbf{y})/\partial \mathbf{y}\)</span>. The other function we need to consider (the innermost function) is the mapping from <span class="math inline">\(\mathbb{R}\)</span> to <span class="math inline">\(\mathbb{R}^{m+1}\)</span> <span class="math display">\[
+\tag{10.87}\]</span></span> which represents the <span class="math inline">\(m\times 1\)</span> column vector <span class="math inline">\(\partial\mathbf{f}(x,\mathbf{y})/\partial x\)</span> being concatenated horizontally with the <span class="math inline">\(m\times m\)</span> matrix <span class="math inline">\(\partial\mathbf{f}(x,\mathbf{y})/\partial \mathbf{y}\)</span>. The other function we need to consider (the innermost function) is the mapping from <span class="math inline">\(\mathbb{R}\)</span> to <span class="math inline">\(\mathbb{R}^{m+1}\)</span> <span id="eq-ivp28"><span class="math display">\[
 x\mapsto[x,\mathbf{y}(x)]:=(x,y_1(x),\dots,y_m(x))
-\]</span> whose derivative is the <span class="math inline">\(m+1\)</span> dimensional column vector $$
-<span class="math display">\[\begin{bmatrix}
+\tag{10.88}\]</span></span> whose derivative is the <span class="math inline">\(m+1\)</span> dimensional column vector <span id="eq-inner"><span class="math display">\[
+\begin{bmatrix}
 1 \\
 \mathbf{y}'(x) \\
-\end{bmatrix}\]</span>
+\end{bmatrix}
 =
-<span class="math display">\[\begin{bmatrix}
+\begin{bmatrix}
 1 \\
 \mathbf{f}(x, \mathbf{y}(x)) \\
-\end{bmatrix}\]</span>
-<p>$$ {#eq-inner} where we have substituted for <span class="math inline">\(\mathbf{y}'(x)\)</span> using the differential equation. Here we have stacked the scalar <span class="math inline">\(1\)</span> on top of the <span class="math inline">\(m\)</span>-dimensional column vector <span class="math inline">\(\mathbf{y}'(x)=\mathbf{f}(x,\mathbf{y}(x))\)</span>.</p>
-<p>Now, the derivative of the RHS of <a href="#eq-firstderivative" class="quarto-xref">Eq.&nbsp;<span>10.59</span></a> is the product of the <span class="math inline">\(m\times(m+1)\)</span> matrix <a href="#eq-outer" class="quarto-xref">Eq.&nbsp;<span>10.60</span></a> and the <span class="math inline">\(m+1\)</span> dimensional vector <span class="quarto-unresolved-ref">?eq-inner</span>. This product has the general form <span class="math display">\[
+\end{bmatrix}
+\tag{10.89}\]</span></span> where we have substituted for <span class="math inline">\(\mathbf{y}'(x)\)</span> using the differential equation. Here we have stacked the scalar <span class="math inline">\(1\)</span> on top of the <span class="math inline">\(m\)</span>-dimensional column vector <span class="math inline">\(\mathbf{y}'(x)=\mathbf{f}(x,\mathbf{y}(x))\)</span>.</p>
+<p>Now, the derivative of the RHS of <a href="#eq-firstderivative" class="quarto-xref">Eq.&nbsp;<span>10.85</span></a> is the product of the <span class="math inline">\(m\times(m+1)\)</span> matrix <a href="#eq-outer" class="quarto-xref">Eq.&nbsp;<span>10.87</span></a> and the <span class="math inline">\(m+1\)</span> dimensional vector <a href="#eq-inner" class="quarto-xref">Eq.&nbsp;<span>10.89</span></a>. This product has the general form <span id="eq-ivp29"><span class="math display">\[
+\begin{bmatrix} A, B \end{bmatrix}
 \cdot
-\begin{bmatrix}
-C \\
-D
-\end{bmatrix}=A\cdot C+B\cdot D
-\]</span> (which works for any block matrices, provided all the sizes are compatible, i.e.&nbsp;provided <span class="math inline">\(A\cdot C+B\cdot D\)</span> makes sense). We need to substitute <span class="math display">\[
+\begin{bmatrix} C \\ D \end{bmatrix}
+=A\cdot C+B\cdot D
+\tag{10.90}\]</span></span> (which works for any block matrices, provided all the sizes are compatible, i.e.&nbsp;provided <span class="math inline">\(A\cdot C+B\cdot D\)</span> makes sense). We need to substitute <span id="eq-ivp30"><span class="math display">\[
 A=\frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial x}; \qquad
 B= \frac{\partial\mathbf{f}(x,\mathbf{y})}{\partial \mathbf{y}}; \qquad
 C= 1; \qquad
 D= \mathbf{f}(x,\mathbf{y}(x))
-\]</span> which gives us</p>
+\tag{10.91}\]</span></span> which gives us</p>
 <p><span id="eq-ftotalcompute"><span class="math display">\[
 \frac{d^2 \mathbf{y}}{d x^2}(x) = \underbrace{ \frac{\partial \mathbf{f}}{\partial x}(x,\mathbf{y}(x)) + \frac{\partial \mathbf{f}}{\partial \mathbf{y}}\cdot \mathbf{f}(x,\mathbf{y}(x)) }_{=: \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\mathbf{y}(x))}.
-\tag{10.61}\]</span></span></p>
+\tag{10.92}\]</span></span></p>
 <p>We call the right-hand side the <em>total derivative</em> of <span class="math inline">\(\mathbf{f}\)</span>.</p>
-<p>For higher derivatives, we can apply an analogous argument: We define recursively, <span class="math display">\[\begin{split}
+<p>For higher derivatives, we can apply an analogous argument: We define recursively, <span id="eq-ivp31"><span class="math display">\[
+\begin{split}
 \frac{ \mathrm{d}^{0} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{0} }  &amp;:= \mathbf{f}(x,\mathbf{y}),\\
     \frac{ \mathrm{d}^{j+1} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j+1} }  &amp;:=
 \frac{\partial}{\partial x}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} }
 + \Big( \frac{\partial}{\partial \mathbf{y}}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} }  \Big) \cdot \mathbf{f}(x,\mathbf{y}).
-\end{split}\]</span> Then we know that, when evaluated on the exact solution, we have</p>
+\end{split}
+\tag{10.93}\]</span></span> Then we know that, when evaluated on the exact solution, we have</p>
 <p><span id="eq-totaldery"><span class="math display">\[
-    \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} }  (x,\mathbf{y}(x)) =  \frac{ \mathrm{d}^{j+1} \mathbf{y} }{\mathrm{d}x^{j+1} } (x,\mathbf{y}).
-\tag{10.62}\]</span></span> Hence, <a href="#eq-ytaylorn" class="quarto-xref">Eq.&nbsp;<span>10.57</span></a> rewrites to $$ (x_{i+1}) = (x_i) + hf(x_i, (x_i)) + _{=:(x, (x_i),h)=:_n(x, (x_i),h)} + _i.</p>
-<span class="math display">\[ {#eq-ftaylorn}
-This motivates us to define the *Taylor method of
-order $n$* by the difference equation
-\]</span>
-<span class="math display">\[\begin{aligned}
+\frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} }  (x,\mathbf{y}(x)) =  \frac{ \mathrm{d}^{j+1} \mathbf{y} }{\mathrm{d}x^{j+1} } (x,\mathbf{y}).
+\tag{10.94}\]</span></span> Hence, <a href="#eq-ytaylorn" class="quarto-xref">Eq.&nbsp;<span>10.83</span></a> rewrites to <span id="eq-ftaylorn"><span class="math display">\[
+\mathbf{y}(x_{i+1}) = \mathbf{y}(x_i) + hf(x_i, \mathbf{y}(x_i)) + \underbrace{\frac{h^2}{2} \frac{d\mathbf{f}}{dx}(x_i, \mathbf{y}(x_i)) + \cdots + \frac{h^n}{n!} \frac{d^{n-1}\mathbf{f}}{dx^{n-1}}(x_i, \mathbf{y}(x_i))}_{=:\mathbf{h}\phi(x, \mathbf{y}(x_i),h)=:\mathbf{hT}_n(x, \mathbf{y}(x_i),h)} + \mathbf{R}_i.
+\tag{10.95}\]</span></span> This motivates us to define the <em>Taylor method of order <span class="math inline">\(n\)</span></em> by the difference equation <span id="eq-ivp32"><span class="math display">\[
+\begin{aligned}
   \mathbf{w}_0 &amp;:= \boldsymbol{\alpha},
 \\
   \mathbf{w}_{i+1} &amp;:= \mathbf{w}_{i} + h \mathbf{f}(x_i,\mathbf{w}_i)
@@ -1183,34 +1206,34 @@ order $n$* by the difference equation
 + \frac{h^n}{n!}  \frac{ \mathrm{d}^{n-1} \mathbf{f} }{\mathrm{d}x^{n-1} }  (x_i,\mathbf{w}_i)
   \\
 &amp;\hphantom{:}= \mathbf{w}_{i} + h \mathbf{T}_n(x_i,\mathbf{w}_i,h) ,
-\end{aligned}\]</span>
-<p><span class="math display">\[
-where
-\]</span> <em>n(x,,h) := </em>{j=0}^{n-1} (x,). $$ {#eq-tndef}</p>
+\end{aligned}
+\tag{10.96}\]</span></span> where <span id="eq-tndef"><span class="math display">\[
+\mathbf{T}_n(x,\mathbf{y},h) := \sum_{j=0}^{n-1} \frac{h^{j}}{(j+1)!}  \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} } (x,\mathbf{y}).
+\tag{10.97}\]</span></span></p>
 <p>We have thus defined a one-step difference method with function <span class="math inline">\(\boldsymbol{\phi}=\mathbf{T}_n\)</span>. According to <a href="#thm-globalerr" class="quarto-xref">Theorem&nbsp;<span>10.2</span></a>, its global error is determined by its local truncation error, and by a Lipschitz constant for <span class="math inline">\(\mathbf{T}_n\)</span> (which we do not consider in detail here).</p>
 <div id="thm-taylorerr" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 10.3</strong></span> The local truncation error of the Taylor method of order <span class="math inline">\(n\)</span> satisfies the bound <span class="math display">\[
+<p><span class="theorem-title"><strong>Theorem 10.3</strong></span> The local truncation error of the Taylor method of order <span class="math inline">\(n\)</span> satisfies the bound <span id="eq-ivp33"><span class="math display">\[
 \|\boldsymbol{\tau}_{i}(h)\| \leq \frac{h^{n}}{(n+1)!} \sup_{x \in [a,b]}
 \Big\lVert   \frac{ \mathrm{d}^{n+1} \mathbf{y} }{\mathrm{d}x^{n+1} }  (x)  \Big\rVert=:\tau(h),
-\]</span> supposing that the exact solution <span class="math inline">\(\mathbf{y}(x)\)</span> has <span class="math inline">\((n+1)\)</span> continuous derivatives.</p>
+\tag{10.98}\]</span></span> supposing that the exact solution <span class="math inline">\(\mathbf{y}(x)\)</span> has <span class="math inline">\((n+1)\)</span> continuous derivatives.</p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>By definition of the local truncation error in Eq.&nbsp;<a href="#eq-lteonestep" class="quarto-xref">Eq.&nbsp;<span>10.56</span></a>, we have <span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>By definition of the local truncation error in <a href="#eq-lteonestep" class="quarto-xref">Eq.&nbsp;<span>10.74</span></a> and using <a href="#eq-tndef" class="quarto-xref">Eq.&nbsp;<span>10.97</span></a>, we have <span id="eq-ivp34"><span class="math display">\[
 \begin{aligned}
 \|\boldsymbol{\tau}_{i+1}(h)\| &amp;= \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i}) - h \,\mathbf{T}_n(x_i,\mathbf{y}(x_i),h)  \big\rVert
 \\
-&amp;\overset{\eqref{eq:tndef}}{=} \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i})
+&amp;= \frac{1}{h} \big\lVert  \mathbf{y}(x_{i+1}) - \mathbf{y}(x_{i})
 - \sum_{j=0}^{n-1} \frac{h^{j+1}}{(j+1)!}  \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} } (x_i,\mathbf{y}(x_i))  \big\rVert.
 \end{aligned}
-\]</span> However, comparing with <span class="quarto-unresolved-ref">?eq-ftaylorn</span>, this means <span class="math display">\[
+\tag{10.99}\]</span></span> However, comparing with <a href="#eq-ftaylorn" class="quarto-xref">Eq.&nbsp;<span>10.95</span></a>, this means <span id="eq-ivp35"><span class="math display">\[
 \|\boldsymbol{\tau}_{i+1}(h)\| = \frac{1}{h} \lVert  \mathbf{R}_i  \rVert,
-\]</span> and the proposed statement now follows from <a href="#eq-tmremainder" class="quarto-xref">Eq.&nbsp;<span>10.58</span></a>.&nbsp;◻</p>
+\tag{10.100}\]</span></span> and the proposed statement now follows from <a href="#eq-tmremainder" class="quarto-xref">Eq.&nbsp;<span>10.84</span></a>.&nbsp;◻</p>
 </div>
 <p>So, for any <span class="math inline">\(n\)</span>, we get an approximation method of order <span class="math inline">\(O(h^n)\)</span>. The Taylor method of order 1 coincides with Euler’s method. Thus, as a side result, we have proved that Euler’s method converges in the case of ODE systems.</p>
 <div id="exm-eulerivpexample" class="example theorem" title="Euler's method for an IVP">
-<p><span class="theorem-title"><strong>Example 10.7</strong></span> Let us once again consider the example IVP <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from <a href="#eq-eulerivpexample" class="quarto-xref">Eq.&nbsp;<span>10.12</span></a>, <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 10.7</strong></span> Let us once again consider the example IVP <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from <a href="#eq-eulerivpexample" class="quarto-xref">Eq.&nbsp;<span>10.12</span></a>, <span id="eq-ivp40"><span class="math display">\[
 y'(x) = y(x)-x^2+1,  \quad 0 \leq x \leq 1, \quad y(0) = \frac{1}{2}.
-\]</span> Thus <span class="math inline">\(f(x,y)=y-x^2+1\)</span>. To set up the Taylor methods, say of order up to&nbsp;4, we need to compute the first 3 total derivatives of <span class="math inline">\(f\)</span>. In our example, this yields: <span class="math display">\[
+\tag{10.101}\]</span></span> Thus <span class="math inline">\(f(x,y)=y-x^2+1\)</span>. To set up the Taylor methods, say of order up to&nbsp;4, we need to compute the first 3 total derivatives of <span class="math inline">\(f\)</span>. In our example, this yields: <span id="eq-ivp41"><span class="math display">\[
 \begin{aligned}
    \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }  &amp;= \frac{\partial f(x,y)}{\partial x}  +  \frac{\partial f(x,y)}{\partial y} f(x,y)\\ &amp;= (-2x) +  1\cdot (y-x^2+1) = y-x^2-2x+1;
 \\
@@ -1220,15 +1243,19 @@ y'(x) = y(x)-x^2+1,  \quad 0 \leq x \leq 1, \quad y(0) = \frac{1}{2}.
    \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} } &amp; = \frac{\partial}{\partial x} \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }   + \frac{\partial}{\partial y} \frac{ \mathrm{d}^{2} (x,y)f }{\mathrm{d}x^{2} }   f(x,y)\\
   &amp;= (-2x-2) + 1 \cdot (y-x^2+1) = y-x^2-2x-1.
 \end{aligned}
-\]</span> In this simple example, we can now see that <em>all</em> higher-order total derivatives are equal to <span class="math inline">\(\mathrm{d}^2f(x,y)/\mathrm{d}x^2\)</span>; this will not normally be true.</p>
-<p>Our second-order Taylor function <span class="math inline">\(T_2\)</span> is then <span class="math display">\[\begin{split}
+\tag{10.102}\]</span></span> In this simple example, we can now see that <em>all</em> higher-order total derivatives are equal to <span class="math inline">\(\mathrm{d}^2f(x,y)/\mathrm{d}x^2\)</span>; this will not normally be true.</p>
+<p>Our second-order Taylor function <span class="math inline">\(T_2\)</span> is then <span id="eq-ivp42"><span class="math display">\[
+\begin{split}
 T_2(x,y,h) &amp;= f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }\\
 &amp;= (y-x^2+1) + \frac{h}{2}(y-x^2-2x+1)\\
 &amp;= (1+\frac{h}{2}) (y-x^2+1)-hx.
-\end{split}\]</span> The second-order Taylor method therefore reads, <span class="math display">\[\begin{split}
+\end{split}
+\tag{10.103}\]</span></span> The second-order Taylor method therefore reads, <span id="eq-ivp43"><span class="math display">\[
+\begin{split}
 w_0 :=&amp; \frac{1}{2},\\
 w_{i+1} :=&amp; w_i+hT_2(x_i,w_i,h) \\=&amp; w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1) - h^2 x_i.
-\end{split}\]</span> Analogously, one finds after a bit of computation that <span class="math display">\[
+\end{split}
+\tag{10.104}\]</span></span> Analogously, one finds after a bit of computation that <span id="eq-ivp44"><span class="math display">\[
 \begin{aligned}
   T_4(x,y,h) &amp;= f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }
 + \frac{h^2}{6}  \frac{ \mathrm{d}^{2} f(x,y) }{\mathrm{d}x^{2} }  + \frac{h^3}{24}  \frac{ \mathrm{d}^{3} f(x,y) }{\mathrm{d}x^{3} }
@@ -1236,7 +1263,7 @@ w_{i+1} :=&amp; w_i+hT_2(x_i,w_i,h) \\=&amp; w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1
 &amp;\quad+ \Big( 1 +\frac{h}{3} + \frac{h^2}{12} \Big) h x\\
 &amp;\quad+ \Big( 1 +\frac{h}{2} - \frac{h^2}{6} - \frac{h^3}{24} \Big).
 \end{aligned}
-\]</span></p>
+\tag{10.105}\]</span></span></p>
 </div>
 <section id="advantages-and-disadvantages" class="level3" data-number="10.5.1">
 <h3 data-number="10.5.1" class="anchored" data-anchor-id="advantages-and-disadvantages"><span class="header-section-number">10.5.1</span> Advantages and disadvantages</h3>
@@ -1252,34 +1279,34 @@ w_{i+1} :=&amp; w_i+hT_2(x_i,w_i,h) \\=&amp; w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1
 <section id="motivation-the-modified-euler-method" class="level3" data-number="10.6.1">
 <h3 data-number="10.6.1" class="anchored" data-anchor-id="motivation-the-modified-euler-method"><span class="header-section-number">10.6.1</span> Motivation: The Modified Euler Method</h3>
 <p>The idea of Runge-Kutta methods is to avoid computing the total derivatives <span class="math inline">\(d^nf/dx^n\)</span>. Rather, these are replaced with <em>finite difference quotients</em>.</p>
-<p>Recall that, if <span class="math inline">\(g\)</span> is a twice differentiable function, then we can use Taylor’s Theorem to write <span class="math display">\[
+<p>Recall that, if <span class="math inline">\(g\)</span> is a twice differentiable function, then we can use Taylor’s Theorem to write <span id="eq-ivp45"><span class="math display">\[
 g(x+h)=g(x)+hg'(x)+O(h^2)
-\]</span> and rearrange to give <span class="math display">\[
+\tag{10.106}\]</span></span> and rearrange to give <span id="eq-ivp46"><span class="math display">\[
 g'(x) = \frac{g(x+h)-g(x)}{h} + O(h).
-\]</span> The fraction on the r.h.s. is called a finite difference quotient. We also remark that, by the MVT (or Taylor’s Theorem) <span class="math display">\[
+\tag{10.107}\]</span></span> The fraction on the r.h.s. is called a finite difference quotient. We also remark that, by the MVT (or Taylor’s Theorem) <span id="eq-ivp47"><span class="math display">\[
 g(x+h)=g(x)+O(h).
-\]</span> We can replace <span class="math inline">\(h\)</span> by <span class="math inline">\(O(h^k)\)</span> here to give <span id="eq-bigOcommute"><span class="math display">\[
+\tag{10.108}\]</span></span> We can replace <span class="math inline">\(h\)</span> by <span class="math inline">\(O(h^k)\)</span> here to give <span id="eq-bigOcommute"><span class="math display">\[
 g(x+O(h^k))=g(x)+O(O(h^k))=g(x)+O(h^k).
-\tag{10.63}\]</span></span></p>
+\tag{10.109}\]</span></span></p>
 <p>We start with the Taylor method of order two, here for <span class="math inline">\(m=1\)</span>, given by the function <span id="eq-t2repeat"><span class="math display">\[
    T_2(x,y,h) = f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y).
-\tag{10.64}\]</span></span></p>
-<p>We use a difference quotient to approximate the total derivative, evaluated on the exact solution <span class="math inline">\(y(x)\)</span>: <span class="math display">\[
+\tag{10.110}\]</span></span></p>
+<p>We use a difference quotient to approximate the total derivative, evaluated on the exact solution <span class="math inline">\(y(x)\)</span>: <span id="eq-ivp48"><span class="math display">\[
 \frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y(x)) = \frac{f\big(x+h,y(x+h)\big)-f\big(x,y(x)\big)}{h} + O(h).
-\]</span> Inside this expression, for the term <span class="math inline">\(y(x+h)\)</span>, we use a Taylor approximation: <span class="math display">\[
+\tag{10.111}\]</span></span> Inside this expression, for the term <span class="math inline">\(y(x+h)\)</span>, we use a Taylor approximation: <span id="eq-ivp49"><span class="math display">\[
 y(x+h) = y(x) + h y'(x) + O(h^2)
 = y(x) + h f\big(x,y(x)\big) + O(h^2).
-\]</span> Using <a href="#eq-bigOcommute" class="quarto-xref">Eq.&nbsp;<span>10.63</span></a> we obtain <span class="math display">\[
+\tag{10.112}\]</span></span> Using <a href="#eq-bigOcommute" class="quarto-xref">Eq.&nbsp;<span>10.109</span></a> we obtain <span id="eq-ivp50"><span class="math display">\[
 \frac{ \mathrm{d}^{} f }{\mathrm{d}x^{} }  (x,y(x)) = \frac{1}{h} \Big( f\big(x+h,y(x)+hf(x,y(x)) \big)-f(x,y(x)) \Big) + O(h).
-\]</span> Inserting into <a href="#eq-t2repeat" class="quarto-xref">Eq.&nbsp;<span>10.64</span></a>, we have <span class="math display">\[
+\tag{10.113}\]</span></span> Inserting into <a href="#eq-t2repeat" class="quarto-xref">Eq.&nbsp;<span>10.110</span></a>, we have <span id="eq-ivp51"><span class="math display">\[
 T_2(x,y(x),h) = \frac{1}{2} f(x,y(x))
 + \frac{1}{2}   f\big(x+h,y(x)+hf(x,y(x)) \big)
   + O(h^2).
-\]</span> Thus, if instead of the function <span class="math inline">\(T_2\)</span>, we use the function <span class="math display">\[
+\tag{10.114}\]</span></span> Thus, if instead of the function <span class="math inline">\(T_2\)</span>, we use the function <span id="eq-ivp52"><span class="math display">\[
 \phi(x,y,h) = \frac{1}{2} f(x,y)
 + \frac{1}{2}   f\big(x+h,y+hf(x,y) \big)
-\]</span> for our one-step method, we will incur an additional local truncation error of order <span class="math inline">\(O(h^2)\)</span>. However, this is not “much worse” than the Taylor method, which already has an error of order <span class="math inline">\(O(h^2)\)</span>.</p>
-<p>The one-step difference method corresponding to <span class="math inline">\(\phi\)</span> is called the <em>Modified Euler method</em>. Its difference equation, <span class="math inline">\(w_{i+1}:=w_i + h\phi(x_i,w_i,h)\)</span>, can be rewritten in the following cleaned-up form: <span class="math display">\[
+\tag{10.115}\]</span></span> for our one-step method, we will incur an additional local truncation error of order <span class="math inline">\(O(h^2)\)</span>. However, this is not “much worse” than the Taylor method, which already has an error of order <span class="math inline">\(O(h^2)\)</span>.</p>
+<p>The one-step difference method corresponding to <span class="math inline">\(\phi\)</span> is called the <em>Modified Euler method</em>. Its difference equation, <span class="math inline">\(w_{i+1}:=w_i + h\phi(x_i,w_i,h)\)</span>, can be rewritten in the following cleaned-up form: <span id="eq-ivp53"><span class="math display">\[
 \begin{aligned}
    w_0 &amp;:= \alpha,
 \\
@@ -1289,13 +1316,13 @@ k_{i,2} &amp;:= hf(x_i+h,w_i+k_{i,1}),
 \\
 w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 \end{aligned}
-\]</span> This shows in particular that only <em>two</em> evaluations of <span class="math inline">\(f\)</span> are needed in each step of the method. That is important to know, since the evaluation of <span class="math inline">\(f\)</span> is usually the time-consuming part when the method is implemented on a computer.</p>
+\tag{10.116}\]</span></span> This shows in particular that only <em>two</em> evaluations of <span class="math inline">\(f\)</span> are needed in each step of the method. That is important to know, since the evaluation of <span class="math inline">\(f\)</span> is usually the time-consuming part when the method is implemented on a computer.</p>
 <p>We have seen now, roughly, that the Modified Euler method works, and is of order <span class="math inline">\(O(h^2)\)</span>. A more complete proof will follow below. Let us first have a look at other methods of the same kind.</p>
 </section>
 <section id="general-runge-kutta-methods" class="level3" data-number="10.6.2">
 <h3 data-number="10.6.2" class="anchored" data-anchor-id="general-runge-kutta-methods"><span class="header-section-number">10.6.2</span> General Runge-Kutta methods</h3>
 <p>A general Runge-Kutta method is defined by a <em>Butcher tableau</em>:</p>
-<p><span class="math display">\[
+<p><span id="eq-ivp54"><span class="math display">\[
 %
 \begin{array}{c|ccccc}
    a_1 &amp;  &amp; &amp; &amp; &amp;
@@ -1312,8 +1339,7 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 &amp; c_1 &amp; c_2 &amp; \ldots &amp; c_{s-1} &amp; c_s
 \end{array}
 \text{where $a_i$, $b_{ij}$, $c_i$ are real numbers.}
-\]</span> The tableau is a shorthand notation for the associated difference equation of a one-step method: <span class="math display">\[
-%
+\tag{10.117}\]</span></span> The tableau is a shorthand notation for the associated difference equation of a one-step method: <span id="eq-ivp55"><span class="math display">\[
 \begin{aligned}
 \mathbf{w}_0 &amp;:= \alpha;
 \\
@@ -1328,11 +1354,8 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
    \quad&amp;\quad \mathbf{k}_s := h \mathbf{f}(x_i + a_s h, \mathbf{w}_i + \sum_{j=1}^{s-1} b_{sj} \mathbf{k}_j);
 \\
     \mathbf{w}_{i+1} &amp;:= \mathbf{w}_i + \sum_{j=1}^s c_j \mathbf{k}_j
-%
 \end{aligned}
-%
-\]</span> (The <span class="math inline">\(\mathbf{k}_j\)</span> depend in addition on the step <span class="math inline">\(i\)</span>, but they are regarded as “intermediate results”, and we do not denote this dependence explicitly.) Our Modified Euler method is an example of such a scheme, namely with the tableau <span class="math display">\[
-%
+\tag{10.118}\]</span></span> (The <span class="math inline">\(\mathbf{k}_j\)</span> depend in addition on the step <span class="math inline">\(i\)</span>, but they are regarded as “intermediate results”, and we do not denote this dependence explicitly.) Our Modified Euler method is an example of such a scheme, namely with the tableau <span id="eq-ivp56"><span class="math display">\[
 \begin{array}{c|cc}
    0
   \\
@@ -1340,11 +1363,10 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 \\
   \hline
     &amp; \;\tfrac{1}{2} \; &amp; \;\tfrac{1}{2}  \;
-%
 \end{array}
-\]</span></p>
+\tag{10.119}\]</span></span></p>
 <p>We do not discuss here in general how these tableaux are obtained, or how to prove in general of what order their local truncation error is. However, here are some more examples.</p>
-<p>The <em>Midpoint method</em> is another method of order <span class="math inline">\(O(h^2)\)</span>. It is given by the tableau <span class="math display">\[
+<p>The <em>Midpoint method</em> is another method of order <span class="math inline">\(O(h^2)\)</span>. It is given by the tableau <span id="eq-ivp57"><span class="math display">\[
 %
 \begin{array}{c|cc}
    0
@@ -1355,10 +1377,10 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
     &amp; \;0 \; &amp; \;1 \;
 %
 \end{array}
-\]</span> and its difference equation can be written explicitly as <span class="math display">\[
+\tag{10.120}\]</span></span> and its difference equation can be written explicitly as <span id="eq-ivp58"><span class="math display">\[
 \mathbf{w}_0 := \boldsymbol{\alpha}, \quad \mathbf{w}_{i+1} = \mathbf{w}_i + h \, \mathbf{f}\big(x_i + \frac{h}{2}, \mathbf{w}_i + \frac{h}{2} \mathbf{f}(x_i,\mathbf{w}_i)
 \big).
-\]</span> There are more methods of order <span class="math inline">\(O(h^2)\)</span>; for example, <em>Heun’s method</em>: <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="math display">\[
+\tag{10.121}\]</span></span> There are more methods of order <span class="math inline">\(O(h^2)\)</span>; for example, <em>Heun’s method</em>: <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span id="eq-ivp59"><span class="math display">\[
 \begin{array}{c|cc}
    0
   \\
@@ -1366,12 +1388,11 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 \\
   \hline
     &amp; \;\tfrac{1}{4} \; &amp; \;\tfrac{3}{4}  \;
-%
 \end{array}
-\]</span> The explicit form of the difference equation is <span class="math display">\[
+\tag{10.122}\]</span></span> The explicit form of the difference equation is <span id="eq-ivp60"><span class="math display">\[
 \mathbf{w}_0 := \boldsymbol{\alpha}, \quad \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{4} \Big(\mathbf{f}(x_i,\mathbf{w}_i) + 3 \mathbf{f}\big(x_i
 + \frac{2}{3}h, \mathbf{w}_i + \frac{2}{3}{h} \,\mathbf{f}(x_i,\mathbf{w}_i) \big) \Big).
-\]</span> Finally, let us mention the “classical” Runge-Kutta method <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> of order <span class="math inline">\(O(h^4)\)</span>. This method is widely used in practice. Its Butcher tableau is</p>
+\tag{10.123}\]</span></span> Finally, let us mention the “classical” Runge-Kutta method <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> of order <span class="math inline">\(O(h^4)\)</span>. This method is widely used in practice. Its Butcher tableau is</p>
 <p><span id="eq-rk4classical"><span class="math display">\[
 \begin{array}{c|cccc}
 0 &amp; &amp; &amp; &amp; \\
@@ -1381,46 +1402,72 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 \hline
 &amp; \frac{1}{6} &amp; \frac{2}{6} &amp; \frac{2}{6} &amp; \frac{1}{6}
 \end{array}
-\tag{10.65}\]</span></span> and it is <em>not</em> very useful to write its difference equation in one line! (In general, when used in programming, working with the intermediate results <span class="math inline">\(\mathbf{k}_i\)</span> is a good way of organizing the code.)</p>
+\tag{10.124}\]</span></span> and it is <em>not</em> very useful to write its difference equation in one line! (In general, when used in programming, working with the intermediate results <span class="math inline">\(\mathbf{k}_i\)</span> is a good way of organizing the code.)</p>
 </section>
 <section id="local-truncation-error-for-second-order-methods" class="level3" data-number="10.6.3">
 <h3 data-number="10.6.3" class="anchored" data-anchor-id="local-truncation-error-for-second-order-methods"><span class="header-section-number">10.6.3</span> Local truncation error for second-order methods</h3>
 <p>The general idea of proving a rigorous error estimate for a Runge-Kutta method is comparing it to the Taylor method of order <span class="math inline">\(n\)</span>, with <span class="math inline">\(n\)</span> appropriately chosen. Given the function <span class="math inline">\(\boldsymbol{\phi}_\text{RK}(x,y,h)\)</span> that defines the method (as a one-step difference method), one would try to prove that</p>
 <p><span id="eq-rktaylorcompare"><span class="math display">\[
-   \leq c h^n
-\tag{10.66}\]</span></span> with a constant <span class="math inline">\(c&gt;0\)</span>. This proof will usually involve a Taylor expansion of the function <span class="math inline">\(\mathbf{f}\)</span> within <span class="math inline">\(\boldsymbol{\phi}_\text{RK}\)</span>, and the constant <span class="math inline">\(c\)</span> will depend on estimates for the function <span class="math inline">\(\mathbf{f}\)</span> and its derivatives. Once <a href="#eq-rktaylorcompare" class="quarto-xref">Eq.&nbsp;<span>10.66</span></a> is known, it follows from the definition of the local truncation error <a href="#eq-lteonestep" class="quarto-xref">Eq.&nbsp;<span>10.56</span></a> and the triangle inequality that <span class="math display">\[
+   ||\mathbf{\phi}_\text{RK}(x,\mathbf{y}(x),h) - \mathbf{T}_n(x,\mathbf{y}(x),h) ||\leq c h^n
+\tag{10.125}\]</span></span> with a constant <span class="math inline">\(c&gt;0\)</span>. This proof will usually involve a Taylor expansion of the function <span class="math inline">\(\mathbf{f}\)</span> within <span class="math inline">\(\boldsymbol{\phi}_\text{RK}\)</span>, and the constant <span class="math inline">\(c\)</span> will depend on estimates for the function <span class="math inline">\(\mathbf{f}\)</span> and its derivatives. Once <a href="#eq-rktaylorcompare" class="quarto-xref">Eq.&nbsp;<span>10.125</span></a> is known, it follows from the definition of the local truncation error <a href="#eq-lteonestep" class="quarto-xref">Eq.&nbsp;<span>10.74</span></a> and the triangle inequality that <span id="eq-ivp61"><span class="math display">\[
 \tau_\text{RK}(h) \leq \tau_\text{Taylor-$n$}(h) + c \,h^n.
-\]</span> With the estimate for <span class="math inline">\(\tau_\text{Taylor-$n$}(h)\)</span> (the truncation error of the <span class="math inline">\(n\)</span>-th order Taylor method) known from <a href="#thm-taylorerr" class="quarto-xref">Theorem&nbsp;<span>10.3</span></a> this yields <span class="math display">\[
+\tag{10.126}\]</span></span> With the estimate for <span class="math inline">\(\tau_\text{Taylor-$n$}(h)\)</span> (the truncation error of the <span class="math inline">\(n\)</span>-th order Taylor method) known from <a href="#thm-taylorerr" class="quarto-xref">Theorem&nbsp;<span>10.3</span></a> this yields <span id="eq-ivp62"><span class="math display">\[
 \tau_\text{RK}(h) \leq c' \,h^n.
-\]</span> with another constant <span class="math inline">\(c'&gt;0\)</span>. <a href="#thm-globalerr" class="quarto-xref">Theorem&nbsp;<span>10.2</span></a> then tells us that the global error of the Runge-Kutta method is of order <span class="math inline">\(O(h^n)\)</span>.</p>
-<p>However, for most higher-order methods, such as the classical Runge-Kutta method <a href="#eq-rk4classical" class="quarto-xref">Eq.&nbsp;<span>10.65</span></a> of order <span class="math inline">\(O(h^4)\)</span>, the proof of <a href="#eq-rktaylorcompare" class="quarto-xref">Eq.&nbsp;<span>10.66</span></a> is rather tedious, since the computation becomes quite lengthy.</p>
+\tag{10.127}\]</span></span> with another constant <span class="math inline">\(c'&gt;0\)</span>. <a href="#thm-globalerr" class="quarto-xref">Theorem&nbsp;<span>10.2</span></a> then tells us that the global error of the Runge-Kutta method is of order <span class="math inline">\(O(h^n)\)</span>.</p>
+<p>However, for most higher-order methods, such as the classical Runge-Kutta method <a href="#eq-rk4classical" class="quarto-xref">Eq.&nbsp;<span>10.124</span></a> of order <span class="math inline">\(O(h^4)\)</span>, the proof of <a href="#eq-rktaylorcompare" class="quarto-xref">Eq.&nbsp;<span>10.125</span></a> is rather tedious, since the computation becomes quite lengthy.</p>
 <p>Here, we will give the proof only for <span class="math inline">\(O(h^2)\)</span> methods with a Butcher tableau of the form <span id="eq-butcherorder2"><span class="math display">\[
-\quad \text{where } c,d \in (0,1], \quad cd = \frac{1}{2}.
-\tag{10.67}\]</span></span> This includes the Modified Euler method (<span class="math inline">\(c=1\)</span>, <span class="math inline">\(d=1/2\)</span>), the Midpoint method (<span class="math inline">\(c=1/2\)</span>, <span class="math inline">\(d=1\)</span>), and Heun’s method (<span class="math inline">\(c=2/3\)</span>, <span class="math inline">\(d=3/4\)</span>).</p>
+\begin{array}{c|cc}
+   0
+  \\
+   c &amp; c
+\\
+  \hline
+    &amp; \;(1\!-\!d) \; &amp; \;d \;
+\end{array}
+\tag{10.128}\]</span></span> where <span class="math inline">\(c,d \in (0,1], \quad cd = \frac{1}{2}\)</span>. This includes the Modified Euler method (<span class="math inline">\(c=1\)</span>, <span class="math inline">\(d=1/2\)</span>), the Midpoint method (<span class="math inline">\(c=1/2\)</span>, <span class="math inline">\(d=1\)</span>), and Heun’s method (<span class="math inline">\(c=2/3\)</span>, <span class="math inline">\(d=3/4\)</span>).</p>
 <div id="thm-rkerror" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 10.4</strong></span> Consider a Runge-Kutta method of the form <a href="#eq-butcherorder2" class="quarto-xref">Eq.&nbsp;<span>10.67</span></a>. Suppose that the function <span class="math inline">\(\mathbf{f}\)</span> and all its derivatives up to order <span class="math inline">\(2\)</span> are bounded. <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Then, there exists a constant <span class="math inline">\(C\)</span> such that the local truncation error is bounded by <span class="math display">\[
+<p><span class="theorem-title"><strong>Theorem 10.4</strong></span> Consider a Runge-Kutta method of the form <a href="#eq-butcherorder2" class="quarto-xref">Eq.&nbsp;<span>10.128</span></a>. Suppose that the function <span class="math inline">\(\mathbf{f}\)</span> and all its derivatives up to order <span class="math inline">\(2\)</span> are bounded. <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Then, there exists a constant <span class="math inline">\(C\)</span> such that the local truncation error is bounded by <span id="eq-ivp63"><span class="math display">\[
 \|\boldsymbol{\tau}_i(h)\| \leq C h^2.
-\]</span></p>
+\tag{10.129}\]</span></span></p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>As explained above, we need to prove <a href="#eq-rktaylorcompare" class="quarto-xref">Eq.&nbsp;<span>10.66</span></a> in our case. The function <span class="math inline">\(\boldsymbol{\phi}\)</span> is here given by <span id="eq-phirk2"><span class="math display">\[
+<p><span class="proof-title"><em>Proof</em>. </span>As explained above, we need to prove <a href="#eq-rktaylorcompare" class="quarto-xref">Eq.&nbsp;<span>10.125</span></a> in our case. The function <span class="math inline">\(\boldsymbol{\phi}\)</span> is here given by <span id="eq-phirk2"><span class="math display">\[
   \boldsymbol{\phi}(x,\mathbf{y},h) = (1-d)\, \mathbf{f}(x,\mathbf{y}) + d \,\underbrace{\mathbf{f}\big(x+ch, \mathbf{y}+ch\mathbf{f}(x,\mathbf{y})\big)}_{=:\mathbf{k}},
-\tag{10.68}\]</span></span></p>
-<p>and we need to compare it to the Taylor method of order 2, given by <span class="math display">\[
+\tag{10.130}\]</span></span></p>
+<p>and we need to compare it to the Taylor method of order 2, given by <span id="eq-ivp64"><span class="math display">\[
 \mathbf{T}_2(x,y,h) =  \mathbf{f}(x,\mathbf{y}) + \frac{h}{2}  \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x, \mathbf{y}).
-\]</span> We first take the term <span class="math inline">\(\mathbf{k}\)</span> from <a href="#eq-phirk2" class="quarto-xref">Eq.&nbsp;<span>10.68</span></a>, and use a first-order Taylor expansion of the function <span class="math inline">\(\mathbf{f}\)</span> around the point <span class="math inline">\((x,\mathbf{y})\)</span>, in the form of <a href="appendix.html#thm-taylororder1" class="quarto-xref">Theorem&nbsp;<span>A.5</span></a>. This gives <span id="eq-kcompute"><span class="math display">\[
+\tag{10.131}\]</span></span> We first take the term <span class="math inline">\(\mathbf{k}\)</span> from <a href="#eq-phirk2" class="quarto-xref">Eq.&nbsp;<span>10.130</span></a>, and use a first-order Taylor expansion of the function <span class="math inline">\(\mathbf{f}\)</span> around the point <span class="math inline">\((x,\mathbf{y})\)</span>, in the form of <a href="appendix.html#thm-taylororder1" class="quarto-xref">Theorem&nbsp;<span>A.5</span></a>. This gives <span id="eq-kcompute"><span class="math display">\[
+\begin{aligned}
+\mathbf{k} &amp;= \mathbf{f}(x,\mathbf{y}) +
+  \frac{\partial \mathbf{f}(x,\mathbf{y})}{\partial(x,y^{(1)},\ldots,y^{(m)})}
+\cdot \begin{pmatrix}
+         ch
+  \\
+   ch\,f^{(1)}(x,\mathbf{y})
+  \\
+  \vdots
+  \\
+   ch\,f^{(m)}(x,\mathbf{y})
+      \end{pmatrix} + \mathbf{R}
+\\
+  &amp;=\mathbf{f}(x,\mathbf{y}) + ch\frac{\partial \mathbf{f}}{\partial x} + ch \frac{\partial \mathbf{f}}{\partial \mathbf{y}} \cdot \mathbf{f}(x,\mathbf{y}) + \mathbf{R}
+\\
+  &amp;=\mathbf{f}(x,\mathbf{y}) + ch \frac{d\mathbf{f}}{dx}(x,\mathbf{y}) + \mathbf{R}.
 \end{aligned}
-\tag{10.69}\]</span></span> We assume that all second partial derivatives of <span class="math inline">\(\mathbf{f}\)</span> (by <span class="math inline">\(x\)</span> or <span class="math inline">\(y_j\)</span>) are bounded by a constant <span class="math inline">\(M\)</span>. According to <a href="appendix.html#thm-taylororder1" class="quarto-xref">Theorem&nbsp;<span>A.5</span></a>, the Taylor remainder term <span class="math inline">\(\mathbf{R}\)</span> is then bounded by <span class="math display">\[
+\tag{10.132}\]</span></span> We assume that all second partial derivatives of <span class="math inline">\(\mathbf{f}\)</span> (by <span class="math inline">\(x\)</span> or <span class="math inline">\(y_j\)</span>) are bounded by a constant <span class="math inline">\(M\)</span>. According to <a href="appendix.html#thm-taylororder1" class="quarto-xref">Theorem&nbsp;<span>A.5</span></a>, the Taylor remainder term <span class="math inline">\(\mathbf{R}\)</span> is then bounded by <span id="eq-ivp65"><span class="math display">\[
 \lVert \mathbf{R} \rVert \leq \frac{1}{2} (ch)^2 \lVert  (1, f_1, \ldots, f_m)  \rVert^2
   \cdot (m+1)^2 M.
-\]</span> After possibly modifying the constant <span class="math inline">\(M\)</span>, we can assume that <span class="math inline">\(\|f_j\|\leq M\)</span> as well, and that <span class="math inline">\(M \geq 1\)</span>. This gives <span class="math display">\[
+\tag{10.133}\]</span></span> After possibly modifying the constant <span class="math inline">\(M\)</span>, we can assume that <span class="math inline">\(\|f_j\|\leq M\)</span> as well, and that <span class="math inline">\(M \geq 1\)</span>. This gives <span id="eq-ivp66"><span class="math display">\[
 \lVert \mathbf{R} \rVert \leq \frac{(m+1)^2 M^3 c^2}{2} h^2.
-\]</span> Inserting <a href="#eq-kcompute" class="quarto-xref">Eq.&nbsp;<span>10.69</span></a> into <a href="#eq-phirk2" class="quarto-xref">Eq.&nbsp;<span>10.68</span></a> yields <span class="math display">\[
-\boldsymbol{\phi}(x,\mathbf{y},h) = (1-d) \mathbf{f}(x,\mathbf{y}) + d \mathbf{k}
-= \mathbf{f}(x,\mathbf{y}) + cdh   \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\mathbf{y}) + d\mathbf{R}= \mathbf{T}_2(x,y,h)+d\mathbf{R},
-\]</span> since <span class="math inline">\(cd=1/2\)</span>. Consequently, <span class="math display">\[
+\tag{10.134}\]</span></span> Inserting <a href="#eq-kcompute" class="quarto-xref">Eq.&nbsp;<span>10.132</span></a> into <a href="#eq-phirk2" class="quarto-xref">Eq.&nbsp;<span>10.130</span></a> yields <span id="eq-ivp67"><span class="math display">\[
+\begin{split}
+\boldsymbol{\phi}(x,\mathbf{y},h) &amp;= (1-d) \mathbf{f}(x,\mathbf{y}) + d \mathbf{k}\\
+&amp;= \mathbf{f}(x,\mathbf{y}) + cdh   \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\boldsymbol{y}) + d\mathbf{R}\\
+&amp;= \mathbf{T}_2(x,y,h)+d\mathbf{R},
+\end{split}
+\tag{10.135}\]</span></span> since <span class="math inline">\(cd=1/2\)</span>. Consequently, <span id="eq-ivp68"><span class="math display">\[
 \lVert  \boldsymbol{\phi}(x,\mathbf{y},h) - \mathbf{T}_2(x,\mathbf{y},h) \rVert \leq \frac{(m+1)^2 M^3 c}{4} h^2,
-\]</span> which completes the proof.&nbsp;◻</p>
+\tag{10.136}\]</span></span> which completes the proof.&nbsp;◻</p>
 </div>
 </section>
 <section id="advantages-and-disadvantages-1" class="level3" data-number="10.6.4">
@@ -1436,10 +1483,10 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 <p>We have so far discussed how the approximation error changes with the step size <span class="math inline">\(h\)</span>, but we have not really explained how to choose <span class="math inline">\(h\)</span> in practice.</p>
 <p>In principle, given an IVP, one might first try to prove rigorous error estimates, like in the example in <a href="#sec-euler" class="quarto-xref"><span>Section 10.2</span></a>, but with <span class="math inline">\(h\)</span> left open. Then one can choose <span class="math inline">\(h\)</span> according to the maximum error one wants to allow. However, these estimates are very hard (if not impossible) to compute in realistic examples.</p>
 <p>Instead, one would like to have an approximation algorithm that automatically computes an estimate for the error, at least roughly, and that chooses the step size <span class="math inline">\(h\)</span> accordingly. This technique is known as <em>error control</em>.</p>
-<p>The idea is roughly as follows. Let us use <em>two</em> approximation methods, with approximation values <span class="math inline">\(\mathbf{w}_i\)</span> and <span class="math inline">\(\tilde{\mathbf{w}}_i\)</span>. Suppose that <span class="math inline">\(\tilde{\mathbf{w}}_i\)</span> is much more exact than <span class="math inline">\(\mathbf{w}_i\)</span>, i.e., that the absolute error of <span class="math inline">\(\tilde{\mathbf{w}}_i\)</span> is much smaller than that of <span class="math inline">\(\mathbf{w}_i\)</span>. (For example, the second approximation method might be of higher order in <span class="math inline">\(h\)</span>.) Then we have <span class="math display">\[
+<p>The idea is roughly as follows. Let us use <em>two</em> approximation methods, with approximation values <span class="math inline">\(\mathbf{w}_i\)</span> and <span class="math inline">\(\tilde{\mathbf{w}}_i\)</span>. Suppose that <span class="math inline">\(\tilde{\mathbf{w}}_i\)</span> is much more exact than <span class="math inline">\(\mathbf{w}_i\)</span>, i.e., that the absolute error of <span class="math inline">\(\tilde{\mathbf{w}}_i\)</span> is much smaller than that of <span class="math inline">\(\mathbf{w}_i\)</span>. (For example, the second approximation method might be of higher order in <span class="math inline">\(h\)</span>.) Then we have <span id="eq-ivp69"><span class="math display">\[
 \lVert  \mathbf{y}(x_i)-\mathbf{w}_i  \rVert \leq \underbrace{ \lVert  \mathbf{y}(x_i)-\tilde{\mathbf{w}}_i  \rVert }_{\text{negligible}}
 + \lVert \tilde{\mathbf{w}}_i-\mathbf{w}_i  \rVert \approx \lVert \tilde{\mathbf{w}}_i-\mathbf{w}_i \rVert.
-\]</span> However, the right-hand side can be computed without knowing the exact solution <span class="math inline">\(\mathbf{y}(x)\)</span>.</p>
+\tag{10.137}\]</span></span> However, the right-hand side can be computed without knowing the exact solution <span class="math inline">\(\mathbf{y}(x)\)</span>.</p>
 <p>To make this more concrete, let us say that <span class="math inline">\(\mathbf{w}_i\)</span> and <span class="math inline">\(\tilde{\mathbf{w}}_i\)</span> are computed by two one-step difference methods, with defining functions <span class="math inline">\(\boldsymbol{\phi}\)</span> and <span class="math inline">\(\tilde{\boldsymbol{\phi}}\)</span>, respectively. Let us assume that <span class="math inline">\(\boldsymbol{\phi}\)</span> yields a local truncation error <span class="math inline">\(\|\boldsymbol{\tau}_{i}(h)\|\)</span> of order <span class="math inline">\(O(h^n)\)</span>, while the local truncation error <span class="math inline">\(\|\tilde{\boldsymbol{\tau}}_{i}(h)\|\)</span> of <span class="math inline">\(\tilde{\boldsymbol{\phi}}\)</span> is of order <span class="math inline">\(O(h^{n+1})\)</span>.</p>
 <p>Further, we fix <span class="math inline">\(i\)</span> and suppose that <span class="math inline">\(\mathbf{y}(x_i)=\mathbf{w}_i=\tilde{\mathbf{w}}_i\)</span>, that is, we start form an exact value in the previous step. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> For given step size <span class="math inline">\(h\)</span>, we want to estimate the local truncation error <span class="math inline">\(\|\boldsymbol{\tau}_{i+1}(h)\|\)</span> of the first method, supposing that <span class="math inline">\(\tilde{\boldsymbol{\tau}}_{i+1}\)</span> is negligible compared with it. <span id="eq-lterkf"><span class="math display">\[
 \begin{gathered}
@@ -1451,9 +1498,8 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 \approx
   \lVert  \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
 \end{gathered}
-\tag{10.70}\]</span></span> Thus we can determine the local truncation error approximately by evaluating the functions <span class="math inline">\(\boldsymbol{\phi}\)</span> and <span class="math inline">\(\tilde{\boldsymbol{\phi}}\)</span>.</p>
-<p><span class="math display">\[
-%
+\tag{10.138}\]</span></span> Thus we can determine the local truncation error approximately by evaluating the functions <span class="math inline">\(\boldsymbol{\phi}\)</span> and <span class="math inline">\(\tilde{\boldsymbol{\phi}}\)</span>.</p>
+<p><span id="eq-ivp70"><span class="math display">\[
 \begin{array}{c|ccccccl}
    0 &amp;  
   \\
@@ -1466,45 +1512,40 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
    1 &amp; \frac{439}{216} &amp; -8 &amp; \frac{3680}{513} &amp; - \frac{845}{4104}
 \\
    \frac{1}{2} &amp; -\frac{8}{27} &amp; 2 &amp; -\frac{3544}{2565} &amp;  \frac{1859}{4104} &amp; -\frac{11}{40}
-%
 \\
 \hline
   \text{\textbf{(a)}}  &amp; \frac{25}{216} &amp; 0 &amp; \frac{1408}{2565} &amp;  \frac{2197}{4104} &amp; -\frac{1}{5} &amp;
-%
 \\
 \hline
   \text{\textbf{(b)}}  &amp; \frac{16}{135} &amp; 0 &amp; \frac{6656}{12825} &amp; \frac{28561}{56430} &amp; - \frac{9}{50} &amp; \frac{2}{55}
-%
 \end{array}
-%
-\]</span></p>
-<p>However, what we actually want is to choose the step size <span class="math inline">\(h\)</span> so that <span class="math inline">\(\|\boldsymbol{\tau}_{i+1}(h)\| \leq T\)</span> with some given “tolerance” value <span class="math inline">\(T\)</span>. To that end, let us assume that <span class="math inline">\(\|\boldsymbol{\tau}_{i+1}(h)\|\)</span> is not only of order <span class="math inline">\(O(h^n)\)</span>, but in fact (roughly) proportional to <span class="math inline">\(h^n\)</span>: <span class="math display">\[
+\tag{10.139}\]</span></span></p>
+<p>However, what we actually want is to choose the step size <span class="math inline">\(h\)</span> so that <span class="math inline">\(\|\boldsymbol{\tau}_{i+1}(h)\| \leq T\)</span> with some given “tolerance” value <span class="math inline">\(T\)</span>. To that end, let us assume that <span class="math inline">\(\|\boldsymbol{\tau}_{i+1}(h)\|\)</span> is not only of order <span class="math inline">\(O(h^n)\)</span>, but in fact (roughly) proportional to <span class="math inline">\(h^n\)</span>: <span id="eq-ltescale"><span class="math display">\[
    \|\boldsymbol{\tau}_{i+1} (h)\| \approx K \, h^n \quad \text{for some $K&gt;0$}.
-\]</span> We proceed as follows. We start with some fixed step size <span class="math inline">\(h\)</span> and compute the related function values: <span id="eq-tauh"><span class="math display">\[
+\tag{10.140}\]</span></span> We proceed as follows. We start with some fixed step size <span class="math inline">\(h\)</span> and compute the related function values: <span id="eq-tauh"><span class="math display">\[
 |\boldsymbol{\tau}_{i+1} (h)| \approx K \, h^n  \approx \lVert  \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert.
-\tag{10.71}\]</span></span></p>
-<p>Now we want to adjust <span class="math inline">\(h\)</span> by a factor <span class="math inline">\(q&gt;0\)</span>, such that <span class="math inline">\(\|\boldsymbol{\tau}_{i+1}(qh)\| \approx T\)</span>. By our assumption <span class="quarto-unresolved-ref">?eq-ltescale</span>, <span id="eq-tauqh"><span class="math display">\[
+\tag{10.141}\]</span></span></p>
+<p>Now we want to adjust <span class="math inline">\(h\)</span> by a factor <span class="math inline">\(q&gt;0\)</span>, such that <span class="math inline">\(\|\boldsymbol{\tau}_{i+1}(qh)\| \approx T\)</span>. By our assumption <a href="#eq-ltescale" class="quarto-xref">Eq.&nbsp;<span>10.140</span></a>, <span id="eq-tauqh"><span class="math display">\[
    \|\boldsymbol{\tau}_{i+1} (qh)\| \approx K \, (qh)^n  \approx T.
-\tag{10.72}\]</span></span></p>
-<p>Dividing <a href="#eq-tauqh" class="quarto-xref">Eq.&nbsp;<span>10.72</span></a> by <a href="#eq-tauh" class="quarto-xref">Eq.&nbsp;<span>10.71</span></a> yields <span class="math display">\[
+\tag{10.142}\]</span></span></p>
+<p>Dividing <a href="#eq-tauqh" class="quarto-xref">Eq.&nbsp;<span>10.142</span></a> by <a href="#eq-tauh" class="quarto-xref">Eq.&nbsp;<span>10.141</span></a> yields <span id="eq-ivpqn"><span class="math display">\[
 q^n\approx \frac{T}{\lVert  \tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h)  \rVert},
-\]</span> thus we should choose <span id="eq-qtheory"><span class="math display">\[
-   =  \left( \frac{hT}{\lVert  \tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/n},
-\tag{10.73}\]</span></span></p>
+\tag{10.143}\]</span></span> thus we should choose <span id="eq-qtheory"><span class="math display">\[
+q =  \left( \frac{T}{\lVert\tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \boldsymbol{\phi}(x_i,\mathbf{w}_i,h) \rVert} \right)^{1/n}   =  \left( \frac{hT}{  \lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}  \rVert }  \right)^{1/n},
+\tag{10.144}\]</span></span></p>
 <p>where it is understood that <span class="math inline">\(\mathbf{w}_{i+1},\tilde{\mathbf{w}}_{i+1}\)</span> are computed with <span class="math inline">\(\boldsymbol{\phi},\tilde{\boldsymbol{\phi}}\)</span> using the step size <span class="math inline">\(h\)</span>.</p>
 </section>
 <section id="the-runge-kutta-fehlberg-method" class="level3" data-number="10.7.2">
 <h3 data-number="10.7.2" class="anchored" data-anchor-id="the-runge-kutta-fehlberg-method"><span class="header-section-number">10.7.2</span> The Runge-Kutta-Fehlberg method</h3>
 <p>A popular implementation of the above principle is the <em>Runge-Kutta-Fehlberg</em> method. It uses an order-4 Runge-Kutta method for <span class="math inline">\(\boldsymbol{\phi}\)</span> and an order-5 Runge-Kutta method for <span class="math inline">\(\tilde{\boldsymbol{\phi}}\)</span>. The Butcher tableaux for both methods are shown in <span class="quarto-unresolved-ref">?tbl-butcherrkf</span>. The special feature of this algorithm is that the two approximation methods <em>share</em> most parts of their coefficient schemes; more precisely, the auxiliary values <span class="math inline">\(\mathbf{k}_1,\ldots,\mathbf{k}_6\)</span> are the same in both approximation methods. Only the “final lines” in the Butcher tableaux are different: for computing <span class="math inline">\(\mathbf{w}_{i+1}\)</span>, one uses the line marked (a), while for <span class="math inline">\(\tilde{\mathbf{w}}_{i+1}\)</span>, the line marked (b) is used. This arrangement makes the algorithm rather efficient: the function <span class="math inline">\(\mathbf{f}\)</span> needs to be evaluated only 6 times per step. Compare this with the 4 function evaluations needed for the classical Runge-Kutta method of order 4 <em>without</em> error control. The additional overhead caused by the error control method is noticeable, but not too large.</p>
-<div class="algorithm">
-<div class="algorithmic">
-<p><span class="math inline">\(x := a\)</span>, <span class="math inline">\(\mathbf{w}:= \boldsymbol{\alpha}\)</span>, <span class="math inline">\(h := h_{max}\)</span> Compute <span class="math inline">\(\mathbf{k}_1,\ldots, \mathbf{k}_6\)</span> from Butcher tableau with step size <span class="math inline">\(h\)</span> <span class="math inline">\(R := {h}^{-1}\lVert  \sum_{j=1}^6  (c_j-\tilde{c}_j) \mathbf{k}_j \rVert\)</span> <span class="math inline">\(x := x+h\)</span>, <span class="math inline">\(\mathbf{w}:= \mathbf{w}+ \sum_{j=1}^5  c_j \mathbf{k}_j\)</span> <span class="math inline">\(q :=(T/2R)^{1/4}\)</span> <span class="math inline">\(h := 0.1h\)</span> <span class="math inline">\(h := 4h\)</span> <span class="math inline">\(h := h \cdot q\)</span> <strong>if</strong> <span class="math inline">\(h \geq h_{max}\)</span> <strong>then</strong> <span class="math inline">\(h:= h_{max}\)</span> <strong>end if</strong> <span class="math inline">\(h := b-x\)</span> <strong>exception</strong> (“minimum step size exceeded”)</p>
-<p><span class="math inline">\(\mathbf{w}\)</span></p>
+<div id="alg-rkf" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-indent-size="1.2em" data-no-end="false" data-caption-prefix="Algorithm" data-pseudocode-number="1" data-chapter-level="10" data-line-number="true" data-line-number-punc=":">
+<div class="pseudocode">
+\begin{algorithm} \caption{The Runge-Kutta-Fehlberg method} \begin{algorithmic} \Function{RungeKuttaFehlberg}{$a,b,\boldsymbol{\alpha},T,h_{min},h_{max}$} \State \Comment{tolerance $T$; minimal/maximal step size $h_{min}$, $h_{max}$} \State $x := a$, $\boldsymbol{w} := \boldsymbol{\alpha}$, $h := h_{max}$ \Repeat \State Compute $\boldsymbol{k}_1,\ldots, \boldsymbol{k}_6$ from Butcher tableau with step size $h$ \State $R := {h}^{-1}\lVert \sum_{j=1}^6 (c_j-\tilde c_j) \boldsymbol{k}_j \rVert$ \Comment{Estimate local truncation error} \If{ $R \leq T$ } \State $x := x+h$, $\boldsymbol{w} := \boldsymbol{w} + \sum_{j=1}^5 c_j \boldsymbol{k}_j$ \Comment{accept approximation} \EndIf \State \Comment{Now choose the new step size} \State $q :=(T/2R)^{1/4}$ \Comment{factor to multiply $h$ with} \If{$q \leq 0.1$} \State $h := 0.1h$ \Comment{do not decrease too much} \ElsIf{$q \geq 4$} \State $h := 4h $ \Comment{do not increase too much} \Else \State $h := h \cdot q$ \EndIf \If{$h \geq h_{max}$} \State $h:= h_{max}$ \Comment{do not exceed max step size} \EndIf \If{ $x + h &gt; b$ } \State $h := b-x$ \Comment{next step would exceed interval} \ElsIf{$h &lt;h_{min}$} \State Error: minimum step size exceeded \EndIf \Until{$x\geq b$} \Return $\boldsymbol{w}$ \EndFunction \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>Algorithm&nbsp;<a href="#alg:rkf" data-reference-type="ref" data-reference="alg:rkf">[alg:rkf]</a> shows the Runge-Kutta-Fehlberg method in pseudocode. It works roughly by the principles discussed above, but with some modification in detail. In lines 4–8, the next approximation value <span class="math inline">\(\mathbf{w}_{i+1}\)</span> is computed; however, this happens only if the estimate for the local truncation error, computed according to <a href="#eq-lterkf" class="quarto-xref">Eq.&nbsp;<span>10.70</span></a>, is below the specified tolerance <span class="math inline">\(T\)</span>. Then, in lines 9–22, the step size <span class="math inline">\(h\)</span> for the next step is computed. In slight deviation from <a href="#eq-qtheory" class="quarto-xref">Eq.&nbsp;<span>10.73</span></a>, one chooses a more conservative factor, <span class="math display">\[
+<p><a href="#alg-rkf" class="quarto-xref">Algorithm 10.1</a> shows the Runge-Kutta-Fehlberg method in pseudocode. It works roughly by the principles discussed above, but with some modification in detail. In lines 4–8, the next approximation value <span class="math inline">\(\mathbf{w}_{i+1}\)</span> is computed; however, this happens only if the estimate for the local truncation error, computed according to <a href="#eq-lterkf" class="quarto-xref">Eq.&nbsp;<span>10.138</span></a>, is below the specified tolerance <span class="math inline">\(T\)</span>. Then, in lines 9–22, the step size <span class="math inline">\(h\)</span> for the next step is computed. In slight deviation from <a href="#eq-qtheory" class="quarto-xref">Eq.&nbsp;<span>10.144</span></a>, one chooses a more conservative factor, <span id="eq-ivpq"><span class="math display">\[
 q =\left(\frac{hT}{2\lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}\rVert}\right)^{1/4}
-\]</span> (note <span class="math inline">\(n=4\)</span>). Also, the factor <span class="math inline">\(q\)</span> is limited to the interval <span class="math inline">\([0.1,4]\)</span> (lines 10–16), in order to avoid possible instabilities by rapid changes in the step size. Further, the step size is never increased beyond a given value <span class="math inline">\(h_\text{max}\)</span> (line 17); and if it decreases below a minimum step size <span class="math inline">\(h_\text{min}\)</span>, we terminate with an error message (line 21) – otherwise we might run into problems with limited floating point precision. Some extra handling is needed for the last step of the approximation, in order to ensure that we end up exactly at the right-hand boundary of the interval <span class="math inline">\([a,b]\)</span> (line 19).</p>
+\tag{10.145}\]</span></span> (note <span class="math inline">\(n=4\)</span>). Also, the factor <span class="math inline">\(q\)</span> is limited to the interval <span class="math inline">\([0.1,4]\)</span> (lines 10–16), in order to avoid possible instabilities by rapid changes in the step size. Further, the step size is never increased beyond a given value <span class="math inline">\(h_\text{max}\)</span> (line 17); and if it decreases below a minimum step size <span class="math inline">\(h_\text{min}\)</span>, we terminate with an error message (line 21) – otherwise we might run into problems with limited floating point precision. Some extra handling is needed for the last step of the approximation, in order to ensure that we end up exactly at the right-hand boundary of the interval <span class="math inline">\([a,b]\)</span> (line 19).</p>
 </section>
 </section>
 <section id="multi-step-methods" class="level2" data-number="10.8">
@@ -1512,7 +1553,7 @@ q =\left(\frac{hT}{2\lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}\rVert}\rig
 <p><em>N.B.: This section is intended as a brief overview, and its material is not examinable. More information can be found, e.g.,&nbsp;in <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 5.6</a>)</span>.</em></p>
 <p>Multi-step methods are an altervative way of approximating the solution of the initial value problem <span id="eq-multiivp"><span class="math display">\[
 \mathbf{y}' = \mathbf{f}(x,\mathbf{y}),  \quad a \leq x \leq b, \quad \mathbf{y}(a) = \boldsymbol{\alpha}.
-\tag{10.74}\]</span></span></p>
+\tag{10.146}\]</span></span></p>
 <p>Again, they are generalizations of Euler’s method, and we use the same division of <span class="math inline">\([a,b]\)</span> into equally spaced mesh points <span class="math inline">\(x_0,\ldots,x_n\)</span>. But rather than using several evaluations of the function <span class="math inline">\(\mathbf{f}\)</span> in each approximation step, like Runge-Kutta methods do, we make use of the values of <span class="math inline">\(\mathbf{f}\)</span> that have already been computed at previous mesh points.</p>
 <p>A general <em><span class="math inline">\(k\)</span>-step multi-step method</em> is given by a difference equation</p>
 <p><span id="eq-multistepdef"><span class="math display">\[
@@ -1522,188 +1563,38 @@ q =\left(\frac{hT}{2\lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}\rVert}\rig
 \mathbf{w}_{i+1} &amp;:= \alpha_{k-1} \mathbf{w}_i + \alpha_{k-2} \mathbf{w}_{i-1} + \cdots + \alpha_0 \mathbf{w}_{i-k+1} \\[5pt]
 &amp;\quad + h \left( b_k \mathbf{f}(x_{i+1}, \mathbf{w}_{i+1}) + b_{k-1} \mathbf{f}(x_i, \mathbf{w}_i) + \cdots + b_0 \mathbf{f}(x_{i-k+1}, \mathbf{w}_{i-k+1}) \right).
 \end{split}
-\tag{10.75}\]</span></span> Here <span class="math inline">\(a_0 \ldots a_{k-1}, b_0 \ldots b_{k} \in \mathbb{R}\)</span> are constants that define the method. <span class="math inline">\(\boldsymbol{\alpha}_1 \ldots \boldsymbol{\alpha}_{k-1} \in\mathbb{R}^m\)</span> are certain starting values that are needed for the difference equation to work; we will discuss later how to obtain them. If <span class="math inline">\(b_k=0\)</span>, the method is called <em>explicit</em>; otherwise, it is called <em>implicit</em>. In the latter case, <span class="math inline">\(\mathbf{w}_{i+1}\)</span> appears on both sides of the difference equation, and is hence defined only implicitly; we will discuss later how such methods can be used.</p>
-<p>Like for one-step methods, one defines the <em>local truncation error</em> of the multistep method <a href="#eq-multistepdef" class="quarto-xref">Eq.&nbsp;<span>10.75</span></a> by <span id="eq-ltemulti"><span class="math display">\[
+\tag{10.147}\]</span></span> Here <span class="math inline">\(a_0 \ldots a_{k-1}, b_0 \ldots b_{k} \in \mathbb{R}\)</span> are constants that define the method. <span class="math inline">\(\boldsymbol{\alpha}_1 \ldots \boldsymbol{\alpha}_{k-1} \in\mathbb{R}^m\)</span> are certain starting values that are needed for the difference equation to work; we will discuss later how to obtain them. If <span class="math inline">\(b_k=0\)</span>, the method is called <em>explicit</em>; otherwise, it is called <em>implicit</em>. In the latter case, <span class="math inline">\(\mathbf{w}_{i+1}\)</span> appears on both sides of the difference equation, and is hence defined only implicitly; we will discuss later how such methods can be used.</p>
+<p>Like for one-step methods, one defines the <em>local truncation error</em> of the multistep method <a href="#eq-multistepdef" class="quarto-xref">Eq.&nbsp;<span>10.147</span></a> by <span id="eq-ltemulti"><span class="math display">\[
 \mathbf{\tau}_{i+1} := \frac{1}{h} \left[ \mathbf{y}(x_{i+1}) - \sum_{j=0}^{k-1} a_{k-1-j} \mathbf{y}(x_{i-j}) - h \sum_{j=0}^{k} b_{k-j} \mathbf{f}(x_{i+1-j}, \mathbf{y}(x_{i-j+1})) \right].
-\tag{10.76}\]</span></span> Again, the local truncation error determines the global error, i.e., an analogue of <a href="#thm-globalerr" class="quarto-xref">Theorem&nbsp;<span>10.2</span></a> for multi-step methods holds. However, we do not discuss this here.</p>
-<p>Examples of <span class="math inline">\(k\)</span>-step multistep methods are the so-called Adams-Bashforth and Adams-Moulton methods. They are derived from rewriting the differential equation as an integral equation, <span class="math display">\[
+\tag{10.148}\]</span></span> Again, the local truncation error determines the global error, i.e., an analogue of <a href="#thm-globalerr" class="quarto-xref">Theorem&nbsp;<span>10.2</span></a> for multi-step methods holds. However, we do not discuss this here.</p>
+<p>Examples of <span class="math inline">\(k\)</span>-step multistep methods are the so-called Adams-Bashforth and Adams-Moulton methods. They are derived from rewriting the differential equation as an integral equation, <span id="eq-ivp71"><span class="math display">\[
 \mathbf{y}'=\mathbf{f}(x,\mathbf{y}(x)) \quad \Leftrightarrow \quad
   \mathbf{y}(x_{i+1}) = \mathbf{y}(x_i) + \int_{x_i}^{x_{i+1}} \mathbf{f}(x,\mathbf{y}(x)) \,dx,
-\]</span> and then approximating the components <span class="math inline">\(\hat{f}_j\)</span> on the right hand side with Lagrange interpolating polynomials. The integral can be done explicitly, and one obtains the difference equation of a multi-step method; see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 5.6</a>)</span> for details. The number <span class="math inline">\(k\)</span> of steps depends on the number of interpolation points chosen. Adams-Bashforth methods (<a href="#tbl-abmethod" class="quarto-xref">Table&nbsp;<span>10.2</span></a>) are <span class="math inline">\(k\)</span>-step <em>explicit</em> methods of error order <span class="math inline">\(O(h^k)\)</span> and Adams-Moulton methods (<a href="#tbl-ammethod" class="quarto-xref">Table&nbsp;<span>10.3</span></a>) are <span class="math inline">\(k\)</span>-step <em>implicit</em> methods of error oreder <span class="math inline">\(O(h^{k+1})\)</span>,</p>
+\tag{10.149}\]</span></span> and then approximating the components <span class="math inline">\(\hat{f}_j\)</span> on the right hand side with Lagrange interpolating polynomials. The integral can be done explicitly, and one obtains the difference equation of a multi-step method; see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 5.6</a>)</span> for details. The number <span class="math inline">\(k\)</span> of steps depends on the number of interpolation points chosen. Adams-Bashforth methods (<span class="quarto-unresolved-ref">?tbl-abmethod</span>) are <span class="math inline">\(k\)</span>-step <em>explicit</em> methods of error order <span class="math inline">\(O(h^k)\)</span> and Adams-Moulton methods (<span class="quarto-unresolved-ref">?tbl-ammethod</span>) are <span class="math inline">\(k\)</span>-step <em>implicit</em> methods of error oreder <span class="math inline">\(O(h^{k+1})\)</span>,</p>
 <p>Notation: <span class="math inline">\(\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)\)</span>.</p>
-<div id="tbl-abmethod" class="quarto-float anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-abmethod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;10.2: : Adams-Bashforth methods
-</figcaption>
-<div aria-describedby="tbl-abmethod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Method</th>
-<th style="text-align: left;">Difference equation</th>
-<th style="text-align: center;">Error order</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Two-step explicit</td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span class="math inline">\(O(h^2)\)</span></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">_{i+1} = _i + (3 <em>i - </em>{i-1})</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">%</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p>Three-step explicit<br>
-<span class="math display">\[
-%                                                                                                                                   $O(h^3)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{12} (23 \mathbf{f}_i - 16 \mathbf{f}_{i-1} + 5 \mathbf{f}_{i-2})                         
-                        %
-\]</span></p>
-<p>Four-step explicit<br>
-<span class="math display">\[
-%                                                                                                                                   $O(h^4)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (55 \mathbf{f}_i - 59 \mathbf{f}_{i-1} + 37 \mathbf{f}_{i-2} - 9 \mathbf{f}_{i-3})   
-                        %
-\]</span></p>
-<p>Five-step explicit<br>
-<span class="math display">\[
-\begin{gathered}                                                                                                                    $O(h^5)$
-                        %                                                                                                                                   
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{720} (1901 \mathbf{f}_i - 2774 \mathbf{f}_{i-1}                                          
-                         \\ + 2616 \mathbf{f}_{i-2} - 1274 \mathbf{f}_{i-3} + 251 \mathbf{f}_{i-4})                                                         
-                        %                                                                                                                                   
-                        \end{gathered}
-\]</span></p>
-</div>
-</figure>
-</div>
 <p>As with Taylor and Runge-Kutta methods, the estimates for the local truncation error depend on higher-order total derivatives of <span class="math inline">\(\mathbf{f}\)</span>.</p>
 <p>In order to apply these multi-step methods in examples, we need additional start values <span class="math inline">\(\mathbf{w}_1=\boldsymbol{\alpha}_1, \ldots,
 \mathbf{w}_{k-1} = \boldsymbol{\alpha}_{k-1}\)</span>. These are normally obtained by using one-step methods of the same error order. For example, for the four-step Adams-Bashforth method, one might use the classical Runge-Kutta method of order <span class="math inline">\(O(h^4)\)</span>.</p>
 <p>Notation: <span class="math inline">\(\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)\)</span>.</p>
-<div id="tbl-ammethod" class="quarto-float anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ammethod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;10.3: : Adams-Moulton methods
-</figcaption>
-<div aria-describedby="tbl-ammethod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Method</th>
-<th style="text-align: left;">Difference equation</th>
-<th style="text-align: center;">Error order</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Two-step implicit</td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span class="math inline">\(O(h^3)\)</span></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">_{i+1} = <em>i + (5 </em>{i+1} + 8 <em>i - </em>{i-1})</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">%</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p>Three-step implicit<br>
-<span class="math display">\[
-%                                                                                                                               $O(h^4)$
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (9 \mathbf{f}_{i+1} + 19 \mathbf{f}_i - 5 \mathbf{f}_{i-1} + \mathbf{f}_{i-2})   
-                        %
-\]</span></p>
-<p>Four-step implicit<br>
-<span class="math display">\[
-\begin{gathered}                                                                                                                $O(h^5)$
-                        %                                                                                                                               
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{720} (251 \mathbf{f}_{i+1} + 646 \mathbf{f}_i - 264 \mathbf{f}_{i-1}                 
-                        \\+ 106                                                                                                                         
-                        \mathbf{f}_{i-2} - 19 \mathbf{f}_{i-3})                                                                                         
-                        %                                                                                                                               
-                        \end{gathered}
-\]</span></p>
-<p>Five-step implicit<br>
-<span class="math display">\[
-\begin{gathered}                                                                                                                $O(h^6)$
-                        %                                                                                                                               
-                        \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{1440} (475 \mathbf{f}_{i+1} + 1427 \mathbf{f}_i - 798 \mathbf{f}_{i-1}               
-                        \\+ 482                                                                                                                         
-                        \mathbf{f}_{i-2} - 173 \mathbf{f}_{i-3} + 27 \mathbf{f}_{i-4})                                                                  
-                        %                                                                                                                               
-                        \end{gathered}
-\]</span></p>
-</div>
-</figure>
-</div>
 <section id="predictor-corrector-methods" class="level3" data-number="10.8.1">
 <h3 data-number="10.8.1" class="anchored" data-anchor-id="predictor-corrector-methods"><span class="header-section-number">10.8.1</span> Predictor-corrector methods</h3>
-<p>Implicit multi-step methods, like the Adams-Moulton methods shown in <a href="#tbl-ammethod" class="quarto-xref">Table&nbsp;<span>10.3</span></a>, involve the term <span class="math inline">\(\mathbf{f}(x_{i+1},\mathbf{w}_{i+1})\)</span> on the right-hand side of the difference equation. This means that <span class="math inline">\(\mathbf{w}_{i+1}\)</span> is defined only implicitly; it is unclear at first how these methods should be used in practice.</p>
+<p>Implicit multi-step methods, like the Adams-Moulton methods shown in <span class="quarto-unresolved-ref">?tbl-ammethod</span>, involve the term <span class="math inline">\(\mathbf{f}(x_{i+1},\mathbf{w}_{i+1})\)</span> on the right-hand side of the difference equation. This means that <span class="math inline">\(\mathbf{w}_{i+1}\)</span> is defined only implicitly; it is unclear at first how these methods should be used in practice.</p>
 <p>One option would be to solve the difference equation for <span class="math inline">\(\mathbf{w}_{i+1}\)</span>, either symbolically (for simple cases of <span class="math inline">\(\mathbf{f}\)</span>) or numerically. This is useful only in very specific cases; we will come back to this approach in <a href="#sec-stiff" class="quarto-xref"><span>Section 10.9</span></a>.</p>
 <p>The other, and indeed frequently used, option is to combine them with explicit multi-step methods into so-called <em>predictor-corrector methods</em>. These work as follows.</p>
 <p>Suppose that <span class="math inline">\(\mathbf{w}_0,\ldots,\mathbf{w}_i\)</span> are already known. These are inserted into the difference equation of an explicit method, the <em>(predictor)</em>, which gives an approximation value <span class="math inline">\(\mathbf{w}_{i+1}^{(p)}\)</span>. This value is then inserted into the r.h.s.&nbsp;of the difference equation of an implicit method, the <em>corrector</em>, in order to obtain <span class="math inline">\(\mathbf{w}_{i+1}\)</span>.</p>
-<p>To illustrate this, let us consider a frequently used case: the Adams-Bashforth 4-step method as the predictor, combined with the Adams-Moulton 3-step method as the corrector. In each step of the method, we compute the “predicted value” by the explicit method, <span class="math display">\[
+<p>To illustrate this, let us consider a frequently used case: the Adams-Bashforth 4-step method as the predictor, combined with the Adams-Moulton 3-step method as the corrector. In each step of the method, we compute the “predicted value” by the explicit method, <span id="eq-ivp72"><span class="math display">\[
 \mathbf{w}_{i+1}^{(p)} = \mathbf{w}_i +
       \frac{h}{24} (55 \mathbf{f}_i - 59 \mathbf{f}_{i-1} + 37 \mathbf{f}_{i-2} - 9 \mathbf{f}_{i-3}),
-\]</span> and afterwards the “corrected value” using the implicit method: <span class="math display">\[
+\tag{10.150}\]</span></span> and afterwards the “corrected value” using the implicit method: <span id="eq-ivp73"><span class="math display">\[
 \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (9 \mathbf{f}(x_{i+1},\mathbf{w}_{i+1}^{(p)}) + 19 \mathbf{f}_i - 5
    \mathbf{f}_{i-1} + \mathbf{f}_{i-2}).
-\]</span> Here <span class="math inline">\(\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)\)</span>. Both the predictor and the corrector are of order <span class="math inline">\(O(h^4)\)</span>, and so is the entire method, as it turns out. However, the combined predictor-corrector method is more precise than each of the parts alone.</p>
-<div class="algorithm">
-<div class="algorithmic">
-<p><span class="math inline">\(h := (b-a)/N\)</span>, <span class="math inline">\(x_0 := a\)</span>, <span class="math inline">\(\mathbf{w}_0 := \boldsymbol{\alpha}\)</span>, <span class="math inline">\(\mathbf{f}_0 := \mathbf{f}(x_0,\mathbf{w}_0)\)</span>. Compute <span class="math inline">\(\mathbf{w}_i\)</span> using Runge-Kutta fourth order <span class="math inline">\(x_i := x_{i-1}+h\)</span>; <span class="math inline">\(\mathbf{f}_i := \mathbf{f}(x_i,\mathbf{w}_i)\)</span> <span class="math inline">\(x := a + ih\)</span> <span class="math inline">\(\mathbf{w}:= \mathbf{w}_3 +
-      \frac{h}{24} (55 \mathbf{f}_3 - 59 \mathbf{f}_2 + 37 \mathbf{f}_1 - 9 \mathbf{f}_0)\)</span> <span class="math inline">\(\mathbf{w}:= \mathbf{w}_3 + \frac{h}{24} (9 \mathbf{f}(x,\mathbf{w}) + 19 \mathbf{f}_3 - 5
-   \mathbf{f}_2 + \mathbf{f}_1)\)</span> <span class="math inline">\(x_j := x_{j+1}\)</span>; <span class="math inline">\(\mathbf{w}_j := \mathbf{w}_{j+1}\)</span>; <span class="math inline">\(\mathbf{f}_j :=
-\mathbf{f}_{j+1}\)</span>; <span class="math inline">\(x_3 := x\)</span>; <span class="math inline">\(\mathbf{w}_3 := \mathbf{w}\)</span>; <span class="math inline">\(\mathbf{f}_3 := \mathbf{f}(x,\mathbf{w})\)</span>; <span class="math inline">\(\mathbf{w}\)</span></p>
+\tag{10.151}\]</span></span> Here <span class="math inline">\(\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)\)</span>. Both the predictor and the corrector are of order <span class="math inline">\(O(h^4)\)</span>, and so is the entire method, as it turns out. However, the combined predictor-corrector method is more precise than each of the parts alone.</p>
+<div id="alg-adams4" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-indent-size="1.2em" data-no-end="false" data-caption-prefix="Algorithm" data-pseudocode-number="2" data-chapter-level="10" data-line-number="true" data-line-number-punc=":">
+<div class="pseudocode">
+\begin{algorithm} \caption{Adams fourth-order predictor-corrector} \begin{algorithmic} \Function{AdamsPredictorCorrector}{$a,b,\boldsymbol{\alpha},N$} \State \Comment{endpoints $a \leq b$; initial condition $\boldsymbol{\alpha}$; number of steps $N$} \State $h := (b-a)/N$, $x_0 := a$, $\boldsymbol{w}_0 := \boldsymbol{\alpha}$, $\boldsymbol{f}_0 := \boldsymbol{f}(x_0,\boldsymbol{w}_0)$. \For { $i = 1,2,3$ } \Comment{prepare first steps} \State Compute $\boldsymbol{w}_i$ using Runge-Kutta fourth order \State $x_i := x_{i-1}+h$; $\boldsymbol{f}_i := \boldsymbol{f}(x_i,\boldsymbol{w}_i)$ \EndFor \For {$i = 4,\ldots,N$} \Comment{main approximation} \State $x := a + ih$ \State $\boldsymbol{w} := \boldsymbol{w}_3 + \frac{h}{24} (55 \boldsymbol{f}_3 - 59 \boldsymbol{f}_2 + 37 \boldsymbol{f}_1 - 9 \boldsymbol{f}_0)$ \Comment{predict} \State $\boldsymbol{w} := \boldsymbol{w}_3 + \frac{h}{24} (9 \boldsymbol{f}(x,\boldsymbol{w}) + 19 \boldsymbol{f}_3 - 5 \boldsymbol{f}_2 + \boldsymbol{f}_1)$ \Comment{correct} \For{j = 0,1,2} \State $x_j := x_{j+1}$; $\boldsymbol{w}_j := \boldsymbol{w}_{j+1}$; $\boldsymbol{f}_j := \boldsymbol{f}_{j+1}$; \EndFor \State $x_3 := x$; $\boldsymbol{w}_3 := \boldsymbol{w}$; $\boldsymbol{f}_3 := \boldsymbol{f}(x,\boldsymbol{w})$; \EndFor \State \Return $\boldsymbol{w}$ \EndFunction \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>Algorithm&nbsp;<a href="#alg:adams4" data-reference-type="ref" data-reference="alg:adams4">[alg:adams4]</a> shows this predictor-corrector method in pseudocode. Lines 3–6 use the classical Runge-Kutta method to set up the required initial values, while lines 7–15 implement the actual multistep method. The scheme is quite efficient, since in each step of the method, only two evaluations of the function <span class="math inline">\(\mathbf{f}\)</span> are used: in line 10 and in line 14 of the algorithm. All other values <span class="math inline">\(\mathbf{f}_j\)</span> are already known from the previous steps.</p>
+<p><a href="#alg-adams4" class="quarto-xref">Algorithm 10.2</a> shows this predictor-corrector method in pseudocode. Lines 3–6 use the classical Runge-Kutta method to set up the required initial values, while lines 7–15 implement the actual multistep method. The scheme is quite efficient, since in each step of the method, only two evaluations of the function <span class="math inline">\(\mathbf{f}\)</span> are used: in line 10 and in line 14 of the algorithm. All other values <span class="math inline">\(\mathbf{f}_j\)</span> are already known from the previous steps.</p>
 </section>
 <section id="advantages-and-disadvantages-2" class="level3" data-number="10.8.2">
 <h3 data-number="10.8.2" class="anchored" data-anchor-id="advantages-and-disadvantages-2"><span class="header-section-number">10.8.2</span> Advantages and disadvantages</h3>
@@ -1720,39 +1611,39 @@ Table&nbsp;10.3: : Adams-Moulton methods
 <div class="{exm-stiffivp}">
 <p>Let us consider the following IVP as an example: <span id="eq-stiffivp"><span class="math display">\[
    y'(x) = - 20y(x) + 10\cos(2x), \quad 0 \leq x \leq 3, \quad y(0)=1.
-\tag{10.77}\]</span></span></p>
-<p>This IVP has the exact solution <span class="math display">\[
+\tag{10.152}\]</span></span></p>
+<p>This IVP has the exact solution <span id="eq-ivp74"><span class="math display">\[
 y(x) =
   \underbrace{\frac{50}{101} \cos(2x) + \frac{5}{101} \sin(2x)}_{\text{steady-state solution}}
   + \underbrace{\frac{51}{101} \exp(-20x)}_{\text{transient solution}} .
-\]</span> Note here that one part of the solution, the <em>transient solution</em>, decays very rapidly as <span class="math inline">\(x\)</span> grows. For large <span class="math inline">\(x\)</span>, only the remainder - the <em>steady-state solution</em> - contributes to <span class="math inline">\(y(x)\)</span>.</p>
+\tag{10.153}\]</span></span> Note here that one part of the solution, the <em>transient solution</em>, decays very rapidly as <span class="math inline">\(x\)</span> grows. For large <span class="math inline">\(x\)</span>, only the remainder - the <em>steady-state solution</em> - contributes to <span class="math inline">\(y(x)\)</span>.</p>
 <p>When applying our approximation methods developed so far to this IVP, one notices the following behaviour: Below a certain “critical step size”, our methods give a reasonable approximation of the exact solution, as expected. However, above this step size, the approximation is completely unreliable, and usually grows very rapidly – although the exact solution is bounded by 1. This applies to all methods developed so far, and going to higher-order methods – such as classical Runge-Kutta – does not help.</p>
-<p>The reason for this becomes apparent when computing the derivatives of the transient solution: <span class="math display">\[
+<p>The reason for this becomes apparent when computing the derivatives of the transient solution: <span id="eq-ivp75"><span class="math display">\[
 \frac{ \mathrm{d}^{n}  }{\mathrm{d}x^{n} }  \exp(-20x) = (-20)^n \exp(-20x).
-\]</span> This expression can be very large, in particular for high <span class="math inline">\(n\)</span>. Since our error bounds all depended on the supremum of higher-order derivatives of <span class="math inline">\(y(x)\)</span>, this explains the large approximation error.</p>
+\tag{10.154}\]</span></span> This expression can be very large, in particular for high <span class="math inline">\(n\)</span>. Since our error bounds all depended on the supremum of higher-order derivatives of <span class="math inline">\(y(x)\)</span>, this explains the large approximation error.</p>
 </div>
-<p>ODEs that show this behaviour are called <em>stiff equations</em>. An exact definition of this term is hard to give. Roughly speaking, their crucial property is that they have a transient part of the solution, which decays very rapidly. Looking at the ODE <a href="#eq-stiffivp" class="quarto-xref">Eq.&nbsp;<span>10.77</span></a> directly, this might be seen from the large negative factor in front of <span class="math inline">\(y\)</span>. Of course, in realistic examples, the exact solution of the problem will <em>not</em> be known, the ODE may look more complicated, and one will need to deal with a system of equations rather than with a single equation, so that it is much harder to deduce the “stiff” behaviour from the ODE directly. In applications, it is often apparent from the context whether a problem is stiff or not. Stiff equations take their name from problems in mechanics: a system with “stiff” springs, i.e., with large spring constants and/or strong friction, is typically described by a stiff ODE.</p>
+<p>ODEs that show this behaviour are called <em>stiff equations</em>. An exact definition of this term is hard to give. Roughly speaking, their crucial property is that they have a transient part of the solution, which decays very rapidly. Looking at the ODE <a href="#eq-stiffivp" class="quarto-xref">Eq.&nbsp;<span>10.152</span></a> directly, this might be seen from the large negative factor in front of <span class="math inline">\(y\)</span>. Of course, in realistic examples, the exact solution of the problem will <em>not</em> be known, the ODE may look more complicated, and one will need to deal with a system of equations rather than with a single equation, so that it is much harder to deduce the “stiff” behaviour from the ODE directly. In applications, it is often apparent from the context whether a problem is stiff or not. Stiff equations take their name from problems in mechanics: a system with “stiff” springs, i.e., with large spring constants and/or strong friction, is typically described by a stiff ODE.</p>
 <section id="the-test-equation" class="level3" data-number="10.9.1">
 <h3 data-number="10.9.1" class="anchored" data-anchor-id="the-test-equation"><span class="header-section-number">10.9.1</span> The test equation</h3>
 <p>In order to understand the problem better, and to decide which numerical methods best to apply, we need a simple but comprehensive test case for our numerical methods. To that end, we apply our methods to the <em>test equation</em> <span id="eq-testeq"><span class="math display">\[
    y'(x) = \lambda y(x), \quad 0 \leq x , \quad y(0)=1,
-\tag{10.78}\]</span></span> where <span class="math inline">\(\lambda \in \mathbb{C}\)</span> is a constant, with <span class="math inline">\(\mathop{\mathrm{Re}}\lambda &lt; 0\)</span>. The exact solution is <span class="math display">\[
+\tag{10.155}\]</span></span> where <span class="math inline">\(\lambda \in \mathbb{C}\)</span> is a constant, with <span class="math inline">\(\mathop{\mathrm{Re}}\lambda &lt; 0\)</span>. The exact solution is <span id="eq-ivp76"><span class="math display">\[
 y(x) = \exp(\lambda x).
-\]</span> This solution has <em>only</em> a transient part, which makes it ideal for our purposes.</p>
+\tag{10.156}\]</span></span> This solution has <em>only</em> a transient part, which makes it ideal for our purposes.</p>
 <p>(We are now dealing with an ODE for a <em>complex</em>-valued function <span class="math inline">\(y\)</span>. This does not really need a generalization of our previous methods: We can always split <span class="math inline">\(y\)</span> into a two-vector <span class="math inline">\((\mathop{\mathrm{Re}}y, \mathop{\mathrm{Im}}y)\)</span>, and thus rewrite our equations as a system of two first-order ODEs with real values. However, the complex-valued notation is convenient here. The nonzero imaginary part of <span class="math inline">\(\lambda\)</span> allows us to include oscillatory solutions as well, with almost no added effort.)</p>
-<p>Let us apply the Euler method to the test equation. The difference equation gives <span class="math display">\[
+<p>Let us apply the Euler method to the test equation. The difference equation gives <span id="eq-ivp77"><span class="math display">\[
 w_{i+1} = w_i + h \,f(x_i,w_i) = w_i + \lambda h w_i = (1 + \lambda h) w_i.
-\]</span> With <span class="math inline">\(w_0=1\)</span>, it is then clear that for all <span class="math inline">\(i \in \mathbb{N}\)</span>,</p>
+\tag{10.157}\]</span></span> With <span class="math inline">\(w_0=1\)</span>, it is then clear that for all <span class="math inline">\(i \in \mathbb{N}\)</span>,</p>
 <p><span id="eq-eulerwi"><span class="math display">\[
    w_i = (1+\lambda h)^i.
-\tag{10.79}\]</span></span> Thus, if <span class="math inline">\(|1+\lambda h|&gt;1\)</span>, the approximation grows exponentially for large <span class="math inline">\(i\)</span>, and is therefore “grossly wrong” as the exact solution vanishes for large <span class="math inline">\(x\)</span>. If <span class="math inline">\(|1+\lambda h|&lt;1\)</span>, then <span class="math inline">\(w_i\to 0\)</span>, which at least roughly resembles the behaviour of the exact solution.</p>
-<p>For our other (explicit) approximation methods, one finds in generalization of <a href="#eq-eulerwi" class="quarto-xref">Eq.&nbsp;<span>10.79</span></a>, <span id="eq-qwi"><span class="math display">\[
+\tag{10.158}\]</span></span> Thus, if <span class="math inline">\(|1+\lambda h|&gt;1\)</span>, the approximation grows exponentially for large <span class="math inline">\(i\)</span>, and is therefore “grossly wrong” as the exact solution vanishes for large <span class="math inline">\(x\)</span>. If <span class="math inline">\(|1+\lambda h|&lt;1\)</span>, then <span class="math inline">\(w_i\to 0\)</span>, which at least roughly resembles the behaviour of the exact solution.</p>
+<p>For our other (explicit) approximation methods, one finds in generalization of <a href="#eq-eulerwi" class="quarto-xref">Eq.&nbsp;<span>10.158</span></a>, <span id="eq-qwi"><span class="math display">\[
    w_i = \bigl(Q(\lambda h)\bigr)^i
-\tag{10.80}\]</span></span> with some function <span class="math inline">\(Q\)</span> (for explicit methods, <span class="math inline">\(Q\)</span> is in fact a polynomial). The approximation values grow or decay if <span class="math inline">\(|Q(\lambda h)| &gt; 1\)</span> or <span class="math inline">\(|Q(\lambda h)| &lt; 1\)</span>, respectively.</p>
-<p>This motivates us to define the <em>region of stability</em> of an approximation method: <span class="math display">\[
+\tag{10.159}\]</span></span> with some function <span class="math inline">\(Q\)</span> (for explicit methods, <span class="math inline">\(Q\)</span> is in fact a polynomial). The approximation values grow or decay if <span class="math inline">\(|Q(\lambda h)| &gt; 1\)</span> or <span class="math inline">\(|Q(\lambda h)| &lt; 1\)</span>, respectively.</p>
+<p>This motivates us to define the <em>region of stability</em> of an approximation method: <span id="eq-ivp78"><span class="math display">\[
 \mathcal{R}:= \big\{\mu \in \mathbb{C} \;\big|\; |Q(\mu)| &lt; 1 \big\}.
-\]</span> In order for the approximation to be “reasonable”, i.e.&nbsp;to ensure <span class="math inline">\(w_i \to 0\)</span> as <span class="math inline">\(i \to \infty\)</span>, we then need to choose our step size <span class="math inline">\(h\)</span> so that <span class="math inline">\(h\lambda \in \mathcal{R}\)</span>.</p>
-<div id="fig-stabilitytaylor" class="quarto-figure quarto-figure-left quarto-float anchored">
+\tag{10.160}\]</span></span> In order for the approximation to be “reasonable”, i.e.&nbsp;to ensure <span class="math inline">\(w_i \to 0\)</span> as <span class="math inline">\(i \to \infty\)</span>, we then need to choose our step size <span class="math inline">\(h\)</span> so that <span class="math inline">\(h\lambda \in \mathcal{R}\)</span>.</p>
+<div id="fig-stabilitytaylor" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-stabilitytaylor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/stability-taylor.png" class="img-fluid figure-img">
@@ -1769,14 +1660,14 @@ Figure&nbsp;10.2: Region of stability for Taylor methods
 \mathbf{w}_0&amp;:=\boldsymbol{\alpha}, \\
 \mathbf{w}_{i+1} &amp;= \mathbf{w}_i + \frac{h}{2} (\mathbf{f}(x_{i+1},\mathbf{w}_{i+1}) + \mathbf{f}(x_i,\mathbf{w}_i)).
 \end{split}
-\tag{10.81}\]</span></span> Applying it to the test equation <a href="#eq-testeq" class="quarto-xref">Eq.&nbsp;<span>10.78</span></a>, we obtain <span class="math display">\[
+\tag{10.161}\]</span></span> Applying it to the test equation <a href="#eq-testeq" class="quarto-xref">Eq.&nbsp;<span>10.155</span></a>, we obtain <span id="eq-ivp79"><span class="math display">\[
 w_{i+1} = w_i + \frac{h}{2} (\lambda w_{i+1} + \lambda w_i)
   =  \big( 1 + \frac{\lambda h}{2} \big) w_i  + \frac{\lambda h}{2} w_{i+1}.
-\]</span> We can solve this for <span class="math inline">\(w_{i+1}\)</span>: <span id="eq-trapezsolve"><span class="math display">\[
+\tag{10.162}\]</span></span> We can solve this for <span class="math inline">\(w_{i+1}\)</span>: <span id="eq-trapezsolve"><span class="math display">\[
 w_{i+1} = \frac{2+\lambda h}{2-\lambda h} w_i.
-\tag{10.82}\]</span></span> Thus, the result is again of the form <a href="#eq-qwi" class="quarto-xref">Eq.&nbsp;<span>10.80</span></a>, with <span class="math display">\[
+\tag{10.163}\]</span></span> Thus, the result is again of the form <a href="#eq-qwi" class="quarto-xref">Eq.&nbsp;<span>10.159</span></a>, with <span id="eq-ivp80"><span class="math display">\[
 Q(\mu) = \frac{2+\mu}{2-\mu}.
-\]</span> Since <span class="math display">\[
+\tag{10.164}\]</span></span> Since <span id="eq-ivp81"><span class="math display">\[
 \begin{gathered}
 |Q(\mu)| &lt; 1
     \quad \Leftrightarrow \quad
@@ -1789,10 +1680,10 @@ Q(\mu) = \frac{2+\mu}{2-\mu}.
     \quad \Leftrightarrow \quad
 \mathop{\mathrm{Re}}\mu &lt; 0,
 \end{gathered}
-\]</span> the region of stability <span class="math inline">\(\mathcal{R}\)</span> is just the left half plane. This is the maximum we could hope for: the implicit trapezoidal method gives reasonable results on stiff problems for all step sizes.</p>
+\tag{10.165}\]</span></span> the region of stability <span class="math inline">\(\mathcal{R}\)</span> is just the left half plane. This is the maximum we could hope for: the implicit trapezoidal method gives reasonable results on stiff problems for all step sizes.</p>
 <p>Methods of this kind, i.e., whose region of stability <span class="math inline">\(\mathcal{R}\)</span> contains the entire left half plane, are called <em>absolutely stable</em> or <em>A-stable</em>.</p>
-<p>One can apply the above stability analysis to other implicit methods as well, with some added complication – namely, when solving the difference equation as in Eq.&nbsp;<a href="#eq-trapezsolve" class="quarto-xref">Eq.&nbsp;<span>10.82</span></a>, we may in general find several solutions. <a href="#fig-stabilityadams" class="quarto-xref">Figure&nbsp;<span>10.3</span></a> show the resulting regions of stability in some examples. Not all implicit methods are A-stable. In fact, there are no A-stable multistep methods of order <span class="math inline">\(O(h^3)\)</span> or above. Sometimes, one uses a class of implicit multistep methods known as <em>backward differentiation methods (BDM)</em>, which exist for arbitrary error order and come at least close to A-stability; we do not discuss them here.</p>
-<div id="fig-stabilityadams" class="quarto-figure quarto-figure-left quarto-float anchored">
+<p>One can apply the above stability analysis to other implicit methods as well, with some added complication – namely, when solving the difference equation as in <a href="#eq-trapezsolve" class="quarto-xref">Eq.&nbsp;<span>10.163</span></a>, we may in general find several solutions. <a href="#fig-stabilityadams" class="quarto-xref">Figure&nbsp;<span>10.3</span></a> show the resulting regions of stability in some examples. Not all implicit methods are A-stable. In fact, there are no A-stable multistep methods of order <span class="math inline">\(O(h^3)\)</span> or above. Sometimes, one uses a class of implicit multistep methods known as <em>backward differentiation methods (BDM)</em>, which exist for arbitrary error order and come at least close to A-stability; we do not discuss them here.</p>
+<div id="fig-stabilityadams" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-stabilityadams-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/ivp/stability_multistep_nolegend.jpg" class="img-fluid figure-img">
@@ -1806,15 +1697,15 @@ Figure&nbsp;10.3: Region of stability for Adams-Bashforth and Adams-Moulton meth
 <section id="implementing-the-implicit-trapezoidal-method" class="level3" data-number="10.9.2">
 <h3 data-number="10.9.2" class="anchored" data-anchor-id="implementing-the-implicit-trapezoidal-method"><span class="header-section-number">10.9.2</span> Implementing the Implicit Trapezoidal Method</h3>
 <p>Our analysis so far suggests that we should use the Implicit Trapezoidal method for the numerical treatment of stiff ODEs. However, since the difference equation of the method defines <span class="math inline">\(w_{i+1}\)</span> only implicitly, this poses conceptual problems.</p>
-<p>In the extremely simple case of the test equation <a href="#eq-testeq" class="quarto-xref">Eq.&nbsp;<span>10.78</span></a>, we were able to solve the difference equation explicitly for <span class="math inline">\(w_{i+1}\)</span>; see Eq.&nbsp;<a href="#eq-trapezsolve" class="quarto-xref">Eq.&nbsp;<span>10.82</span></a>. We can generalize this to the case of a <em>linear</em> ODE: <span id="eq-ivplinear"><span class="math display">\[
+<p>In the extremely simple case of the test equation <a href="#eq-testeq" class="quarto-xref">Eq.&nbsp;<span>10.155</span></a>, we were able to solve the difference equation explicitly for <span class="math inline">\(w_{i+1}\)</span>; see <a href="#eq-trapezsolve" class="quarto-xref">Eq.&nbsp;<span>10.163</span></a>. We can generalize this to the case of a <em>linear</em> ODE: <span id="eq-ivplinear"><span class="math display">\[
    y'(x) = \ell(x) y(x) + g(x), \quad a \leq x \leq b, \quad y(a)=\alpha.
-\tag{10.83}\]</span></span></p>
-<p>Here <span class="math inline">\(\ell,g\)</span> are continuous functions from <span class="math inline">\([a,b]\)</span> to <span class="math inline">\(\mathbb{R}\)</span>. In this case, the difference equation <a href="#eq-trapezde" class="quarto-xref">Eq.&nbsp;<span>10.81</span></a> of the implicit trapezoidal method reads, <span class="math display">\[
+\tag{10.166}\]</span></span></p>
+<p>Here <span class="math inline">\(\ell,g\)</span> are continuous functions from <span class="math inline">\([a,b]\)</span> to <span class="math inline">\(\mathbb{R}\)</span>. In this case, the difference equation <a href="#eq-trapezde" class="quarto-xref">Eq.&nbsp;<span>10.161</span></a> of the implicit trapezoidal method reads, <span id="eq-ivp82"><span class="math display">\[
 w_{i+1} = w_i + \frac{h}{2}
   \Big(
     \ell(x_{i+1}) w_{i+1} + g(x_{i+1}) +\ell(x_{i}) w_{i} + g(x_{i})
   \Big).
-\]</span> Much like in <a href="#eq-trapezsolve" class="quarto-xref">Eq.&nbsp;<span>10.82</span></a>, this can be solved for <span class="math inline">\(w_{i+1}\)</span>: <span id="eq-trapezsolvelin"><span class="math display">\[
+\tag{10.167}\]</span></span> Much like in <a href="#eq-trapezsolve" class="quarto-xref">Eq.&nbsp;<span>10.163</span></a>, this can be solved for <span class="math inline">\(w_{i+1}\)</span>: <span id="eq-trapezsolvelin"><span class="math display">\[
 \begin{gathered}
    w_{i+1}
   \Big(
@@ -1832,19 +1723,19 @@ w_{i+1} = w_i + \frac{h}{2}
 w_{i+1} = \frac{2 + h \ell(x_{i})}{ 2 - h \ell(x_{i+1})} w_i
 + h \frac{g(x_{i+1}) + g(x_{i}) }{2 - h \ell(x_{i+1})}.
 \end{gathered}
-\tag{10.84}\]</span></span> Thus, for linear ODEs as in <a href="#eq-ivplinear" class="quarto-xref">Eq.&nbsp;<span>10.83</span></a>, the implicit trapezoidal method can be applied with an explicit difference equation.</p>
+\tag{10.168}\]</span></span> Thus, for linear ODEs as in <a href="#eq-ivplinear" class="quarto-xref">Eq.&nbsp;<span>10.166</span></a>, the implicit trapezoidal method can be applied with an explicit difference equation.</p>
 <p>For a nonlinear ODE, it will generally not be possible to solve the difference equation symbolically. However, we can try to solve it <em>numerically</em>. As an approach for numerically solving nonlinear equations, we shall use Newton Iteration.</p>
-<p>As a reminder: <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Let <span class="math inline">\(F: \mathbb{R} \to \mathbb{R}\)</span> be twice differentiable; suppose we are looking for a solution <span class="math inline">\(x\)</span> of the equation <span class="math display">\[
+<p>As a reminder: <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Let <span class="math inline">\(F: \mathbb{R} \to \mathbb{R}\)</span> be twice differentiable; suppose we are looking for a solution <span class="math inline">\(x\)</span> of the equation <span id="eq-ivp83"><span class="math display">\[
 F(x) = 0.
-\]</span> This solution is found with Newton’s method as follows. Starting with <span class="math inline">\(x_0\)</span> sufficiently close to a solution, one recursively defines the sequence <span id="eq-newtondiff"><span class="math display">\[
+\tag{10.169}\]</span></span> This solution is found with Newton’s method as follows. Starting with <span class="math inline">\(x_0\)</span> sufficiently close to a solution, one recursively defines the sequence <span id="eq-newtondiff"><span class="math display">\[
    x_k := x_{k-1} - \frac{F(x_{k-1})}{F'(x_{k-1})}.
-\tag{10.85}\]</span></span> Then <span class="math inline">\(x_k \to x_\infty\)</span> with <span class="math inline">\(F(x_\infty)=0\)</span>.</p>
-<p>When implementing this on a computer, one cannot pass to the limit <span class="math inline">\(k \to \infty\)</span>, but needs to stop the iteration when a sufficient precision is reached. In practice, one usually takes the magnitude of the difference term on the r.h.s. of <a href="#eq-newtondiff" class="quarto-xref">Eq.&nbsp;<span>10.85</span></a> as an indicator: The iteration is stopped when <span class="math inline">\(|F(x_{k-1})/F'(x_{k-1})|&lt;T\)</span>, where <span class="math inline">\(T&gt;0\)</span> is the desired tolerance level.</p>
-<p>In our situation of the implicit trapezoidal method, we need to solve the equation <span class="math display">\[
+\tag{10.170}\]</span></span> Then <span class="math inline">\(x_k \to x_\infty\)</span> with <span class="math inline">\(F(x_\infty)=0\)</span>.</p>
+<p>When implementing this on a computer, one cannot pass to the limit <span class="math inline">\(k \to \infty\)</span>, but needs to stop the iteration when a sufficient precision is reached. In practice, one usually takes the magnitude of the difference term on the r.h.s. of <a href="#eq-newtondiff" class="quarto-xref">Eq.&nbsp;<span>10.170</span></a> as an indicator: The iteration is stopped when <span class="math inline">\(|F(x_{k-1})/F'(x_{k-1})|&lt;T\)</span>, where <span class="math inline">\(T&gt;0\)</span> is the desired tolerance level.</p>
+<p>In our situation of the implicit trapezoidal method, we need to solve the equation <span id="eq-ivp84"><span class="math display">\[
 w_{i+1} = w_i + \frac{h}{2} \big( f(x_i,w_i)+ f(x_{i+1},w_{i+1})\big).
-\]</span> for <span class="math inline">\(w_{i+1}\)</span>, where <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x_{i+1}\)</span>, <span class="math inline">\(w_i\)</span> are given numbers. In other words, we are looking for zeros of the function <span class="math display">\[
+\tag{10.171}\]</span></span> for <span class="math inline">\(w_{i+1}\)</span>, where <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x_{i+1}\)</span>, <span class="math inline">\(w_i\)</span> are given numbers. In other words, we are looking for zeros of the function <span id="eq-ivp85"><span class="math display">\[
 F(\hat{w}) = \hat{w} - w_i - \frac{h}{2} \big( f(x_i,w_i)+ f(x_{i+1},\hat{w})\big).
-\]</span> Following <a href="#eq-newtondiff" class="quarto-xref">Eq.&nbsp;<span>10.85</span></a>, the following sequence should converge to the solution <span class="math inline">\(w_{i+1}\)</span>: <span class="math display">\[
+\tag{10.172}\]</span></span> Following <a href="#eq-newtondiff" class="quarto-xref">Eq.&nbsp;<span>10.170</span></a>, the following sequence should converge to the solution <span class="math inline">\(w_{i+1}\)</span>: <span id="eq-ivp86"><span class="math display">\[
 \begin{aligned}
      \hat{w}_0 &amp;:= w_{i},\\
      \hat{w}_k &amp;:= \hat{w}_{k-1} - \underbrace{\frac{\hat{w}_{k-1} - w_i - \frac{h}{2}\big(
@@ -1852,9 +1743,9 @@ F(\hat{w}) = \hat{w} - w_i - \frac{h}{2} \big( f(x_i,w_i)+ f(x_{i+1},\hat{w})\bi
      \big)}{ 1 - \frac{h}{2} \frac{\partial f}{\partial
      y}(x_{i+1},\hat{w}_{k-1}) }}_{=:v}.
   \end{aligned}
-\]</span> We would run this iteration until <span class="math inline">\(|v|&lt;T\)</span>.</p>
+\tag{10.173}\]</span></span> We would run this iteration until <span class="math inline">\(|v|&lt;T\)</span>.</p>
 <p>Both in the case of linear and nonlinear equations, we have so far discussed a single ODE only. For applications in practice, we would need to generalize the methods to systems of ODEs. This is indeed possible, but requires a bit of thought.</p>
-<p>In the linear case <a href="#eq-ivplinear" class="quarto-xref">Eq.&nbsp;<span>10.83</span></a>, one would consider a matrix-valued function <span class="math inline">\(\ell\)</span> and a vector-valued <span class="math inline">\(g\)</span>. The difference equation can then still be solved symbolically, like in <a href="#eq-trapezsolvelin" class="quarto-xref">Eq.&nbsp;<span>10.84</span></a>; however, the division by the factor <span class="math inline">\((2-h\ell(x_{i+1}))\)</span> needs to be replaced by a multiplication with an inverse matrix, or equivalently, by solving a system of linear equations. Likewise, in the nonlinear case, we can handle ODE systems but would need the multi-dimensional version of Newton’s method (or, in other words, Newton’s method for systems of nonlinear equations). We shall not discuss the details of this generalization here.</p>
+<p>In the linear case <a href="#eq-ivplinear" class="quarto-xref">Eq.&nbsp;<span>10.166</span></a>, one would consider a matrix-valued function <span class="math inline">\(\ell\)</span> and a vector-valued <span class="math inline">\(g\)</span>. The difference equation can then still be solved symbolically, like in <a href="#eq-trapezsolvelin" class="quarto-xref">Eq.&nbsp;<span>10.168</span></a>; however, the division by the factor <span class="math inline">\((2-h\ell(x_{i+1}))\)</span> needs to be replaced by a multiplication with an inverse matrix, or equivalently, by solving a system of linear equations. Likewise, in the nonlinear case, we can handle ODE systems but would need the multi-dimensional version of Newton’s method (or, in other words, Newton’s method for systems of nonlinear equations). We shall not discuss the details of this generalization here.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -1875,7 +1766,7 @@ Weir, M. D., G. B. Thomas, and J. Hass. 2010. <em>Thomas’ Calculus</em>. Addis
 <ol>
 <li id="fn1"><p>The same example is considered in <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 5.3</a>)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>The names of methods may vary in the literature; it is best to compare the tableaux when reading different sources!<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>If you hear someone speaking of “the Runge-Kutta method”, he is probably referring to this <span class="math inline">\(O(h^4)\)</span> method.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>If you hear someone speaking of “the Runge-Kutta method”, they are probably referring to this <span class="math inline">\(O(h^4)\)</span> method.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>This is not necessarily a realistic assumption - but one that simplifies the proof. One can do a similar argument using local bounds on <span class="math inline">\(\mathbf{f}\)</span> and its derivatives in a suitable neighbourhood of the exact solution; however, this introduces formal complications which we want to avoid here.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>We will not deal with any “global” error behaviour here.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>This is true for all of our examples, but not for all Runge-Kutta methods in general.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1919,18 +1810,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1962,7 +1842,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1970,10 +1870,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -2015,7 +1920,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -2063,7 +1972,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -2291,19 +2199,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter09.html" class="pagination-link  aria-label=" &lt;span="" direct="" method="" for="" solving="" tridiagonal="" linear="" systems&lt;="" span&gt;"="">
+      <a href="./chapter09.html" class="pagination-link" aria-label="A direct method for solving tridiagonal linear systems">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">A direct method for solving tridiagonal linear systems</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./bvp.html" class="pagination-link" aria-label="<span class='chapter-number'>11</span>&nbsp; <span class='chapter-title'>Boundary Value Problems</span>">
+      <a href="./bvp.html" class="pagination-link" aria-label="Boundary Value Problems">
         <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Boundary Value Problems</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+    <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/ivp.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/ivp.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

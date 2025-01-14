@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis 2018-23 - 8&nbsp; Numerical differentiation</title>
+<title>8&nbsp; Numerical differentiation – Numerical Analysis 2018-23</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -37,10 +37,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="site_libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -68,8 +70,26 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+MathJax = {
+  loader: {
+    load: ['[tex]/boldsymbol']
+  },
+  tex: {
+    tags: "all",
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    packages: {
+      '[+]': ['boldsymbol']
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -99,10 +119,10 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Numerical Analysis 2018-23 - 8&nbsp; Numerical differentiation">
+<meta property="og:title" content="8&nbsp; Numerical differentiation – Numerical Analysis 2018-23">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Numerical Analysis 2018-23">
-<meta name="twitter:title" content="Numerical Analysis 2018-23 - 8&nbsp; Numerical differentiation">
+<meta name="twitter:title" content="8&nbsp; Numerical differentiation – Numerical Analysis 2018-23">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -113,13 +133,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter08.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Numerical differentiation</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -220,9 +240,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -281,11 +301,11 @@ window.Quarto = {
 
 
 <p>Often we need to calculate the derivative of a function whose values are given only for a finite set of points. So, we need a formula which would approximate the derivatives of our function at these points and which would use only the values of the function at these points.</p>
-<p>Recall that, by definition, the derivative of the function <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x_{0}\)</span> is <span class="math display">\[
+<p>Recall that, by definition, the derivative of the function <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x_{0}\)</span> is <span id="eq-derivative-def"><span class="math display">\[
 f^{\prime}(x_{0})=\lim_{h\to 0}\frac{f(x_{0}+h)-f(x_{0})}{h}.
-\]</span> It is natural to expect that if <span class="math inline">\(h\)</span> is sufficiently small, then <span class="math display">\[
+\tag{8.1}\]</span></span> It is natural to expect that if <span class="math inline">\(h\)</span> is sufficiently small, then <span id="eq-derivative-approx"><span class="math display">\[
 f^{\prime}(x_{0}) \approx \frac{f(x_{0}+h)-f(x_{0})}{h}.
-\]</span> This formula approximates the derivative using values of <span class="math inline">\(f\)</span> at two points <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span>.</p>
+\tag{8.2}\]</span></span> This formula approximates the derivative using values of <span class="math inline">\(f\)</span> at two points <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span>.</p>
 <p>What is a general method of constructing approximate formulas for the derivative? There are many ways of doing that. For example, given a set of distinct points <span class="math inline">\(x_{0},\dots,x_{n}\)</span> and values of <span class="math inline">\(f\)</span> at these points, we can construct the interpolating polynomial and then compute the derivatives of this polynomial at each <span class="math inline">\(x_{0},\dots,x_{n}\)</span>. This method, although possible, is less transparent and instructive than a method based of Taylor’s polynomials (series) which we will discuss below.</p>
 <p>Let <span class="math inline">\(f\in C^{(n+1)}(I)\)</span> where <span class="math inline">\(I\)</span> is an open interval. Then we have the Taylor formula (of order <span class="math inline">\(n\)</span>): <span id="eq-e16"><span class="math display">\[
 \begin{split}
@@ -294,8 +314,8 @@ f(x) =&amp;  f(x_{0})+(x-x_{0})f^{\prime}(x_{0})+
 &amp;+
 \frac{(x-x_{0})^{n}}{n!}f^{(n)}(x_{0})+\frac{(x-x_{0})^{n+1}}{(n+1)!}f^{(n+1)}(\xi)
 \end{split}
-\tag{8.1}\]</span></span></p>
-<p>for any <span class="math inline">\(x,x_{0}\in I\)</span> and for some <span class="math inline">\(\xi\)</span> between <span class="math inline">\(x\)</span> and <span class="math inline">\(x_{0}\)</span> (<span class="math inline">\(\xi\)</span> depends on <span class="math inline">\(x\)</span> and <span class="math inline">\(x_{0}\)</span>). If we use the notation <span class="math inline">\(h=x-x_{0}\)</span>, then <a href="#eq-e16" class="quarto-xref">Eq.&nbsp;<span>8.1</span></a> takes the form <span id="eq-e17"><span class="math display">\[
+\tag{8.3}\]</span></span></p>
+<p>for any <span class="math inline">\(x,x_{0}\in I\)</span> and for some <span class="math inline">\(\xi\)</span> between <span class="math inline">\(x\)</span> and <span class="math inline">\(x_{0}\)</span> (<span class="math inline">\(\xi\)</span> depends on <span class="math inline">\(x\)</span> and <span class="math inline">\(x_{0}\)</span>). If we use the notation <span class="math inline">\(h=x-x_{0}\)</span>, then <a href="#eq-e16" class="quarto-xref">Eq.&nbsp;<span>8.3</span></a> takes the form <span id="eq-e17"><span class="math display">\[
 \begin{split}
 f(x_{0}+h) =&amp;  f(x_{0})+h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(x_{0})+\dots\\
@@ -303,56 +323,56 @@ f(x_{0}+h) =&amp;  f(x_{0})+h f^{\prime}(x_{0})+
 \frac{h^{n}}{n!}f^{(n)}(x_{0})+
 \frac{h^{n+1}}{(n+1)!}f^{(n+1)}(\xi)
 \end{split}
-\tag{8.2}\]</span></span> with <span class="math inline">\(\xi\)</span> between <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span> (<span class="math inline">\(\xi\)</span> can also be written as <span class="math inline">\(\xi=x_{0}+\theta h\)</span> where <span class="math inline">\(0&lt; \theta&lt;1\)</span>).</p>
+\tag{8.4}\]</span></span> with <span class="math inline">\(\xi\)</span> between <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span> (<span class="math inline">\(\xi\)</span> can also be written as <span class="math inline">\(\xi=x_{0}+\theta h\)</span> where <span class="math inline">\(0&lt; \theta&lt;1\)</span>).</p>
 <div id="def-c" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 8.1</strong></span> If function <span class="math inline">\(g(h)\)</span> has the property that <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 8.1</strong></span> If function <span class="math inline">\(g(h)\)</span> has the property that <span id="eq-e18"><span class="math display">\[
 \vert g(h)\vert \leq K \vert h^{p}\vert, \quad K, p &gt; 0,
-\]</span> {#eq-e18} for all <span class="math inline">\(h\)</span> in some open interval containing <span class="math inline">\(0\)</span>, we write <span class="math display">\[
+\tag{8.5}\]</span></span> for all <span class="math inline">\(h\)</span> in some open interval containing <span class="math inline">\(0\)</span>, we write <span id="eq-big-oh-def"><span class="math display">\[
 g(h)=O(h^p)
-\]</span> as <span class="math inline">\(h\to 0\)</span>. This is pronounced “<span class="math inline">\(g\)</span> is big-oh of <span class="math inline">\(h^p\)</span>”. We sometimes say that <span class="math inline">\(g(h)\)</span> converges to <span class="math inline">\(0\)</span> as fast as <span class="math inline">\(h^p\)</span>.</p>
+\tag{8.6}\]</span></span> as <span class="math inline">\(h\to 0\)</span>. This is pronounced “<span class="math inline">\(g\)</span> is big-oh of <span class="math inline">\(h^p\)</span>”. We sometimes say that <span class="math inline">\(g(h)\)</span> converges to <span class="math inline">\(0\)</span> as fast as <span class="math inline">\(h^p\)</span>.</p>
 </div>
-<p>For example, function <span class="math inline">\(f(x)=\sin(x)/x-1\)</span> converges to 0 as fast as <span class="math inline">\(x^{2}\)</span> converges to zero (as <span class="math inline">\(x\to 0\)</span>). To show this, it suffices to consider the third Taylor polynomial for <span class="math inline">\(\sin(x)\)</span>: <span class="math display">\[
+<p>For example, function <span class="math inline">\(f(x)=\sin(x)/x-1\)</span> converges to 0 as fast as <span class="math inline">\(x^{2}\)</span> converges to zero (as <span class="math inline">\(x\to 0\)</span>). To show this, it suffices to consider the third Taylor polynomial for <span class="math inline">\(\sin(x)\)</span>: <span id="eq-sin-taylor"><span class="math display">\[
 \sin(x)=x-\frac{x^{3}}{3!}\cos(\xi)
-\]</span> where <span class="math inline">\(\xi\)</span> is some number between 0 and <span class="math inline">\(x\)</span>. We have <span class="math display">\[
+\tag{8.7}\]</span></span> where <span class="math inline">\(\xi\)</span> is some number between 0 and <span class="math inline">\(x\)</span>. We have <span id="eq-sinx-example"><span class="math display">\[
 \left\vert \frac{\sin x}{x} -1 \right\vert = \frac{\vert x
 \vert^{2}}{3!}\vert \cos(\xi)\vert \leq \frac{x^{2}}{3!}=\frac{x^{2}}{6} \ \ \
 \Rightarrow \ \ \ \ \frac{\sin x}{x}-1=O(x^{2}). \\
-\]</span> Here we used the fact that <span class="math inline">\(\vert \cos x\vert\leq 1\)</span> for all <span class="math inline">\(x\in\mathbb{R}\)</span>.</p>
+\tag{8.8}\]</span></span> Here we used the fact that <span class="math inline">\(\vert \cos x\vert\leq 1\)</span> for all <span class="math inline">\(x\in\mathbb{R}\)</span>.</p>
 <p>Properties of <span class="math inline">\(O(h^n)\)</span>:</p>
 <ol type="1">
 <li><p><span class="math inline">\(O(h^n)+O(h^m)=O(h^l)\)</span> &nbsp;&nbsp;for <span class="math inline">\(n,m &gt; 0\)</span> &nbsp;&nbsp;and &nbsp;&nbsp;<span class="math inline">\(l=\min\{n,m\}\)</span>.</p></li>
 <li><p><span class="math inline">\(O(h^n)O(h^m)=O(h^{n+m})\)</span> &nbsp;&nbsp;for &nbsp;&nbsp;<span class="math inline">\(n,m &gt; 0\)</span>.</p></li>
 <li><p><span class="math inline">\(h^m O(h^n)=O(h^{n+m})\)</span> &nbsp;&nbsp;for <span class="math inline">\(n &gt; 0\)</span> &nbsp;&nbsp;and &nbsp;&nbsp;<span class="math inline">\(n+m &gt; 0\)</span>.</p></li>
 </ol>
-<p>It follows from <a href="#eq-e17" class="quarto-xref">Eq.&nbsp;<span>8.2</span></a> that <span class="math display">\[
+<p>It follows from <a href="#eq-e17" class="quarto-xref">Eq.&nbsp;<span>8.4</span></a> that <span id="eq-taylor-bound1"><span class="math display">\[
 \vert f(x_{0}+h)- T_{n}(h)\vert=\left\vert\frac{h^{n+1}}{(n+1)!}f^{(n+1)}(\xi)\right\vert
-\]</span> where <span class="math inline">\(T_{n}\)</span> is the <span class="math inline">\(n\)</span>th Taylor polynomial: <span class="math display">\[
+\tag{8.9}\]</span></span> where <span class="math inline">\(T_{n}\)</span> is the <span class="math inline">\(n\)</span>th Taylor polynomial: <span id="eq-taylor-poly"><span class="math display">\[
 T_{n}(h)=  f(x_{0})+h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(x_{0})+\dots +
 \frac{h^{n}}{n!}f^{(n)}(x_{0}).
-\]</span> From our assumption that <span class="math inline">\(f\in C^{(n+1)}(I)\)</span> and <span class="math inline">\(x,x_{0}\in I\)</span>, it follows that there exists a closed interval <span class="math inline">\([a,b]\)</span> such that <span class="math inline">\([a,b]\subset I\)</span> and <span class="math inline">\(x,x_{0}\in [a,b]\)</span>. Therefore, <span class="math inline">\(f^{(n+1)}(x)\)</span> attains its maximum and minimum values in <span class="math inline">\([a,b]\)</span>, so that <span class="math inline">\(\vert f^{(n+1)}(x)\vert \leq M\)</span> for some <span class="math inline">\(M\)</span>. Thus, we have <span class="math display">\[
+\tag{8.10}\]</span></span> From our assumption that <span class="math inline">\(f\in C^{(n+1)}(I)\)</span> and <span class="math inline">\(x,x_{0}\in I\)</span>, it follows that there exists a closed interval <span class="math inline">\([a,b]\)</span> such that <span class="math inline">\([a,b]\subset I\)</span> and <span class="math inline">\(x,x_{0}\in [a,b]\)</span>. Therefore, <span class="math inline">\(f^{(n+1)}(x)\)</span> attains its maximum and minimum values in <span class="math inline">\([a,b]\)</span>, so that <span class="math inline">\(\vert f^{(n+1)}(x)\vert \leq M\)</span> for some <span class="math inline">\(M\)</span>. Thus, we have <span id="eq-taylor-bound2"><span class="math display">\[
 \vert f(x_{0}+h)- T_{n}(h)\vert \leq \left\vert\frac{h^{n+1}}{(n+1)!}M\right\vert=\frac{M}{(n+1)!}\vert h^{n+1}\vert,
-\]</span> which means that <span class="math display">\[
+\tag{8.11}\]</span></span> which means that <span id="eq-taylor-error1"><span class="math display">\[
 f(x_{0}+h) - T_{n}(h)=O\left(h^{n+1}\right)
-\]</span> or, equivalently, <span class="math display">\[
+\tag{8.12}\]</span></span> or, equivalently, <span id="eq-taylor-error2"><span class="math display">\[
 f(x_{0}+h) = T_{n}(h) + O\left(h^{n+1}\right).
-\]</span></p>
+\tag{8.13}\]</span></span></p>
 <section id="two-point-forward-and-backward-formulas-for-f" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="two-point-forward-and-backward-formulas-for-f"><span class="header-section-number">8.1</span> Two-point forward and backward formulas for <span class="math inline">\(f'\)</span></h2>
-<p>Let us derive the formula for the derivative based on points <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span> (<span class="math inline">\(h&gt;0\)</span>). If we put <span class="math inline">\(n=1\)</span> in <a href="#eq-e17" class="quarto-xref">Eq.&nbsp;<span>8.2</span></a>, we obtain <span class="math display">\[
+<p>Let us derive the formula for the derivative based on points <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span> (<span class="math inline">\(h&gt;0\)</span>). If we put <span class="math inline">\(n=1\)</span> in <a href="#eq-e17" class="quarto-xref">Eq.&nbsp;<span>8.4</span></a>, we obtain <span id="eq-forward-deriv1"><span class="math display">\[
 f(x_{0}+h)=  f(x_{0})+h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(\xi_{1})
-\]</span> where <span class="math inline">\(x_{0} &lt; \xi_{1} &lt; x_{0}+h\)</span>. Solving this for <span class="math inline">\(f^{\prime}(x_{0})\)</span>, we find that <span class="math display">\[
+\tag{8.14}\]</span></span> where <span class="math inline">\(x_{0} &lt; \xi_{1} &lt; x_{0}+h\)</span>. Solving this for <span class="math inline">\(f^{\prime}(x_{0})\)</span>, we find that <span id="eq-forward-diff"><span class="math display">\[
 f^{\prime}(x_{0})=\frac{f(x_{0}+h) - f(x_{0})}{h} -
 \frac{h}{2!}f^{\prime\prime}(\xi_{1}).
-\]</span> {#eq-e19} This is called the <em>forward-difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. Similarly, one can obtain the <em>backward-difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>: <span class="math display">\[
+\tag{8.15}\]</span></span> This is called the <em>forward-difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. Similarly, one can obtain the <em>backward-difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>: <span id="eq-backward-diff"><span class="math display">\[
 f^{\prime}(x_{0})=\frac{f(x_{0}) - f(x_{0}-h)}{h} +
 \frac{h}{2!}f^{\prime\prime}(\xi_{2})
-\]</span> {#eq-e20} where <span class="math inline">\(x_{0}-h &lt; \xi_{2} &lt; x_{0}\)</span> (<span class="math inline">\(h&gt;0\)</span>).</p>
+\tag{8.16}\]</span></span> where <span class="math inline">\(x_{0}-h &lt; \xi_{2} &lt; x_{0}\)</span> (<span class="math inline">\(h&gt;0\)</span>).</p>
 </section>
 <section id="three-point-formulas-for-f" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="three-point-formulas-for-f"><span class="header-section-number">8.2</span> Three-point formulas for <span class="math inline">\(f'\)</span></h2>
-<p>Now let us derive an approximation formula for <span class="math inline">\(f^{\prime}(x_{0})\)</span> based on points <span class="math inline">\(x_{0}-h\)</span>, <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span> (<span class="math inline">\(h&gt;0\)</span>). The Taylor formula <a href="#eq-e17" class="quarto-xref">Eq.&nbsp;<span>8.2</span></a> with <span class="math inline">\(n=2\)</span> implies that <span class="math display">\[
+<p>Now let us derive an approximation formula for <span class="math inline">\(f^{\prime}(x_{0})\)</span> based on points <span class="math inline">\(x_{0}-h\)</span>, <span class="math inline">\(x_{0}\)</span> and <span class="math inline">\(x_{0}+h\)</span> (<span class="math inline">\(h&gt;0\)</span>). The Taylor formula <a href="#eq-e17" class="quarto-xref">Eq.&nbsp;<span>8.4</span></a> with <span class="math inline">\(n=2\)</span> implies that <span id="eq-three-point-taylor"><span class="math display">\[
 \begin{split}
 f(x_{0}+h) &amp;=  f(x_{0})+h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(x_{0})+
@@ -361,35 +381,35 @@ f(x_{0}-h) &amp;=  f(x_{0})-h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(x_{0})-
 \frac{h^{3}}{3!}f^{\prime\prime\prime}(\xi^-), \quad x_{0}-h &lt; \xi^- &lt; x_{0}.
 \end{split}
-\]</span> Subtracting the second equation from the first one, we obtain <span class="math display">\[
+\tag{8.17}\]</span></span> Subtracting the second equation from the first one, we obtain <span id="eq-three-point-diff"><span class="math display">\[
 f(x_{0}+h)-f(x_{0}-h)= 2h f^{\prime}(x_{0})+
 \frac{h^{3}}{3!}\left(f^{\prime\prime\prime}(\xi^+)+f^{\prime\prime\prime}(\xi^-)\right).
-\]</span> Solving this for <span class="math inline">\(f^{\prime}(x_{0})\)</span> yields <span class="math display">\[
+\tag{8.18}\]</span></span> Solving this for <span class="math inline">\(f^{\prime}(x_{0})\)</span> yields <span id="eq-three-point-deriv"><span class="math display">\[
 f^{\prime}(x_{0})=\frac{f(x_{0}+h) - f(x_{0}-h)}{2h} -
 \frac{h^2}{3!}\frac{1}{2}\left(f^{\prime\prime\prime}(\xi^+)+f^{\prime\prime\prime}(\xi^-)\right).
-\]</span> Since <span class="math inline">\(f^{\prime\prime\prime}\)</span> is continuous, by the Intermediate Value Theorem there exists <span class="math inline">\(\xi\)</span> between <span class="math inline">\(\xi^-\)</span> and <span class="math inline">\(\xi^+\)</span> such that <span class="math display">\[
+\tag{8.19}\]</span></span> Since <span class="math inline">\(f^{\prime\prime\prime}\)</span> is continuous, by the Intermediate Value Theorem there exists <span class="math inline">\(\xi\)</span> between <span class="math inline">\(\xi^-\)</span> and <span class="math inline">\(\xi^+\)</span> such that <span id="eq-mean-value"><span class="math display">\[
 f^{\prime\prime\prime}(\xi)= \frac{1}{2}\left(f^{\prime\prime\prime}(\xi^+)+f^{\prime\prime\prime}(\xi^-)\right).
-\]</span> Therefore, <span class="math display">\[
+\tag{8.20}\]</span></span> Therefore, <span id="eq-central-diff"><span class="math display">\[
 f^{\prime}(x_{0})=\frac{f(x_{0}+h) - f(x_{0}-h)}{2h} -
 \frac{h^{2}}{6}f^{\prime\prime\prime}(\xi)  
-\]</span> {#eq-e21} where <span class="math inline">\(x_{0}-h &lt; \xi &lt; x_{0}+h\)</span>. This is the <em>central difference</em> formula for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. Note that the error of the central difference approximation is <span class="math inline">\(O(h^2)\)</span> as <span class="math inline">\(h\to 0\)</span>. Thus, we have a second order approximation for <span class="math inline">\(f^{\prime}(x_{0})\)</span>.</p>
-<p>There are two more three-point formulas for <span class="math inline">\(f^{\prime}(x_{0})\)</span>: <span class="math display">\[
+\tag{8.21}\]</span></span> where <span class="math inline">\(x_{0}-h &lt; \xi &lt; x_{0}+h\)</span>. This is the <em>central difference</em> formula for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. Note that the error of the central difference approximation is <span class="math inline">\(O(h^2)\)</span> as <span class="math inline">\(h\to 0\)</span>. Thus, we have a second order approximation for <span class="math inline">\(f^{\prime}(x_{0})\)</span>.</p>
+<p>There are two more three-point formulas for <span class="math inline">\(f^{\prime}(x_{0})\)</span>: <span id="eq-f1"><span class="math display">\[
 \begin{split}
 f^{\prime}(x_{0})&amp;=\frac{1}{2h}\left[-3f(x_{0})+4f(x_{0}+h)-f(x_{0}+2h)\right]+O(h^2)\\
 f^{\prime}(x_{0})&amp;=\frac{1}{2h}\left[f(x_{0}-2h)-4f(x_{0}-h)+3f(x_{0})\right]+O(h^2)
 \end{split}
-\]</span> The first formula uses points <span class="math inline">\(x_{0}\)</span>, <span class="math inline">\(x_{0}+h\)</span> and <span class="math inline">\(x_{0}+2h\)</span> and is called the <em>three-point forward difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. The second formula is called the <em>three-point backward difference formula</em> and uses points <span class="math inline">\(x_{0}-2h\)</span>, <span class="math inline">\(x_{0}-h\)</span> and <span class="math inline">\(x_{0}\)</span>. Note that <span class="quarto-unresolved-ref">?eq-f2</span> can be obtained from <span class="quarto-unresolved-ref">?eq-f1</span> by simply replacing <span class="math inline">\(h\)</span> with <span class="math inline">\(-h\)</span>, so, in fact, these two represent only one formula.</p>
+\tag{8.22}\]</span></span> The first formula uses points <span class="math inline">\(x_{0}\)</span>, <span class="math inline">\(x_{0}+h\)</span> and <span class="math inline">\(x_{0}+2h\)</span> and is called the <em>three-point forward difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. The second formula is called the <em>three-point backward difference formula</em> and uses points <span class="math inline">\(x_{0}-2h\)</span>, <span class="math inline">\(x_{0}-h\)</span> and <span class="math inline">\(x_{0}\)</span>. Note that <span class="quarto-unresolved-ref">?eq-f2</span> can be obtained from <a href="#eq-f1" class="quarto-xref">Eq.&nbsp;<span>8.22</span></a> by simply replacing <span class="math inline">\(h\)</span> with <span class="math inline">\(-h\)</span>, so, in fact, these two represent only one formula.</p>
 <div id="exm-17" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.1</strong></span> Prove <span class="quarto-unresolved-ref">?eq-f1</span> assuming that <span class="math inline">\(f\in C^3(I)\)</span> where <span class="math inline">\(I\)</span> is some open interval containing <span class="math inline">\(x_{0}\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 8.1</strong></span> Prove <a href="#eq-f1" class="quarto-xref">Eq.&nbsp;<span>8.22</span></a> assuming that <span class="math inline">\(f\in C^3(I)\)</span> where <span class="math inline">\(I\)</span> is some open interval containing <span class="math inline">\(x_{0}\)</span>.</p>
 </div>
 <div class="proof solution">
-<p><span class="proof-title"><em>Solution</em>. </span>First we choose a sufficiently small* <span class="math inline">\(h\)</span>, so that <span class="math inline">\([x_{0}, x_{0}+2h]\subset I\)</span>. Then <span class="math inline">\(f^{\prime\prime\prime}(x)\)</span> is bounded for all <span class="math inline">\(x\in [x_{0}, x_{0}+2h]\)</span> and we can write <span class="math display">\[
+<p><span class="proof-title"><em>Solution</em>. </span>First we choose a sufficiently small* <span class="math inline">\(h\)</span>, so that <span class="math inline">\([x_{0}, x_{0}+2h]\subset I\)</span>. Then <span class="math inline">\(f^{\prime\prime\prime}(x)\)</span> is bounded for all <span class="math inline">\(x\in [x_{0}, x_{0}+2h]\)</span> and we can write <span id="eq-solution-taylor"><span class="math display">\[
 \begin{split}
 f(x_{0}+h)&amp;=f(x_{0})+h \, f^{\prime}(x_{0})+\frac{h^2}{2} \, f^{\prime\prime}(x_{0})+ O(h^3),\\
 f(x_{0}+2h)&amp;=f(x_{0})+2h \, f^{\prime}(x_{0})+\frac{(2h)^2}{2} \, f^{\prime\prime}(x_{0})+ O(h^3) \\
 &amp;= f(x_{0})+2h \, f^{\prime}(x_{0})+2h^2 \, f^{\prime\prime}(x_{0})+ O(h^3).
 \end{split}
-\]</span> These and <span class="quarto-unresolved-ref">?eq-f1</span> yield <span class="math display">\[
+\tag{8.23}\]</span></span> These and <a href="#eq-f1" class="quarto-xref">Eq.&nbsp;<span>8.22</span></a> yield <span id="eq-error-calc"><span class="math display">\[
 \begin{split}
 E&amp;=f^{\prime}(x_{0})-\frac{1}{2h}\left[-3f(x_{0})+
 4f(x_{0}+h)-f(x_{0}+2h)\right] \\
@@ -398,13 +418,13 @@ E&amp;=f^{\prime}(x_{0})-\frac{1}{2h}\left[-3f(x_{0})+
 &amp;\qquad \quad -f(x_{0})-2hf^{\prime}(x_{0})- 2h^2f^{\prime\prime}(x_{0})+ O(h^{3})\Bigr]  \\
 &amp;= O(h^{2}).
 \end{split}
-\]</span></p>
+\tag{8.24}\]</span></span></p>
 </div>
 </section>
 <section id="higher-derivatives" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="higher-derivatives"><span class="header-section-number">8.3</span> Higher derivatives</h2>
 <p>Taylor series can also be used to derive formulas for approximating higher derivatives of a function given at a finite set of points.</p>
-<p>Let us consider an example. First, we expand <span class="math inline">\(f\)</span> in a third Taylor polynomial about <span class="math inline">\(x_{0}\)</span> and evaluate <span class="math inline">\(f\)</span> at <span class="math inline">\(x=x_{0}-h\)</span> and <span class="math inline">\(x=x_{0}+h\)</span>. Then <span class="math display">\[
+<p>Let us consider an example. First, we expand <span class="math inline">\(f\)</span> in a third Taylor polynomial about <span class="math inline">\(x_{0}\)</span> and evaluate <span class="math inline">\(f\)</span> at <span class="math inline">\(x=x_{0}-h\)</span> and <span class="math inline">\(x=x_{0}+h\)</span>. Then <span id="eq-higher-deriv-taylor"><span class="math display">\[
 \begin{split}
 f(x_{0}+h) &amp;=f(x_{0})+f^{\prime}(x_{0})h+
 \frac{1}{2}f^{\prime\prime}(x_{0})h^{2}+
@@ -415,52 +435,52 @@ f(x_{0}-h) &amp;=f(x_{0})-f^{\prime}(x_{0})h+
 \frac{1}{6}f^{\prime\prime\prime}(x_{0})h^{3}+
 \frac{1}{24}f^{(4)}(\xi^{-})h^{4},
 \end{split}
-\]</span> where <span class="math inline">\(x_{0}-h&lt; \xi^{-}&lt; x_{0} &lt; \xi^{+}&lt; x_{0}+h\)</span>. Adding these equations, we obtain <span class="math display">\[
+\tag{8.25}\]</span></span> where <span class="math inline">\(x_{0}-h&lt; \xi^{-}&lt; x_{0} &lt; \xi^{+}&lt; x_{0}+h\)</span>. Adding these equations, we obtain <span id="eq-second-deriv-full"><span class="math display">\[
 f^{\prime\prime}(x_{0})=\frac{1}{h^{2}}[f(x_{0}-h)-
 2f(x_{0})+f(x_{0}+h)]-\frac{h^{2}}{24}[f^{(4)}(\xi^{+})
 +f^{(4)}(\xi^{-})].
-\]</span> Assuming that <span class="math inline">\(f^{(4)}\)</span> is continuous on <span class="math inline">\([x_{0}-h, x_{0}+h]\)</span>, we can rewrite this equation in a simpler form. Since <span class="math inline">\([f^{(4)}(\xi^{+}) +f^{(4)}(\xi^{-})]/2\)</span> is between <span class="math inline">\(f^{(4)}(\xi^{+})\)</span> and <span class="math inline">\(f^{(4)}(\xi^{-})\)</span>, the Intermediate Value theorem implies that there exists a number <span class="math inline">\(\xi\)</span> between <span class="math inline">\(\xi^{+}\)</span> and <span class="math inline">\(\xi^{-}\)</span> such that <span class="math display">\[
+\tag{8.26}\]</span></span> Assuming that <span class="math inline">\(f^{(4)}\)</span> is continuous on <span class="math inline">\([x_{0}-h, x_{0}+h]\)</span>, we can rewrite this equation in a simpler form. Since <span class="math inline">\([f^{(4)}(\xi^{+}) +f^{(4)}(\xi^{-})]/2\)</span> is between <span class="math inline">\(f^{(4)}(\xi^{+})\)</span> and <span class="math inline">\(f^{(4)}(\xi^{-})\)</span>, the Intermediate Value theorem implies that there exists a number <span class="math inline">\(\xi\)</span> between <span class="math inline">\(\xi^{+}\)</span> and <span class="math inline">\(\xi^{-}\)</span> such that <span id="eq-fourth-deriv-mean"><span class="math display">\[
 f^{(4)}(\xi)=\frac{1}{2}[f^{(4)}(\xi^{+})
 +f^{(4)}(\xi^{-})] .
-\]</span> Therefore, <span id="eq-f19"><span class="math display">\[
+\tag{8.27}\]</span></span> Therefore, <span id="eq-second-deriv"><span class="math display">\[
 f^{\prime\prime}(x_{0})={1\over h^{2}}[f(x_{0}-h)-
 2f(x_{0})+f(x_{0}+h)]-{h^{2} \over 12}f^{(4)}(\xi).
-\tag{8.3}\]</span></span> where <span class="math inline">\(x_{0}-h&lt; \xi &lt; x_{0}+h\)</span>. This is called the <em>central difference formula</em> for <span class="math inline">\(f^{\prime\prime}(x_{0})\)</span> and it uses values of <span class="math inline">\(f\)</span> at three points. Its truncation error is <span class="math inline">\(O(h^2)\)</span>. This is one of the most popular finite difference formulas in Numerical Analysis.</p>
+\tag{8.28}\]</span></span> where <span class="math inline">\(x_{0}-h&lt; \xi &lt; x_{0}+h\)</span>. This is called the <em>central difference formula</em> for <span class="math inline">\(f^{\prime\prime}(x_{0})\)</span> and it uses values of <span class="math inline">\(f\)</span> at three points. Its truncation error is <span class="math inline">\(O(h^2)\)</span>. This is one of the most popular finite difference formulas in Numerical Analysis.</p>
 <p>Finite difference formulas for higher derivatives can be derived in a similar manner.</p>
 </section>
 <section id="the-effect-of-roundoff-errors" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="the-effect-of-roundoff-errors"><span class="header-section-number">8.4</span> The effect of Roundoff Errors</h2>
-<p>Consider the central difference formula: <span class="math display">\[
+<p>Consider the central difference formula: <span id="eq-central-diff-restate"><span class="math display">\[
 f^{\prime}(x_{0})=\frac{1}{2h}\left[f(x_{0}+h)
 -f(x_{0}-h)\right]-\frac{h^{2}}{6}
 f^{(3)}(\xi).
-\]</span> Suppose that the values of <span class="math inline">\(f(x_{0}-h)\)</span> and <span class="math inline">\(f(x_{0}+h)\)</span> are computed with roundoff errors <span class="math inline">\(e^{-}\)</span> and <span class="math inline">\(e^{+}\)</span>, respectively, i.e.&nbsp; <span class="math display">\[
+\tag{8.29}\]</span></span> Suppose that the values of <span class="math inline">\(f(x_{0}-h)\)</span> and <span class="math inline">\(f(x_{0}+h)\)</span> are computed with roundoff errors <span class="math inline">\(e^{-}\)</span> and <span class="math inline">\(e^{+}\)</span>, respectively, i.e.&nbsp; <span id="eq-error-values"><span class="math display">\[
 f(x_{0}-h)=f^{-} + e^{-} \quad \text{  and } \quad
 f(x_{0}+h)=f^{+} + e^{+}.
-\]</span> Here <span class="math inline">\(\tilde{f}^{\pm}\)</span> are the computed valued. Substitution of these in the central difference formula yields <span class="math display">\[
+\tag{8.30}\]</span></span> Here <span class="math inline">\(\tilde{f}^{\pm}\)</span> are the computed valued. Substitution of these in the central difference formula yields <span id="eq-error-subst"><span class="math display">\[
 f^{\prime}(x_{0})=\frac{1}{2h}\left[f^{+} + e^{+}
 -f^{-} - e^{-}\right]-\frac{h^{2}}{6}
 f^{(3)}(\xi).
-\]</span> The total error in the approximation is <span class="math display">\[
+\tag{8.31}\]</span></span> The total error in the approximation is <span id="eq-total-error"><span class="math display">\[
 f^{\prime}(x_{0})-\frac{f^{+}
 -f^{-}}{2h}=\frac{e^{+}-e^{-}}{2h}
 -\frac{h^{2}}{6}f^{(3)}(\xi).
-\]</span> The total error has a part due to roundoff error and a part due to truncation error. Suppose that the roundoff errors are bounded by some number <span class="math inline">\(\varepsilon &gt;0\)</span> (this is always true in practice), i.e.&nbsp; <span class="math display">\[
+\tag{8.32}\]</span></span> The total error has a part due to roundoff error and a part due to truncation error. Suppose that the roundoff errors are bounded by some number <span class="math inline">\(\varepsilon &gt;0\)</span> (this is always true in practice), i.e.&nbsp; <span id="eq-error-bounds"><span class="math display">\[
 \vert e^{\pm}\vert\leq \varepsilon,
-\]</span> and that the third derivative of <span class="math inline">\(f\)</span> is bounded by <span class="math inline">\(M &gt; 0\)</span> for all <span class="math inline">\(x\in[x_{0}-h,x_{0}+h]\)</span>. Then we have <span id="eq-f3"><span class="math display">\[
+\tag{8.33}\]</span></span> and that the third derivative of <span class="math inline">\(f\)</span> is bounded by <span class="math inline">\(M &gt; 0\)</span> for all <span class="math inline">\(x\in[x_{0}-h,x_{0}+h]\)</span>. Then we have <span id="eq-error-bound"><span class="math display">\[
 \left\vert f^{\prime}(x_{0})-\frac{f^{+}
 -f^{-}}{2h}\right\vert \leq \frac{\varepsilon}{h}+
 \frac{h^{2}}{6}M .
-\tag{8.4}\]</span></span> One can see that, to reduce the truncation error we must reduce <span class="math inline">\(h\)</span>. But as <span class="math inline">\(h\)</span> is reduced, the roundoff error <span class="math inline">\(\varepsilon/h\)</span> grows.</p>
-<p>To determine the optimal value of <span class="math inline">\(h\)</span> (for which the total error is the smallest one), we consider the function <span class="math display">\[
+\tag{8.34}\]</span></span> One can see that, to reduce the truncation error we must reduce <span class="math inline">\(h\)</span>. But as <span class="math inline">\(h\)</span> is reduced, the roundoff error <span class="math inline">\(\varepsilon/h\)</span> grows.</p>
+<p>To determine the optimal value of <span class="math inline">\(h\)</span> (for which the total error is the smallest one), we consider the function <span id="eq-error-function"><span class="math display">\[
 E(h)=\frac{\varepsilon}{h}+
 \frac{h^{2}}{6}M.
-\]</span> which is the upper bound for the total error as a function of <span class="math inline">\(h\)</span>. Since <span class="math inline">\(E^{\prime}(h)=-\varepsilon/h^{2}+hM/3=0\)</span> at <span class="math inline">\(h=h^{*}=(3\varepsilon/M)^{1/3}\)</span>, the function <span class="math inline">\(E(h)\)</span> attains its minimum value at <span class="math display">\[
+\tag{8.35}\]</span></span> which is the upper bound for the total error as a function of <span class="math inline">\(h\)</span>. Since <span class="math inline">\(E^{\prime}(h)=-\varepsilon/h^{2}+hM/3=0\)</span> at <span class="math inline">\(h=h^{*}=(3\varepsilon/M)^{1/3}\)</span>, the function <span class="math inline">\(E(h)\)</span> attains its minimum value at <span id="eq-optimal-h"><span class="math display">\[
 h=\left(\frac{3\varepsilon}{M}\right)^{1/3},
-\]</span> and this is the optimal value of <span class="math inline">\(h\)</span>. The corresponding minimum error is <span class="math display">\[
+\tag{8.36}\]</span></span> and this is the optimal value of <span class="math inline">\(h\)</span>. The corresponding minimum error is <span id="eq-min-error"><span class="math display">\[
 E_{min}=E(h^{*})=
 \frac{1}{2}\left(9M\varepsilon^{2}\right)^{1/3}.
-\]</span></p>
+\tag{8.37}\]</span></span></p>
 <p>Unfortunately, in practice, we cannot compute an optimal <span class="math inline">\(h\)</span> to use in approximating the derivative, because usually we do not know the third derivative of the function. But we must be aware that reducing the step size will not always improve the approximation.</p>
 <p>Similar analysis can be done for other finite difference formulas for the derivative, and in all cases it leads to similar conclusions.</p>
 
@@ -509,18 +529,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -552,7 +561,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -560,10 +589,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -605,7 +639,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -653,7 +691,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -881,19 +918,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter07.html" class="pagination-link  aria-label=" &lt;span="" integration&lt;="" span&gt;"="">
+      <a href="./chapter07.html" class="pagination-link" aria-label="Numerical integration">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Numerical integration</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter09.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>A direct method for solving tridiagonal linear systems</span>">
+      <a href="./chapter09.html" class="pagination-link" aria-label="A direct method for solving tridiagonal linear systems">
         <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">A direct method for solving tridiagonal linear systems</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+    <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter08.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2018-23/edit/main/chapter08.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

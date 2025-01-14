@@ -377,24 +377,24 @@ y'' = -y,  \quad 0 \leq x \leq 2 \pi, \quad y(0) = y(2\pi) = 1.
 <p>Again, from the theory of linear ODEs, one knows that the general solution of the ODE (disregarding the boundary conditions) is</p>
 <p><span id="eq-sincossol"><span class="math display">\[
    y(x) = c \cos(x)+ d \sin(x),\quad c,d \in \mathbb{R}.
-\tag{11.9}\]</span></span> The boundary conditions demand that <span id="eq-bvp3"><span class="math display">\[
+\tag{11.9}\]</span></span> The boundary conditions demand that <span id="eq-bvp3a"><span class="math display">\[
 1=y(0) = c \cos(0) + d \sin(0) = c \Leftrightarrow c=1,\quad
-\text{and likewise }
+\tag{11.10}\]</span></span> and likewise <span id="eq-bvp3b"><span class="math display">\[
    1=y(2\pi) = c  \Leftrightarrow c=1.
-\tag{11.10}\]</span></span> However, the choice of <span class="math inline">\(d\)</span> does not affect the boundary conditions! In fact, any function of the form <span id="eq-bvp4"><span class="math display">\[
+\tag{11.11}\]</span></span> However, the choice of <span class="math inline">\(d\)</span> does not affect the boundary conditions! In fact, any function of the form <span id="eq-bvp4"><span class="math display">\[
 y(x) = \cos(x)+ d \sin(x),\quad d \in \mathbb{R}
-\tag{11.11}\]</span></span> solves the BVP <a href="#eq-bvpex2" class="quarto-xref">Eq.&nbsp;<span>11.8</span></a>. This BVP has <em>many</em> solutions.</p>
+\tag{11.12}\]</span></span> solves the BVP <a href="#eq-bvpex2" class="quarto-xref">Eq.&nbsp;<span>11.8</span></a>. This BVP has <em>many</em> solutions.</p>
 </div>
 <div id="exm-bvpex3" class="theorem example">
 <p><span class="theorem-title"><strong>Example 11.3</strong></span> Finally, consider another slight modification of our example:</p>
 <p><span id="eq-bvpex3"><span class="math display">\[
 y'' = -y,  \quad 0 \leq x \leq 2 \pi, \quad y(0) = 0, \; y(2\pi) = 1.
-\tag{11.12}\]</span></span></p>
+\tag{11.13}\]</span></span></p>
 <p>Again, the general solution of the ODE is given by <a href="#eq-sincossol" class="quarto-xref">Eq.&nbsp;<span>11.9</span></a>. However, now our boundary conditions demand that <span id="eq-bvp5"><span class="math display">\[
 0=y(0) = c ,\quad
 \text{and }
    1=y(2\pi) = c,
-\tag{11.13}\]</span></span> which gives us a contradiction. In other words, the BVP <a href="#eq-bvpex3" class="quarto-xref">Eq.&nbsp;<span>11.12</span></a> has <em>no solution</em>.</p>
+\tag{11.14}\]</span></span> which gives us a contradiction. In other words, the BVP <a href="#eq-bvpex3" class="quarto-xref">Eq.&nbsp;<span>11.13</span></a> has <em>no solution</em>.</p>
 </div>
 <section id="a-criterion" class="level3" data-number="11.1.1">
 <h3 data-number="11.1.1" class="anchored" data-anchor-id="a-criterion"><span class="header-section-number">11.1.1</span> A criterion</h3>
@@ -408,26 +408,28 @@ y'' = -y,  \quad 0 \leq x \leq 2 \pi, \quad y(0) = 0, \; y(2\pi) = 1.
 <p>with a constant <span class="math inline">\(M&gt;0\)</span>. Then, the boundary value problem</p>
 <p><span id="eq-bvprepeat"><span class="math display">\[
 y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta
-\tag{11.14}\]</span></span></p>
+\tag{11.15}\]</span></span></p>
 <p>has a unique solution for any <span class="math inline">\(\alpha,\beta \in \mathbb{R}\)</span>.</p>
 </div>
-<p>Briefly speaking, in order to obtain a unique solution, it suffices that <span class="math inline">\(\partial f / \partial y\)</span> is <em>positive</em> and <span class="math inline">\(\partial f / \partial y'\)</span> is <em>bounded</em>. The former condition was violated in our examples <a href="#eq-bvpex2" class="quarto-xref">Eq.&nbsp;<span>11.8</span></a> and <a href="#eq-bvpex3" class="quarto-xref">Eq.&nbsp;<span>11.12</span></a>.</p>
+<p>Briefly speaking, in order to obtain a unique solution, it suffices that <span class="math inline">\(\partial f / \partial y\)</span> is <em>positive</em> and <span class="math inline">\(\partial f / \partial y'\)</span> is <em>bounded</em>. The former condition was violated in our examples <a href="#eq-bvpex2" class="quarto-xref">Eq.&nbsp;<span>11.8</span></a> and <a href="#eq-bvpex3" class="quarto-xref">Eq.&nbsp;<span>11.13</span></a>.</p>
 </section>
 <section id="linear-odes" class="level3" data-number="11.1.2">
 <h3 data-number="11.1.2" class="anchored" data-anchor-id="linear-odes"><span class="header-section-number">11.1.2</span> Linear ODEs</h3>
 <p>We will often consider the simplified, but still very relevant, case of boundary value problems for <em>linear</em> ODEs. By this, we mean a BVP of the form <span id="eq-bvplin"><span class="math display">\[
 y''(x) = p(x) y'(x) + q(x) y(x) + r(x),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta,
-\tag{11.15}\]</span></span></p>
+\tag{11.16}\]</span></span></p>
 <p>where <span class="math inline">\(p,q,r: [a,b]\to\mathbb{R}\)</span>. A uniqueness criterion for these can be given as follows.</p>
 <div id="thm-bvplinunique" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 11.2</strong></span> Suppose that <span class="math inline">\(p,q,r \in \mathcal{C}^0([a,b])\)</span>, and that <span class="math inline">\(q(x)&gt;0\)</span> for all <span class="math inline">\(x \in [a,b]\)</span>. Then, the boundary value problem <a href="#eq-bvplin" class="quarto-xref">Eq.&nbsp;<span>11.15</span></a> has a unique solution for any <span class="math inline">\(\alpha,\beta \in \mathbb{R}\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 11.2</strong></span> Suppose that <span class="math inline">\(p,q,r \in \mathcal{C}^0([a,b])\)</span>, and that <span class="math inline">\(q(x)&gt;0\)</span> for all <span class="math inline">\(x \in [a,b]\)</span>. Then, the boundary value problem <a href="#eq-bvplin" class="quarto-xref">Eq.&nbsp;<span>11.16</span></a> has a unique solution for any <span class="math inline">\(\alpha,\beta \in \mathbb{R}\)</span>.</p>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>This follows immediately from <a href="#thm-bvpunique" class="quarto-xref">Theorem&nbsp;<span>11.1</span></a>. In the present case, <span id="eq-bvp6"><span class="math display">\[
-f(x,y,y') =  p(x) y' + q(x) y + r(x),
-\quad \frac{\partial f(x,y,y'}{\partial y} = q(x),
-\quad \frac{\partial f(x,y,y'}{\partial y'} = p(x),
-\tag{11.16}\]</span></span> and continuous functions on a bounded interval are always bounded.&nbsp;◻</p>
+\begin{split}
+f(x,y,y') &amp;=  p(x) y' + q(x) y + r(x),\\
+\quad \frac{\partial f(x,y,y'}{\partial y} &amp;= q(x),\\
+\quad \frac{\partial f(x,y,y'}{\partial y'} &amp;= p(x),
+\end{split}
+\tag{11.17}\]</span></span> and continuous functions on a bounded interval are always bounded.&nbsp;◻</p>
 </div>
 </section>
 <section id="approximation-methods" class="level3" data-number="11.1.3">
@@ -448,82 +450,81 @@ f(x,y,y') =  p(x) y' + q(x) y + r(x),
 <h3 data-number="11.2.1" class="anchored" data-anchor-id="the-idea"><span class="header-section-number">11.2.1</span> The idea</h3>
 <p>We will consider the BVP <span id="eq-bvpshoot"><span class="math display">\[
 y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
-\tag{11.17}\]</span></span></p>
+\tag{11.18}\]</span></span></p>
 <p>For applying our approximation methods for IVPs to the differential equation, we are missing one initial value, namely for <span class="math inline">\(y'(a)\)</span>.</p>
 <p>Let us, for the moment, just pick <em>some</em> fixed <span class="math inline">\(\gamma \in \mathbb{R}\)</span>, and then consider the initial value problem <span id="eq-ivpshoot"><span class="math display">\[
   y_\gamma''(x) = f(x,y_\gamma(x),y_\gamma'(x)),  \quad a \leq x \leq b, \quad y_\gamma(a) = \alpha, \; y_\gamma'(a) = \gamma.
-\tag{11.18}\]</span></span></p>
-<p>(The solution <span class="math inline">\(y_\gamma(x)\)</span> will depend on our choice of <span class="math inline">\(\gamma\)</span>, and we indicate this with the <span class="math inline">\(\gamma\)</span> subscript.) We can solve the IVP <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.18</span></a> with one of our known approximation methods. This will yield an approximation value <span class="math inline">\(w_N \approx y_\gamma(b)\)</span>. Now we can compare whether our choice of <span class="math inline">\(\gamma\)</span> was reasonable: Namely, we can see whether <span class="math inline">\(w_N \approx \beta\)</span>, or how far <span class="math inline">\(w_N\)</span> is away from <span class="math inline">\(\beta\)</span>. Depending on this result, we adjust our value <span class="math inline">\(\gamma\)</span>, and run the approximation method for <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.18</span></a> again. We repeat this until <span class="math inline">\(w_N \approx \beta\)</span> to a reasonable precision; then the <span class="math inline">\(w_j\)</span> will approximate <span class="math inline">\(y(x_j)\)</span>, where <span class="math inline">\(y\)</span> is the solution of the BVP <a href="#eq-bvpshoot" class="quarto-xref">Eq.&nbsp;<span>11.17</span></a>.</p>
+\tag{11.19}\]</span></span></p>
+<p>(The solution <span class="math inline">\(y_\gamma(x)\)</span> will depend on our choice of <span class="math inline">\(\gamma\)</span>, and we indicate this with the <span class="math inline">\(\gamma\)</span> subscript.) We can solve the IVP <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.19</span></a> with one of our known approximation methods. This will yield an approximation value <span class="math inline">\(w_N \approx y_\gamma(b)\)</span>. Now we can compare whether our choice of <span class="math inline">\(\gamma\)</span> was reasonable: Namely, we can see whether <span class="math inline">\(w_N \approx \beta\)</span>, or how far <span class="math inline">\(w_N\)</span> is away from <span class="math inline">\(\beta\)</span>. Depending on this result, we adjust our value <span class="math inline">\(\gamma\)</span>, and run the approximation method for <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.19</span></a> again. We repeat this until <span class="math inline">\(w_N \approx \beta\)</span> to a reasonable precision; then the <span class="math inline">\(w_j\)</span> will approximate <span class="math inline">\(y(x_j)\)</span>, where <span class="math inline">\(y\)</span> is the solution of the BVP <a href="#eq-bvpshoot" class="quarto-xref">Eq.&nbsp;<span>11.18</span></a>.</p>
 </section>
 <section id="systematic-approach" class="level3" data-number="11.2.2">
 <h3 data-number="11.2.2" class="anchored" data-anchor-id="systematic-approach"><span class="header-section-number">11.2.2</span> Systematic Approach</h3>
 <p>The open point is how to choose the value <span class="math inline">\(\gamma\)</span>. Of course, we want a systematic (i.e., algorithmic) way to find the optimum value.</p>
 <p>To formalize this, let us consider the map <span id="eq-bvp7"><span class="math display">\[
 g: \mathbb{R} \to \mathbb{R}, \; \gamma \mapsto y_\gamma(b),
-\tag{11.19}\]</span></span> where <span class="math inline">\(y_\gamma(x)\)</span> is the exact solution of the IVP <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.18</span></a>. We already have methods to compute <span class="math inline">\(g\)</span> approximately (by using approximation methods for IVPs). We need to find <span class="math inline">\(\gamma\)</span> such that <span class="math inline">\(y_{ \gamma}(x)=\beta\)</span>, i.e., such that</p>
+\tag{11.20}\]</span></span> where <span class="math inline">\(y_\gamma(x)\)</span> is the exact solution of the IVP <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.19</span></a>. We already have methods to compute <span class="math inline">\(g\)</span> approximately (by using approximation methods for IVPs). We need to find <span class="math inline">\(\gamma\)</span> such that <span class="math inline">\(y_{ \gamma}(x)=\beta\)</span>, i.e., such that</p>
 <p><span id="eq-geq"><span class="math display">\[
    g( \gamma) = \beta.
-\tag{11.20}\]</span></span> In other words, we need to find an (approximate) solution to the equation <a href="#eq-geq" class="quarto-xref">Eq.&nbsp;<span>11.20</span></a>. We will consider two cases:</p>
-<p>In the simpler case, <span class="math inline">\(g\)</span> is a <em>linear</em> function, i.e., <span class="math inline">\(g(\gamma)=m\gamma + c\)</span>. In this case, <a href="#eq-geq" class="quarto-xref">Eq.&nbsp;<span>11.20</span></a> can be solved explicitly (once <span class="math inline">\(m\)</span> and <span class="math inline">\(c\)</span> are known), namely</p>
+\tag{11.21}\]</span></span> In other words, we need to find an (approximate) solution to the equation <a href="#eq-geq" class="quarto-xref">Eq.&nbsp;<span>11.21</span></a>. We will consider two cases:</p>
+<p>In the simpler case, <span class="math inline">\(g\)</span> is a <em>linear</em> function, i.e., <span class="math inline">\(g(\gamma)=m\gamma + c\)</span>. In this case, <a href="#eq-geq" class="quarto-xref">Eq.&nbsp;<span>11.21</span></a> can be solved explicitly (once <span class="math inline">\(m\)</span> and <span class="math inline">\(c\)</span> are known), namely</p>
 <p><span id="eq-shootlinsol"><span class="math display">\[
    \gamma = \frac{\beta - c}{m}.
-\tag{11.21}\]</span></span> It remains to determine the constants <span class="math inline">\(m\)</span> and <span class="math inline">\(c\)</span>.</p>
-<p>More generally, <span class="math inline">\(g\)</span> can be a <em>nonlinear</em> function, and in this case we need to solve <a href="#eq-geq" class="quarto-xref">Eq.&nbsp;<span>11.20</span></a> numerically. We will use Newton’s method to that end. That is, we consider a sequence <span class="math inline">\(\gamma_k\)</span>, recursively defined by</p>
+\tag{11.22}\]</span></span> It remains to determine the constants <span class="math inline">\(m\)</span> and <span class="math inline">\(c\)</span>.</p>
+<p>More generally, <span class="math inline">\(g\)</span> can be a <em>nonlinear</em> function, and in this case we need to solve <a href="#eq-geq" class="quarto-xref">Eq.&nbsp;<span>11.21</span></a> numerically. We will use Newton’s method to that end. That is, we consider a sequence <span class="math inline">\(\gamma_k\)</span>, recursively defined by</p>
 <p><span id="eq-shootnewton"><span class="math display">\[
    \gamma_k := \gamma_{k-1} - \frac{g(\gamma_{k-1})-\beta}{g'(\gamma_{k-1})},
-\tag{11.22}\]</span></span></p>
+\tag{11.23}\]</span></span></p>
 <p>which is expected to converge to the desired value <span class="math inline">\(\gamma\)</span>. To that end, it remains to compute the derivative <span class="math inline">\(g'\)</span> of the map <span class="math inline">\(g\)</span>.</p>
 </section>
 <section id="linear-shooting" class="level3" data-number="11.2.3">
 <h3 data-number="11.2.3" class="anchored" data-anchor-id="linear-shooting"><span class="header-section-number">11.2.3</span> Linear Shooting</h3>
 <p>Let us first consider the linear case. Not very surprisingly, this arises when the underlying ODE is linear. That is, let us assume that our BVP is of the form <span id="eq-bvplinshoot"><span class="math display">\[
 y''(x) = p(x) y'(x) + q(x) y(x) + r(x),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta,
-\tag{11.23}\]</span></span></p>
+\tag{11.24}\]</span></span></p>
 <p>with <span class="math inline">\(p,q,r\)</span> being continuous functions on <span class="math inline">\([a,b]\)</span>.</p>
 <p>It turns out to be convenient to consider <em>two</em> related IVPs, neither of which involves the value <span class="math inline">\(\gamma\)</span>: <span id="eq-ivpshooty0"><span class="math display">\[
 y_0''(x) = p(x) y_0'(x) + q(x) y_0(x) + r(x),  \quad a \leq x \leq b,  \quad y_0(a) = \alpha,\quad  y_0'(a) = 0;
-\tag{11.24}\]</span></span> <span id="eq-ivpshootz"><span class="math display">\[
+\tag{11.25}\]</span></span> <span id="eq-ivpshootz"><span class="math display">\[
 z'' = p(x) z'(x) + q(x) z(x) , \quad  a \leq x \leq b, \quad z(a) = 0, \quad z'(a) = 1.
-\tag{11.25}\]</span></span> Using their exact solutions <span class="math inline">\(y_0(x)\)</span> and <span class="math inline">\(z(x)\)</span>, we can define <span id="eq-yglin"><span class="math display">\[
+\tag{11.26}\]</span></span> Using their exact solutions <span class="math inline">\(y_0(x)\)</span> and <span class="math inline">\(z(x)\)</span>, we can define <span id="eq-yglin"><span class="math display">\[
   y_\gamma(x) := y_0(x) + \gamma z(x);
-\tag{11.26}\]</span></span> and by adding <a href="#eq-ivpshooty0" class="quarto-xref">Eq.&nbsp;<span>11.24</span></a> and <a href="#eq-ivpshootz" class="quarto-xref">Eq.&nbsp;<span>11.25</span></a>, we see that this <span class="math inline">\(y_\gamma\)</span> is the (unique) solution of the IVP <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.18</span></a>.</p>
-<p>The solutions <span class="math inline">\(y_0(x)\)</span> and <span class="math inline">\(z(x)\)</span> can be found (approximately) by our known methods from <a href="ivp.html" class="quarto-xref"><span>Chapter 10</span></a>. We can then compute the correct value of <span class="math inline">\(\gamma\)</span> for our boundary value problem, as indicated in <a href="#eq-shootlinsol" class="quarto-xref">Eq.&nbsp;<span>11.21</span></a>: <span id="eq-getgammalin"><span class="math display">\[
+\tag{11.27}\]</span></span> and by adding <a href="#eq-ivpshooty0" class="quarto-xref">Eq.&nbsp;<span>11.25</span></a> and <a href="#eq-ivpshootz" class="quarto-xref">Eq.&nbsp;<span>11.26</span></a>, we see that this <span class="math inline">\(y_\gamma\)</span> is the (unique) solution of the IVP <a href="#eq-ivpshoot" class="quarto-xref">Eq.&nbsp;<span>11.19</span></a>.</p>
+<p>The solutions <span class="math inline">\(y_0(x)\)</span> and <span class="math inline">\(z(x)\)</span> can be found (approximately) by our known methods from <a href="ivp.html" class="quarto-xref"><span>Chapter 10</span></a>. We can then compute the correct value of <span class="math inline">\(\gamma\)</span> for our boundary value problem, as indicated in <a href="#eq-shootlinsol" class="quarto-xref">Eq.&nbsp;<span>11.22</span></a>: <span id="eq-getgammalin"><span class="math display">\[
      \gamma = \frac{\beta - y_0(b)}{z(b)}.
-\tag{11.27}\]</span></span> Re-inserting this value <span class="math inline">\(\gamma\)</span> into <a href="#eq-yglin" class="quarto-xref">Eq.&nbsp;<span>11.26</span></a>, we have found the (approximate) solution of the BVP.</p>
-<div id="alg-shootlin" class="pseudocode-container quarto-float" data-line-number-punc=":" data-chapter-level="11" data-comment-delimiter="//" data-indent-size="1.2em" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-pseudocode-number="1">
+\tag{11.28}\]</span></span> Re-inserting this value <span class="math inline">\(\gamma\)</span> into <a href="#eq-yglin" class="quarto-xref">Eq.&nbsp;<span>11.27</span></a>, we have found the (approximate) solution of the BVP.</p>
+<div id="alg-shootlin" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-pseudocode-number="1" data-line-number-punc=":" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-chapter-level="11" data-indent-size="1.2em">
 <div class="pseudocode">
 \begin{algorithm} \caption{The Linear Shooting method with Runge-Kutta approximation} \begin{algorithmic} \Function{LinearShooting}{$a,b,\alpha,\beta,N$} \State \Comment{boundary values $\alpha,\beta$; number of Runge-Kutta steps $N$} \State $F :=\; (x,\mathbf{u}) \mapsto (u^{(2)},p(x) u^{(2)} + q(x) u^{(1)} + r(x))$ \Comment{Rewrite and solve IVP for $y_0$} \State $ \mathbf{y} := $ \Call{RungeKutta}{$F, a,b, (\alpha,0), N$} \Comment{$\mathbf{y} = ( \mathbf{y}_0,\ldots, \mathbf{y}_N)$, each $\mathbf{y}_j$ is a 2-vector} \State $G :=\; (x,\mathbf{u}) \mapsto (u^{(2)},p(x) u^{(2)} + q(x) u^{(1)})$ \Comment{Rewrite and solve IVP for $z$} \State $ \mathbf{z} := $ \Call{RungeKutta}{$G, a,b, (0,1), N$} \Comment{$\mathbf{z} = ( \mathbf{z}_0,\ldots, \mathbf{z}_N)$, each $\mathbf{z}_j$ is a 2-vector} \State $\gamma := \dfrac{\beta - y_N^{(1)} }{z_N^{(1)}}$ \Comment{Determine correct initial value} \For{$i = 0,\ldots,N$} \State $w_i := y_i^{(1)} + \gamma z_i^{(1)}$ \Comment{compute solution of BVP} \EndFor \Return ($w_{0},\ldots,w_{N}$) \EndFunction \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p><a href="#alg-shootlin" class="quarto-xref">Algorithm 11.1</a> summarizes the Linear Shooting Method. We first rewrite the IVP <a href="#eq-ivpshooty0" class="quarto-xref">Eq.&nbsp;<span>11.24</span></a> for <span class="math inline">\(y_0\)</span> as a system of two first-order ODEs, and approximate its solution (lines 3–4). For concreteness’ sake, we choose the classical Runge-Kutta method for the approximation. We do likewise with the IVP <a href="#eq-ivpshootz" class="quarto-xref">Eq.&nbsp;<span>11.25</span></a> for <span class="math inline">\(z\)</span>, in lines 5–6. Now we can compute the correct value of <span class="math inline">\(\gamma\)</span> (line 7), and combine the approximations for <span class="math inline">\(y_0\)</span> and <span class="math inline">\(z\)</span> into the approximation of the BVP solution (lines 8–10).</p>
+<p><a href="#alg-shootlin" class="quarto-xref">Algorithm 11.1</a> summarizes the Linear Shooting Method. We first rewrite the IVP <a href="#eq-ivpshooty0" class="quarto-xref">Eq.&nbsp;<span>11.25</span></a> for <span class="math inline">\(y_0\)</span> as a system of two first-order ODEs, and approximate its solution (lines 3–4). For concreteness’ sake, we choose the classical Runge-Kutta method for the approximation. We do likewise with the IVP <a href="#eq-ivpshootz" class="quarto-xref">Eq.&nbsp;<span>11.26</span></a> for <span class="math inline">\(z\)</span>, in lines 5–6. Now we can compute the correct value of <span class="math inline">\(\gamma\)</span> (line 7), and combine the approximations for <span class="math inline">\(y_0\)</span> and <span class="math inline">\(z\)</span> into the approximation of the BVP solution (lines 8–10).</p>
 </section>
 <section id="nonlinear-shooting" class="level3" data-number="11.2.4">
 <h3 data-number="11.2.4" class="anchored" data-anchor-id="nonlinear-shooting"><span class="header-section-number">11.2.4</span> Nonlinear Shooting</h3>
 <p>Now let us turn to the nonlinear case, i.e., to a generic BVP of the form <span id="eq-bvpshootnonlin"><span class="math display">\[
 y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
-\tag{11.28}\]</span></span></p>
+\tag{11.29}\]</span></span></p>
 <p>As said before, we will use Newton’s method for finding the correct value of <span class="math inline">\(\gamma\)</span>. That means, we need to compute the sequence <span class="math inline">\((\gamma_k)\)</span> given by <span id="eq-gammastep"><span class="math display">\[
   \gamma_k := \gamma_{k-1} - \frac{g(\gamma_{k-1})-\beta}{g'(\gamma_{k-1})}.
-\tag{11.29}\]</span></span></p>
+\tag{11.30}\]</span></span></p>
 <p>To that end, we need to know how to compute <span class="math inline">\(g(\gamma)\)</span> and <span class="math inline">\(g'(\gamma)\)</span> numerically.</p>
 <p>Here finding <span class="math inline">\(g(\gamma)\)</span> is not difficult: We have <span class="math inline">\(g(\gamma)=y_\gamma(b)\)</span>, where <span class="math inline">\(y_\gamma\)</span> is the solution of the IVP</p>
 <p><span id="eq-ivpgamma"><span class="math display">\[
   y_\gamma''(x) = f(x,y_\gamma(x),y_\gamma'(x)),  \quad a \leq x \leq b, \quad y_\gamma(a) = \alpha, \; y_\gamma'(a) = \gamma.
-\tag{11.30}\]</span></span></p>
+\tag{11.31}\]</span></span></p>
 <p>We can approximate this solution numerically with any of our known methods – say, classical Runge-Kutta – and thus obtain an approximation of <span class="math inline">\(g(\gamma)\)</span>.</p>
 <p>However, for its derivative <span class="math inline">\(g'\)</span>, the right approach is much less obvious. We need to compute <span id="eq-bvp8"><span class="math display">\[
 g'(\gamma) = \frac{\partial}{\partial \gamma} y_\gamma(x)\Big|_{x=b} .
-\tag{11.31}\]</span></span> In order to find this value, we differentiate <a href="#eq-ivpgamma" class="quarto-xref">Eq.&nbsp;<span>11.30</span></a> by <span class="math inline">\(\gamma\)</span>, using the chain rule.</p>
+\tag{11.32}\]</span></span> In order to find this value, we differentiate <a href="#eq-ivpgamma" class="quarto-xref">Eq.&nbsp;<span>11.31</span></a> by <span class="math inline">\(\gamma\)</span>, using the chain rule.</p>
 <p><span id="eq-ivpgammap"><span class="math display">\[
 \; \frac{\partial y_\gamma'}{\partial \gamma}(a) = 1.
-\tag{11.32}\]</span></span> This does not determine <span class="math inline">\(\partial y_\gamma/\partial \gamma\)</span> directly. However, it gives us a second-order IVP from which the derivative can be determined.</p>
+\tag{11.33}\]</span></span> This does not determine <span class="math inline">\(\partial y_\gamma/\partial \gamma\)</span> directly. However, it gives us a second-order IVP from which the derivative can be determined.</p>
 <p>To make this more concrete, let us use the substitution <span id="eq-bvp9"><span class="math display">\[
 u ^{(1)} = y_\gamma, \quad
    u ^{(2)} = y_\gamma', \quad
    u ^{(3)} = \frac{\partial y_\gamma}{\partial \gamma}, \quad
    u ^{(4)} = \frac{\partial y_\gamma'}{\partial \gamma}.
-\tag{11.33}\]</span></span> We can then rewrite <a href="#eq-ivpgamma" class="quarto-xref">Eq.&nbsp;<span>11.30</span></a> <em>and</em> <a href="#eq-ivpgammap" class="quarto-xref">Eq.&nbsp;<span>11.32</span></a> into an IVP for 4 first-order ODEs:</p>
-<p><span id="eq-ivpu4"><span class="math display">\[
+\tag{11.34}\]</span></span> We can then rewrite <a href="#eq-ivpgamma" class="quarto-xref">Eq.&nbsp;<span>11.31</span></a> <em>and</em> <a href="#eq-ivpgammap" class="quarto-xref">Eq.&nbsp;<span>11.33</span></a> into an IVP for 4 first-order ODEs: <span id="eq-ivpu4"><span class="math display">\[
 \mathbf{u}' = \begin{pmatrix}
 u^{(2)} \\ f(x,u^{(1)},u^{(2)}) \\ u^{(4)} \\
 \dfrac{\partial f}{\partial y}(x,u^{(1)},u^{(2)}) \, u^{(3)} +
@@ -533,94 +534,94 @@ u^{(2)} \\ f(x,u^{(1)},u^{(2)}) \\ u^{(4)} \\
    \begin{pmatrix}
          \alpha \\ \gamma \\ 0 \\ 1
      \end{pmatrix} .
-\tag{11.34}\]</span></span> From this IVP, which can be treated, e.g., with the classical Runge-Kutta method, we can now read off <span id="eq-bvp10"><span class="math display">\[
+\tag{11.35}\]</span></span> From this IVP, which can be treated, e.g., with the classical Runge-Kutta method, we can now read off <span id="eq-bvp10"><span class="math display">\[
 g(\gamma) = u ^{(1)}(b), \quad g'(\gamma) = u ^{(3)}(b).
-\tag{11.35}\]</span></span> This finally allow us to compute the Newton step <a href="#eq-gammastep" class="quarto-xref">Eq.&nbsp;<span>11.29</span></a>.</p>
-<div id="alg-shootnonlin" class="pseudocode-container quarto-float" data-line-number-punc=":" data-chapter-level="11" data-comment-delimiter="//" data-indent-size="1.2em" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-pseudocode-number="2">
+\tag{11.36}\]</span></span> This finally allow us to compute the Newton step <a href="#eq-gammastep" class="quarto-xref">Eq.&nbsp;<span>11.30</span></a>.</p>
+<div id="alg-shootnonlin" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-pseudocode-number="2" data-line-number-punc=":" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-chapter-level="11" data-indent-size="1.2em">
 <div class="pseudocode">
-\begin{algorithm} \caption{The Nonlinear Shooting method with Runge-Kutta approximation} \begin{algorithmic} \Function{NonlinearShooting}{$a,b,\alpha,\beta,\gamma_0,N,T,M$} \State \Comment{boundary values $\alpha,\beta$; start value $\gamma_0$; number of Runge-Kutta steps $N$;} \State \Comment{tolerance $T$; maximum number of Newton iterations $M$} \State $F:= (x,\mathbf{u}) \mapsto \big(u^{(2)}, f(x,u^{(1)},u^{(2)}), u^{(4)} , \frac{\partial f}{\partial y}(x,u^{(1)},u^{(2)}) \, u^{(3)} +\frac{\partial f}{\partial y'}(x,u^{(1)},u^{(2)}) \, u^{(4)} \big)$ \State $\gamma := \gamma_0$; $k:=0$ \While{$k\leq M$} \State $ \mathbf{w} := $ \Call{RungeKutta}{$F, a,b, (\alpha,\gamma,0,1), N$} \State \Comment{here $\mathbf{w}= ( \mathbf{w}_0,\ldots, \mathbf{w}_N)$, each $\mathbf{w}_j$ is a 4-vector} \State $v := \dfrac{w_{N} ^{(1)}-\beta}{w_{N} ^{(3)}}$; $\gamma := \gamma - v$ \If{$|v|&lt;T$} \Break \EndIf \State $k:=k+1$ \EndWhile \Return ($w_{0} ^{(1)},\ldots,w_{N} ^{(1)}$) \EndFunction \end{algorithmic} \end{algorithm}
+\begin{algorithm} \caption{The Nonlinear Shooting method with Runge-Kutta approximation} \begin{algorithmic} \Function{NonlinearShooting}{$a,b,\alpha,\beta,\gamma_0,N,T,M$} \State \Comment{boundary values $\alpha,\beta$; start value $\gamma_0$; number of Runge-Kutta steps $N$;} \State \Comment{tolerance $T$; maximum number of Newton iterations $M$} \State $F:= (x,\mathbf{u}) \mapsto \big(u^{(2)}, f(x,u^{(1)},u^{(2)}), u^{(4)} , \frac{\partial f}{\partial y}(x,u^{(1)},u^{(2)}) \, u^{(3)} +\frac{\partial f}{\partial y'}(x,u^{(1)},u^{(2)}) \, u^{(4)} \big)$ \State $\gamma := \gamma_0$; $k:=0$ \While{$k\leq M$} \State $ \mathbf{w} := $ \Call{RungeKutta}{$F, a,b, (\alpha,\gamma,0,1), N$} \State \Comment{here $\mathbf{w} = ( \mathbf{w}_0,\ldots, \mathbf{w}_N)$, each $\mathbf{w}_j$ is a 4-vector} \State $v := \dfrac{w_{N}^{(1)}-\beta}{w_{N}^{(3)}}$; $\gamma := \gamma - v$ \If{$|v|&lt;T$} \Break \EndIf \State $k:=k+1$ \EndWhile \Return ($w_{0}^{(1)},\ldots,w_{N}^{(1)}$) \EndFunction \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>Let us summarize the Nonlinear Shooting Method in <a href="#alg-shootnonlin" class="quarto-xref">Algorithm 11.2</a>. Its structure is of the now well-known Newton iteration type. In each iteration of the loop, we solve the IVP <a href="#eq-ivpu4" class="quarto-xref">Eq.&nbsp;<span>11.34</span></a> with the classical Runge-Kutta method. We then pick the approximation values at the rightmost mesh point and compute the next <span class="math inline">\(\gamma\)</span> value from them. The usual methods of breaking the Newton loop are in place - either after sufficient precision is reached, or (with an error) after too many steps have been taken.</p>
+<p>Let us summarize the Nonlinear Shooting Method in <a href="#alg-shootnonlin" class="quarto-xref">Algorithm 11.2</a>. Its structure is of the now well-known Newton iteration type. In each iteration of the loop, we solve the IVP <a href="#eq-ivpu4" class="quarto-xref">Eq.&nbsp;<span>11.35</span></a> with the classical Runge-Kutta method. We then pick the approximation values at the rightmost mesh point and compute the next <span class="math inline">\(\gamma\)</span> value from them. The usual methods of breaking the Newton loop are in place - either after sufficient precision is reached, or (with an error) after too many steps have been taken.</p>
 </section>
 </section>
 <section id="sec-fdm" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="sec-fdm"><span class="header-section-number">11.3</span> The Finite Difference Method</h2>
 <p>The <em>Finite Difference Method (FDM)</em> is another, very different method of approximating the solution of the BVP <span id="eq-bvpfdm"><span class="math display">\[
 y''(x) = f(x,y(x),y'(x)),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
-\tag{11.36}\]</span></span></p>
+\tag{11.37}\]</span></span></p>
 <p>This method does not refer back to our approximation methods for IVPs, but is adapted directly to BVPs.</p>
 <section id="the-idea-1" class="level3" data-number="11.3.1">
 <h3 data-number="11.3.1" class="anchored" data-anchor-id="the-idea-1"><span class="header-section-number">11.3.1</span> The idea</h3>
 <p>Similar to before, we divide our interval with equally spaced mesh points, <span class="math inline">\(x_0,\ldots,x_{N+1}\)</span>, where <span class="math inline">\(x_0=a\)</span> and <span class="math inline">\(x_{N+1}=b\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> As before, we want to approximate <span class="math inline">\(y(x_i)\)</span> with a value <span class="math inline">\(w_i\)</span> (<span class="math inline">\(i=1,\ldots,N\)</span>).</p>
 <p>The main idea of the FDM is to approximate the derivatives <span class="math inline">\(y'(x_i)\)</span> and <span class="math inline">\(y''(x_i)\)</span> with difference quotients (“finite differences”). For example, we could use <span id="eq-diffquot"><span class="math display">\[
    y'(x_i) \approx \frac{w_{i+1}-w_i}{h},
-\tag{11.37}\]</span></span> but we will see an even better choice later. A similar approximation will need to be found for <span class="math inline">\(y''(x_i)\)</span>.</p>
+\tag{11.38}\]</span></span> but we will see an even better choice later. A similar approximation will need to be found for <span class="math inline">\(y''(x_i)\)</span>.</p>
 <p>In this way, the ODE is transformed into a system of equations for <span class="math inline">\(w_1,\ldots,w_N\)</span>, and the boundary conditions are expressed by <span class="math inline">\(w_0=\alpha\)</span>, <span class="math inline">\(w_{N+1}=\beta\)</span>.</p>
 </section>
 <section id="centred-difference-formulas" class="level3" data-number="11.3.2">
 <h3 data-number="11.3.2" class="anchored" data-anchor-id="centred-difference-formulas"><span class="header-section-number">11.3.2</span> Centred difference formulas</h3>
-<p>As a first step, we will derive an improved version of the difference quotient approximation <a href="#eq-diffquot" class="quarto-xref">Eq.&nbsp;<span>11.37</span></a>, in which the error term was of order <span class="math inline">\(O(h)\)</span>. Let us assume that the solution <span class="math inline">\(y(x)\)</span> of the BVP has three continuous derivatives. We write down second-order Taylor expansions of <span class="math inline">\(y(x_{i+1})\)</span> and <span class="math inline">\(y(x_{i-1})\)</span>, cf. <a href="appendix.html#thm-taylor1d" class="quarto-xref">Theorem&nbsp;<span>A.1</span></a>: <span id="eq-cd1"><span class="math display">\[
+<p>As a first step, we will derive an improved version of the difference quotient approximation <a href="#eq-diffquot" class="quarto-xref">Eq.&nbsp;<span>11.38</span></a>, in which the error term was of order <span class="math inline">\(O(h)\)</span>. Let us assume that the solution <span class="math inline">\(y(x)\)</span> of the BVP has three continuous derivatives. We write down second-order Taylor expansions of <span class="math inline">\(y(x_{i+1})\)</span> and <span class="math inline">\(y(x_{i-1})\)</span>, cf. <a href="appendix.html#thm-taylor1d" class="quarto-xref">Theorem&nbsp;<span>A.1</span></a>: <span id="eq-cd1"><span class="math display">\[
 {4}
   y(x_{i+1}) \;=\; y(x_i+h) = y(x_i) + h y'(x_i) + \frac{h^2}{2} y''(x_i)
   + \frac{h^3}{6} y'''(\xi_+);
-\tag{11.38}\]</span></span> <span id="eq-cd2"><span class="math display">\[
+\tag{11.39}\]</span></span> <span id="eq-cd2"><span class="math display">\[
   y(x_{i-1}) = y(x_i-h) = y(x_i) - h y'(x_i) + \frac{h^2}{2} y''(x_i)
 - \frac{h^3}{6} y'''(\xi_-)
-\tag{11.39}\]</span></span> with some <span class="math inline">\(\xi_+ \in [x_i,x_{i+1}]\)</span> and <span class="math inline">\(\xi_- \in [x_{i-1},x_{i}]\)</span>. Subtracting <a href="#eq-cd2" class="quarto-xref">Eq.&nbsp;<span>11.39</span></a> from <a href="#eq-cd1" class="quarto-xref">Eq.&nbsp;<span>11.38</span></a>, we obtain <span id="eq-cd3"><span class="math display">\[
+\tag{11.40}\]</span></span> with some <span class="math inline">\(\xi_+ \in [x_i,x_{i+1}]\)</span> and <span class="math inline">\(\xi_- \in [x_{i-1},x_{i}]\)</span>. Subtracting <a href="#eq-cd2" class="quarto-xref">Eq.&nbsp;<span>11.40</span></a> from <a href="#eq-cd1" class="quarto-xref">Eq.&nbsp;<span>11.39</span></a>, we obtain <span id="eq-cd3"><span class="math display">\[
 y(x_{i+1}) - y(x_{i-1}) = 2 h y'(x_i) + \frac{h^3}{6}
 \underbrace{\big(
    y'''(\xi_+) + y'''(\xi_-)
 \big)}_{
   2 y'''(\xi)
 }.
-\tag{11.40}\]</span></span> Here <span class="math inline">\(\xi \in [x_{i-1},x_{i+1}]\)</span> is some point obtained from the intermediate value theorem. Solving for <span class="math inline">\(y'(x_i)\)</span>, we find</p>
+\tag{11.41}\]</span></span> Here <span class="math inline">\(\xi \in [x_{i-1},x_{i+1}]\)</span> is some point obtained from the intermediate value theorem. Solving for <span class="math inline">\(y'(x_i)\)</span>, we find</p>
 <p><span id="eq-cdyp"><span class="math display">\[
 y'(x_i) = \frac{ y(x_{i+1}) - y(x_{i-1}) }{2h} - \frac{h^2}{6} y'''(\xi).
-\tag{11.41}\]</span></span></p>
-<p>This is known as a <em>centred difference formula</em>. Note that the “error term” here is of order <span class="math inline">\(O(h^2)\)</span> which is better than the <span class="math inline">\(O(h)\)</span> one obtains in <a href="#eq-diffquot" class="quarto-xref">Eq.&nbsp;<span>11.37</span></a>.</p>
+\tag{11.42}\]</span></span></p>
+<p>This is known as a <em>centred difference formula</em>. Note that the “error term” here is of order <span class="math inline">\(O(h^2)\)</span> which is better than the <span class="math inline">\(O(h)\)</span> one obtains in <a href="#eq-diffquot" class="quarto-xref">Eq.&nbsp;<span>11.38</span></a>.</p>
 <p>We can obtain a similar formula for <span class="math inline">\(y''(x_i)\)</span> as well, using a third-order Taylor expansion of <span class="math inline">\(y\)</span>. See <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 4.1</a>, Eq.&nbsp;(4.9))</span> for details. The result is <span id="eq-cdypp"><span class="math display">\[
 y''(x_i) = \frac{ y(x_{i+1}) - 2 y(x_i) + y(x_{i-1}) }{h^2} - \frac{h^2}{12} y''''(\xi)
-\tag{11.42}\]</span></span></p>
+\tag{11.43}\]</span></span></p>
 <p>with some <span class="math inline">\(\xi \in [x_{i-1},x_{i+1}]\)</span>.</p>
 </section>
 <section id="recipe-for-the-finite-difference-method" class="level3" data-number="11.3.3">
 <h3 data-number="11.3.3" class="anchored" data-anchor-id="recipe-for-the-finite-difference-method"><span class="header-section-number">11.3.3</span> Recipe for the Finite Difference Method</h3>
-<p>We can now formulate an outline of the FDM in our context. Starting from a boundary value problem of the form <a href="#eq-bvpfdm" class="quarto-xref">Eq.&nbsp;<span>11.36</span></a>, we consider the <span class="math inline">\(N\)</span> equations</p>
+<p>We can now formulate an outline of the FDM in our context. Starting from a boundary value problem of the form <a href="#eq-bvpfdm" class="quarto-xref">Eq.&nbsp;<span>11.37</span></a>, we consider the <span class="math inline">\(N\)</span> equations</p>
 <p><span id="eq-fdmstart"><span class="math display">\[
    y''(x_i) = f\big(x_i, y(x_i), y'(x_i)\big), \quad  i = 1,\ldots,N.
-\tag{11.43}\]</span></span></p>
+\tag{11.44}\]</span></span></p>
 <p>In order to obtain an approximate solution, we manipulate the equations as follows:</p>
 <ul>
 <li><p>Replace all occurrences of <span class="math inline">\(y(x_i)\)</span> with <span class="math inline">\(w_i\)</span>.</p></li>
-<li><p>Replace all occurrences of <span class="math inline">\(y'(x_i)\)</span> with <span class="math inline">\(\dfrac{w_{i+1}-w_{i-1}}{2h}\)</span>; cf. <a href="#eq-cdyp" class="quarto-xref">Eq.&nbsp;<span>11.41</span></a>.</p></li>
-<li><p>Replace all occurrences of <span class="math inline">\(y''(x_i)\)</span> with <span class="math inline">\(\dfrac{w_{i+1}-2 w_i +w_{i-1}}{h^2}\)</span>; cf. <a href="#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.42</span></a>.</p></li>
+<li><p>Replace all occurrences of <span class="math inline">\(y'(x_i)\)</span> with <span class="math inline">\(\dfrac{w_{i+1}-w_{i-1}}{2h}\)</span>; cf. <a href="#eq-cdyp" class="quarto-xref">Eq.&nbsp;<span>11.42</span></a>.</p></li>
+<li><p>Replace all occurrences of <span class="math inline">\(y''(x_i)\)</span> with <span class="math inline">\(\dfrac{w_{i+1}-2 w_i +w_{i-1}}{h^2}\)</span>; cf. <a href="#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.43</span></a>.</p></li>
 <li><p>Set <span class="math inline">\(w_0=\alpha\)</span>, <span class="math inline">\(w_{N+1}=\beta\)</span>.</p></li>
 </ul>
 <p>This will leave us with a system of <span class="math inline">\(N\)</span> equations for the <span class="math inline">\(N\)</span> variables <span class="math inline">\(w_1,\ldots,w_N\)</span>. This equation system can either be linear, in which case we can apply algorithms for solving linear equation systems (see <a href="chapter05.html" class="quarto-xref"><span>Chapter 5</span></a>); or it can be nonlinear, in which case we need Newton’s method in several variables (see <a href="chapter04.html" class="quarto-xref"><span>Chapter 4</span></a>) to approximate the solution.</p>
-<p>The error order of this approximation scheme is determined by the remainder term in the centred difference formulas, Eqs.&nbsp;<a href="#eq-cdyp" class="quarto-xref">Eq.&nbsp;<span>11.41</span></a> and <a href="#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.42</span></a>; namely, the method is of order <span class="math inline">\(O(h^2)\)</span>. However, we will not prove this here.</p>
+<p>The error order of this approximation scheme is determined by the remainder term in the centred difference formulas, Eqs.&nbsp;<a href="#eq-cdyp" class="quarto-xref">Eq.&nbsp;<span>11.42</span></a> and <a href="#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.43</span></a>; namely, the method is of order <span class="math inline">\(O(h^2)\)</span>. However, we will not prove this here.</p>
 </section>
 <section id="the-linear-finite-difference-method" class="level3" data-number="11.3.4">
 <h3 data-number="11.3.4" class="anchored" data-anchor-id="the-linear-finite-difference-method"><span class="header-section-number">11.3.4</span> The Linear Finite Difference Method</h3>
 <p>Let us first apply the recipe to a <em>linear</em> ODE, that is, to a boundary value problem of the form <span id="eq-bvpfdmlin"><span class="math display">\[
 y''(x) = p(x)y'(x) + q(x) y(x) + r(x),  \quad a \leq x \leq b, \quad y(a) = \alpha, \; y(b) = \beta.
-\tag{11.44}\]</span></span></p>
-<p>In this case, Eq.&nbsp;<a href="#eq-fdmstart" class="quarto-xref">Eq.&nbsp;<span>11.43</span></a> reads <span id="eq-bvp11"><span class="math display">\[
+\tag{11.45}\]</span></span></p>
+<p>In this case, Eq.&nbsp;<a href="#eq-fdmstart" class="quarto-xref">Eq.&nbsp;<span>11.44</span></a> reads <span id="eq-bvp11"><span class="math display">\[
 y''(x_i) = p(x_i) y'(x_i) + q(x_i) y(x_i) + r(x_i), \quad  i = 1,\ldots,N.
-\tag{11.45}\]</span></span> By the substitution rules mentioned above, and with the abbreviations <span class="math inline">\(p_i:=p(x_i)\)</span>, <span class="math inline">\(q_i:=q(x_i)\)</span>, <span class="math inline">\(r_i := r(x_i)\)</span>, we get: <span id="eq-bvp12"><span class="math display">\[
+\tag{11.46}\]</span></span> By the substitution rules mentioned above, and with the abbreviations <span class="math inline">\(p_i:=p(x_i)\)</span>, <span class="math inline">\(q_i:=q(x_i)\)</span>, <span class="math inline">\(r_i := r(x_i)\)</span>, we get: <span id="eq-bvp12"><span class="math display">\[
 \dfrac{w_{i+1}-2 w_i +w_{i-1}}{h^2}
 = p_i \dfrac{w_{i+1}-w_{i-1}}{2h} + q_i w_i + r_i, \quad  i = 1,\ldots,N.
-\tag{11.46}\]</span></span> Multiplying with <span class="math inline">\(h^2\)</span>, and bringing all <span class="math inline">\(w_j\)</span> to the left-hand side, we can rewrite this as <span id="eq-bvp13"><span class="math display">\[
+\tag{11.47}\]</span></span> Multiplying with <span class="math inline">\(h^2\)</span>, and bringing all <span class="math inline">\(w_j\)</span> to the left-hand side, we can rewrite this as <span id="eq-bvp13"><span class="math display">\[
 w_{i+1}-2 w_i +w_{i-1} - \frac{h}{2}p_i w_{i+1}
 + \frac{h}{2}p_i w_{i-1} -  h^2 q_i w_i = h^2 r_i,
-\tag{11.47}\]</span></span> or</p>
+\tag{11.48}\]</span></span> or</p>
 <p><span id="eq-fdmlinsys"><span class="math display">\[
   \left(-1+ \frac{h}{2}p_i\right) w_{i+1}  
   + (2+h^2q_i) w_i
   + \left(-1- \frac{h}{2}p_i\right) w_{i-1}  
   = - h^2 r_i
-\tag{11.48}\]</span></span> for <span class="math inline">\(i = 1,\ldots,N\)</span>.</p>
-<p>Note here that <span class="math inline">\(w_{i-1}\)</span> may be <span class="math inline">\(w_0\)</span> (if <span class="math inline">\(i=1\)</span>) and <span class="math inline">\(w_{i+1}\)</span> may be <span class="math inline">\(w_{N+1}\)</span> (if <span class="math inline">\(i=N\)</span>). So not all <span class="math inline">\(w_j\)</span> are variables, some need to be replaced with the boundary values <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. Keeping this in mind, we can rewrite the equation system <a href="#eq-fdmlinsys" class="quarto-xref">Eq.&nbsp;<span>11.48</span></a> in matrix form: <span id="eq-bvp14"><span class="math display">\[
+\tag{11.49}\]</span></span> for <span class="math inline">\(i = 1,\ldots,N\)</span>.</p>
+<p>Note here that <span class="math inline">\(w_{i-1}\)</span> may be <span class="math inline">\(w_0\)</span> (if <span class="math inline">\(i=1\)</span>) and <span class="math inline">\(w_{i+1}\)</span> may be <span class="math inline">\(w_{N+1}\)</span> (if <span class="math inline">\(i=N\)</span>). So not all <span class="math inline">\(w_j\)</span> are variables, some need to be replaced with the boundary values <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. Keeping this in mind, we can rewrite the equation system <a href="#eq-fdmlinsys" class="quarto-xref">Eq.&nbsp;<span>11.49</span></a> in matrix form: <span id="eq-bvp14"><span class="math display">\[
 \begin{gathered}
 \underbrace{ \begin{pmatrix}
 2+h^2 q_1 &amp; -1+\frac{h}{2} p_1 &amp; 0 &amp; \cdots &amp; 0
@@ -651,40 +652,40 @@ p_{N-1}\\
 .
 %
 \end{gathered}
-\tag{11.49}\]</span></span> The matrix <span class="math inline">\(\mathbf{A}\)</span> is tridiagonal. Therefore, we can use fast algorithms (e.g.&nbsp;Crout factorization) in order to solve the linear equation system, and obtain the vector <span class="math inline">\(\mathbf{w}=(w_1,\ldots,w_N)\)</span> in <span class="math inline">\(O(N)\)</span> time. This directly gives us the required approximation of the solution <span class="math inline">\(y(x)\)</span>.</p>
+\tag{11.50}\]</span></span> The matrix <span class="math inline">\(\mathbf{A}\)</span> is tridiagonal. Therefore, we can use fast algorithms (e.g.&nbsp;Crout factorization) in order to solve the linear equation system, and obtain the vector <span class="math inline">\(\mathbf{w}=(w_1,\ldots,w_N)\)</span> in <span class="math inline">\(O(N)\)</span> time. This directly gives us the required approximation of the solution <span class="math inline">\(y(x)\)</span>.</p>
 </section>
 <section id="the-nonlinear-finite-difference-method" class="level3" data-number="11.3.5">
 <h3 data-number="11.3.5" class="anchored" data-anchor-id="the-nonlinear-finite-difference-method"><span class="header-section-number">11.3.5</span> The Nonlinear Finite Difference Method</h3>
-<p>Let us now discuss the case of a completely generic, possibly nonlinear ODE. As before, we set out from the <span class="math inline">\(N\)</span> equations in <a href="#eq-fdmstart" class="quarto-xref">Eq.&nbsp;<span>11.43</span></a>. Again we substitute the function <span class="math inline">\(y\)</span> and its derivatives with <span class="math inline">\(w_i\)</span> and their finite differences. However, in absence of more information about the function <span class="math inline">\(f\)</span>, we end up with just <span id="eq-bvp15"><span class="math display">\[
+<p>Let us now discuss the case of a completely generic, possibly nonlinear ODE. As before, we set out from the <span class="math inline">\(N\)</span> equations in <a href="#eq-fdmstart" class="quarto-xref">Eq.&nbsp;<span>11.44</span></a>. Again we substitute the function <span class="math inline">\(y\)</span> and its derivatives with <span class="math inline">\(w_i\)</span> and their finite differences. However, in absence of more information about the function <span class="math inline">\(f\)</span>, we end up with just <span id="eq-bvp15"><span class="math display">\[
 \dfrac{w_{i+1}-2 w_i +w_{i-1}}{h^2} =
    f\Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big),
    \quad  i = 1,\ldots,N.
-\tag{11.50}\]</span></span> We can rewrite this in a more convenient form: <span id="eq-Fdef"><span class="math display">\[
+\tag{11.51}\]</span></span> We can rewrite this in a more convenient form: <span id="eq-Fdef"><span class="math display">\[
    0 = \underbrace{-w_{i+1}+2 w_i -w_{i-1}
   + h^2 f\Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big) }_{
    =:F^{(i)}(\mathbf{w})
   }
-\tag{11.51}\]</span></span> for <span class="math inline">\(i = 1,\ldots,N\)</span>. Our task is now to solve the nonlinear equation system <span class="math inline">\(\mathbf{F}(\mathbf{w})=0\)</span> for <span class="math inline">\(\mathbf{w}=(w_1,\ldots,w_N)\)</span>, where it is understood that <span class="math inline">\(w_0=\alpha\)</span> and <span class="math inline">\(w_{N+1}=\beta\)</span>.</p>
-<p>We will do this with the <span class="math inline">\(N\)</span>-dimensional version of Newton’s method, as discussed in <a href="chapter04.html" class="quarto-xref"><span>Chapter 4</span></a>. To that end, we need to compute the Jacobian matrix of <span class="math inline">\(\mathbf{F}\)</span>; that is, we need to compute all the partial derivatives <span class="math inline">\(\partial F ^{(i)}/\partial w ^{(j)}\)</span>. Fortunately, most of these turn out to vanish. We compute from <a href="#eq-Fdef" class="quarto-xref">Eq.&nbsp;<span>11.51</span></a>, <span id="eq-Fder1"><span class="math display">\[
+\tag{11.52}\]</span></span> for <span class="math inline">\(i = 1,\ldots,N\)</span>. Our task is now to solve the nonlinear equation system <span class="math inline">\(\mathbf{F}(\mathbf{w})=0\)</span> for <span class="math inline">\(\mathbf{w}=(w_1,\ldots,w_N)\)</span>, where it is understood that <span class="math inline">\(w_0=\alpha\)</span> and <span class="math inline">\(w_{N+1}=\beta\)</span>.</p>
+<p>We will do this with the <span class="math inline">\(N\)</span>-dimensional version of Newton’s method, as discussed in <a href="chapter04.html" class="quarto-xref"><span>Chapter 4</span></a>. To that end, we need to compute the Jacobian matrix of <span class="math inline">\(\mathbf{F}\)</span>; that is, we need to compute all the partial derivatives <span class="math inline">\(\partial F ^{(i)}/\partial w ^{(j)}\)</span>. Fortunately, most of these turn out to vanish. We compute from <a href="#eq-Fdef" class="quarto-xref">Eq.&nbsp;<span>11.52</span></a>, <span id="eq-Fder1"><span class="math display">\[
   \frac{\partial F ^{(i)}}{\partial w ^{(i+1)}}
    = -1  + \frac{h}{2} \frac{\partial f}{\partial y'} \Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big) \quad \text{for } i=1,\ldots,N-1,
-\tag{11.52}\]</span></span> <span id="eq-Fder2"><span class="math display">\[
+\tag{11.53}\]</span></span> <span id="eq-Fder2"><span class="math display">\[
   \frac{\partial F ^{(i)}}{\partial w ^{(i-1)}}
    = -1  - \frac{h}{2} \frac{\partial f}{\partial y'} \Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big) \quad \text{for } i=2,\ldots,N,
-\tag{11.53}\]</span></span> <span id="eq-Fder3"><span class="math display">\[
+\tag{11.54}\]</span></span> <span id="eq-Fder3"><span class="math display">\[
   \frac{\partial F  ^{(i)}}{\partial w ^{(i)}}
    = \hphantom{-} 2  + h^2 \frac{\partial f}{\partial y} \Big(x_i, w_i, \dfrac{w_{i+1}-w_{i-1}}{2h} \Big) \quad \text{for } i=1,\ldots,N.
-\tag{11.54}\]</span></span></p>
+\tag{11.55}\]</span></span></p>
 <p>All other partial derivatives are 0. That is, the Jacobian matrix <span class="math inline">\(\mathbf{J}=\partial \mathbf{F}/\partial\mathbf{w}\)</span> is tridiagonal. This allows us to solve the linear system involved in each step of the Newton iteration very quickly.</p>
 <p>For doing the Newton iteration, we need a sensible start value for the vector <span class="math inline">\(\mathbf{w}\)</span>. A common choice is to place the points <span class="math inline">\((x_i,w ^{(i)})\)</span> on a straight line from <span class="math inline">\((a,\alpha)\)</span> to <span class="math inline">\((b,\beta)\)</span>: <span id="eq-bvp16"><span class="math display">\[
 w ^{(i)}_0 = \alpha + i h \frac{\beta-\alpha}{b-a}.
-\tag{11.55}\]</span></span></p>
-<div id="alg-fdmnonlin" class="pseudocode-container quarto-float" data-line-number-punc=":" data-chapter-level="11" data-comment-delimiter="//" data-indent-size="1.2em" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-pseudocode-number="3">
+\tag{11.56}\]</span></span></p>
+<div id="alg-fdmnonlin" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-pseudocode-number="3" data-line-number-punc=":" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-chapter-level="11" data-indent-size="1.2em">
 <div class="pseudocode">
-\begin{algorithm} \caption{The Nonlinear Finite Difference method} \begin{algorithmic} \Function{NonlinearFiniteDifference}{$a,b,\alpha,\beta,N,M$} \State \Comment{boundary values $\alpha,\beta$; number of mesh points $N$; max.~Newton iterations $M$} \State $h := (b-a)/(N+1)$; $k:=1$ \State $w\vc{i} := \alpha + i h \frac{\beta-\alpha}{b-a}$ $(i = 1,\ldots,N)$ \Comment{Set start value for $\mathbf{w}$} \While{$k\leq M$} \State Compute $\mathbf{F}(\mathbf{w})$ and $\mathbf{J}(\mathbf{w})$ \State Solve $\mathbf{J}(\mathbf{w})\mathbf{v}=\mathbf{F}(\mathbf{w})$ for $\mathbf{v}$ using e.g. Crout factorization \State $\mathbf{w} := \mathbf{w} - \mathbf{v}$ \If{$|\mathbf{v}|&lt;T$} \Break \EndIf \State $k:=k+1$ \EndWhile \Return $\mathbf{w}$ \EndFunction \end{algorithmic} \end{algorithm}
+\begin{algorithm} \caption{The Nonlinear Finite Difference method} \begin{algorithmic} \Function{NonlinearFiniteDifference}{$a,b,\alpha,\beta,N,M$} \State \Comment{boundary values $\alpha,\beta$; number of mesh points $N$; max.~Newton iterations $M$} \State $h := (b-a)/(N+1)$; $k:=1$ \State $w^{(i)} := \alpha + i h \frac{\beta-\alpha}{b-a}$ $(i = 1,\ldots,N)$ \Comment{Set start value for $\mathbf{w}$} \While{$k\leq M$} \State Compute $\mathbf{F}(\mathbf{w})$ and $\mathbf{J}(\mathbf{w})$ \State Solve $\mathbf{J}(\mathbf{w})\mathbf{v}=\mathbf{F}(\mathbf{w})$ for $\mathbf{v}$ using e.g. Crout factorization \State $\mathbf{w} := \mathbf{w} - \mathbf{v}$ \If{$|\mathbf{v}|&lt;T$} \Break \EndIf \State $k:=k+1$ \EndWhile \Return $\mathbf{w}$ \EndFunction \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>All that’s left to do is to assemble the algorithm. This is done in <span class="citation" data-cites="al">(<a href="references.html#ref-al" role="doc-biblioref"><strong>al?</strong></a>)</span>-:fdmnonlin. The pattern follows our usual approach to Newton’s method.</p>
+<p>All that’s left to do is to assemble the algorithm. This is done in <a href="#alg-fdmnonlin" class="quarto-xref">Algorithm 11.3</a>. The pattern follows our usual approach to Newton’s method.</p>
 <p>In each step of the Newton iteration, we need to solve one linear equation system. We can use e.g.&nbsp;the Crout factorization algorithm (<span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span> Algorithm 6.7) to this end — this makes use of the fact that the Jacobian is tridiagonal, and allows every Newton step to run in only <span class="math inline">\(O(N)\)</span> time.</p>
 </section>
 </section>
@@ -697,10 +698,10 @@ w ^{(i)}_0 = \alpha + i h \frac{\beta-\alpha}{b-a}.
 <p>a) One may think of the problem in terms of a <em>local equilibrium of forces</em>. Several types of forces act at each point <span class="math inline">\(x\)</span> of the beam - the gravitational force (downwards), but also forces relating to the elasticity of the beam, which pull the deflected beam upwards. In the rest position of the beam, the sum of these forces will be 0 at each point. This leads us to an ODE of the form <span class="math inline">\(y''(x) = f(x,y(x),y'(x))\)</span> (we do not specify the function <span class="math inline">\(f\)</span> further here). The ends of the beam are fixed, so we are enforcing <span class="math inline">\(y(0)=y(L)=0\)</span>. Thus, we are dealing with a boundary value problem for an ODE.</p>
 <p>b) Particularly in physics, one alternatively thinks of the situation as an <em>energy minimization problem</em>. The total energy of the beam will consist of its energy in the gravitational field, and of the energy associated with elasticity. We can associate with each point of the beam an <em>energy density</em>, <span class="math inline">\(\lambda\)</span>, which depends on the deflection <span class="math inline">\(y\)</span>. It will roughly have the form <span id="eq-bvp17"><span class="math display">\[
 \lambda  = c y'(x)^2 - d y(x) + \ldots
-\tag{11.56}\]</span></span> with constants <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>, where the term proportional to <span class="math inline">\((y'(x))^2\)</span> comes from elasticity, and the term proportional to <span class="math inline">\(y\)</span> from gravitation. (We are not interested in the form of <span class="math inline">\(\lambda\)</span> in detail here). The rest position of the beam is now found by the requirement that the <em>total energy</em> of the beam is minimal. This total energy is found by integrating <span class="math inline">\(\lambda\)</span> over the length of the beam:</p>
+\tag{11.57}\]</span></span> with constants <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>, where the term proportional to <span class="math inline">\((y'(x))^2\)</span> comes from elasticity, and the term proportional to <span class="math inline">\(y\)</span> from gravitation. (We are not interested in the form of <span class="math inline">\(\lambda\)</span> in detail here). The rest position of the beam is now found by the requirement that the <em>total energy</em> of the beam is minimal. This total energy is found by integrating <span class="math inline">\(\lambda\)</span> over the length of the beam:</p>
 <p><span id="eq-eint"><span class="math display">\[
    E = \int_0^L \lambda (y(x),y'(x)) \, \mathrm{d}x
-\tag{11.57}\]</span></span> So we are left with the problem of finding the function <span class="math inline">\(y(x)\)</span> that minimizes the integral <a href="#eq-eint" class="quarto-xref">Eq.&nbsp;<span>11.57</span></a>, while satisfying the boundary conditions <span class="math inline">\(y(0)=y(L)=0\)</span>.</p>
+\tag{11.58}\]</span></span> So we are left with the problem of finding the function <span class="math inline">\(y(x)\)</span> that minimizes the integral <a href="#eq-eint" class="quarto-xref">Eq.&nbsp;<span>11.58</span></a>, while satisfying the boundary conditions <span class="math inline">\(y(0)=y(L)=0\)</span>.</p>
 <p>This example – which is added here only for illustration – raises an interesting mathematical question: Can we, under more general conditions, rewrite a boundary value problem for an ODE equivalently as a minimization problem for an integral expression? If yes, we can try to approximate the integral expression numerically (rather than the BVP), which may offer new options for numerical methods.</p>
 </section>
 <section id="equivalence-of-bvps-with-minimization-problems" class="level3" data-number="11.4.2">
@@ -709,26 +710,26 @@ w ^{(i)}_0 = \alpha + i h \frac{\beta-\alpha}{b-a}.
   - \frac{ \mathrm{d}^{}  }{\mathrm{d}x^{} } \left(p(x) \frac{ \mathrm{d}^{} y }{\mathrm{d}x^{} } (x)\right)+q(x)y(x)=f(x),
 \quad 0 \leq x \leq 1, \quad
 y(0)=y(1)=0.
-\tag{11.58}\]</span></span> Here <span class="math inline">\(p\)</span>, <span class="math inline">\(q\)</span> and <span class="math inline">\(f\)</span> are sufficiently smooth functions from <span class="math inline">\([0,1]\)</span> to <span class="math inline">\(\mathbb{R}\)</span>; for details see below. We can reformulate this BVP as a minimization problem for an integral expression: The solution <span class="math inline">\(y(x)\)</span> minimizes the integral <span id="eq-int"><span class="math display">\[
+\tag{11.59}\]</span></span> Here <span class="math inline">\(p\)</span>, <span class="math inline">\(q\)</span> and <span class="math inline">\(f\)</span> are sufficiently smooth functions from <span class="math inline">\([0,1]\)</span> to <span class="math inline">\(\mathbb{R}\)</span>; for details see below. We can reformulate this BVP as a minimization problem for an integral expression: The solution <span class="math inline">\(y(x)\)</span> minimizes the integral <span id="eq-int"><span class="math display">\[
   I[\phi]
   =\int_0^1\Big(p(x) (\phi'(x))^2+q(x)
   \phi(x)^2-2f(x)\phi(x)\Big)dx;
-\tag{11.59}\]</span></span> over all functions <span class="math inline">\(\phi\)</span> that satisfy the boundary conditions that is, if <span class="math inline">\(\phi\)</span> is any function satisfying the boundary conditions, then one has <span class="math inline">\(I[y] \leq I[\phi]\)</span>.</p>
+\tag{11.60}\]</span></span> over all functions <span class="math inline">\(\phi\)</span> that satisfy the boundary conditions that is, if <span class="math inline">\(\phi\)</span> is any function satisfying the boundary conditions, then one has <span class="math inline">\(I[y] \leq I[\phi]\)</span>.</p>
 <p>More precisely, let <span class="math inline">\(\mathcal{C}^2_0[0,1]\)</span> denote the space of <span class="math inline">\(\mathcal{C}^2\)</span> functions on <span class="math inline">\([0,1]\)</span> that vanish at the endpoints of the interval. One has:</p>
 <div id="thm-rrequiv" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 11.3</strong></span> Let <span class="math inline">\(p \in \mathcal{C}^1[0,1]\)</span>, and <span class="math inline">\(q,f \in \mathcal{C}[0,1]\)</span>. Further, suppose that there exists a constant <span class="math inline">\(\delta&gt;0\)</span> such that <span id="eq-bvp18"><span class="math display">\[
 \forall  x \in [0,1]: \quad p(x) \geq \delta, \; q(x) \geq 0.
-\tag{11.60}\]</span></span> Then, for any function <span class="math inline">\(y \in \mathcal{C}^2_{0}[0,1]\)</span>, the following conditions are equivalent.</p>
+\tag{11.61}\]</span></span> Then, for any function <span class="math inline">\(y \in \mathcal{C}^2_{0}[0,1]\)</span>, the following conditions are equivalent.</p>
 <ol type="i">
-<li><p><span class="math inline">\(y\)</span> is the unique solution of the boundary value problem in <a href="#eq-e1" class="quarto-xref">Eq.&nbsp;<span>11.58</span></a>.</p></li>
-<li><p><span class="math inline">\(y\)</span> is the unique function in <span class="math inline">\(\mathcal{C}^2_{0}[0,1]\)</span> which minimizes the integral <span class="math inline">\(I[y]\)</span> in <a href="#eq-int" class="quarto-xref">Eq.&nbsp;<span>11.59</span></a>.</p></li>
+<li><p><span class="math inline">\(y\)</span> is the unique solution of the boundary value problem in <a href="#eq-e1" class="quarto-xref">Eq.&nbsp;<span>11.59</span></a>.</p></li>
+<li><p><span class="math inline">\(y\)</span> is the unique function in <span class="math inline">\(\mathcal{C}^2_{0}[0,1]\)</span> which minimizes the integral <span class="math inline">\(I[y]\)</span> in <a href="#eq-int" class="quarto-xref">Eq.&nbsp;<span>11.60</span></a>.</p></li>
 </ol>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span><em>Proof.</em> Here we prove only (ii) <span class="math inline">\(\implies\)</span> (i), neglecting the aspect of uniqueness. For a full proof, see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a> Theorem 11.4)</span> and references quoted there.</p>
 <p>If <span class="math inline">\(y\)</span> minimizes the integral <span class="math inline">\(I[y]\)</span>, then for any fixed <span class="math inline">\(u \in \mathcal{C}^2_0[0,1]\)</span>, the function <span id="eq-bvp19"><span class="math display">\[
 \epsilon \mapsto I[y+\epsilon u]
-\tag{11.61}\]</span></span> has a minimum at <span class="math inline">\(\epsilon=0\)</span>. Therefore, its derivative at <span class="math inline">\(\epsilon=0\)</span> must vanish:</p>
+\tag{11.62}\]</span></span> has a minimum at <span class="math inline">\(\epsilon=0\)</span>. Therefore, its derivative at <span class="math inline">\(\epsilon=0\)</span> must vanish:</p>
 <p><span id="eq-bvp20"><span class="math display">\[
 \begin{split}
 0 &amp;= \frac{\mathrm{d}}{\mathrm{d}\epsilon} I[y+\epsilon u] \Big\lvert_{\epsilon=0}
@@ -743,12 +744,12 @@ y(0)=y(1)=0.
 &amp;=  2 \int_0^1 \Big(p(x) y'(x) u'(x)
    + q(x) y(x) u(x) - u(x) f(x)\Big)  dx.
 \end{split}
-\tag{11.62}\]</span></span> We integrate by parts in the first term of the integral, <span class="math inline">\((p(x)y'(x))u'(x)\)</span>, noting that the boundary terms vanish since <span class="math inline">\(u(0)=u(1)=0\)</span>. This gives <span id="eq-bvp21"><span class="math display">\[
+\tag{11.63}\]</span></span> We integrate by parts in the first term of the integral, <span class="math inline">\((p(x)y'(x))u'(x)\)</span>, noting that the boundary terms vanish since <span class="math inline">\(u(0)=u(1)=0\)</span>. This gives <span id="eq-bvp21"><span class="math display">\[
 0 = \int_0^1 \Big( -(p(x) y'(x))'  
    + q(x) y(x)  - f(x)\Big) u(x)  \,dx
-\tag{11.63}\]</span></span> Since this holds for all <span class="math inline">\(u \in \mathcal{C}^2_0[0,1]\)</span>, and since all functions under the integral sign are continuous, we can conclude that <span id="eq-bvp22"><span class="math display">\[
+\tag{11.64}\]</span></span> Since this holds for all <span class="math inline">\(u \in \mathcal{C}^2_0[0,1]\)</span>, and since all functions under the integral sign are continuous, we can conclude that <span id="eq-bvp22"><span class="math display">\[
 0 =  -(p y')'  + q y  - f
-\tag{11.64}\]</span></span> on the entire interval <span class="math inline">\([0,1]\)</span>, which is what we wanted to show.&nbsp;◻</p>
+\tag{11.65}\]</span></span> on the entire interval <span class="math inline">\([0,1]\)</span>, which is what we wanted to show.&nbsp;◻</p>
 </div>
 </section>
 <section id="approximating-the-integral" class="level3" data-number="11.4.3">
@@ -756,22 +757,22 @@ y(0)=y(1)=0.
 <p>The Rayleigh-Ritz method makes use of the equivalence stated in <a href="#thm-rrequiv" class="quarto-xref">Theorem&nbsp;<span>11.3</span></a>. The idea is to approximate the function that minimizes the integral <span class="math inline">\(I[\phi]\)</span>, rather than approximating the boundary value problem directly. That is, we try to find functions <span class="math inline">\(\phi\)</span> that make <span class="math inline">\(I[\phi]\)</span> as small as possible.</p>
 <p>Of course, we cannot try <em>all</em> functions in the infinite dimensional vector space <span class="math inline">\(\mathcal{C}^2_{0}[0,1]\)</span>. Rather we choose a set of <span class="math inline">\(N\)</span> linearly independent functions (“basis functions”<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>) <span class="math inline">\(\phi_i\)</span> with <span class="math inline">\(\phi_i(0)=\phi_i(1)=0\)</span>, and use an arbitrary linear combination <span id="eq-trialf"><span class="math display">\[
   \phi(x)=\sum_{i=1}^N c_i\phi_i(x)
-\tag{11.65}\]</span></span> of these functions as our trial function. The coefficients <span class="math inline">\(c_i\)</span> are to minimize the integral. There is a large freedom of choice for the functions <span class="math inline">\(\phi_j\)</span>, and this can be exploited to adapt the approximation method to our needs. We leave the choice of <span class="math inline">\(\phi_j\)</span> open for the moment, and will fix them later on.</p>
-<p>Substituting the trial function <a href="#eq-trialf" class="quarto-xref">Eq.&nbsp;<span>11.65</span></a> into <span class="math inline">\(I[\phi]\)</span> in <a href="#eq-int" class="quarto-xref">Eq.&nbsp;<span>11.59</span></a> gives <span id="eq-bvp23"><span class="math display">\[
+\tag{11.66}\]</span></span> of these functions as our trial function. The coefficients <span class="math inline">\(c_i\)</span> are to minimize the integral. There is a large freedom of choice for the functions <span class="math inline">\(\phi_j\)</span>, and this can be exploited to adapt the approximation method to our needs. We leave the choice of <span class="math inline">\(\phi_j\)</span> open for the moment, and will fix them later on.</p>
+<p>Substituting the trial function <a href="#eq-trialf" class="quarto-xref">Eq.&nbsp;<span>11.66</span></a> into <span class="math inline">\(I[\phi]\)</span> in <a href="#eq-int" class="quarto-xref">Eq.&nbsp;<span>11.60</span></a> gives <span id="eq-bvp23"><span class="math display">\[
 I[\phi]=\int_0^1\left(p(x)\bigg(\sum_{i=1}^N c_i\phi'_i(x)\bigg)^2
   +q(x)\bigg(\sum_{i=1}^N c_i\phi_i(x)\bigg)^2
   -2f(x)\sum_{i=1}^N c_i\phi_i(x)\right)dx.
-\tag{11.66}\]</span></span> We now minimize over the real parameters <span class="math inline">\(c_i\)</span>. They will be fixed by the necessary requirement for having an extremum, namely, that all partial derivatives vanish, <span id="eq-bvp24"><span class="math display">\[
+\tag{11.67}\]</span></span> We now minimize over the real parameters <span class="math inline">\(c_i\)</span>. They will be fixed by the necessary requirement for having an extremum, namely, that all partial derivatives vanish, <span id="eq-bvp24"><span class="math display">\[
 0=\frac{\partial I[\phi]}{\partial c_j}
 =\int_0^1\left(2p(x)\sum_{i=1}^Nc_i\phi'_i(x)\phi'_j(x)
 +2q(x)\sum_{i=1}^Nc_i\phi_i(x)\phi_j(x)-2f(x)\phi_j(x)\right)dx
-\tag{11.67}\]</span></span> for all <span class="math inline">\(j=1,\dots,N\)</span>. This is a linear system of the form <span id="eq-e3"><span class="math display">\[
+\tag{11.68}\]</span></span> for all <span class="math inline">\(j=1,\dots,N\)</span>. This is a linear system of the form <span id="eq-e3"><span class="math display">\[
 \sum_{i=1}^N A ^{(j,i)}c ^{(i)}=b ^{(j)},~~~~j=1,\dots,N,
-\tag{11.68}\]</span></span> where <span id="eq-ea"><span class="math display">\[
+\tag{11.69}\]</span></span> where <span id="eq-ea"><span class="math display">\[
 A ^{(j,i)}=\int_0^1\Big(p(x)\phi'_i(x)\phi'_j(x)+q(x)\phi_i(x)\phi_j(x)\Big)dx,
-\tag{11.69}\]</span></span> <span id="eq-eb"><span class="math display">\[
+\tag{11.70}\]</span></span> <span id="eq-eb"><span class="math display">\[
 b ^{(j)}=\int_0^1 f(x)\phi_j(x) dx.
-\tag{11.70}\]</span></span> Once the basis functions <span class="math inline">\(\phi_j\)</span> are chosen, we can compute the components of <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{b}\)</span>, solve the linear system <a href="#eq-e3" class="quarto-xref">Eq.&nbsp;<span>11.68</span></a> for <span class="math inline">\(\mathbf{c}\)</span>, and then obtain the approximation function <span class="math inline">\(\phi\)</span> from <a href="#eq-trialf" class="quarto-xref">Eq.&nbsp;<span>11.65</span></a>.</p>
+\tag{11.71}\]</span></span> Once the basis functions <span class="math inline">\(\phi_j\)</span> are chosen, we can compute the components of <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{b}\)</span>, solve the linear system <a href="#eq-e3" class="quarto-xref">Eq.&nbsp;<span>11.69</span></a> for <span class="math inline">\(\mathbf{c}\)</span>, and then obtain the approximation function <span class="math inline">\(\phi\)</span> from <a href="#eq-trialf" class="quarto-xref">Eq.&nbsp;<span>11.66</span></a>.</p>
 </section>
 <section id="choosing-the-basis-functions" class="level3" data-number="11.4.4">
 <h3 data-number="11.4.4" class="anchored" data-anchor-id="choosing-the-basis-functions"><span class="header-section-number">11.4.4</span> Choosing the basis functions</h3>
@@ -780,8 +781,8 @@ b ^{(j)}=\int_0^1 f(x)\phi_j(x) dx.
 <li><p>The <span class="math inline">\(\phi_j\)</span> need to satisfy the boundary conditions: <span class="math inline">\(\phi_j(0)=\phi_j(1)=0\)</span>.</p></li>
 <li><p>They should be sufficiently smooth. Note that, for purposes of numerical approximation, it is not be necessary to require two continuous derivatives (as for the ODE solution). Since we deal only with integral expressions in <span class="math inline">\(\phi_j\)</span> and <span class="math inline">\(\phi_j'\)</span>, it should suffice if <span class="math inline">\(\phi_j\)</span> has one derivative that exists almost everywhere and is piecewise continuous, or at least integrable.</p></li>
 <li><p>They should be designed so that their linear combinations can approximate a wide range of functions. (This may seem a bit vague; but e.g.&nbsp;choosing all the <span class="math inline">\(\phi_j\)</span> with support in the interval <span class="math inline">\([0,\frac{1}{2}]\)</span> would clearly be a bad idea.)</p></li>
-<li><p>They should be simple enough so that the integrals for <span class="math inline">\(A ^{(i,j)}\)</span> and <span class="math inline">\(b ^{(j)}\)</span> in <a href="#eq-ea" class="quarto-xref">Eq.&nbsp;<span>11.69</span></a> and <a href="#eq-eb" class="quarto-xref">Eq.&nbsp;<span>11.70</span></a> can reasonably be evaluated - if possible, explicitly.</p></li>
-<li><p>If possible, not many of them should have overlapping support, so that the matrix <span class="math inline">\(\mathbf{A}\)</span> is sparse, i.e., many of its entries are zero. This will make the linear equation system in Eq.&nbsp;<a href="#eq-e3" class="quarto-xref">Eq.&nbsp;<span>11.68</span></a> fast to solve.</p></li>
+<li><p>They should be simple enough so that the integrals for <span class="math inline">\(A ^{(i,j)}\)</span> and <span class="math inline">\(b ^{(j)}\)</span> in <a href="#eq-ea" class="quarto-xref">Eq.&nbsp;<span>11.70</span></a> and <a href="#eq-eb" class="quarto-xref">Eq.&nbsp;<span>11.71</span></a> can reasonably be evaluated - if possible, explicitly.</p></li>
+<li><p>If possible, not many of them should have overlapping support, so that the matrix <span class="math inline">\(\mathbf{A}\)</span> is sparse, i.e., many of its entries are zero. This will make the linear equation system in Eq.&nbsp;<a href="#eq-e3" class="quarto-xref">Eq.&nbsp;<span>11.69</span></a> fast to solve.</p></li>
 </ul>
 <p>A simple choice of basis functions, satisfying the above requirements, are the piecewise linear functions <span id="eq-bvp25"><span class="math display">\[
 \phi_i(x)=\left\{\begin{array}{ll}
@@ -790,19 +791,19 @@ b ^{(j)}=\int_0^1 f(x)\phi_j(x) dx.
 \frac{1}{h_{i}}(x_{i+1}-x)&amp;\mbox{if }x_{i}&lt; x\leq x_{i+1};\\
 0&amp;\mbox{if }x_{i+1}&lt; x\leq 1
 \end{array}\right.
-\tag{11.71}\]</span></span> for some conveniently chosen mesh points <span id="eq-bvp26"><span class="math display">\[
+\tag{11.72}\]</span></span> for some conveniently chosen mesh points <span id="eq-bvp26"><span class="math display">\[
 0=x_0&lt;x_1&lt;x_2&lt;\dots&lt;x_N&lt;x_{N+1}=1.
-\tag{11.72}\]</span></span> The <span class="math inline">\(h_i\)</span> are the distances between neighbouring mesh points, <span class="math inline">\(h_i=x_{i+1}-x_i\)</span>; note that the mesh points need not be equally spaced. These basis functions <span class="math inline">\(\phi_i\)</span> have simple piecewise constant derivatives, <span id="eq-bvp27"><span class="math display">\[
+\tag{11.73}\]</span></span> The <span class="math inline">\(h_i\)</span> are the distances between neighbouring mesh points, <span class="math inline">\(h_i=x_{i+1}-x_i\)</span>; note that the mesh points need not be equally spaced. These basis functions <span class="math inline">\(\phi_i\)</span> have simple piecewise constant derivatives, <span id="eq-bvp27"><span class="math display">\[
 \phi'_i(x)=\left\{\begin{array}{ll}
 0&amp;\mbox{if }0 &lt; x &lt; x_{i-1},\\
 \frac{1}{h_{i-1}}&amp;\mbox{if }x_{i-1}&lt; x &lt;  x_{i},\\
 -\frac{1}{h_{i}}&amp;\mbox{if }x_{i}&lt; x &lt; x_{i+1},\\
 0&amp;\mbox{if }x_{i+1} &lt; x &lt; 1.
 \end{array}\right.
-\tag{11.73}\]</span></span> A particular simplifying feature of this set of basis functions is that only neighbouring functions have any overlap, i.e., <span id="eq-bvp28"><span class="math display">\[
+\tag{11.74}\]</span></span> A particular simplifying feature of this set of basis functions is that only neighbouring functions have any overlap, i.e., <span id="eq-bvp28"><span class="math display">\[
 \phi_i(x)\phi_j(x)=0 ~~\text{ and }~~
 \phi'_i(x)\phi'_j(x)=0~~\text{ unless }j\in\{i-1,i,i+1\}.
-\tag{11.74}\]</span></span> This implies that the matrix <span class="math inline">\(\mathbf{A}\)</span> is tridiagonal. To calculate the entries of <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{b}\)</span> in <a href="#eq-ea" class="quarto-xref">Eq.&nbsp;<span>11.69</span></a> and <a href="#eq-eb" class="quarto-xref">Eq.&nbsp;<span>11.70</span></a>, the following integrals need to be evaluated: <span id="eq-bvp29"><span class="math display">\[
+\tag{11.75}\]</span></span> This implies that the matrix <span class="math inline">\(\mathbf{A}\)</span> is tridiagonal. To calculate the entries of <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{b}\)</span> in <a href="#eq-ea" class="quarto-xref">Eq.&nbsp;<span>11.70</span></a> and <a href="#eq-eb" class="quarto-xref">Eq.&nbsp;<span>11.71</span></a>, the following integrals need to be evaluated: <span id="eq-bvp29"><span class="math display">\[
 \begin{aligned}
 Q_{1,i} &amp;= \left(\frac{1}{h_i}\right)^2\int_{x_i}^{x_{i+1}}
   (x_{i+1}-x)(x-x_i)q(x)dx,\\
@@ -817,16 +818,16 @@ Q_{5,i} &amp;= \frac{1}{h_{i-1}}\int_{x_{i-1}}^{x_{i}}
 Q_{6,i} &amp;= \frac{1}{h_{i}}\int_{x_{i}}^{x_{i+1}}
   (x_{i+1}-x)f(x)dx.
 \end{aligned}
-\tag{11.75}\]</span></span> Then <span id="eq-bvp30"><span class="math display">\[
+\tag{11.76}\]</span></span> Then <span id="eq-bvp30"><span class="math display">\[
 \begin{aligned}
 A ^{(i,i)}&amp;=Q_{4,i}+Q_{4,i+1}+Q_{2,i}+Q_{3,i},~~~&amp;i&amp;=1,\dots,N,\\
 A ^{(i,i+1)}&amp;=-Q_{4,i+1}+Q_{1,i},~~~&amp;i&amp;=1,\dots,N-1,\\
 A ^{(i,i-1)}&amp;=-Q_{4,i}+Q_{1,i-1},~~~&amp;i&amp;=2,\dots,N,\\
 b ^{(i)}&amp;=Q_{5,i}+Q_{6,i},~~~&amp;i&amp;=1,\dots,N.
 \end{aligned}
-\tag{11.76}\]</span></span> One way to evaluate the <span class="math inline">\(6N\)</span> integrals is to approximate the functions <span class="math inline">\(q(x)\)</span>, <span class="math inline">\(p(x)\)</span>, and <span class="math inline">\(f(x)\)</span> by their linear interpolating polynomials. That is, we write <span id="eq-bvp31"><span class="math display">\[
+\tag{11.77}\]</span></span> One way to evaluate the <span class="math inline">\(6N\)</span> integrals is to approximate the functions <span class="math inline">\(q(x)\)</span>, <span class="math inline">\(p(x)\)</span>, and <span class="math inline">\(f(x)\)</span> by their linear interpolating polynomials. That is, we write <span id="eq-bvp31"><span class="math display">\[
 q(x)=\sum_{i=0}^{N+1}q(x_i)\phi_i(x)+O(h^2),
-\tag{11.77}\]</span></span> and similarly for <span class="math inline">\(p\)</span> and <span class="math inline">\(f\)</span>, where the <span class="math inline">\(\phi_i\)</span> are as given above for <span class="math inline">\(i=1,\dots,N\)</span>, and <span id="eq-bvp32"><span class="math display">\[
+\tag{11.78}\]</span></span> and similarly for <span class="math inline">\(p\)</span> and <span class="math inline">\(f\)</span>, where the <span class="math inline">\(\phi_i\)</span> are as given above for <span class="math inline">\(i=1,\dots,N\)</span>, and <span id="eq-bvp32"><span class="math display">\[
 \begin{aligned}
 \phi_0(x)&amp;=\left\{\begin{array}{ll}
   \frac{x_1-x}{x_1}&amp;\text{if }0\leq x\leq x_1,\\
@@ -836,7 +837,7 @@ q(x)=\sum_{i=0}^{N+1}q(x_i)\phi_i(x)+O(h^2),
   \frac{x-x_N}{1-x_N}&amp;\text{if }x_N\leq x\leq 1,\\
   0&amp;\text{elsewhere}.\end{array}\right.
 \end{aligned}
-\tag{11.78}\]</span></span> The integrals are now trivial to evaluate, for example <span id="eq-bvp33"><span class="math display">\[
+\tag{11.79}\]</span></span> The integrals are now trivial to evaluate, for example <span id="eq-bvp33"><span class="math display">\[
 \begin{aligned}
 Q_{1,i} &amp;= \left(\frac{1}{h_i}\right)^2\int_{x_i}^{x_{i+1}}
   (x_{i+1}-x)(x-x_i)q(x)dx\\
@@ -846,7 +847,7 @@ Q_{1,i} &amp;= \left(\frac{1}{h_i}\right)^2\int_{x_i}^{x_{i+1}}
   \right)dx\\
   &amp;=\frac{h_i}{12}\left(q(x_i)+q(x_{i+1})\right).
 \end{aligned}
-\tag{11.79}\]</span></span> Similarly we find<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <span id="eq-bvp34"><span class="math display">\[
+\tag{11.80}\]</span></span> Similarly we find<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <span id="eq-bvp34"><span class="math display">\[
 \begin{aligned}
 Q_{2,i}&amp;\approx\frac{h_{i-1}}{12}\left(3q(x_i)+q(x_{i-1})\right),\\
 Q_{3,i}&amp;\approx\frac{h_{i}}{12}\left(3q(x_i)+q(x_{i+1})\right),\\
@@ -854,9 +855,9 @@ Q_{4,i}&amp;\approx\frac{1}{2 h_{i-1}}\left(p(x_i)+p(x_{i-1})\right),\\
 Q_{5,i}&amp;\approx\frac{h_{i-1}}{6}\left(2f(x_i)+f(x_{i-1})\right),\\
 Q_{6,i}&amp;\approx\frac{h_{i}}{6}\left(2f(x_i)+f(x_{i+1})\right).
 \end{aligned}
-\tag{11.80}\]</span></span> After this calculation, we can now simply solve the linear system <a href="#eq-e3" class="quarto-xref">Eq.&nbsp;<span>11.68</span></a> for the coefficients <span class="math inline">\(\mathbf{c}=(c_i)\)</span> in the trial function in order to find the approximation <span id="eq-bvp35"><span class="math display">\[
+\tag{11.81}\]</span></span> After this calculation, we can now simply solve the linear system <a href="#eq-e3" class="quarto-xref">Eq.&nbsp;<span>11.69</span></a> for the coefficients <span class="math inline">\(\mathbf{c}=(c_i)\)</span> in the trial function in order to find the approximation <span id="eq-bvp35"><span class="math display">\[
 y(x)\approx\sum_{i=1}^N c_i\phi_i(x).
-\tag{11.81}\]</span></span></p>
+\tag{11.82}\]</span></span></p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
