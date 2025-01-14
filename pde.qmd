@@ -138,9 +138,13 @@ The boundary conditions are then expressed by setting the values of
 $w_{i,j}$ for $i=0$, $j=0$, $i=N+1$ or $j=M+1$ to the required boundary
 values: 
 $$
+\begin{aligned}
+  w_{0,j} &= g(x_0,y_j),  &w_{N+1,j} &= g(x_{N+1},y_j) & \text{for } 1 \leq j \leq M,
+  \\
+  w_{i,0} &= g(x_i,y_0),  &w_{i,M+1} &= g(x_{j},y_{M+1}) & \text{for } 1 \leq i \leq N.
 \end{aligned}
 $$ {#eq-ellboundary}
- Together,
+Together,
 @eq-elldifference and
 @eq-ellboundary form a linear equation system that can be
 solved to obtain approximation values $w_{i,j}$. To that end, it may be
@@ -166,6 +170,10 @@ one we will consider -- is the one-dimensional *heat equation* (also
 known as *diffusion equation*). This equation for a function $u$ of two
 variables $x$ and $t$ has the form[^19] 
 $$
+\begin{aligned}
+ &\alpha^2 \frac{\partial^2 u}{\partial x^2} =  \frac{\partial u}{\partial t}  \quad \text{on } R := \{ (x,t) : 0 \leq x \leq L, 0 \leq t \},\\
+ &u(x,0) = g(x) \text{ for } 0 < x < L,\\
+ &u(0,t) = u(L,t) = 0 \text{ for all } t > 0.
  \end{aligned}
 $$ {#eq-heat}
  The boundary of the region $R$ consists of *three*
@@ -279,7 +287,8 @@ To that end, instead of the forward difference formula
 @eq-heatfdt, we use the backward difference formula
 
 $$
-  = \frac{ u(x_{i},t_{j}) -  u(x_i,t_{j-1}) }{k} + O(k).
+ \frac{\partial u}{\partial t} (x_i,t_j) 
+    = \frac{ u(x_{i},t_{j}) -  u(x_i,t_{j-1}) }{k} + O(k).
 $$ {#eq-heatfdtback}
  Leaving all
 other construction steps the same, we arrive at another method of order

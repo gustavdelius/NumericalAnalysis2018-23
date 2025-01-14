@@ -767,7 +767,7 @@ $$ {#eq-bvp16}
   \State
     \Comment{boundary values $\alpha,\beta$; number of mesh points $N$; max.~Newton iterations $M$}
   \State  $h := (b-a)/(N+1)$; $k:=1$
-  \State  $w\vc{i} := \alpha + i h \frac{\beta-\alpha}{b-a}$ $(i = 1,\ldots,N)$
+  \State  $w^{(i)} := \alpha + i h \frac{\beta-\alpha}{b-a}$ $(i = 1,\ldots,N)$
     \Comment{Set start value for $\mathbf{w}$}
   \While{$k\leq M$}
     \State Compute $\mathbf{F}(\mathbf{w})$ and $\mathbf{J}(\mathbf{w})$
