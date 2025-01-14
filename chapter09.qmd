@@ -25,7 +25,7 @@ $$
 \begin{split}
 D_{1}x_{i}+U_{1}x_{2}&=F_{1}, \\
 L_{i}x_{i-1}+D_{i}x_{i}+U_{i}x_{i+1}&=F_{i} \quad \hbox{for}\quad i=2, \dots, n-1,\\
-L_{n}v_{n-1}+D_{n}v_{n}&=F_{n}.
+L_{n}x_{n-1}+D_{n}x_{n}&=F_{n}.
 \end{split}
 $$ {#eq-dsweep1}
 
@@ -37,10 +37,8 @@ $${#eq-dsweep2}
 
 Then @eq-dsweep1 can be rewritten as 
 $$
-L_{i}x_{i-1}+D_{i}x_{i}+U_{i}x_{i+1}=F_{i} \quad \hbox{for}\quad i=1, \dots, n,
+L_{i}x_{i-1}+D_{i}x_{i}+U_{i}x_{i+1}=F_{i} \quad \hbox{for}\quad i=1, \dots, n.
 $$ {#eq-dsweep3}
-
-and equations @eq-dsweep2 are now interpreted as boundary conditions for @eq-dsweep3.
 
 To solve @eq-dsweep3, we will seek $\alpha_{i}$ and $\beta_{i}$ such that 
 $$
