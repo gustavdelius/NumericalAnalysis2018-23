@@ -429,7 +429,6 @@ $$ {#eq-bvp9}
 We can then
 rewrite @eq-ivpgamma *and*
 @eq-ivpgammap into an IVP for 4 first-order ODEs:
-
 $$
 \mathbf{u}' = \begin{pmatrix}
 u^{(2)} \\ f(x,u^{(1)},u^{(2)}) \\ u^{(4)} \\
@@ -475,14 +474,14 @@ finally allow us to compute the Newton step
   \While{$k\leq M$}
     \State $ \mathbf{w} := $ 
       \Call{RungeKutta}{$F, a,b, (\alpha,\gamma,0,1), N$}
-    \State \Comment{here $\mathbf{w}= ( \mathbf{w}_0,\ldots, \mathbf{w}_N)$, each $\mathbf{w}_j$ is a 4-vector}
-    \State $v := \dfrac{w_{N} ^{(1)}-\beta}{w_{N} ^{(3)}}$; $\gamma := \gamma - v$
+    \State \Comment{here $\mathbf{w} = ( \mathbf{w}_0,\ldots, \mathbf{w}_N)$, each $\mathbf{w}_j$ is a 4-vector}
+    \State $v := \dfrac{w_{N}^{(1)}-\beta}{w_{N}^{(3)}}$; $\gamma := \gamma - v$
     \If{$|v|<T$}
       \Break
     \EndIf
     \State $k:=k+1$
   \EndWhile
-  \Return ($w_{0} ^{(1)},\ldots,w_{N} ^{(1)}$)
+  \Return ($w_{0}^{(1)},\ldots,w_{N}^{(1)}$)
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -786,7 +785,7 @@ $$ {#eq-bvp16}
 ```
 
 All that's left to do is to assemble the algorithm. This is done in
-@al-:fdmnonlin. The pattern follows our usual approach to
+@alg-fdmnonlin. The pattern follows our usual approach to
 Newton's method.
 
 In each step of the Newton iteration, we need to solve one linear

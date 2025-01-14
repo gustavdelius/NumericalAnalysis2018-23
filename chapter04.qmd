@@ -15,7 +15,7 @@ $$
   f_{m}(x_{1},\dots,x_{m})=0
   \end{array}
 \right.
-$$ 
+$$ {#eq-nonlineq}
 This is a system of $m$ (linear or nonlinear) equations for $m$ unknowns $x_1,\dots,x_m$.
 
 ::: {#exm-nonlinear}
@@ -39,7 +39,7 @@ $$
   x_2 - x_1^2=0
   \end{array}
 \right..
-$$ 
+$$ {#eq-nonlineqex}
 This system has a simple geometrical interpretation (see @fig-two_nonlin_eqs).
 
 ```{python}
@@ -87,7 +87,7 @@ $$
 \Vert\mathbf{x}\Vert_{2}=\left(\sum_{i=1}^{m}x_{i}^{2}\right)^{1/2}
 \ \ \ \text{  and } \ \ \
 \Vert\mathbf{x}\Vert_{\infty}=\max_{1\leq i \leq m}\vert x_{i}\vert .
-$$ 
+$$ {#eq-l2linf}
 The $l_{2}$ norm is called the Euclidean norm of the vector $\mathbf{x}$. It represents the notion of distance from the origin to the point $\mathbf{x}$ (the length of the straight line joining the points $0$ and $\mathbf{x}$).
 :::
 
@@ -100,7 +100,7 @@ A sequence $\{\mathbf{x}^{(k)}\}$ of vectors in $\mathbb{R}^{m}$ **converges** t
 $$
 \Vert \mathbf{x}^{(k)}-\mathbf{x}\Vert <\epsilon \ \ \ \ \text{  for \ all } \ \ \
 k > N(\epsilon).
-$$ 
+$$ {#eq-convergence}
 In other words, $\mathbf{x}^{(k)}\to \mathbf{x}$ as $k\to\infty$ if $\Vert \mathbf{x}^{(k)}-\mathbf{x}\Vert\to 0$ as $k\to\infty$.
 <!-- TODO: are these really equivalent? -->
 :::
@@ -133,14 +133,14 @@ A **distance** between matrices $A$ and $B$ (with respect to this matrix norm) i
 If $\Vert \, \cdot \, \Vert$ is a vector norm on $\mathbb{R}^{m}$, then 
 $$
 \Vert A \Vert=\max_{\Vert\mathbf{x}\Vert =1}\Vert A\mathbf{x}\Vert
-$$ 
+$$ {#eq-natmatnorm}
 is a matrix norm (called *natural, or induced, matrix norm* associated with the vector norm).
 :::
 
 In what follows we shall consider only $l_{\infty}$ matrix norms: 
 $$
 \Vert A \Vert_{\infty}=\max_{\Vert\mathbf{x}\Vert_{\infty} =1}\Vert A\mathbf{x}\Vert_{\infty}.
-$$
+$$ {#eq-linfnorm}
 
 
 ::: {#thm-linf}
@@ -148,7 +148,7 @@ For any $m\times m$ matrix $A=(a_{ij})$,
 $$
 \Vert A \Vert_{\infty}=\max_{1\leq i\leq m}\left\{\sum_{j=1}^{m}
 \vert a_{ij}\vert\right\}.
-$$
+$$ {#eq-linfnorm2}
 :::
 
 ::: {#exm-matnorm}
@@ -169,7 +169,8 @@ B=\left[
 -3 &-2 &2
 \end{array}
 \right].
-$$ 
+$$ {#eq-matnormex}
+Then, according to @eq-linfnorm2,
 Evidently, $\Vert A \Vert_{\infty}=\max \{4, 6, 7, 6\}=7$ and $\Vert B \Vert_{\infty}=\max \{7, 6, 7 \}=7$.
 :::
 
@@ -180,7 +181,7 @@ For any $\mathbf{x}\neq 0$, any matrix $A$, and any natural norm $\Vert \, \cdot
 $$
 \Vert A\mathbf{x}\Vert \leq \Vert A\Vert \cdot
 \Vert \mathbf{x}\Vert.
-$$
+$$ {#eq-b}
 :::
 
 ::: {.proof}
@@ -189,23 +190,23 @@ $$
 \frac{\Vert A\mathbf{x}\Vert}{\Vert \mathbf{x}\Vert} = \left\Vert A \frac{\mathbf{x}}{\Vert \mathbf{x}\Vert}\right\Vert \leq \max_{\Vert \mathbf{y}\Vert=1}\Vert A\mathbf{y}\Vert = \Vert A \Vert
 \ \ \Rightarrow \ \ \Vert A\mathbf{x}\Vert \leq \Vert A\Vert \cdot
 \Vert \mathbf{x}\Vert.
-$$ 
-Here we have used the relevant properties of the vector norm and the definition of the natural matrix norm.
+$$ {#eq-bproof}
+Here we have used the relevant properties of the vector norm and the definition of the natural matrix norm.  
 :::
 
 ::: {.remark}
 For any natural norm, the above theorem implies property (iv) in the definition of the matrix norm. Indeed, for any $\mathbf{x}\neq 0$ we have 
 $$
 \Vert AB\mathbf{x}\Vert \leq \Vert A\Vert \, \Vert B\mathbf{x}\Vert \leq  \Vert A\Vert \, \Vert B \Vert \, \Vert \mathbf{x}\Vert 
-$$ 
+$$ {#eq-bproof2}
 and 
 $$
 \left\Vert AB \, \frac{\mathbf{x}}{\Vert \mathbf{x}\Vert} \right\Vert \leq  \Vert A\Vert \, \Vert B \Vert . 
-$$ 
+$$ {#eq-bproof3}
 Since the last inequality is valid for all $\mathbf{x}\neq 0$, it implies that 
 $$
 \Vert AB \Vert = \max_{\Vert \mathbf{y}\Vert = 1}\left\Vert AB \mathbf{y}\right\Vert  \leq  \Vert A\Vert \, \Vert B \Vert.
-$$
+$$ {#eq-bproof4}
 :::
 
 
@@ -224,13 +225,13 @@ $$
   g_{m}(x_{1},\dots,x_{m})=x_m
   \end{array}
 \right.
-$$
+$$ {#eq-fixedpoint-sys}
 
 
 We choose an initial approximation, a vector $\mathbf{x}^{(0)}$, and compute the sequence of vectors $\{\mathbf{x}^{(n)}\}$ using the formula 
 $$
 \mathbf{x}^{(n+1)}=\mathbf{g}(\mathbf{x}^{(n)}) \quad (n=0,1,\dots).
-$$
+$$ {#eq-fixedpoint-iter}
 
 
 To investigate the convergence of the fixed point iteration, we need to recall some results from Vector Calculus.
@@ -240,36 +241,36 @@ To investigate the convergence of the fixed point iteration, we need to recall s
 Let $\mathbf{x}$ and $\mathbf{x}_0$ be two points in $D$ and let $\mathbf{v}=\mathbf{x}-\mathbf{x}_0$, then the function $\phi:[0,1]\to\mathbb{R}$ defined by 
 $$
 \phi(t)=f(\mathbf{x}_0+t\mathbf{v})
-$$ 
+$$ {#eq-taylor-phi}
 is a function of one variable which is $(n+1)$ times continuously differentiable on the interval $[0,1]$. Note also that $f(\mathbf{x}_0)=\phi(0)$ and $f(\mathbf{x})=\phi(1)$. Applying Taylor's theorem for functions of one variable to $\phi(t)$, we obtain 
 $$
 \phi(t)=\phi(0)+t\phi'(0)+\frac{t^2}{2} \, \phi''(0)+\dots +\frac{t^n}{n!} \, \phi^{(n)}(0)+ R_n(t)
-$$ 
+$$ {#eq-taylor-expansion}
 where the remainder term $R_n(t)$ can be written in various forms, e.g. in the Lagrange form 
 $$
 R_n(t)=\frac{t^{n+1}}{(n+1)!} \, \phi^{(n+1)}(\xi) \ \ \hbox{for some} \ \ \xi\in(0,1),
-$$ 
+$$ {#eq-taylor-remainder-lagrange}
 or in the integral form 
 $$
 R_n(t)=\frac{1}{n!} \, \int\limits_{0}^{t} \phi^{(n+1)}(s)(t-s)^n \, ds.
-$$ 
+$$ {#eq-taylor-remainder-integral}
 We will see that this integral form of the remainder will be more convenient for us.
 
 The chain rule yields 
 \begin{multline}
 f(\mathbf{x}_0+t\mathbf{v})=f(\mathbf{x}_0)+t(\mathbf{v}\cdot\nabla)f(\mathbf{x}_0)+\frac{t^2}{2} \, (\mathbf{v}\cdot\nabla)^2f(\mathbf{x}_0)+\dots \\
 +\frac{t^n}{n!} \, (\mathbf{v}\cdot\nabla)^nf(\mathbf{x}_0)+ R_n(t) \quad
-\end{multline}
+\end{multline} {#eq-taylor-multivariable}
 
 where $\mathbf{v}\cdot\nabla=v_1\partial_{x_1}+v_2\partial_{x_2} +\dots + v_m\partial_{x_m}$. Now we set $t=1$, so that 
 \begin{multline}
 f(\mathbf{x})=f(\mathbf{x}_0)+(\mathbf{v}\cdot\nabla)f(\mathbf{x}_0)+\frac{1}{2} \, (\mathbf{v}\cdot\nabla)^2f(\mathbf{x}_0)+\dots\\
 +\frac{1}{n!} \, (\mathbf{v}\cdot\nabla)^nf(\mathbf{x}_0)+ R_n(1)
-\end{multline}
+\end{multline} {#eq-taylor-multivariable-final}
 with the remainder term
 $$
 R_n(1)=\frac{1}{n!} \, \int\limits_{0}^{1} \phi^{(n+1)}(s)(1-s)^n \, ds .
-$$ 
+$$ {#eq-taylor-remainder-final}
 In particular, for $n=0$ we get 
 $$
 f(\mathbf{x})=f(\mathbf{x}_0)+\int\limits_{0}^{1}\sum_{i=1}^{m}(x_{i}-x_{0i})\partial_{x_{i}}f(\mathbf{x}_0+s\mathbf{v}) ds
@@ -285,11 +286,11 @@ $$ {#eq-Taylor2}
 Now let $\mathbf{g}: D \to \mathbb{R}^m$ and $\mathbf{g}\in C^1(D)$ (i.e. $\mathbf{g}$ is continuously differentiable in $D$). Applying @eq-Taylor1 to each component of $\mathbf{g}$, we obtain the formula 
 $$
 g_i(\mathbf{x})=g_i(\mathbf{y})+\int\limits_{0}^{1}\sum_{k=1}^{m}(x_{k}-y_{k})\partial_{x_{k}}g_{i}(\mathbf{y}+s(\mathbf{x}-\mathbf{y})) ds,
-$$ 
+$$ {#eq-taylor-component-g}
 which is valid for any $\mathbf{x},\mathbf{y}\in D$. If we introduce the Jacobian matrix 
 $$
 \mathbf{J}(\mathbf{x}) = \frac{\partial\mathbf{g}}{\partial\mathbf{x}}
-$$ 
+$$ {#eq-jacobian-def}
 whose $(i,j)$ component is $\partial g_i/\partial x_j$, the above formula can be written in a nicer form: 
 $$
 \mathbf{g}(\mathbf{x})=\mathbf{g}(\mathbf{y})+\int\limits_{0}^{1}\mathbf{J}(\mathbf{y}+s(\mathbf{x}-\mathbf{y}))(\mathbf{x}-\mathbf{y}) ds . 
@@ -306,15 +307,15 @@ Now we are ready to (partially) prove the following theorem.
 Let $\mathbf{g}: D\to D$ be continuously differentiable, where $D\subset\mathbb{R}^m$ is a closed and convex region. If there exists $0<k<1$ such that 
 $$
 \left\Vert\frac{\partial\mathbf{g}}{\partial\mathbf{x}}\right\Vert \leq k \ \ \hbox{for all} \ \mathbf{x}\in D,
-$$ 
+$$ {#eq-contraction-condition}
 then $\mathbf{g}$ has a unique fixed point $\mathbf{p}$ in $D$ and the sequence $\{\mathbf{x}^{(n)}\}$ generated be the formula 
 $$
 \mathbf{x}^{(n+1)}=\mathbf{g}(\mathbf{x}^{(n)}) \quad (n=0,1,\dots)
-$$ 
+$$ {#eq-iteration-formula}
 converges to $\mathbf{p}$ for any $\mathbf{x}^{(0)}\in D$, and the following estimate holds:
 $$
 \left\Vert \mathbf{x}^{(n)}-\mathbf{p}\right\Vert \leq k^n \left\Vert \mathbf{x}^{(0)}-\mathbf{p}\right\Vert .
-$$
+$$ {#eq-error-estimate}
 
 :::
 
@@ -324,7 +325,7 @@ $$
 To show that $\mathbf{g}$ is a contraction mapping (i.e there is a number $k\in(0,1)$ such that $\Vert\mathbf{g}(\mathbf{x})-\mathbf{g}(\mathbf{y})\Vert \leq k \, \Vert \mathbf{x}-\mathbf{y}\Vert$ for all $\mathbf{x}, \mathbf{y}\in D$), we will use @eq-Taylor3. It follows from @eq-Taylor3 that 
 $$
 \Vert\mathbf{g}(\mathbf{x})-\mathbf{g}(\mathbf{y})\Vert=\left\Vert\int\limits_{0}^{1}\mathbf{J}(\mathbf{y}+s(\mathbf{x}-\mathbf{y}))(\mathbf{x}-\mathbf{y}) ds \right\Vert.
-$$ 
+$$ {#eq-contraction-integral}
 Now, with the help of @eq-Taylor3, we obtain 
 $$
 \begin{split}
@@ -334,7 +335,7 @@ $$
 \sup_{\mathbf{x}\in D}\left\Vert\mathbf{J}(\mathbf{x})\right\Vert \Vert\mathbf{x}-\mathbf{y}\Vert \\
 &\leq k \, \Vert\mathbf{x}-\mathbf{y}\Vert .
 \end{split}
-$$ 
+$$ {#eq-contraction-proof}
 Here we have used the property of the natural matrix norm that we have proved earlier: $\Vert A\mathbf{x}\Vert\leq\Vert A\Vert \Vert \mathbf{x}\Vert$. The above proves the fact that $\mathbf{g}$ is a contraction mapping.
 
 The proof of the error estimate is exactly the same as in the case of functions of one variable: if $\mathbf{p}$ is a fixed point, then 
@@ -346,7 +347,7 @@ $$
 &\vdots  \\
 &\leq k^n\Vert \mathbf{x}^{(0)}-\mathbf{p}\Vert . 
 \end{split}
-$$
+$$ {#eq-error-estimate-proof}
 :::
 
 
@@ -359,65 +360,54 @@ g_1(x_1,x_2) \\ g_2(x_1,x_2)
 \end{pmatrix}=\begin{pmatrix}
 \cos x_2 \\ \frac{3}{4}\sin x_1
 \end{pmatrix}.
-$$ 
+$$ {#eq-example-g}
 This is well-defined: For any $\mathbf{x}\in [0,1]\times [0,1]$, we know that $\mathbf{g}(\mathbf{x})\in [0,1]\times [0,1]$ due to the well-known bounds on the trigonometric functions. We can compute the Jacobian matrix of $\mathbf{g}$: 
 $$
 \frac{\partial \mathbf{g}}{\partial \mathbf{x}} = \begin{pmatrix}
       0 & -\sin x_2 \\ \frac{3}{4}\cos x_1 & 0
 \end{pmatrix}
-$$ 
+$$ {#eq-example-jacobian}
 Therefore, 
 $$
 \left\Vert \frac{\partial \mathbf{g}}{\partial \mathbf{x}} \right\Vert
  \leq \max \left\{  \sin(1), \frac{3}{4}  \right\} \leq 0.85,
-$$ 
+$$ {#eq-example-bound}
 so that the conditions of @thm-fpvectors are fulfilled with $k=0.85$. The fixed point iteration will therefore converge for any choice of $\mathbf{x}^{(0)} \in [0,1] \times [0,1]$, although possibly not very fast, since $0.85$ is not very much smaller than $1$. See @tbl-fixedpointmulti for two examples of iteration sequences.
 
 ::: center
 ::: tabular
-*cc*
-
-<div>
 
 | $n$  | $x_1^{(n)}$    | $x_2^{(n)}$    |
 |:-----|:---------------|:---------------|
-| *0*  | *1.0*          | *1.0*          |
-| *1*  | *0.5403023059* | *0.6311032386* |
-| *2*  | *0.8073770495* | *0.3857964440* |
-| *3*  | *0.9264990269* | *0.5418571235* |
-| *4*  | *0.8567523888* | *0.5996415238* |
-| *5*  | *0.8255379728* | *0.5667897802* |
-| *6*  | *0.8436289716* | *0.5511845408* |
-| *7*  | *0.8519047798* | *0.5602953112* |
-| *8*  | *0.8470982088* | *0.5644021231* |
-| *9*  | *0.8449085622* | *0.5620215836* |
-| *10* | *0.8461795432* | *0.5609328142* |
+| $0$  | $1.0$          | $1.0$          |
+| $1$  | $0.5403023059$ | $0.6311032386$ |
+| $2$  | $0.8073770495$ | $0.3857964440$ |
+| $3$  | $0.9264990269$ | $0.5418571235$ |
+| $4$  | $0.8567523888$ | $0.5996415238$ |
+| $5$  | $0.8255379728$ | $0.5667897802$ |
+| $6$  | $0.8436289716$ | $0.5511845408$ |
+| $7$  | $0.8519047798$ | $0.5602953112$ |
+| $8$  | $0.8470982088$ | $0.5644021231$ |
+| $9$  | $0.8449085622$ | $0.5620215836$ |
+| $10$ | $0.8461795432$ | $0.5609328142$ |
 
-: *Numerical example for fixed point iteration*
-
-</div>
-
-*&*
-
-<div>
 
 | $n$  | $x_1^{(n)}$    | $x_2^{(n)}$    |
 |:-----|:---------------|:---------------|
-| *0*  | *0.8*          | *0.6*          |
-| *1*  | *0.8253356149* | *0.5380170682* |
-| *2*  | *0.8587264910* | *0.5510816060* |
-| *3*  | *0.8519586819* | *0.5677582977* |
-| *4*  | *0.8431085532* | *0.5644287452* |
-| *5*  | *0.8448943215* | *0.5600357720* |
-| *6*  | *0.8472361089* | *0.5609257244* |
-| *7*  | *0.8467630160* | *0.5620900623* |
-| *8*  | *0.8461430490* | *0.5618550885* |
-| *9*  | *0.8462682563* | *0.5615469756* |
-| *10* | *0.8464323655* | *0.5616092188* |
+| $0$  | $0.8$          | $0.6$          |
+| $1$  | $0.8253356149$ | $0.5380170682$ |
+| $2$  | $0.8587264910$ | $0.5510816060$ |
+| $3$  | $0.8519586819$ | $0.5677582977$ |
+| $4$  | $0.8431085532$ | $0.5644287452$ |
+| $5$  | $0.8448943215$ | $0.5600357720$ |
+| $6$  | $0.8472361089$ | $0.5609257244$ |
+| $7$  | $0.8467630160$ | $0.5620900623$ |
+| $8$  | $0.8461430490$ | $0.5618550885$ |
+| $9$  | $0.8462682563$ | $0.5615469756$ |
+| $10$ | $0.8464323655$ | $0.5616092188$ |
 
-: *Numerical example for fixed point iteration*
+: Numerical example for fixed point iteration {#tbl-fixedpointmulti}
 
-</div>
 :::
 :::
 :::
@@ -437,27 +427,27 @@ $$
   f_{m}(x_{1},\dots,x_{m})=0
   \end{array}
 \right.
-$$
+$$ {#eq-system-newton}
 
 
 The idea of Newton's method for systems of equations is the same as for one equation. First we expand each component of $\mathbf{f}$ in Taylor series 
 $$
 f_{i}(\mathbf{x})=f_{i}(\mathbf{x}_0)+\sum_j\frac{\partial f_i(\mathbf{x}_0)}{\partial x_j}(x_{j}-x_{0j})+\dots  \quad (i=1,\dots,m).
-$$ 
+$$ {#eq-taylor-component}
 This can be written as 
 $$
 \mathbf{f}(\mathbf{x})=\mathbf{f}(\mathbf{x}_0)+J(\mathbf{x}_0)(\mathbf{x}-\mathbf{x}_{0})+\dots
-$$ 
+$$ {#eq-taylor-vector}
 where $J(\mathbf{x}_0)$ is the Jacobian matrix for function $\mathbf{f}$ at point $\mathbf{x}_0$.
 
 Let $\mathbf{p}\in\mathbb{R}^m$ be a solution of $\mathbf{f}(\mathbf{x})=\mathbf{0}$ and $\mathbf{x}^*$ be a sufficiently good approximation to $\mathbf{p}$, so that $\Vert \mathbf{p}- \mathbf{x}^*\Vert$ is small. Then we have 
 $$
 \mathbf{0}=\mathbf{f}(\mathbf{p})\approx \mathbf{f}(\mathbf{x}^*)+J(\mathbf{x}^*)(\mathbf{p}-\mathbf{x}^*).
-$$ 
+$$ {#eq-newton-approx}
 If the matrix $J(\mathbf{x}^*)$ is invertible, this can be rewritten as 
 $$
 \mathbf{p}\approx \mathbf{x}^* - J^{-1}(\mathbf{x}^*)\mathbf{f}(\mathbf{x}^*).
-$$ 
+$$ {#eq-newton-step}
 This formula will not give us the exact solution $\mathbf{p}$ because we have ignored higher order terms in the Taylor expansion. Nevertheless, it is natural to expect that it will give us a better approximation than $\mathbf{x}^*$.
 
 So, we will consider the following iterative process:
@@ -467,7 +457,7 @@ So, we will consider the following iterative process:
 -   We compute the sequence of approximations, $\left\{\mathbf{x}^{(0)}\right\}$, using the formula 
 $$
 \mathbf{x}^{(n+1)} = \mathbf{x}^{(n)} - J^{-1}(\mathbf{x}^{(n)})\mathbf{f}(\mathbf{x}^{(n)}). 
-$${#eq-Newtonsys1}
+$$ {#eq-Newtonsys1}
 
 
 This is *Newton's method for systems of equations*.
@@ -476,11 +466,11 @@ This is *Newton's method for systems of equations*.
 If the number of equations is large (i.e. $m$ is large), it is computationally very expensive to find $J^{-1}(\mathbf{x}^{(n)})$. Therefore, in practice, @eq-Newtonsys1 is replaced by the following equivalent procedure: first we solve the system of linear equations 
 $$
 J(\mathbf{x}^{(n)})\mathbf{v}^{(n)} = - \mathbf{f}(\mathbf{x}^{(n)})  
-$${#eq-Newtonsys2}
+$$ {#eq-Newtonsys2}
 for $\mathbf{v}^{(n)}$, and then we compute $\mathbf{x}^{(n+1)}$: 
 $$
 \mathbf{x}^{(n+1)} = \mathbf{x}^{(n)} + \mathbf{v}^{(n)} . 
-$${#eq-Newtonsys3}
+$$ {#eq-Newtonsys3}
 :::
 
 Newton's method for systems of equations produces quadratically converging sequences, as follows from the following theorem:
@@ -489,7 +479,7 @@ Newton's method for systems of equations produces quadratically converging seque
 Let $D \subset \mathbb{R}^m$ be open and convex, and let $\mathbf{f}\in C^{2}(D)$. If $\mathbf{p}\in D$ is such that $\mathbf{f}(\mathbf{p})=0$ and $\frac{\partial\mathbf{f}}{\partial\mathbf{x}}(\mathbf{p})$ is invertible, then there exists $\delta >0$ such that the sequence $\{\mathbf{x}^{(n)}\}$ defined in @eq-Newtonsys1 converges to $\mathbf{p}$ for any initial approximation $\mathbf{x}^{(0)}$ with $\Vert \mathbf{p}-\mathbf{x}^{(0)}\Vert < \delta$. Moreover, if $\mathbf{f}\in C^{3}(D)$, then there exists $K>0$ such that 
 $$
    \Vert \mathbf{x}^{(n)} - \mathbf{p}\Vert \leq K \Vert \mathbf{x}^{(n-1)} - \mathbf{p}\Vert^2  \quad \text{for \ all } \ \ n \geq 1.
-$${#eq-newtonquadratic}
+$$ {#eq-newtonquadratic}
 
 :::
 
@@ -509,69 +499,57 @@ f_2(x_1,x_2)
 x_1^2 + x_2^2 -1\\
 x_2 - x_1^2
 \end{pmatrix}.
-$$
+$$ {#eq-example-system}
 This system has two solutions corresponding to the two intersection points of the unit circle and the parabola shown in @fig-two_nonlin_eqs. These two solutions can be computed analytically: 
 $$
 \mathbf{p}_1 = \begin{pmatrix}
 \sqrt{\left(\sqrt{5}-1\right)/2}\\ \left(\sqrt{5}-1\right)/2 \end{pmatrix} \approx
 \begin{pmatrix} 0.7861513773 \\ 0.618033988 \end{pmatrix}
-$$ 
+$$ {#eq-solution1}
 and 
 $$
 \mathbf{p}_2 = \begin{pmatrix} -\sqrt{\left(\sqrt{5}-1\right)/2}\\ \left(\sqrt{5}-1\right)/2 \end{pmatrix} \approx
 \begin{pmatrix} -0.7861513773 \\ 0.618033988 \end{pmatrix} .
-$$ 
+$$ {#eq-solution2}
 The Jacobian of $\mathbf{f}$ is 
 $$
 J(\mathbf{x}) = \frac{\partial \mathbf{f}}{\partial \mathbf{x}}(\mathbf{x}) = 
 \begin{pmatrix}
 2x_{1} & 2x_{2} \\ -2x_1 & 1
 \end{pmatrix},
-$$ 
+$$ {#eq-jacobian}
 so $\mathbf{f}$ is continuously differentiable. It is also straightforward to check that the second and third order partial derivatives of $\mathbf{f}$ are continuous (do this!). The inverse of the Jacobian is 
 $$
 J^{-1}(\mathbf{x}) = \begin{pmatrix}
 \displaystyle\frac{1}{2x_1(2x_2+1)} & \displaystyle -\frac{x_2}{x_1(2x_2+1)} \\
 \displaystyle\frac{1}{2x_2+1} & \displaystyle \frac{1}{2x_2+1}
 \end{pmatrix}.
-$$ 
+$$ {#eq-jacobian-inverse}
 This matrix is not well-defined for all $\mathbf{x}$ (it has singularities for $x_1=0$ and any $x_2$ and for $x_2=-1/2$ and any $x_1$), but it is defined at the roots we seek (check this!), so Newton's method is convergent by @thm-newtonnd, provided that we choose initial values close enough to those roots.
 
 We choose $\mathbf{x}^{(0)}=(0.5,0.5)^{t}$ and $\mathbf{x}^{(0)}=(-0.5,0.5)^{t}$ as the initial approximations for the two solutions, and then compute sequences of approximations using @eq-Newtonsys2 and @eq-Newtonsys3. @tbl-Newton-multi-1 demonstrates the rapid convergence of Newton's method to the two solutions.
 
 ::: center
 ::: tabular
-*cc*
-
-<div>
 
 | $n$ | $x_{1}^{(n)}$ | $x_{2}^{(n)}$ | $\Vert \mathbf{x}^{(n)}-\mathbf{p}_1\Vert$ |
-|:----|:--------------|:--------------|:---------------------------------------------------|
-| *0* | *0.5*         | *0.5*         |                                                    |
-| *1* | *0.87500000*  | *0.62500000*  | *0.08884862*                                       |
-| *2* | *0.79067460*  | *0.61805556*  | *0.00452323*                                       |
-| *3* | *0.78616432*  | *0.61803399*  | *0.00001294*                                       |
-| *4* | *0.78615138*  | *0.61803399*  | *7.499*$\cdot$<!-- -->10$^{-10}$                   |
+|:----|:--------------|:--------------|:-------------------------------------------|
+| $0$ | $0.5$         | $0.5$         |                                            |
+| $1$ | $0.87500000$  | $0.62500000$  | $0.08884862$                               |
+| $2$ | $0.79067460$  | $0.61805556$  | $0.00452323$                               |
+| $3$ | $0.78616432$  | $0.61803399$  | $0.00001294$                               |
+| $4$ | $0.78615138$  | $0.61803399$  | $7.499\cdot 10^{-10}$                      |
 
-: *Numerical example for Newton's method*
-
-</div>
-
-*&*
-
-<div>
+: Numerical example for Newton's method {#tbl-Newton-multi-1}
 
 | $n$ | $x_{1}^{(n)}$ | $x_{2}^{(n)}$ | $\Vert \mathbf{x}^{(n)}-\mathbf{p}_2\Vert$ |
-|:----|:--------------|:--------------|:---------------------------------------------------|
-| *0* | *-0.5*        | *0.5*         |                                                    |
-| *1* | *-0.87500000* | *0.62500000*  | *0.08884862*                                       |
-| *2* | *-0.79067460* | *0.61805556*  | *0.00452323*                                       |
-| *3* | *-0.78616432* | *0.61803399*  | *0.00001294*                                       |
-| *4* | *-0.78615138* | *0.61803399*  | *7.499*$\cdot$<!-- -->10$^{-10}$                   |
+|:----|:--------------|:--------------|:-------------------------------------------|
+| $0$ | $-0.5$        | $0.5$         |                                            |
+| $1$ | $-0.87500000$ | $0.62500000$  | $0.08884862$                               |
+| $2$ | $-0.79067460$ | $0.61805556$  | $0.00452323$                               |
+| $3$ | $-0.78616432$ | $0.61803399$  | $0.00001294$                               |
+| $4$ | $-0.78615138$ | $0.61803399$  | $7.499\cdot 10^{-10}$                      |
 
-: *Numerical example for Newton's method*
-
-</div>
 :::
 :::
 :::

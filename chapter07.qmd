@@ -309,39 +309,39 @@ $$
 4\sum_{j=1}^{n/2}f(x_{2j-1})+ f(x_{n})\right\}
 +E.  
 \end{split}
-$$ 
+$$ {#eq-e13d}
 The error of this approximation is 
 $$
 E=-{h^{5} \over 90}\sum_{j=1}^{n/2}f^{(4)}(\xi_{j})
-$$
+$$ {#eq-composite-error}
 where $x_{2j-2} < \xi_{j} < x_{2j}$ for each $j=1, 2, ..., n/2$. If $f\in C^{4}[a, b]$, then (according to the Extreme Value Theorem) $f^{(4)}(x)$ attains its maximum and minimum values in $[a, b]$. Let 
 $$
 m=\min_{x\in[a, b]}f^{(4)}(x), \quad M=\max_{x\in[a, b]}f^{(4)}(x).
-$$ 
+$$ {#eq-composite-bounds}
 Then we have 
 $$
 m \leq f^{(4)}(\xi_{j}) \leq M \ \ \
 \text{  for \ each } \ \ j=1, 2, ..., n/2 .
-$$ 
+$$ {#eq-composite-inequality1}
 Therefore, 
 $$
 \frac{n}{2}m \leq
 \sum_{j=1}^{n/2}f^{(4)}(\xi_{j}) \leq \frac{n}{2} M,
-$$ 
+$$ {#eq-composite-inequality2}
 and 
 $$
 m \leq \frac{2}{n}
 \sum_{j=1}^{n/2}f^{(4)}(\xi_{j}) \leq M.
-$$ 
+$$ {#eq-composite-inequality3}
 By the Intermediate Value Theorem, there is a $\mu\in(a, b)$ such that 
 $$
 f^{(4)}(\mu)={2 \over n}
 \sum_{j=1}^{n/2}f^{(4)}(\xi_{j}).
-$$ 
+$$ {#eq-composite-mu}
 Hence, 
 $$
 E=-{h^{5}\over 180}n f^{(4)}(\mu)=-{b-a \over 180}h^{4} f^{(4)}(\mu).
-$$ 
+$$ {#eq-composite-final-error}
 Thus, we have proved the following theorem.
 
 ::: {#thm-11}
@@ -373,7 +373,7 @@ $${#eq-e14}
 Apply the composite Simpson rule to compute
 $$
 I=\int\limits_{0}^{2}e^{x}dx
-$$ 
+$$ {#eq-example-integral}
 with absolute error less than $10^{-2}$.
 :::
 
@@ -387,19 +387,19 @@ $$
 \frac{b-a}{180}h^{4}e^2 < 10^{-2} \quad \Leftrightarrow \quad
 \frac{(b-a)^5}{180 n^4}e^2 < 10^{-2}  \quad \Leftrightarrow \quad
 n^4 > \frac{100(b-a)^5}{180}e^2 .
-$$ 
+$$ {#eq-example-inequality}
 Substituting $a=0$ and $b=2$, we find that 
 $$
 n^4 > \frac{5\cdot 32 e^2}{9}=131.3609973, \quad \text{  so \ that } \ \ n\geq 4 \ \ (n^4=256).
-$$ 
+$$ {#eq-example-n}
 Applying the composite Simpson rule with $n=4$, we obtain the approximation 
 $$
 \tilde{I}=6.391210187.
-$$ 
+$$ {#eq-example-approx}
 The actual error is 
 $$
 \vert I-\tilde{I}\vert=0.002154088.
-$$ 
+$$ {#eq-example-error}
 So it is indeed less that $10^{-2}$.
 :::
 
@@ -414,12 +414,12 @@ E(h) &= \left\vert\frac{h}{3}\left( e_{0}
 +2\sum_{j=1}^{(n/2)-1}\vert e_{2j}\vert +
 4\sum_{j=1}^{n/2}\vert e_{2j-1}\vert + \vert e_{n}\vert\right) 
 \end{split}
-$$ 
+$$ {#eq-roundoff-bound1}
 If the roundoff errors are uniformly bounded by $\varepsilon$, then 
 $$
 E(h) \leq
 {h \over 3}\left(\varepsilon
 +2\left(\frac{n}{2}-1\right)\varepsilon +
 4\frac{n}{2}\varepsilon + \varepsilon\right)=nh\varepsilon=(b-a)\varepsilon.
-$$ 
+$$ {#eq-roundoff-bound2}
 Thus, the bound for the accumulated error is independent of $h$, so that $h$ can be taken as small as we wish.

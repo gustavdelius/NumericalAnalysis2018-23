@@ -5,11 +5,11 @@ Often we need to calculate the derivative of a function whose values are given o
 Recall that, by definition, the derivative of the function $f(x)$ at $x_{0}$ is 
 $$
 f^{\prime}(x_{0})=\lim_{h\to 0}\frac{f(x_{0}+h)-f(x_{0})}{h}.
-$$ 
+$$ {#eq-derivative-def}
 It is natural to expect that if $h$ is sufficiently small, then 
 $$
 f^{\prime}(x_{0}) \approx \frac{f(x_{0}+h)-f(x_{0})}{h}.
-$$ 
+$$ {#eq-derivative-approx}
 This formula approximates the derivative using values of $f$ at two points $x_{0}$ and $x_{0}+h$.
 
 What is a general method of constructing approximate formulas for the derivative? There are many ways of doing that. For example, given a set of distinct points $x_{0},\dots,x_{n}$ and values of $f$ at these points, we can construct the interpolating polynomial and then compute the derivatives of this polynomial at each $x_{0},\dots,x_{n}$. This method, although possible, is less transparent and instructive than a method based of Taylor's polynomials (series) which we will discuss below.
@@ -40,25 +40,24 @@ with $\xi$ between $x_{0}$ and $x_{0}+h$ ($\xi$ can also be written as $\xi=x_{0
 If function $g(h)$ has the property that 
 $$
 \vert g(h)\vert \leq K \vert h^{p}\vert, \quad K, p > 0, 
-$$
-{#eq-e18}
+$$ {#eq-e18}
 for all $h$ in some open interval containing $0$, we write 
 $$
 g(h)=O(h^p)
-$$
+$$ {#eq-big-oh-def}
 as $h\to 0$. This is pronounced "$g$ is big-oh of $h^p$". We sometimes say that $g(h)$ converges to $0$ as fast as $h^p$.
 :::
 
 For example, function $f(x)=\sin(x)/x-1$ converges to 0 as fast as $x^{2}$ converges to zero (as $x\to 0$). To show this, it suffices to consider the third Taylor polynomial for $\sin(x)$: 
 $$
 \sin(x)=x-\frac{x^{3}}{3!}\cos(\xi)
-$$ 
+$$ {#eq-sin-taylor}
 where $\xi$ is some number between 0 and $x$. We have 
 $$
 \left\vert \frac{\sin x}{x} -1 \right\vert = \frac{\vert x
 \vert^{2}}{3!}\vert \cos(\xi)\vert \leq \frac{x^{2}}{3!}=\frac{x^{2}}{6} \ \ \
 \Rightarrow \ \ \ \ \frac{\sin x}{x}-1=O(x^{2}). \\
-$$ 
+$$ {#eq-sinx-example}
 Here we used the fact that $\vert \cos x\vert\leq 1$ for all $x\in\mathbb{R}$.
 
 Properties of $O(h^n)$:
@@ -72,25 +71,25 @@ Properties of $O(h^n)$:
 It follows from @eq-e17 that 
 $$
 \vert f(x_{0}+h)- T_{n}(h)\vert=\left\vert\frac{h^{n+1}}{(n+1)!}f^{(n+1)}(\xi)\right\vert
-$$ 
+$$ {#eq-taylor-bound1}
 where $T_{n}$ is the $n$th Taylor polynomial: 
 $$
 T_{n}(h)=  f(x_{0})+h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(x_{0})+\dots +
 \frac{h^{n}}{n!}f^{(n)}(x_{0}).
-$$ 
+$$ {#eq-taylor-poly}
 From our assumption that $f\in C^{(n+1)}(I)$ and $x,x_{0}\in I$, it follows that there exists a closed interval $[a,b]$ such that $[a,b]\subset I$ and $x,x_{0}\in [a,b]$. Therefore, $f^{(n+1)}(x)$ attains its maximum and minimum values in $[a,b]$, so that $\vert f^{(n+1)}(x)\vert \leq M$ for some $M$. Thus, we have 
 $$
 \vert f(x_{0}+h)- T_{n}(h)\vert \leq \left\vert\frac{h^{n+1}}{(n+1)!}M\right\vert=\frac{M}{(n+1)!}\vert h^{n+1}\vert,
-$$ 
+$$ {#eq-taylor-bound2}
 which means that 
 $$
 f(x_{0}+h) - T_{n}(h)=O\left(h^{n+1}\right)
-$$
+$$ {#eq-taylor-error1}
 or, equivalently,
 $$
 f(x_{0}+h) = T_{n}(h) + O\left(h^{n+1}\right).
-$$
+$$ {#eq-taylor-error2}
 
 
 ## Two-point forward and backward formulas for $f'$
@@ -98,19 +97,17 @@ Let us derive the formula for the derivative based on points $x_{0}$ and $x_{0}+
 $$
 f(x_{0}+h)=  f(x_{0})+h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(\xi_{1})
-$$ 
+$$ {#eq-forward-deriv1}
 where $x_{0} < \xi_{1} < x_{0}+h$. Solving this for $f^{\prime}(x_{0})$, we find that 
 $$
 f^{\prime}(x_{0})=\frac{f(x_{0}+h) - f(x_{0})}{h} -
 \frac{h}{2!}f^{\prime\prime}(\xi_{1}). 
-$$
-{#eq-e19}
+$$ {#eq-forward-diff}
 This is called the *forward-difference formula* for $f^{\prime}(x_{0})$. Similarly, one can obtain the *backward-difference formula* for $f^{\prime}(x_{0})$[^main-3]: 
 $$
 f^{\prime}(x_{0})=\frac{f(x_{0}) - f(x_{0}-h)}{h} +
 \frac{h}{2!}f^{\prime\prime}(\xi_{2}) 
-$$
-{#eq-e20}
+$$ {#eq-backward-diff}
 where $x_{0}-h < \xi_{2} < x_{0}$ ($h>0$).
 
 [^main-3]: In fact, it can obtained from @eq-e20 simply by changing $h$ to $-h$.
@@ -126,27 +123,26 @@ f(x_{0}-h) &=  f(x_{0})-h f^{\prime}(x_{0})+
 \frac{h^{2}}{2!}f^{\prime\prime}(x_{0})-
 \frac{h^{3}}{3!}f^{\prime\prime\prime}(\xi^-), \quad x_{0}-h < \xi^- < x_{0}. 
 \end{split}
-$$ 
+$$ {#eq-three-point-taylor}
 Subtracting the second equation from the first one, we obtain 
 $$
 f(x_{0}+h)-f(x_{0}-h)= 2h f^{\prime}(x_{0})+
 \frac{h^{3}}{3!}\left(f^{\prime\prime\prime}(\xi^+)+f^{\prime\prime\prime}(\xi^-)\right).
-$$ 
+$$ {#eq-three-point-diff}
 Solving this for $f^{\prime}(x_{0})$ yields 
 $$
 f^{\prime}(x_{0})=\frac{f(x_{0}+h) - f(x_{0}-h)}{2h} -
 \frac{h^2}{3!}\frac{1}{2}\left(f^{\prime\prime\prime}(\xi^+)+f^{\prime\prime\prime}(\xi^-)\right).
-$$ 
+$$ {#eq-three-point-deriv}
 Since $f^{\prime\prime\prime}$ is continuous, by the Intermediate Value Theorem there exists $\xi$ between $\xi^-$ and $\xi^+$ such that 
 $$
 f^{\prime\prime\prime}(\xi)= \frac{1}{2}\left(f^{\prime\prime\prime}(\xi^+)+f^{\prime\prime\prime}(\xi^-)\right).
-$$ 
+$$ {#eq-mean-value}
 Therefore, 
 $$
 f^{\prime}(x_{0})=\frac{f(x_{0}+h) - f(x_{0}-h)}{2h} -
 \frac{h^{2}}{6}f^{\prime\prime\prime}(\xi)  
-$$
-{#eq-e21}
+$$ {#eq-central-diff}
 where $x_{0}-h < \xi < x_{0}+h$. This is the *central difference* formula for $f^{\prime}(x_{0})$. Note that the error of the central difference approximation is $O(h^2)$ as $h\to 0$. Thus, we have a second order approximation for $f^{\prime}(x_{0})$.
 
 There are two more three-point formulas for $f^{\prime}(x_{0})$: 
@@ -155,7 +151,7 @@ $$
 f^{\prime}(x_{0})&=\frac{1}{2h}\left[-3f(x_{0})+4f(x_{0}+h)-f(x_{0}+2h)\right]+O(h^2)\\
 f^{\prime}(x_{0})&=\frac{1}{2h}\left[f(x_{0}-2h)-4f(x_{0}-h)+3f(x_{0})\right]+O(h^2)
 \end{split}
-$$ 
+$$ {#eq-f1}
 The first formula uses points $x_{0}$, $x_{0}+h$ and $x_{0}+2h$ and is called the *three-point forward difference formula* for $f^{\prime}(x_{0})$. The second formula is called the *three-point backward difference formula* and uses points $x_{0}-2h$, $x_{0}-h$ and $x_{0}$. Note that @eq-f2 can be obtained from @eq-f1 by simply replacing $h$ with $-h$, so, in fact, these two represent only one formula.
 
 ::: {#exm-17}
@@ -170,7 +166,7 @@ f(x_{0}+h)&=f(x_{0})+h \, f^{\prime}(x_{0})+\frac{h^2}{2} \, f^{\prime\prime}(x_
 f(x_{0}+2h)&=f(x_{0})+2h \, f^{\prime}(x_{0})+\frac{(2h)^2}{2} \, f^{\prime\prime}(x_{0})+ O(h^3) \\
 &= f(x_{0})+2h \, f^{\prime}(x_{0})+2h^2 \, f^{\prime\prime}(x_{0})+ O(h^3).
 \end{split}
-$$ 
+$$ {#eq-solution-taylor}
 These and @eq-f1 yield 
 $$
 \begin{split}
@@ -181,7 +177,7 @@ E&=f^{\prime}(x_{0})-\frac{1}{2h}\left[-3f(x_{0})+
 &\qquad \quad -f(x_{0})-2hf^{\prime}(x_{0})- 2h^2f^{\prime\prime}(x_{0})+ O(h^{3})\Bigr]  \\
 &= O(h^{2}).
 \end{split}
-$$
+$$ {#eq-error-calc}
 
 :::
 
@@ -200,23 +196,23 @@ f(x_{0}-h) &=f(x_{0})-f^{\prime}(x_{0})h+
 \frac{1}{6}f^{\prime\prime\prime}(x_{0})h^{3}+
 \frac{1}{24}f^{(4)}(\xi^{-})h^{4}, 
 \end{split}
-$$ 
+$$ {#eq-higher-deriv-taylor}
 where $x_{0}-h< \xi^{-}< x_{0} < \xi^{+}< x_{0}+h$. Adding these equations, we obtain 
 $$
 f^{\prime\prime}(x_{0})=\frac{1}{h^{2}}[f(x_{0}-h)-
 2f(x_{0})+f(x_{0}+h)]-\frac{h^{2}}{24}[f^{(4)}(\xi^{+})
 +f^{(4)}(\xi^{-})].
-$$ 
+$$ {#eq-second-deriv-full}
 Assuming that $f^{(4)}$ is continuous on $[x_{0}-h, x_{0}+h]$, we can rewrite this equation in a simpler form. Since $[f^{(4)}(\xi^{+}) +f^{(4)}(\xi^{-})]/2$ is between $f^{(4)}(\xi^{+})$ and $f^{(4)}(\xi^{-})$, the Intermediate Value theorem implies that there exists a number $\xi$ between $\xi^{+}$ and $\xi^{-}$ such that 
 $$
 f^{(4)}(\xi)=\frac{1}{2}[f^{(4)}(\xi^{+})
 +f^{(4)}(\xi^{-})] .
-$$ 
+$$ {#eq-fourth-deriv-mean}
 Therefore, 
 $$
 f^{\prime\prime}(x_{0})={1\over h^{2}}[f(x_{0}-h)-
 2f(x_{0})+f(x_{0}+h)]-{h^{2} \over 12}f^{(4)}(\xi). 
-$${#eq-f19}
+$$ {#eq-second-deriv}
 where $x_{0}-h< \xi < x_{0}+h$. This is called the *central difference formula* for $f^{\prime\prime}(x_{0})$ and it uses values of $f$ at three points. Its truncation error is $O(h^2)$. This is one of the most popular finite difference formulas in Numerical Analysis.
 
 Finite difference formulas for higher derivatives can be derived in a similar manner.
@@ -227,50 +223,50 @@ $$
 f^{\prime}(x_{0})=\frac{1}{2h}\left[f(x_{0}+h)
 -f(x_{0}-h)\right]-\frac{h^{2}}{6}
 f^{(3)}(\xi).
-$$ 
+$$ {#eq-central-diff-restate}
 Suppose that the values of $f(x_{0}-h)$ and $f(x_{0}+h)$ are computed with roundoff errors $e^{-}$ and $e^{+}$, respectively, i.e. 
 $$
 f(x_{0}-h)=f^{-} + e^{-} \quad \text{  and } \quad
 f(x_{0}+h)=f^{+} + e^{+}.
-$$ 
+$$ {#eq-error-values}
 Here $\tilde{f}^{\pm}$ are the computed valued. Substitution of these in the central difference formula yields 
 $$
 f^{\prime}(x_{0})=\frac{1}{2h}\left[f^{+} + e^{+}
 -f^{-} - e^{-}\right]-\frac{h^{2}}{6}
 f^{(3)}(\xi).
-$$ 
+$$ {#eq-error-subst}
 The total error in the approximation is 
 $$
 f^{\prime}(x_{0})-\frac{f^{+}
 -f^{-}}{2h}=\frac{e^{+}-e^{-}}{2h}
 -\frac{h^{2}}{6}f^{(3)}(\xi).
-$$ 
+$$ {#eq-total-error}
 The total error has a part due to roundoff error and a part due to truncation error. Suppose that the roundoff errors are bounded by some number $\varepsilon >0$ (this is always true in practice), i.e. 
 $$
 \vert e^{\pm}\vert\leq \varepsilon,
-$$ 
+$$ {#eq-error-bounds}
 and that the third derivative of $f$ is bounded by $M > 0$ for all $x\in[x_{0}-h,x_{0}+h]$. Then we have 
 $$
 \left\vert f^{\prime}(x_{0})-\frac{f^{+}
 -f^{-}}{2h}\right\vert \leq \frac{\varepsilon}{h}+
 \frac{h^{2}}{6}M . 
-$${#eq-f3}
+$$ {#eq-error-bound}
 One can see that, to reduce the truncation error we must reduce $h$. But as $h$ is reduced, the roundoff error $\varepsilon/h$ grows.
 
 To determine the optimal value of $h$ (for which the total error is the smallest one), we consider the function 
 $$
 E(h)=\frac{\varepsilon}{h}+
 \frac{h^{2}}{6}M.
-$$ 
+$$ {#eq-error-function}
 which is the upper bound for the total error as a function of $h$. Since $E^{\prime}(h)=-\varepsilon/h^{2}+hM/3=0$ at $h=h^{*}=(3\varepsilon/M)^{1/3}$, the function $E(h)$ attains its minimum value at 
 $$
 h=\left(\frac{3\varepsilon}{M}\right)^{1/3},
-$$ 
+$$ {#eq-optimal-h}
 and this is the optimal value of $h$. The corresponding minimum error is 
 $$
 E_{min}=E(h^{*})=
 \frac{1}{2}\left(9M\varepsilon^{2}\right)^{1/3}.
-$$
+$$ {#eq-min-error}
 
 
 Unfortunately, in practice, we cannot compute an optimal $h$ to use in approximating the derivative, because usually we do not know the third derivative of the function. But we must be aware that reducing the step size will not always improve the approximation.

@@ -11,14 +11,13 @@ function of one real variable, with the remainder in Lagrange form
 [@Apostol:1969 Sec. 7.7].
 
 ::: {#thm-taylor1d}
-**Theorem 12**. *Let $I\subset\mathbb{R}$ be an interval, and
+Let $I\subset\mathbb{R}$ be an interval, and
 $f \in \mathcal{C}^{k+1}(I,\mathbb{R})$. For each $a \in I$ and
 $x \in I$, there exists $\xi \in [a,x]$ such that
 $$
 f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
    + \frac{1}{(k+1)!} \frac{d^{k+1} f}{dx^{k+1}}(\xi) \, (x-a)^{k+1}.
-$$
-*
+$$ {#eq-taylor1}
 :::
 
 For our purposes, we need generalizations of Taylor's theorem both to
@@ -41,23 +40,23 @@ $$
  \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial \mathbf{x}^\mathbf{j}} &= 
 \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{ (\partial x ^{(1)})^{j ^{(1)}} \cdots (\partial x ^{(m)})^{j ^{(m)}}}. &
 \end{aligned}
-$$
+$$ {#eq-taylor2}
 Taylor's theorem can then be formulated as follows.
 
 ::: {#thm-taylormnd}
-**Theorem 13**. *Let $D \subset \mathbb{R}^m$ be convex, and let
+Let $D \subset \mathbb{R}^m$ be convex, and let
 $\mathbf{f}\in \mathcal{C}^{k+1}(D,\mathbb{R}^n)$. For each
 $\mathbf{a}\in D$, there exists
 $\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n$ such that
 $$
 \mathbf{f}(\mathbf{x}) = \sum_{|\mathbf{j}|\leq k} \frac{1}{\mathbf{j}!} \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{a}) \, (\mathbf{x}-\mathbf{a})^\mathbf{j}+ \mathbf{R}_\mathbf{a}(\mathbf{x})
-$$
+$$ {#eq-taylor3}
 and
 $$
 \lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \lVert \mathbf{x}-\mathbf{a} \rVert^{k+1}\sum_{|\mathbf{j}|=k+1} \frac{1}{\mathbf{j}!} 
     \sup_{\mathbf{x}' \in D} \big\lVert \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{x}') \big\rVert
-$$
-for all $\mathbf{x}\in D$.*
+$$  {#eq-taylor4}
+for all $\mathbf{x}\in D$.
 :::
 
 (See [@Dev Sec. 7.4] for a proof in the case $n=1$ and with an explicit
@@ -73,18 +72,18 @@ the multi-index $\mathbf{j}$ is just a number $j \in \mathbb{N}_0$, the
 partial derivatives are ordinary derivatives, and we obtain:
 
 ::: {#thm-taylor1nd}
-**Theorem 14**. *Let $I$ be an interval, and let
+Let $I$ be an interval, and let
 $\mathbf{f}\in \mathcal{C}^{k+1}(I,\mathbb{R}^n)$. For each $a \in I$,
 there exists $\mathbf{R}_a : I \to \mathbb{R}^n$ such that
 $$
 \mathbf{f}(x) = \sum_{j=0}^{k} \frac{1}{j!} \frac{d^j \mathbf{f}}{dx^j}(a) \, (x-a)^j + \mathbf{R}_a(x)
-$$
+$$ {#eq-taylor5}
 and
 $$
 \lVert \mathbf{R}_a(x) \rVert \leq  \frac{\lvert x-a \rvert^{k+1}}{(k+1)!} 
     \sup_{x' \in I} \big\lVert \frac{d^j \mathbf{f}}{dx^j}(x') \big\rVert
-$$
-for all $x \in I$.*
+$$ {#eq-taylor6}
+for all $x \in I$.
 :::
 
 On other occasions, we will need the function
@@ -97,7 +96,7 @@ $m$, and they can conveniently be combined into a matrix
 $\partial\mathbf{f}/\partial \mathbf{x}$. We have
 $$
 \sum_{|\mathbf{j}|=1} \frac{1}{\mathbf{j}!} \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{a}) \, (\mathbf{x}-\mathbf{a})^\mathbf{j}= \frac{\partial \mathbf{f}}{\partial\mathbf{x}}(\mathbf{a}) \cdot (\mathbf{x}-\mathbf{a}),
-$$
+$$ {#eq-taylor7}
 reading the r.h.s. as a matrix product. The derivatives with
 $|\mathbf{j}|=2$ are of the form
 $\partial^2 \mathbf{f}/\partial x ^{(p)}\partial x ^{(q)}$, where both
@@ -106,32 +105,32 @@ one obtains the following special cases for order $k=0$ and $k=1$
 repectively.
 
 ::: {#thm-taylororder0}
-**Theorem 15**. *Let $D \subset \mathbb{R}^m$ be convex, and let
+Let $D \subset \mathbb{R}^m$ be convex, and let
 $\mathbf{f}\in \mathcal{C}^{1}(D,\mathbb{R}^n)$. For each
 $\mathbf{a}\in D$, there exists
 $\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n$ such that
 $$
 \mathbf{f}(\mathbf{x}) = \mathbf{f}(\mathbf{a}) + \mathbf{R}_\mathbf{a}(\mathbf{x})
-$$
+$$ {#eq-taylor8}
 and
 $$
 \lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \lVert \mathbf{x}-\mathbf{a} \rVert \; \sup_{\mathbf{x}' \in D} \big\lVert  \frac{\partial \mathbf{f}}{\partial \mathbf{x}}(\mathbf{x}') \big\rVert
-$$
-for all $\mathbf{x}\in D$.*
+$$ {#eq-taylor9}
+for all $\mathbf{x}\in D$.
 :::
 
 ::: {#thm-taylororder1}
-**Theorem 16**. *Let $D \subset \mathbb{R}^m$ be convex, and let
+Let $D \subset \mathbb{R}^m$ be convex, and let
 $\mathbf{f}\in \mathcal{C}^{2}(D,\mathbb{R}^n)$. For each
 $\mathbf{a}\in D$, there exists
 $\mathbf{R}_\mathbf{a}: D \to \mathbb{R}^n$ such that
 $$
 \mathbf{f}(\mathbf{x}) = \mathbf{f}(\mathbf{a}) + \frac{\partial \mathbf{f}}{\partial\mathbf{x}}(\mathbf{a}) \cdot (\mathbf{x}-\mathbf{a}) +  \mathbf{R}_\mathbf{a}(\mathbf{x})
-$$
+$$ {#eq-taylor10}
 and
 $$
 \lVert \mathbf{R}_\mathbf{a}(\mathbf{x}) \rVert \leq \frac{1}{2}\lVert \mathbf{x}-\mathbf{a} \rVert^{2} \sum_{p,q=1}^m  
     \sup_{\mathbf{x}' \in D} \big\lVert \frac{\partial^2 \mathbf{f}}{\partial x ^{(p)} \partial x ^{(q)}}(\mathbf{x}') \big\rVert
-$$
-for all $\mathbf{x}\in D$.*
+$$ {#eq-taylor11}
+for all $\mathbf{x}\in D$.
 :::
