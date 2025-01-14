@@ -1841,13 +1841,13 @@ then bounded by
 $$
 \lVert \mathbf{R} \rVert \leq \frac{1}{2} (ch)^2 \lVert  (1, f_1, \ldots, f_m)  \rVert^2
   \cdot (m+1)^2 M.
-$$
+$$ {#eq-ivp65}
 After possibly modifying the constant $M$, we can
 assume that $\|f_j\|\leq M$ as well, and that $M \geq 1$. This
 gives 
 $$
 \lVert \mathbf{R} \rVert \leq \frac{(m+1)^2 M^3 c^2}{2} h^2.
-$$
+$$ {#eq-ivp66}
 Inserting @eq-kcompute into
 @eq-phirk2 yields
 $$
@@ -1856,11 +1856,11 @@ $$
 &= \mathbf{f}(x,\mathbf{y}) + cdh   \frac{ \mathrm{d}^{} \mathbf{f} }{\mathrm{d}x^{} } (x,\boldsymbol{y}) + d\mathbf{R}\\
 &= \mathbf{T}_2(x,y,h)+d\mathbf{R},
 \end{split}
-$$
+$$ {#eq-ivp67}
 since $cd=1/2$. Consequently,
 $$
 \lVert  \boldsymbol{\phi}(x,\mathbf{y},h) - \mathbf{T}_2(x,\mathbf{y},h) \rVert \leq \frac{(m+1)^2 M^3 c}{4} h^2,
-$$
+$$ {#eq-ivp68}
 which completes the proof. ◻
 :::
 
@@ -1909,7 +1909,7 @@ approximation method might be of higher order in $h$.) Then we have
 $$
 \lVert  \mathbf{y}(x_i)-\mathbf{w}_i  \rVert \leq \underbrace{ \lVert  \mathbf{y}(x_i)-\tilde{\mathbf{w}}_i  \rVert }_{\text{negligible}} 
  + \lVert \tilde{\mathbf{w}}_i-\mathbf{w}_i  \rVert \approx \lVert \tilde{\mathbf{w}}_i-\mathbf{w}_i \rVert.
-$$
+$$ {#eq-ivp69}
 However, the right-hand side can be computed without knowing the exact
 solution $\mathbf{y}(x)$.
 
@@ -1965,7 +1965,7 @@ $$
 \hline
   \text{\textbf{(b)}}  & \frac{16}{135} & 0 & \frac{6656}{12825} & \frac{28561}{56430} & - \frac{9}{50} & \frac{2}{55} 
 \end{array}
-$$
+$$ {#eq-ivp70}
 
 However, what we actually want is to choose the step size $h$ so that
 $\|\boldsymbol{\tau}_{i+1}(h)\| \leq T$ with some given "tolerance"
@@ -2079,7 +2079,7 @@ lines 9--22, the step size $h$ for the next step is computed. In slight
 deviation from @eq-qtheory, one chooses a more conservative factor,
 $$
 q =\left(\frac{hT}{2\lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}\rVert}\right)^{1/4}
-$$
+$$ {#eq-ivpq}
 (note $n=4$). Also, the factor $q$ is limited to the interval $[0.1,4]$ (lines
 10--16), in order to avoid possible instabilities by rapid changes in
 the step size. Further, the step size is never increased beyond a given
@@ -2147,7 +2147,7 @@ differential equation as an integral equation,
 $$
 \mathbf{y}'=\mathbf{f}(x,\mathbf{y}(x)) \quad \Leftrightarrow \quad 
   \mathbf{y}(x_{i+1}) = \mathbf{y}(x_i) + \int_{x_i}^{x_{i+1}} \mathbf{f}(x,\mathbf{y}(x)) \,dx,
-$$
+$$ {#eq-ivp71}
 and then approximating the components $\hat{f}_j$ on the right hand
 side with Lagrange interpolating polynomials. The integral can be done
 explicitly, and one obtains the difference equation of a multi-step
@@ -2208,12 +2208,12 @@ method, we compute the "predicted value" by the explicit method,
 $$
 \mathbf{w}_{i+1}^{(p)} = \mathbf{w}_i +
       \frac{h}{24} (55 \mathbf{f}_i - 59 \mathbf{f}_{i-1} + 37 \mathbf{f}_{i-2} - 9 \mathbf{f}_{i-3}),
-$$
+$$ {#eq-ivp72}
 and afterwards the "corrected value" using the implicit method:
 $$
 \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (9 \mathbf{f}(x_{i+1},\mathbf{w}_{i+1}^{(p)}) + 19 \mathbf{f}_i - 5
    \mathbf{f}_{i-1} + \mathbf{f}_{i-2}).
-$$
+$$ {#eq-ivp73}
 Here
 $\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)$. Both the predictor and
 the corrector are of order $O(h^4)$, and so is the entire method, as it
@@ -2322,7 +2322,7 @@ $$
 y(x) = 
   \underbrace{\frac{50}{101} \cos(2x) + \frac{5}{101} \sin(2x)}_{\text{steady-state solution}}
   + \underbrace{\frac{51}{101} \exp(-20x)}_{\text{transient solution}} .
-$$
+$$ {#eq-ivp74}
 Note here that one part of the solution, the *transient solution*,
 decays very rapidly as $x$ grows. For large $x$, only the remainder -
 the *steady-state solution* - contributes to $y(x)$.
@@ -2341,7 +2341,7 @@ The reason for this becomes apparent when computing the derivatives of
 the transient solution:
 $$
 \frac{ \mathrm{d}^{n}  }{\mathrm{d}x^{n} }  \exp(-20x) = (-20)^n \exp(-20x).
-$$
+$$ {#eq-ivp75}
 This expression can be very large, in particular for high $n$. Since our
 error bounds all depended on the supremum of higher-order derivatives of
 $y(x)$, this explains the large approximation error.
@@ -2377,7 +2377,7 @@ $\lambda \in \mathbb{C}$ is a constant, with
 $\mathop{\mathrm{Re}}\lambda < 0$. The exact solution is
 $$
 y(x) = \exp(\lambda x).
-$$
+$$ {#eq-ivp76}
 This solution has *only* a transient part,
 which makes it ideal for our purposes.
 
@@ -2394,7 +2394,7 @@ Let us apply the Euler method to the test equation. The difference
 equation gives
 $$
 w_{i+1} = w_i + h \,f(x_i,w_i) = w_i + \lambda h w_i = (1 + \lambda h) w_i.
-$$
+$$ {#eq-ivp77}
 With $w_0=1$, it is then clear that for all $i \in \mathbb{N}$,
 
 $$
@@ -2420,7 +2420,7 @@ This motivates us to define the *region of stability* of an
 approximation method:
 $$
 \mathcal{R}:= \big\{\mu \in \mathbb{C} \;\big|\; |Q(\mu)| < 1 \big\}.
-$$
+$$ {#eq-ivp78}
 In order for the approximation to be "reasonable", i.e. to ensure
 $w_i \to 0$ as $i \to \infty$, we then need to choose our step size $h$
 so that $h\lambda \in \mathcal{R}$.
@@ -2455,7 +2455,7 @@ Applying it to the test equation @eq-testeq, we obtain
 $$
 w_{i+1} = w_i + \frac{h}{2} (\lambda w_{i+1} + \lambda w_i)
   =  \big( 1 + \frac{\lambda h}{2} \big) w_i  + \frac{\lambda h}{2} w_{i+1}.
-$$
+$$ {#eq-ivp79}
 We can solve this for $w_{i+1}$: 
 $$
  w_{i+1} = \frac{2+\lambda h}{2-\lambda h} w_i.
@@ -2464,7 +2464,7 @@ $$ {#eq-trapezsolve}
 again of the form @eq-qwi, with 
 $$
 Q(\mu) = \frac{2+\mu}{2-\mu}.
-$$
+$$ {#eq-ivp80}
 Since
 $$
 \begin{gathered}
@@ -2479,7 +2479,7 @@ $$
     \quad \Leftrightarrow \quad 
  \mathop{\mathrm{Re}}\mu < 0,
 \end{gathered}
-$$
+$$ {#eq-ivp81}
 the region of stability $\mathcal{R}$ is just the left
 half plane. This is the maximum we could hope for: the implicit
 trapezoidal method gives reasonable results on stiff problems for all
@@ -2530,7 +2530,7 @@ w_{i+1} = w_i + \frac{h}{2}
   \Big(
     \ell(x_{i+1}) w_{i+1} + g(x_{i+1}) +\ell(x_{i}) w_{i} + g(x_{i})
   \Big).
-$$
+$$ {#eq-ivp82}
 Much like in
 @eq-trapezsolve, this can be solved for $w_{i+1}$:
 $$
@@ -2569,7 +2569,7 @@ differentiable; suppose we are looking for a solution $x$ of the
 equation 
 $$
 F(x) = 0.
-$$
+$$ {#eq-ivp83}
 This solution is found with Newton's method as
 follows. Starting with $x_0$ sufficiently close to a solution, one
 recursively defines the sequence 
@@ -2591,12 +2591,12 @@ In our situation of the implicit trapezoidal method, we need to solve
 the equation
 $$
 w_{i+1} = w_i + \frac{h}{2} \big( f(x_i,w_i)+ f(x_{i+1},w_{i+1})\big).
-$$
+$$ {#eq-ivp84}
 for $w_{i+1}$, where $x_i$, $x_{i+1}$, $w_i$ are given numbers. In other
 words, we are looking for zeros of the function
 $$
 F(\hat{w}) = \hat{w} - w_i - \frac{h}{2} \big( f(x_i,w_i)+ f(x_{i+1},\hat{w})\big).
-$$
+$$ {#eq-ivp85}
 Following @eq-newtondiff, the following sequence should converge to
 the solution $w_{i+1}$: 
 $$
@@ -2607,7 +2607,7 @@ $$
      \big)}{ 1 - \frac{h}{2} \frac{\partial f}{\partial
      y}(x_{i+1},\hat{w}_{k-1}) }}_{=:v}.
   \end{aligned}
-$$
+$$ {#eq-ivp86}
 We would run this iteration until $|v|<T$.
 
 
