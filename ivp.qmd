@@ -1253,11 +1253,13 @@ exact solution $y(x)$ with a linear function, as in
 @eq-eulertaylor. In other words, we used a first-order
 Taylor expansion. For a better approximation, we can use an $n$-th order
 Taylor expansion, now for a vector-valued $\mathbf{y}(x)$:
-$$\begin{split}
+$$
+\begin{split}
 \mathbf{y}(x_{i+1}) = \mathbf{y}(x_i + h) = \mathbf{y}(x_i) 
 &+ h \frac{d\mathbf{y}}{dx}(x_i) + \frac{h^2}{2} \frac{d^2\mathbf{y}}{dx^2}(x_i) + \cdots\\
 &+ \frac{h^n}{n!} \frac{d^n\mathbf{y}}{dx^n}(x_i) + \mathbf{R}_i,
-\end{split}$$ {#eq-ytaylorn}
+\end{split}
+$$ {#eq-ytaylorn}
 where, according to @thm-taylor1nd, the remainder term $\mathbf{R}_i$ is bounded
 by 
 $$
@@ -1346,16 +1348,18 @@ We call the right-hand side the *total derivative* of $\mathbf{f}$.
 
 For higher derivatives, we can apply an analogous argument: We define
 recursively,
-$$\begin{split}
+$$
+\begin{split}
 \frac{ \mathrm{d}^{0} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{0} }  &:= \mathbf{f}(x,\mathbf{y}),\\
     \frac{ \mathrm{d}^{j+1} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j+1} }  &:=
  \frac{\partial}{\partial x}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} } 
  + \Big( \frac{\partial}{\partial \mathbf{y}}  \frac{ \mathrm{d}^{j} \mathbf{f}(x,\mathbf{y}) }{\mathrm{d}x^{j} }  \Big) \cdot \mathbf{f}(x,\mathbf{y}).
-\end{split}$$ {#eq-ivp31}
+\end{split}
+$$ {#eq-ivp31}
 Then we know that, when evaluated on the exact solution, we have
 
 $$
-    \frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} }  (x,\mathbf{y}(x)) =  \frac{ \mathrm{d}^{j+1} \mathbf{y} }{\mathrm{d}x^{j+1} } (x,\mathbf{y}).
+\frac{ \mathrm{d}^{j} \mathbf{f} }{\mathrm{d}x^{j} }  (x,\mathbf{y}(x)) =  \frac{ \mathrm{d}^{j+1} \mathbf{y} }{\mathrm{d}x^{j+1} } (x,\mathbf{y}).
 $$ {#eq-totaldery}
 Hence, @eq-ytaylorn rewrites to 
 $$
@@ -1450,17 +1454,21 @@ higher-order total derivatives are equal to
 $\mathrm{d}^2f(x,y)/\mathrm{d}x^2$; this will not normally be true.
 
 Our second-order Taylor function $T_2$ is then
-$$\begin{split}
+$$
+\begin{split}
 T_2(x,y,h) &= f(x,y) + \frac{h}{2}  \frac{ \mathrm{d}^{} f(x,y) }{\mathrm{d}x^{} }\\
 &= (y-x^2+1) + \frac{h}{2}(y-x^2-2x+1)\\
 &= (1+\frac{h}{2}) (y-x^2+1)-hx.
-\end{split}$$ {#eq-ivp42}
+\end{split}
+$$ {#eq-ivp42}
 The second-order Taylor method
 therefore reads, 
-$$\begin{split}
+$$
+\begin{split}
 w_0 :=& \frac{1}{2},\\
 w_{i+1} :=& w_i+hT_2(x_i,w_i,h) \\=& w_i + (h+\frac{h^2}{2})(w_i-x_i^2+1) - h^2 x_i.
-\end{split}$$ {#eq-ivp43}
+\end{split}
+$$ {#eq-ivp43}
 Analogously, one finds after a bit of computation that 
 $$
 \begin{aligned}
@@ -2013,20 +2021,53 @@ with the 4 function evaluations needed for the classical Runge-Kutta
 method of order 4 *without* error control. The additional overhead
 caused by the error control method is noticeable, but not too large.
 
-::: algorithm
-::: algorithmic
-$x := a$, $\mathbf{w}:= \boldsymbol{\alpha}$, $h := h_{max}$ Compute
-$\mathbf{k}_1,\ldots, \mathbf{k}_6$ from Butcher tableau with step size
-$h$
-$R := {h}^{-1}\lVert  \sum_{j=1}^6  (c_j-\tilde{c}_j) \mathbf{k}_j \rVert$
-$x := x+h$, $\mathbf{w}:= \mathbf{w}+ \sum_{j=1}^5  c_j \mathbf{k}_j$
-$q :=(T/2R)^{1/4}$ $h := 0.1h$ $h := 4h$ $h := h \cdot q$ **if**
-$h \geq h_{max}$ **then** $h:= h_{max}$ **end if** $h := b-x$
-**exception** ("minimum step size exceeded")
-
-$\mathbf{w}$
-:::
-:::
+```pseudocode
+#| label: alg-rkf
+#| html-indent-size: "1.2em"
+#| html-comment-delimiter: " //"
+#| html-line-number: true
+#| html-line-number-punc: ":"
+#| html-no-end: false
+#| pdf-placement: "htb!"
+#| pdf-line-number: true
+\begin{algorithm}
+\caption{The Runge-Kutta-Fehlberg method}
+\begin{algorithmic}
+\Function{RungeKuttaFehlberg}{$a,b,\boldsymbol{\alpha},T,h_{min},h_{max}$}
+  \State
+    \Comment{tolerance $T$;  minimal/maximal step size $h_{min}$, $h_{max}$}
+  \State $x := a$, $\boldsymbol{w} := \boldsymbol{\alpha}$, $h := h_{max}$
+  \Repeat
+    \State Compute $\boldsymbol{k}_1,\ldots, \boldsymbol{k}_6$ from Butcher tableau with step size $h$
+    \State $R := {h}^{-1}\lVert \sum_{j=1}^6  (c_j-\tilde c_j) \boldsymbol{k}_j \rVert$ 
+    \Comment{Estimate local truncation error} 
+    \If{ $R \leq T$ }
+      \State $x := x+h$, $\boldsymbol{w} := \boldsymbol{w} + \sum_{j=1}^5  c_j \boldsymbol{k}_j$
+      \Comment{accept approximation}
+    \EndIf
+    \State \Comment{Now choose the new step size}
+    \State $q :=(T/2R)^{1/4}$ \Comment{factor to multiply $h$ with}
+    \If{$q \leq 0.1$}
+      \State $h := 0.1h$ \Comment{do not decrease too much}
+    \ElsIf{$q \geq 4$}
+      \State $h := 4h $ \Comment{do not increase too much}
+    \Else
+      \State $h := h \cdot q$
+    \EndIf
+    \If{$h \geq h_{max}$}
+      \State $h:= h_{max}$ \Comment{do not exceed max step size}
+    \EndIf
+    \If{ $x + h > b$ }
+      \State $h := b-x$ \Comment{next step would exceed interval}
+    \ElsIf{$h <h_{min}$}
+      \State Error: minimum step size exceeded
+    \EndIf
+  \Until{$x\geq b$}
+  \Return $\boldsymbol{w}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+```
 
 @alg-rkf shows the Runge-Kutta-Fehlberg method in
 pseudocode. It works roughly by the principles discussed above, but with
@@ -2179,21 +2220,43 @@ the corrector are of order $O(h^4)$, and so is the entire method, as it
 turns out. However, the combined predictor-corrector method is more
 precise than each of the parts alone.
 
-::: algorithm
-::: algorithmic
-$h := (b-a)/N$, $x_0 := a$, $\mathbf{w}_0 := \boldsymbol{\alpha}$,
-$\mathbf{f}_0 := \mathbf{f}(x_0,\mathbf{w}_0)$. Compute $\mathbf{w}_i$
-using Runge-Kutta fourth order $x_i := x_{i-1}+h$;
-$\mathbf{f}_i := \mathbf{f}(x_i,\mathbf{w}_i)$ $x := a + ih$
-$\mathbf{w}:= \mathbf{w}_3 +
-      \frac{h}{24} (55 \mathbf{f}_3 - 59 \mathbf{f}_2 + 37 \mathbf{f}_1 - 9 \mathbf{f}_0)$
-$\mathbf{w}:= \mathbf{w}_3 + \frac{h}{24} (9 \mathbf{f}(x,\mathbf{w}) + 19 \mathbf{f}_3 - 5
-   \mathbf{f}_2 + \mathbf{f}_1)$ $x_j := x_{j+1}$;
-$\mathbf{w}_j := \mathbf{w}_{j+1}$; $\mathbf{f}_j :=
-\mathbf{f}_{j+1}$; $x_3 := x$; $\mathbf{w}_3 := \mathbf{w}$;
-$\mathbf{f}_3 := \mathbf{f}(x,\mathbf{w})$; $\mathbf{w}$
-:::
-:::
+```pseudocode
+#| label: alg-adams4
+#| html-indent-size: "1.2em"
+#| html-comment-delimiter: "//"
+#| html-line-number: true
+#| html-line-number-punc: ":"
+#| html-no-end: false
+#| pdf-placement: "htb!"
+#| pdf-line-number: true
+\begin{algorithm} 
+\caption{Adams fourth-order predictor-corrector}
+\begin{algorithmic}
+\Function{AdamsPredictorCorrector}{$a,b,\boldsymbol{\alpha},N$}
+\State \Comment{endpoints $a \leq b$; initial condition $\boldsymbol{\alpha}$; number of steps $N$}
+\State $h := (b-a)/N$, $x_0 := a$, $\boldsymbol{w}_0 := \boldsymbol{\alpha}$, $\boldsymbol{f}_0 := \boldsymbol{f}(x_0,\boldsymbol{w}_0)$.
+\For { $i = 1,2,3$ } \Comment{prepare first steps}
+\State Compute $\boldsymbol{w}_i$ using Runge-Kutta fourth order
+\State $x_i := x_{i-1}+h$; $\boldsymbol{f}_i := \boldsymbol{f}(x_i,\boldsymbol{w}_i)$
+\EndFor
+\For {$i = 4,\ldots,N$} \Comment{main approximation} 
+\State $x := a + ih$
+\State
+    $\boldsymbol{w} := \boldsymbol{w}_3 +
+      \frac{h}{24} (55 \boldsymbol{f}_3 - 59 \boldsymbol{f}_2 + 37 \boldsymbol{f}_1 - 9 \boldsymbol{f}_0)$ \Comment{predict}
+\State   $\boldsymbol{w} := \boldsymbol{w}_3 + \frac{h}{24} (9 \boldsymbol{f}(x,\boldsymbol{w}) + 19 \boldsymbol{f}_3 - 5
+   \boldsymbol{f}_2 + \boldsymbol{f}_1)$ \Comment{correct}
+\For{j = 0,1,2}
+\State $x_j := x_{j+1}$; $\boldsymbol{w}_j := \boldsymbol{w}_{j+1}$; $\boldsymbol{f}_j :=
+\boldsymbol{f}_{j+1}$; 
+\EndFor
+\State $x_3 := x$; $\boldsymbol{w}_3 := \boldsymbol{w}$; $\boldsymbol{f}_3 := \boldsymbol{f}(x,\boldsymbol{w})$; 
+\EndFor
+\State \Return $\boldsymbol{w}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+```
 
 @alg-adams4 shows this predictor-corrector method in
 pseudocode. Lines 3--6 use the classical Runge-Kutta method to set up
