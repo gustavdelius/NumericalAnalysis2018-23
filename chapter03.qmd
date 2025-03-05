@@ -794,11 +794,11 @@ Expanding $f(p+e_{n})$ and $f(p+e_{n-1})$ in Taylor series about $p$ and taking 
 $$
 \begin{split}
 f(p+e_{n})&=e_{n}f^{\prime}(p)+
-\frac{e_{n}^{2}}{2}f^{\prime\prime}(p)+ \dots \\
-&=e_{n}f^{\prime}(p)(1+e_{n}Q)+ \dots,\\
+\frac{e_{n}^{2}}{2}f^{\prime\prime}(p)+ \cdots \\
+&=e_{n}f^{\prime}(p)(1+e_{n}Q)+ \cdots,\\
 f(p+e_{n-1})&=e_{n-1}f^{\prime}(p)+
-\frac{e_{n-1}^{2}}{2}f^{\prime\prime}(p)+ \dots  \\
-&=e_{n-1}f^{\prime}(p)(1+e_{n-1}Q)+ \dots,
+\frac{e_{n-1}^{2}}{2}f^{\prime\prime}(p)+ \cdots  \\
+&=e_{n-1}f^{\prime}(p)(1+e_{n-1}Q)+ \cdots,
 \end{split}
 $$ {#eq-secant3} 
 where 
@@ -808,20 +808,20 @@ $$  {#eq-nonlin42}
 Substitution of @eq-secant3 into @eq-secant2 yields 
 $$
 \begin{split}
-e_{n+1}&=e_{n}- \frac{e_{n}(e_{n}-e_{n-1})f^{\prime}(p)(1+e_{n}Q)+\dots}{f^{\prime}(p)
-\left[e_{n}-e_{n-1}+Q(e_{n}^2-e_{n-1}^2)\right]} \\
-&=e_{n}\left(1-\frac{1+e_{n}Q+\dots}{1+Q(e_{n}+e_{n-1})+\dots}\right).
+e_{n+1}&=e_{n}- \frac{e_{n}(e_{n}-e_{n-1})f^{\prime}(p)(1+e_{n}Q)+\cdots}{f^{\prime}(p)
+\left[e_{n}-e_{n-1}+Q(e_{n}^2-e_{n-1}^2)+\cdots\right]} \\
+&=e_{n}\left(1-\frac{1+e_{n}Q+\cdots}{1+Q(e_{n}+e_{n-1})+\cdots}\right).
 \end{split}
 $$  {#eq-nonlin43}
 Since, for small $x$, 
 $$
-\frac{1}{1+x+\dots}= 1-x+\dots ,
+\frac{1}{1+x+\cdots}= 1-x+\cdots ,
 $$  {#eq-nonlin44}
 we obtain 
 $$
 \begin{split}
-e_{n+1}&=e_{n}\left(1-\left(1+e_{n}Q+\dots\right)\left(1-Q(e_{n}+e_{n-1})+\dots\right)\right)\\
-&=Q e_{n}e_{n-1}+\dots.
+e_{n+1}&=e_{n}\left(1-\left(1+e_{n}Q+\cdots\right)\left(1-Q(e_{n}+e_{n-1})+\cdots\right)\right)\\
+&=Q e_{n}e_{n-1}+\cdots.
 \end{split}
 $$  {#eq-nonlin45}
 Thus, for sufficiently large $n$, we have 
