@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -57,7 +57,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -365,7 +365,7 @@ h := \frac{b-a}{N+1}, \quad k := \frac{d-c}{M+1}.
 \frac{\partial^2 u}{\partial y^2} (x_i,y_j)
   = \frac{ u(x_{i},y_{j+1}) - 2 u(x_i,y_j) + u(x_{i},y_{j-1}) }{k^2} - \frac{k^2}{12} \frac{\partial^4 u}{\partial y^4}(x_i,\eta_j),
 \end{aligned}
-\tag{12.4}\]</span></span> where <span class="math inline">\(\xi_i\)</span> and <span class="math inline">\(\eta_j\)</span> are some unknown points in the intervals with (unknown) intermediate points <span class="math inline">\(\xi_i,\eta_j\)</span>.</p>
+\tag{12.4}\]</span></span> where <span class="math inline">\(\xi_i\)</span> and <span class="math inline">\(\eta_j\)</span> are some unknown points in the intervals.</p>
 <p>Again following our recipe, we will approximate the solution at mesh points <span class="math inline">\(u(x_i,y_j)\)</span> with approximation values <span class="math inline">\(w_{i,j}\)</span>. In the PDE <a href="#eq-poisson" class="quarto-xref">Eq.&nbsp;<span>12.2</span></a>, we then replace <span class="math inline">\(u(x_i,y_j)\)</span> with <span class="math inline">\(w_{i,j}\)</span> and the derivatives of <span class="math inline">\(u\)</span> with the expressions <a href="#eq-cd" class="quarto-xref">Eq.&nbsp;<span>12.4</span></a>, but leaving away the remainder terms of order <span class="math inline">\(O(h^2)+O(k^2)\)</span>. This yields the following equations for the <span class="math inline">\(w_{i,j}\)</span>: <span class="math display">\[
 \frac{ w_{i+1,j} - 2 w_{i,j} + w_{i-1,j} }{h^2} + \frac{ w_{i,j+1} - 2 w_{i,j} + w_{i,j-1} }{k^2} = f(x_i,y_j)
 \]</span> for <span class="math inline">\(1 \leq i \leq N, \; 1 \leq j \leq M\)</span>. After multiplying with <span class="math inline">\(-h^2\)</span>, <span id="eq-elldifference"><span class="math display">\[
@@ -378,28 +378,28 @@ h := \frac{b-a}{N+1}, \quad k := \frac{d-c}{M+1}.
   w_{i,0} &amp;= g(x_i,y_0),  &amp;w_{i,M+1} &amp;= g(x_{j},y_{M+1}) &amp; \text{for } 1 \leq i \leq N.
 \end{aligned}
 \tag{12.6}\]</span></span> Together, <a href="#eq-elldifference" class="quarto-xref">Eq.&nbsp;<span>12.5</span></a> and <a href="#eq-ellboundary" class="quarto-xref">Eq.&nbsp;<span>12.6</span></a> form a linear equation system that can be solved to obtain approximation values <span class="math inline">\(w_{i,j}\)</span>. To that end, it may be useful to renumber the “double indices” <span class="math inline">\(i,j\)</span> with a single index, setting, e.g., <span class="math inline">\(\ell := N(i-1)+j\)</span>. The index <span class="math inline">\(k\)</span> then runs from <span class="math inline">\(1\)</span> to <span class="math inline">\(NM\)</span>, and we may rewrite the equation system as <span class="math inline">\(\mathbf{A}\mathbf{w}= \mathbf{b}\)</span> with a <span class="math inline">\(NM \times NM\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> and a vector <span class="math inline">\(\mathbf{b}\in\mathbb{R}^{NM}\)</span>.</p>
-<p>Like in the one-dimensional case, the matrix <span class="math inline">\(\mathbf{A}\)</span> is sparse, that is, many of its entries are known to be zero. (It is not tridiagonal, however.) This makes the system <span class="math inline">\(\mathbf{A}\mathbf{w}= \mathbf{b}\)</span> fast to solve. Nevertheless, it is evident that the number of mesh points (and hence of vector dimensions) can become rather large quite easily, which sets practical limits to the accuracy of this and other approximation methods for PDEs.</p>
+<p>As in the one-dimensional case, the matrix <span class="math inline">\(\mathbf{A}\)</span> is sparse, that is, many of its entries are known to be zero. (It is not tridiagonal, however.) This makes the system <span class="math inline">\(\mathbf{A}\mathbf{w}= \mathbf{b}\)</span> fast to solve. Nevertheless, it is evident that the number of mesh points (and hence of vector dimensions) can become rather large quite easily, which sets practical limits to the accuracy of this and other approximation methods for PDEs.</p>
 </section>
 <section id="parabolic-pdes" class="level2" data-number="12.3">
 <h2 data-number="12.3" class="anchored" data-anchor-id="parabolic-pdes"><span class="header-section-number">12.3</span> Parabolic PDEs</h2>
-<p>As a second class of PDEs to be treated with the Finite Difference method, we consider <em>parabolic PDEs</em>. A typical example – and the only one we will consider – is the one-dimensional <em>heat equation</em> (also known as <em>diffusion equation</em>). This equation for a function <span class="math inline">\(u\)</span> of two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span> has the form[^19] <span id="eq-heat"><span class="math display">\[
+<p>As a second class of PDEs to be treated with the Finite Difference method, we consider <em>parabolic PDEs</em>. A typical example – and the only one we will consider – is the one-dimensional <em>heat equation</em> (also known as <em>diffusion equation</em>). This equation for a function <span class="math inline">\(u\)</span> of two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span> has the form<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span id="eq-heat"><span class="math display">\[
 \begin{aligned}
 &amp;\alpha^2 \frac{\partial^2 u}{\partial x^2} =  \frac{\partial u}{\partial t}  \quad \text{on } R := \{ (x,t) : 0 \leq x \leq L, 0 \leq t \},\\
 &amp;u(x,0) = g(x) \text{ for } 0 &lt; x &lt; L,\\
 &amp;u(0,t) = u(L,t) = 0 \text{ for all } t &gt; 0.
 \end{aligned}
 \tag{12.7}\]</span></span> The boundary of the region <span class="math inline">\(R\)</span> consists of <em>three</em> pieces here. One also refers to the condition <span class="math inline">\(u(x,0) = g(x)\)</span> as <em>initial condition</em>; as we will see, it has some similarities to initial conditions for ODEs.</p>
-<p>In applications, <span class="math inline">\(u(x,t)\)</span> might have the interpretation of a local temperature – say, in a homogeneous wall of width <span class="math inline">\(L\)</span> –, depending on the spatial position <span class="math inline">\(x\)</span> and on time <span class="math inline">\(t\)</span>. The initial condition is the temperature in the wall at time 0, and the remaining boundary conditions represent the temperature of the environment, depending on time <span class="math inline">\(t\)</span>.</p>
+<p>In applications, <span class="math inline">\(u(x,t)\)</span> might have the interpretation of a local temperature – say, in a homogeneous wall of width <span class="math inline">\(L\)</span> – depending on the spatial position <span class="math inline">\(x\)</span> and on time <span class="math inline">\(t\)</span>. The initial condition is the temperature in the wall at time 0, and the remaining boundary conditions represent the temperature of the environment, depending on time <span class="math inline">\(t\)</span>.</p>
 <p>Again, we will set up a Finite Difference method to approximate the solution of <a href="#eq-heat" class="quarto-xref">Eq.&nbsp;<span>12.7</span></a>, following our recipe from <a href="bvp.html#sec-fdm" class="quarto-xref"><span>Section 11.3</span></a>. As a first step, we restrict the region <span class="math inline">\(R\)</span> to a rectangle, introducing the condition <span class="math inline">\(0 \leq t \leq T\)</span> (with some fixed <span class="math inline">\(T&gt;0\)</span>). Then, as for the Laplace equation, we introduce two numbers of steps, <span class="math inline">\(N\)</span> and <span class="math inline">\(M\)</span>, associated with the <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span> direction respectively, and two corresponding step sizes <span class="math display">\[
 h := \frac{L}{N+1}, \quad k := \frac{T}{M}
 \]</span> (note the slightly different convention for <span class="math inline">\(k\)</span> from before). Once more, we define mesh points <span class="math inline">\((x_i, t_j)\)</span> as <span class="math display">\[
 (x_i, t_j) = (i h, j k), \quad 0 \leq i \leq N+1, \; 0 \leq j \leq M.
 \]</span></p>
 <p>The next step is to approximate the derivatives of <span class="math inline">\(u\)</span>, and here the very specific properties of the equation <a href="#eq-heat" class="quarto-xref">Eq.&nbsp;<span>12.7</span></a> show up. In the variable <span class="math inline">\(x\)</span>, we once more use the centred difference formula <a href="bvp.html#eq-cdypp" class="quarto-xref">Eq.&nbsp;<span>11.43</span></a>, leading to <span id="eq-heatfdx"><span class="math display">\[
-  = \frac{ u(x_{i+1},t_j) - 2 u(x_i,t_j) + u(x_{i-1},t_j) }{h^2} + O(h^2).
+\frac{\partial^2u}{\partial x^2}u(x_{i},t_j)  = \frac{ u(x_{i+1},t_j) - 2 u(x_i,t_j) + u(x_{i-1},t_j) }{h^2} + O(h^2).
 \tag{12.8}\]</span></span></p>
 <p>However, for the derivative by <span class="math inline">\(t\)</span>, we cannot follow the same approach. The problem here is that the centred difference formula for the first derivative would involve <span class="math inline">\(u(x_i,t_{j+1})\)</span> and <span class="math inline">\(u(x_i,t_{j-1})\)</span>, but we have only <em>one</em> boundary (or initial) condition to fix the value if the mesh point is on the boundary of <span class="math inline">\(R\)</span>, and this would lead to an under-determined linear equation system later. As a way out, we use the (much simpler) <em>forward difference formula</em>, <span id="eq-heatfdt"><span class="math display">\[
-  = \frac{ u(x_{i},t_{j+1}) -  u(x_i,t_j) }{k} + O(k).
+\frac{\partial u}{\partial t}u(x_{i},t_j)  = \frac{ u(x_{i},t_{j+1}) -  u(x_i,t_j) }{k} + O(k).
 \tag{12.9}\]</span></span></p>
 <p>Further following our recipe, we insert the finite difference formulas <a href="#eq-heatfdx" class="quarto-xref">Eq.&nbsp;<span>12.8</span></a> and <a href="#eq-heatfdt" class="quarto-xref">Eq.&nbsp;<span>12.9</span></a> into the PDE <a href="#eq-heat" class="quarto-xref">Eq.&nbsp;<span>12.7</span></a>, then replace <span class="math inline">\(u(x_i,y_j)\)</span> with approximation values <span class="math inline">\(w_{i,j}\)</span> and leave away the remainder terms of order <span class="math inline">\(O(h^2)+O(k)\)</span>. This yields the following equations for the <span class="math inline">\(w_{i,j}\)</span>: <span class="math display">\[
 \alpha^2 \frac{ w_{i+1,j} - 2 w_{i,j} + w_{i-1,j} }{h^2} = \frac{ w_{i,j+1} - w_{i,j} }{k} ,
@@ -422,7 +422,7 @@ h := \frac{L}{N+1}, \quad k := \frac{T}{M}
 \]</span> we obtain the relation <span class="math display">\[
 \mathbf{w}_{j+1} = \mathbf{A}_+ \mathbf{w}_j .
 \]</span> Thus, starting with the initial value <span class="math inline">\(\mathbf{w}_0\)</span>, the approximation can be obtained by an iterated matrix multiplication. This approximation method is called the <em>Forward Difference method</em>.</p>
-<p>The Forward Difference method is very simple to apply, but it has a major disadvantage: it becomes unstable if the the step size <span class="math inline">\(k\)</span> is not chosen very small (cf.&nbsp;Maple worksheet used in the lecture). This phenomenon is closely related to the one we saw for stiff equations in <a href="ivp.html#sec-stiff" class="quarto-xref"><span>Section 10.9</span></a>. We will skip a more in-depth analysis here; see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 12.2</a>)</span>.</p>
+<p>The Forward Difference method is very simple to apply, but it has a major disadvantage: it becomes unstable if the the step size <span class="math inline">\(k\)</span> is not chosen very small. This phenomenon is closely related to the one we saw for stiff equations in <a href="ivp.html#sec-stiff" class="quarto-xref"><span>Section 10.9</span></a>. We will skip a more in-depth analysis here; see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 12.2</a>)</span>.</p>
 <p>We do, however, want to present a solution to the stability problem here, which is similar to the one found for stiff equations: we use an “implicit method” for approximation, the <em>Backward Difference method</em>. To that end, instead of the forward difference formula <a href="#eq-heatfdt" class="quarto-xref">Eq.&nbsp;<span>12.9</span></a>, we use the backward difference formula</p>
 <p><span id="eq-heatfdtback"><span class="math display">\[
 \frac{\partial u}{\partial t} (x_i,t_j)
@@ -446,7 +446,7 @@ h := \frac{L}{N+1}, \quad k := \frac{T}{M}
 \mathbf{w}_{j-1} = \mathbf{A}_- \mathbf{w}_j .
 \]</span> This does no longer explicitly give <span class="math inline">\(\mathbf{w}_j\)</span> from <span class="math inline">\(\mathbf{w}_{j-1}\)</span>. However, this is only a matter of matrix inversion (or, equivalently, solving linear equation systems) as we clearly have <span class="math display">\[
 \mathbf{w}_{j} = \mathbf{A}_-^{-1} \mathbf{w}_{j-1} .
-\]</span> Starting from <span class="math inline">\(\mathbf{w}_0\)</span>, this again allows us to compute all approximation values by iterative matrix multiplication (or iteratively solving linear equation systems). Since the matrix <span class="math inline">\(\mathbf{A}\)</span> is sparse (tridiagonal), this can be done very efficiently. Thus the Backward Difference method is only slightly more complex than the Forward Difference method. It does, however, not suffer from stability problems. (See again the Maple sheet used in the lecture.)</p>
+\]</span> Starting from <span class="math inline">\(\mathbf{w}_0\)</span>, this again allows us to compute all approximation values by iterative matrix multiplication (or iteratively solving linear equation systems). Since the matrix <span class="math inline">\(\mathbf{A}\)</span> is sparse (tridiagonal), this can be done very efficiently. Thus the Backward Difference method is only slightly more complex than the Forward Difference method. It does, however, not suffer from stability problems.</p>
 <p>We can reach a unified view of the two schemes by considering the <span class="math inline">\(N\times N\)</span> tridiagonal matrix <span class="math display">\[
 B=\begin{pmatrix}
           2 &amp; -1 &amp;  0 &amp; &amp; \cdots &amp; 0 \\
@@ -464,8 +464,8 @@ B=\begin{pmatrix}
 \mathbf{w}_{j+1}=\mathbf{w}_j+\lambda B\mathbf{w}_j=(I+\lambda B)\mathbf{w}_j=A_+\mathbf{w}_j
 \]</span> which is exactly the forward difference method above. The backward difference method is given by <span class="math display">\[
 \mathbf{w}_{j+1}=\mathbf{w}_j+\lambda B\mathbf{w}_{j+1}
-\]</span> in which we think of the one-sided difference quotient as an approximation for the derivative at the eight-hand endpoint, not the left-hand endpoint. This rearranges to <span class="math display">\[
-(I-\lambda B)\mathbf{w}_{j+1}=\mathbf{w}_j; \qquad A_-\mathbf{w}_{j+1}
+\]</span> in which we think of the one-sided difference quotient as an approximation for the derivative at the right-hand endpoint, not the left-hand endpoint. This rearranges to <span class="math display">\[
+\mathbf{w}_j=(I-\lambda B)\mathbf{w}_{j+1}=A_-\mathbf{w}_{j+1},
 \]</span> which is exactly the backward difference method above. As a single-step method for ODEs, this is known as the backward Euler or implicit Euler method.</p>
 <p>Finally, analogously to the implicit trapezoidal method, we can use the average of the steps from the forward and backward difference method to give the Crank-Nicolson method. <span class="math display">\[
 \mathbf{w}_{j+1}=\mathbf{w}_j+\frac{1}{2}\left(\lambda B\mathbf{w}_j+\lambda B\mathbf{w}_{j+1}\right)
@@ -480,6 +480,12 @@ B=\begin{pmatrix}
 Burden, Richard L., and J. Douglas Faires. 2010. <em>Numerical <span>Analysis</span></em>. 9th ed. Brooks Cole.
 </div>
 </div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>In the form presented here, the equation is actually explicitly solvable in terms of a Fourier series. One might ask therefore why numerical approximation methods are necessary. The answer is that the boundary conditions <span class="math inline">\(u(0, t) = u(L, t) = 0\)</span> chosen here are rather simplistic, which was done to simplify the discussion. But the numerical method can be generalized to more intricate boundary conditions where an explicit solution is no longer feasible.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

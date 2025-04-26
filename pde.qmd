@@ -115,8 +115,7 @@ $$
   = \frac{ u(x_{i},y_{j+1}) - 2 u(x_i,y_j) + u(x_{i},y_{j-1}) }{k^2} - \frac{k^2}{12} \frac{\partial^4 u}{\partial y^4}(x_i,\eta_j),
 \end{aligned}
 $$ {#eq-cd}
-where $\xi_i$ and $\eta_j$ are some unknown points in the intervals
-with (unknown) intermediate points $\xi_i,\eta_j$.
+where $\xi_i$ and $\eta_j$ are some unknown points in the intervals.
 
 Again following our recipe, we will approximate the solution at mesh
 points $u(x_i,y_j)$ with approximation values $w_{i,j}$. In the PDE
@@ -154,7 +153,7 @@ $NM$, and we may rewrite the equation system as
 $\mathbf{A}\mathbf{w}= \mathbf{b}$ with a $NM \times NM$ matrix
 $\mathbf{A}$ and a vector $\mathbf{b}\in\mathbb{R}^{NM}$.
 
-Like in the one-dimensional case, the matrix $\mathbf{A}$ is sparse,
+As in the one-dimensional case, the matrix $\mathbf{A}$ is sparse,
 that is, many of its entries are known to be zero. (It is not
 tridiagonal, however.) This makes the system
 $\mathbf{A}\mathbf{w}= \mathbf{b}$ fast to solve. Nevertheless, it is
@@ -168,7 +167,11 @@ As a second class of PDEs to be treated with the Finite Difference
 method, we consider *parabolic PDEs*. A typical example -- and the only
 one we will consider -- is the one-dimensional *heat equation* (also
 known as *diffusion equation*). This equation for a function $u$ of two
-variables $x$ and $t$ has the form[^19] 
+variables $x$ and $t$ has the form^[In the form presented here, the equation is actually explicitly solvable in terms of a Fourier series. One
+might ask therefore why numerical approximation methods are necessary. The answer is that the boundary
+conditions $u(0, t) = u(L, t) = 0$ chosen here are rather simplistic, which was done to simplify the discussion. But
+the numerical method can be generalized to more intricate boundary conditions where an explicit solution is no
+longer feasible.]
 $$
 \begin{aligned}
  &\alpha^2 \frac{\partial^2 u}{\partial x^2} =  \frac{\partial u}{\partial t}  \quad \text{on } R := \{ (x,t) : 0 \leq x \leq L, 0 \leq t \},\\
@@ -182,7 +185,7 @@ pieces here. One also refers to the condition $u(x,0) = g(x)$ as
 conditions for ODEs.
 
 In applications, $u(x,t)$ might have the interpretation of a local
-temperature -- say, in a homogeneous wall of width $L$ --, depending on
+temperature -- say, in a homogeneous wall of width $L$ -- depending on
 the spatial position $x$ and on time $t$. The initial condition is the
 temperature in the wall at time 0, and the remaining boundary conditions
 represent the temperature of the environment, depending on time $t$.
@@ -211,7 +214,7 @@ up. In the variable $x$, we once more use the centred difference formula
 @eq-cdypp,
 leading to 
 $$
-  = \frac{ u(x_{i+1},t_j) - 2 u(x_i,t_j) + u(x_{i-1},t_j) }{h^2} + O(h^2).
+\frac{\partial^2u}{\partial x^2}u(x_{i},t_j)  = \frac{ u(x_{i+1},t_j) - 2 u(x_i,t_j) + u(x_{i-1},t_j) }{h^2} + O(h^2).
 $$ {#eq-heatfdx}
 
 However, for the derivative by $t$, we cannot follow the same approach.
@@ -222,7 +225,7 @@ mesh point is on the boundary of $R$, and this would lead to an
 under-determined linear equation system later. As a way out, we use the
 (much simpler) *forward difference formula*, 
 $$
-  = \frac{ u(x_{i},t_{j+1}) -  u(x_i,t_j) }{k} + O(k).
+\frac{\partial u}{\partial t}u(x_{i},t_j)  = \frac{ u(x_{i},t_{j+1}) -  u(x_i,t_j) }{k} + O(k).
 $$ {#eq-heatfdt}
 
 
@@ -275,7 +278,7 @@ the *Forward Difference method*.
 
 The Forward Difference method is very simple to apply, but it has a
 major disadvantage: it becomes unstable if the the step size $k$ is not
-chosen very small (cf. Maple worksheet used in the lecture). This
+chosen very small. This
 phenomenon is closely related to the one we saw for stiff equations in
 @sec-stiff. We
 will skip a more in-depth analysis here; see [@Burden_Faires Sec. 12.2].
@@ -331,7 +334,6 @@ equation systems). Since the matrix $\mathbf{A}$ is sparse
 (tridiagonal), this can be done very efficiently. Thus the Backward
 Difference method is only slightly more complex than the Forward
 Difference method. It does, however, not suffer from stability problems.
-(See again the Maple sheet used in the lecture.)
 
 We can reach a unified view of the two schemes by considering the
 $N\times N$ tridiagonal matrix 
@@ -371,10 +373,10 @@ $$
 $$
 in which we
 think of the one-sided difference quotient as an approximation for the
-derivative at the eight-hand endpoint, not the left-hand endpoint. This
+derivative at the right-hand endpoint, not the left-hand endpoint. This
 rearranges to
 $$
-(I-\lambda B)\mathbf{w}_{j+1}=\mathbf{w}_j; \qquad A_-\mathbf{w}_{j+1}
+\mathbf{w}_j=(I-\lambda B)\mathbf{w}_{j+1}=A_-\mathbf{w}_{j+1},
 $$
 which is exactly the backward difference method above. As a single-step
 method for ODEs, this is known as the backward Euler or implicit Euler
