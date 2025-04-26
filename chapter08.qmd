@@ -110,7 +110,7 @@ f^{\prime}(x_{0})=\frac{f(x_{0}) - f(x_{0}-h)}{h} +
 $$ {#eq-backward-diff}
 where $x_{0}-h < \xi_{2} < x_{0}$ ($h>0$).
 
-[^main-3]: In fact, it can obtained from @eq-e20 simply by changing $h$ to $-h$.
+[^main-3]: In fact, it can be obtained from @eq-forward-diff simply by changing $h$ to $-h$.
 
 ## Three-point formulas for $f'$
 Now let us derive an approximation formula for $f^{\prime}(x_{0})$ based on points $x_{0}-h$, $x_{0}$ and $x_{0}+h$ ($h>0$). The Taylor formula @eq-e17 with $n=2$ implies that 
@@ -152,7 +152,7 @@ f^{\prime}(x_{0})&=\frac{1}{2h}\left[-3f(x_{0})+4f(x_{0}+h)-f(x_{0}+2h)\right]+O
 f^{\prime}(x_{0})&=\frac{1}{2h}\left[f(x_{0}-2h)-4f(x_{0}-h)+3f(x_{0})\right]+O(h^2)
 \end{split}
 $$ {#eq-f1}
-The first formula uses points $x_{0}$, $x_{0}+h$ and $x_{0}+2h$ and is called the *three-point forward difference formula* for $f^{\prime}(x_{0})$. The second formula is called the *three-point backward difference formula* and uses points $x_{0}-2h$, $x_{0}-h$ and $x_{0}$. Note that @eq-f2 can be obtained from @eq-f1 by simply replacing $h$ with $-h$, so, in fact, these two represent only one formula.
+The first formula uses points $x_{0}$, $x_{0}+h$ and $x_{0}+2h$ and is called the *three-point forward difference formula* for $f^{\prime}(x_{0})$. The second formula is called the *three-point backward difference formula* and uses points $x_{0}-2h$, $x_{0}-h$ and $x_{0}$. Note that the second equation can be obtained from the first by simply replacing $h$ with $-h$, so, in fact, these two represent only one formula.
 
 ::: {#exm-17}
 Prove @eq-f1 assuming that $f\in C^3(I)$ where $I$ is some open interval containing $x_{0}$.

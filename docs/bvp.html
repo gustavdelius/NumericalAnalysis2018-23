@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -57,7 +57,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -492,7 +492,7 @@ z'' = p(x) z'(x) + q(x) z(x) , \quad  a \leq x \leq b, \quad z(a) = 0, \quad z'(
 <p>The solutions <span class="math inline">\(y_0(x)\)</span> and <span class="math inline">\(z(x)\)</span> can be found (approximately) by our known methods from <a href="ivp.html" class="quarto-xref"><span>Chapter 10</span></a>. We can then compute the correct value of <span class="math inline">\(\gamma\)</span> for our boundary value problem, as indicated in <a href="#eq-shootlinsol" class="quarto-xref">Eq.&nbsp;<span>11.22</span></a>: <span id="eq-getgammalin"><span class="math display">\[
      \gamma = \frac{\beta - y_0(b)}{z(b)}.
 \tag{11.28}\]</span></span> Re-inserting this value <span class="math inline">\(\gamma\)</span> into <a href="#eq-yglin" class="quarto-xref">Eq.&nbsp;<span>11.27</span></a>, we have found the (approximate) solution of the BVP.</p>
-<div id="alg-shootlin" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-pseudocode-number="1" data-line-number-punc=":" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-chapter-level="11" data-indent-size="1.2em">
+<div id="alg-shootlin" class="pseudocode-container quarto-float" data-caption-prefix="Algorithm" data-line-number="true" data-chapter-level="11" data-indent-size="1.2em" data-pseudocode-number="1" data-no-end="false" data-line-number-punc=":" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{The Linear Shooting method with Runge-Kutta approximation} \begin{algorithmic} \Function{LinearShooting}{$a,b,\alpha,\beta,N$} \State \Comment{boundary values $\alpha,\beta$; number of Runge-Kutta steps $N$} \State $F :=\; (x,\mathbf{u}) \mapsto (u^{(2)},p(x) u^{(2)} + q(x) u^{(1)} + r(x))$ \Comment{Rewrite and solve IVP for $y_0$} \State $ \mathbf{y} := $ \Call{RungeKutta}{$F, a,b, (\alpha,0), N$} \Comment{$\mathbf{y} = ( \mathbf{y}_0,\ldots, \mathbf{y}_N)$, each $\mathbf{y}_j$ is a 2-vector} \State $G :=\; (x,\mathbf{u}) \mapsto (u^{(2)},p(x) u^{(2)} + q(x) u^{(1)})$ \Comment{Rewrite and solve IVP for $z$} \State $ \mathbf{z} := $ \Call{RungeKutta}{$G, a,b, (0,1), N$} \Comment{$\mathbf{z} = ( \mathbf{z}_0,\ldots, \mathbf{z}_N)$, each $\mathbf{z}_j$ is a 2-vector} \State $\gamma := \dfrac{\beta - y_N^{(1)} }{z_N^{(1)}}$ \Comment{Determine correct initial value} \For{$i = 0,\ldots,N$} \State $w_i := y_i^{(1)} + \gamma z_i^{(1)}$ \Comment{compute solution of BVP} \EndFor \Return ($w_{0},\ldots,w_{N}$) \EndFunction \end{algorithmic} \end{algorithm}
 </div>
@@ -537,7 +537,7 @@ u^{(2)} \\ f(x,u^{(1)},u^{(2)}) \\ u^{(4)} \\
 \tag{11.35}\]</span></span> From this IVP, which can be treated, e.g., with the classical Runge-Kutta method, we can now read off <span id="eq-bvp10"><span class="math display">\[
 g(\gamma) = u ^{(1)}(b), \quad g'(\gamma) = u ^{(3)}(b).
 \tag{11.36}\]</span></span> This finally allow us to compute the Newton step <a href="#eq-gammastep" class="quarto-xref">Eq.&nbsp;<span>11.30</span></a>.</p>
-<div id="alg-shootnonlin" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-pseudocode-number="2" data-line-number-punc=":" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-chapter-level="11" data-indent-size="1.2em">
+<div id="alg-shootnonlin" class="pseudocode-container quarto-float" data-caption-prefix="Algorithm" data-line-number="true" data-chapter-level="11" data-indent-size="1.2em" data-pseudocode-number="2" data-no-end="false" data-line-number-punc=":" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{The Nonlinear Shooting method with Runge-Kutta approximation} \begin{algorithmic} \Function{NonlinearShooting}{$a,b,\alpha,\beta,\gamma_0,N,T,M$} \State \Comment{boundary values $\alpha,\beta$; start value $\gamma_0$; number of Runge-Kutta steps $N$;} \State \Comment{tolerance $T$; maximum number of Newton iterations $M$} \State $F:= (x,\mathbf{u}) \mapsto \big(u^{(2)}, f(x,u^{(1)},u^{(2)}), u^{(4)} , \frac{\partial f}{\partial y}(x,u^{(1)},u^{(2)}) \, u^{(3)} +\frac{\partial f}{\partial y'}(x,u^{(1)},u^{(2)}) \, u^{(4)} \big)$ \State $\gamma := \gamma_0$; $k:=0$ \While{$k\leq M$} \State $ \mathbf{w} := $ \Call{RungeKutta}{$F, a,b, (\alpha,\gamma,0,1), N$} \State \Comment{here $\mathbf{w} = ( \mathbf{w}_0,\ldots, \mathbf{w}_N)$, each $\mathbf{w}_j$ is a 4-vector} \State $v := \dfrac{w_{N}^{(1)}-\beta}{w_{N}^{(3)}}$; $\gamma := \gamma - v$ \If{$|v|&lt;T$} \Break \EndIf \State $k:=k+1$ \EndWhile \Return ($w_{0}^{(1)},\ldots,w_{N}^{(1)}$) \EndFunction \end{algorithmic} \end{algorithm}
 </div>
@@ -680,7 +680,7 @@ p_{N-1}\\
 <p>For doing the Newton iteration, we need a sensible start value for the vector <span class="math inline">\(\mathbf{w}\)</span>. A common choice is to place the points <span class="math inline">\((x_i,w ^{(i)})\)</span> on a straight line from <span class="math inline">\((a,\alpha)\)</span> to <span class="math inline">\((b,\beta)\)</span>: <span id="eq-bvp16"><span class="math display">\[
 w ^{(i)}_0 = \alpha + i h \frac{\beta-\alpha}{b-a}.
 \tag{11.56}\]</span></span></p>
-<div id="alg-fdmnonlin" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-pseudocode-number="3" data-line-number-punc=":" data-line-number="true" data-no-end="false" data-caption-prefix="Algorithm" data-chapter-level="11" data-indent-size="1.2em">
+<div id="alg-fdmnonlin" class="pseudocode-container quarto-float" data-caption-prefix="Algorithm" data-line-number="true" data-chapter-level="11" data-indent-size="1.2em" data-pseudocode-number="3" data-no-end="false" data-line-number-punc=":" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{The Nonlinear Finite Difference method} \begin{algorithmic} \Function{NonlinearFiniteDifference}{$a,b,\alpha,\beta,N,M$} \State \Comment{boundary values $\alpha,\beta$; number of mesh points $N$; max.~Newton iterations $M$} \State $h := (b-a)/(N+1)$; $k:=1$ \State $w^{(i)} := \alpha + i h \frac{\beta-\alpha}{b-a}$ $(i = 1,\ldots,N)$ \Comment{Set start value for $\mathbf{w}$} \While{$k\leq M$} \State Compute $\mathbf{F}(\mathbf{w})$ and $\mathbf{J}(\mathbf{w})$ \State Solve $\mathbf{J}(\mathbf{w})\mathbf{v}=\mathbf{F}(\mathbf{w})$ for $\mathbf{v}$ using e.g. Crout factorization \State $\mathbf{w} := \mathbf{w} - \mathbf{v}$ \If{$|\mathbf{v}|&lt;T$} \Break \EndIf \State $k:=k+1$ \EndWhile \Return $\mathbf{w}$ \EndFunction \end{algorithmic} \end{algorithm}
 </div>

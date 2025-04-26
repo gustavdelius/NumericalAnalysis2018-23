@@ -1147,11 +1147,3 @@ $$ {#eq-bvp35}
 
 [^18]: Note that Burden/Faires [@Burden_Faires] reports the formula for
     $Q_{4,i}$ incorrectly.
-
-[^19]: In the form presented here, the equation is actually explicitly
-    solvable in terms of a Fourier series. One might ask therefore why
-    numerical approximation methods are necessary. The answer is that
-    the boundary conditions $u(0,t) = u(L,t) = 0$ chosen here are rather
-    simplistic, which was done to simplify the discussion. But the
-    numerical method can be generalized to more intricate boundary
-    conditions where an explicit solution is no longer feasible.

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -57,7 +57,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -1338,8 +1338,7 @@ w_{i+1} &amp;:= w_i + \frac{1}{2} k_{i,1} + \frac{1}{2} k_{i,2}.
 \hline
 &amp; c_1 &amp; c_2 &amp; \ldots &amp; c_{s-1} &amp; c_s
 \end{array}
-\text{where $a_i$, $b_{ij}$, $c_i$ are real numbers.}
-\tag{10.117}\]</span></span> The tableau is a shorthand notation for the associated difference equation of a one-step method: <span id="eq-ivp55"><span class="math display">\[
+\tag{10.117}\]</span></span> where <span class="math inline">\(a_i\)</span>, <span class="math inline">\(b_{ij}\)</span>, <span class="math inline">\(c_i\)</span> are real numbers. The tableau is a shorthand notation for the associated difference equation of a one-step method: <span id="eq-ivp55"><span class="math display">\[
 \begin{aligned}
 \mathbf{w}_0 &amp;:= \alpha;
 \\
@@ -1537,8 +1536,31 @@ q =  \left( \frac{T}{\lVert\tilde{\boldsymbol{\phi}}(x_i,\mathbf{w}_i,h) - \bold
 </section>
 <section id="the-runge-kutta-fehlberg-method" class="level3" data-number="10.7.2">
 <h3 data-number="10.7.2" class="anchored" data-anchor-id="the-runge-kutta-fehlberg-method"><span class="header-section-number">10.7.2</span> The Runge-Kutta-Fehlberg method</h3>
-<p>A popular implementation of the above principle is the <em>Runge-Kutta-Fehlberg</em> method. It uses an order-4 Runge-Kutta method for <span class="math inline">\(\boldsymbol{\phi}\)</span> and an order-5 Runge-Kutta method for <span class="math inline">\(\tilde{\boldsymbol{\phi}}\)</span>. The Butcher tableaux for both methods are shown in <span class="quarto-unresolved-ref">?tbl-butcherrkf</span>. The special feature of this algorithm is that the two approximation methods <em>share</em> most parts of their coefficient schemes; more precisely, the auxiliary values <span class="math inline">\(\mathbf{k}_1,\ldots,\mathbf{k}_6\)</span> are the same in both approximation methods. Only the “final lines” in the Butcher tableaux are different: for computing <span class="math inline">\(\mathbf{w}_{i+1}\)</span>, one uses the line marked (a), while for <span class="math inline">\(\tilde{\mathbf{w}}_{i+1}\)</span>, the line marked (b) is used. This arrangement makes the algorithm rather efficient: the function <span class="math inline">\(\mathbf{f}\)</span> needs to be evaluated only 6 times per step. Compare this with the 4 function evaluations needed for the classical Runge-Kutta method of order 4 <em>without</em> error control. The additional overhead caused by the error control method is noticeable, but not too large.</p>
-<div id="alg-rkf" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-indent-size="1.2em" data-no-end="false" data-caption-prefix="Algorithm" data-pseudocode-number="1" data-chapter-level="10" data-line-number="true" data-line-number-punc=":">
+<p>A popular implementation of the above principle is the <em>Runge-Kutta-Fehlberg</em> method. It uses an order-4 Runge-Kutta method for <span class="math inline">\(\boldsymbol{\phi}\)</span> and an order-5 Runge-Kutta method for <span class="math inline">\(\tilde{\boldsymbol{\phi}}\)</span>. The Butcher tableaux for both methods is <span class="quarto-unresolved-ref">?eq-butcherrkf</span>. <span class="math display">\[
+\begin{array}{c|ccccccl}
+   0 &amp;  
+  \\
+   \frac{1}{4} &amp; \frac{1}{4}
+  \\
+   \frac{3}{8} &amp; \frac{3}{32} &amp; \frac{9}{32}
+  \\
+   \frac{12}{13} &amp; \frac{1932}{2197} &amp; -\frac{7200}{2197} &amp; \frac{7296}{2197}
+  \\
+   1 &amp; \frac{439}{216} &amp; -8 &amp; \frac{3680}{513} &amp; - \frac{845}{4104}
+\\
+   \frac{1}{2} &amp; -\frac{8}{27} &amp; 2 &amp; -\frac{3544}{2565} &amp;  \frac{1859}{4104} &amp; -\frac{11}{40}
+%
+\\
+\hline
+  \text{\textbf{(a)}}  &amp; \frac{25}{216} &amp; 0 &amp; \frac{1408}{2565} &amp;  \frac{2197}{4104} &amp; -\frac{1}{5} &amp;
+%
+\\
+\hline
+  \text{\textbf{(b)}}  &amp; \frac{16}{135} &amp; 0 &amp; \frac{6656}{12825} &amp; \frac{28561}{56430} &amp; - \frac{9}{50} &amp; \frac{2}{55}
+\end{array}
+\]</span></p>
+<p>The special feature of this algorithm is that the two approximation methods <em>share</em> most parts of their coefficient schemes; more precisely, the auxiliary values <span class="math inline">\(\mathbf{k}_1,\ldots,\mathbf{k}_6\)</span> are the same in both approximation methods. Only the “final lines” in the Butcher tableaux are different: for computing <span class="math inline">\(\mathbf{w}_{i+1}\)</span>, one uses the line marked (a), while for <span class="math inline">\(\tilde{\mathbf{w}}_{i+1}\)</span>, the line marked (b) is used. This arrangement makes the algorithm rather efficient: the function <span class="math inline">\(\mathbf{f}\)</span> needs to be evaluated only 6 times per step. Compare this with the 4 function evaluations needed for the classical Runge-Kutta method of order 4 <em>without</em> error control. The additional overhead caused by the error control method is noticeable, but not too large.</p>
+<div id="alg-rkf" class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm" data-comment-delimiter="//" data-no-end="false" data-pseudocode-number="1" data-chapter-level="10" data-line-number-punc=":" data-indent-size="1.2em">
 <div class="pseudocode">
 \begin{algorithm} \caption{The Runge-Kutta-Fehlberg method} \begin{algorithmic} \Function{RungeKuttaFehlberg}{$a,b,\boldsymbol{\alpha},T,h_{min},h_{max}$} \State \Comment{tolerance $T$; minimal/maximal step size $h_{min}$, $h_{max}$} \State $x := a$, $\boldsymbol{w} := \boldsymbol{\alpha}$, $h := h_{max}$ \Repeat \State Compute $\boldsymbol{k}_1,\ldots, \boldsymbol{k}_6$ from Butcher tableau with step size $h$ \State $R := {h}^{-1}\lVert \sum_{j=1}^6 (c_j-\tilde c_j) \boldsymbol{k}_j \rVert$ \Comment{Estimate local truncation error} \If{ $R \leq T$ } \State $x := x+h$, $\boldsymbol{w} := \boldsymbol{w} + \sum_{j=1}^5 c_j \boldsymbol{k}_j$ \Comment{accept approximation} \EndIf \State \Comment{Now choose the new step size} \State $q :=(T/2R)^{1/4}$ \Comment{factor to multiply $h$ with} \If{$q \leq 0.1$} \State $h := 0.1h$ \Comment{do not decrease too much} \ElsIf{$q \geq 4$} \State $h := 4h $ \Comment{do not increase too much} \Else \State $h := h \cdot q$ \EndIf \If{$h \geq h_{max}$} \State $h:= h_{max}$ \Comment{do not exceed max step size} \EndIf \If{ $x + h &gt; b$ } \State $h := b-x$ \Comment{next step would exceed interval} \ElsIf{$h &lt;h_{min}$} \State Error: minimum step size exceeded \EndIf \Until{$x\geq b$} \Return $\boldsymbol{w}$ \EndFunction \end{algorithmic} \end{algorithm}
 </div>
@@ -1570,7 +1592,7 @@ q =\left(\frac{hT}{2\lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}\rVert}\rig
 <p>Examples of <span class="math inline">\(k\)</span>-step multistep methods are the so-called Adams-Bashforth and Adams-Moulton methods. They are derived from rewriting the differential equation as an integral equation, <span id="eq-ivp71"><span class="math display">\[
 \mathbf{y}'=\mathbf{f}(x,\mathbf{y}(x)) \quad \Leftrightarrow \quad
   \mathbf{y}(x_{i+1}) = \mathbf{y}(x_i) + \int_{x_i}^{x_{i+1}} \mathbf{f}(x,\mathbf{y}(x)) \,dx,
-\tag{10.149}\]</span></span> and then approximating the components <span class="math inline">\(\hat{f}_j\)</span> on the right hand side with Lagrange interpolating polynomials. The integral can be done explicitly, and one obtains the difference equation of a multi-step method; see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 5.6</a>)</span> for details. The number <span class="math inline">\(k\)</span> of steps depends on the number of interpolation points chosen. Adams-Bashforth methods (<span class="quarto-unresolved-ref">?tbl-abmethod</span>) are <span class="math inline">\(k\)</span>-step <em>explicit</em> methods of error order <span class="math inline">\(O(h^k)\)</span> and Adams-Moulton methods (<span class="quarto-unresolved-ref">?tbl-ammethod</span>) are <span class="math inline">\(k\)</span>-step <em>implicit</em> methods of error oreder <span class="math inline">\(O(h^{k+1})\)</span>,</p>
+\tag{10.149}\]</span></span> and then approximating the components <span class="math inline">\(\hat{f}_j\)</span> on the right hand side with Lagrange interpolating polynomials. The integral can be done explicitly, and one obtains the difference equation of a multi-step method; see <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010, sec. 5.6</a>)</span> for details. The number <span class="math inline">\(k\)</span> of steps depends on the number of interpolation points chosen. Adams-Bashforth methods (<span class="quarto-unresolved-ref">?tbl-abmethod</span>) are <span class="math inline">\(k\)</span>-step <em>explicit</em> methods of error order <span class="math inline">\(O(h^k)\)</span> and Adams-Moulton methods (<span class="quarto-unresolved-ref">?tbl-ammethod</span>) are <span class="math inline">\(k\)</span>-step <em>implicit</em> methods of error order <span class="math inline">\(O(h^{k+1})\)</span>,</p>
 <p>Notation: <span class="math inline">\(\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)\)</span>.</p>
 <p>As with Taylor and Runge-Kutta methods, the estimates for the local truncation error depend on higher-order total derivatives of <span class="math inline">\(\mathbf{f}\)</span>.</p>
 <p>In order to apply these multi-step methods in examples, we need additional start values <span class="math inline">\(\mathbf{w}_1=\boldsymbol{\alpha}_1, \ldots,
@@ -1589,7 +1611,7 @@ q =\left(\frac{hT}{2\lVert\tilde{\mathbf{w}}_{i+1} - \mathbf{w}_{i+1}\rVert}\rig
 \mathbf{w}_{i+1} = \mathbf{w}_i + \frac{h}{24} (9 \mathbf{f}(x_{i+1},\mathbf{w}_{i+1}^{(p)}) + 19 \mathbf{f}_i - 5
    \mathbf{f}_{i-1} + \mathbf{f}_{i-2}).
 \tag{10.151}\]</span></span> Here <span class="math inline">\(\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)\)</span>. Both the predictor and the corrector are of order <span class="math inline">\(O(h^4)\)</span>, and so is the entire method, as it turns out. However, the combined predictor-corrector method is more precise than each of the parts alone.</p>
-<div id="alg-adams4" class="pseudocode-container quarto-float" data-comment-delimiter="//" data-indent-size="1.2em" data-no-end="false" data-caption-prefix="Algorithm" data-pseudocode-number="2" data-chapter-level="10" data-line-number="true" data-line-number-punc=":">
+<div id="alg-adams4" class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm" data-comment-delimiter="//" data-no-end="false" data-pseudocode-number="2" data-chapter-level="10" data-line-number-punc=":" data-indent-size="1.2em">
 <div class="pseudocode">
 \begin{algorithm} \caption{Adams fourth-order predictor-corrector} \begin{algorithmic} \Function{AdamsPredictorCorrector}{$a,b,\boldsymbol{\alpha},N$} \State \Comment{endpoints $a \leq b$; initial condition $\boldsymbol{\alpha}$; number of steps $N$} \State $h := (b-a)/N$, $x_0 := a$, $\boldsymbol{w}_0 := \boldsymbol{\alpha}$, $\boldsymbol{f}_0 := \boldsymbol{f}(x_0,\boldsymbol{w}_0)$. \For { $i = 1,2,3$ } \Comment{prepare first steps} \State Compute $\boldsymbol{w}_i$ using Runge-Kutta fourth order \State $x_i := x_{i-1}+h$; $\boldsymbol{f}_i := \boldsymbol{f}(x_i,\boldsymbol{w}_i)$ \EndFor \For {$i = 4,\ldots,N$} \Comment{main approximation} \State $x := a + ih$ \State $\boldsymbol{w} := \boldsymbol{w}_3 + \frac{h}{24} (55 \boldsymbol{f}_3 - 59 \boldsymbol{f}_2 + 37 \boldsymbol{f}_1 - 9 \boldsymbol{f}_0)$ \Comment{predict} \State $\boldsymbol{w} := \boldsymbol{w}_3 + \frac{h}{24} (9 \boldsymbol{f}(x,\boldsymbol{w}) + 19 \boldsymbol{f}_3 - 5 \boldsymbol{f}_2 + \boldsymbol{f}_1)$ \Comment{correct} \For{j = 0,1,2} \State $x_j := x_{j+1}$; $\boldsymbol{w}_j := \boldsymbol{w}_{j+1}$; $\boldsymbol{f}_j := \boldsymbol{f}_{j+1}$; \EndFor \State $x_3 := x$; $\boldsymbol{w}_3 := \boldsymbol{w}$; $\boldsymbol{f}_3 := \boldsymbol{f}(x,\boldsymbol{w})$; \EndFor \State \Return $\boldsymbol{w}$ \EndFunction \end{algorithmic} \end{algorithm}
 </div>

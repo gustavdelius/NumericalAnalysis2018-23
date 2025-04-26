@@ -158,8 +158,7 @@ $$
 $$ {#eq-int:simpson}
 This is known as *Simpson's rule*, which is graphically represented in @fig-Simpson.
 
-::: center
-:::
+![Simpson's rule](figures/chapter07/simpson.png){#fig-Simpson width=80%}
 
 **Error term for Simpson's rule.** Let us recall the Trapezium rule with error term: 
 $$

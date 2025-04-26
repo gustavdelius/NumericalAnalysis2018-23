@@ -59,7 +59,7 @@ $$  {#eq-taylor4}
 for all $\mathbf{x}\in D$.
 :::
 
-(See [@Dev Sec. 7.4] for a proof in the case $n=1$ and with an explicit
+(See [@Devinatz:1968 Sec. 7.4] for a proof in the case $n=1$ and with an explicit
 remainder term. The above version then follows by estimating the
 remainder with its supremum, and taking the maximum over the components
 of $\mathbf{f}$. It is possible to obtain an explicit form of the

@@ -1627,8 +1627,8 @@ $$
 \hline
 & c_1 & c_2 & \ldots & c_{s-1} & c_s
 \end{array}
-\text{where $a_i$, $b_{ij}$, $c_i$ are real numbers.}
 $${#eq-ivp54}
+where $a_i$, $b_{ij}$, $c_i$ are real numbers.
 The tableau is a
 shorthand notation for the associated difference equation of a one-step
 method: 
@@ -2006,9 +2006,33 @@ step size $h$.
 A popular implementation of the above principle is the
 *Runge-Kutta-Fehlberg* method. It uses an order-4 Runge-Kutta method for
 $\boldsymbol{\phi}$ and an order-5 Runge-Kutta method for
-$\tilde{\boldsymbol{\phi}}$. The Butcher tableaux for both methods are
-shown in
-@tbl-butcherrkf. The special feature of this algorithm is
+$\tilde{\boldsymbol{\phi}}$. The Butcher tableaux for both methods is
+@eq-butcherrkf. 
+$$
+\begin{array}{c|ccccccl}
+   0 &  
+  \\
+   \frac{1}{4} & \frac{1}{4}
+  \\
+   \frac{3}{8} & \frac{3}{32} & \frac{9}{32}
+  \\
+   \frac{12}{13} & \frac{1932}{2197} & -\frac{7200}{2197} & \frac{7296}{2197}
+  \\
+   1 & \frac{439}{216} & -8 & \frac{3680}{513} & - \frac{845}{4104}
+\\
+   \frac{1}{2} & -\frac{8}{27} & 2 & -\frac{3544}{2565} &  \frac{1859}{4104} & -\frac{11}{40}
+%
+\\
+\hline
+  \text{\textbf{(a)}}  & \frac{25}{216} & 0 & \frac{1408}{2565} &  \frac{2197}{4104} & -\frac{1}{5} &
+%
+\\
+\hline
+  \text{\textbf{(b)}}  & \frac{16}{135} & 0 & \frac{6656}{12825} & \frac{28561}{56430} & - \frac{9}{50} & \frac{2}{55} 
+\end{array}
+$$
+
+The special feature of this algorithm is
 that the two approximation methods *share* most parts of their
 coefficient schemes; more precisely, the auxiliary values
 $\mathbf{k}_1,\ldots,\mathbf{k}_6$ are the same in both approximation
@@ -2156,7 +2180,7 @@ depends on the number of interpolation points chosen. Adams-Bashforth
 methods (@tbl-abmethod) are $k$-step *explicit* methods of error
 order $O(h^k)$ and Adams-Moulton methods
 (@tbl-ammethod) are $k$-step *implicit* methods of error
-oreder $O(h^{k+1})$,
+order $O(h^{k+1})$,
 
 Notation: $\mathbf{f}_j := \mathbf{f}(x_j,\mathbf{w}_j)$.
 

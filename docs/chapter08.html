@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -398,7 +398,7 @@ f^{\prime}(x_{0})=\frac{f(x_{0}+h) - f(x_{0}-h)}{2h} -
 f^{\prime}(x_{0})&amp;=\frac{1}{2h}\left[-3f(x_{0})+4f(x_{0}+h)-f(x_{0}+2h)\right]+O(h^2)\\
 f^{\prime}(x_{0})&amp;=\frac{1}{2h}\left[f(x_{0}-2h)-4f(x_{0}-h)+3f(x_{0})\right]+O(h^2)
 \end{split}
-\tag{8.22}\]</span></span> The first formula uses points <span class="math inline">\(x_{0}\)</span>, <span class="math inline">\(x_{0}+h\)</span> and <span class="math inline">\(x_{0}+2h\)</span> and is called the <em>three-point forward difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. The second formula is called the <em>three-point backward difference formula</em> and uses points <span class="math inline">\(x_{0}-2h\)</span>, <span class="math inline">\(x_{0}-h\)</span> and <span class="math inline">\(x_{0}\)</span>. Note that <span class="quarto-unresolved-ref">?eq-f2</span> can be obtained from <a href="#eq-f1" class="quarto-xref">Eq.&nbsp;<span>8.22</span></a> by simply replacing <span class="math inline">\(h\)</span> with <span class="math inline">\(-h\)</span>, so, in fact, these two represent only one formula.</p>
+\tag{8.22}\]</span></span> The first formula uses points <span class="math inline">\(x_{0}\)</span>, <span class="math inline">\(x_{0}+h\)</span> and <span class="math inline">\(x_{0}+2h\)</span> and is called the <em>three-point forward difference formula</em> for <span class="math inline">\(f^{\prime}(x_{0})\)</span>. The second formula is called the <em>three-point backward difference formula</em> and uses points <span class="math inline">\(x_{0}-2h\)</span>, <span class="math inline">\(x_{0}-h\)</span> and <span class="math inline">\(x_{0}\)</span>. Note that the second equation can be obtained from the first by simply replacing <span class="math inline">\(h\)</span> with <span class="math inline">\(-h\)</span>, so, in fact, these two represent only one formula.</p>
 <div id="exm-17" class="theorem example">
 <p><span class="theorem-title"><strong>Example 8.1</strong></span> Prove <a href="#eq-f1" class="quarto-xref">Eq.&nbsp;<span>8.22</span></a> assuming that <span class="math inline">\(f\in C^3(I)\)</span> where <span class="math inline">\(I\)</span> is some open interval containing <span class="math inline">\(x_{0}\)</span>.</p>
 </div>
@@ -489,7 +489,7 @@ E_{min}=E(h^{*})=
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>In fact, it can obtained from <span class="quarto-unresolved-ref">?eq-e20</span> simply by changing <span class="math inline">\(h\)</span> to <span class="math inline">\(-h\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>In fact, it can be obtained from <a href="#eq-forward-diff" class="quarto-xref">Eq.&nbsp;<span>8.15</span></a> simply by changing <span class="math inline">\(h\)</span> to <span class="math inline">\(-h\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

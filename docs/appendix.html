@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -57,7 +57,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -340,7 +340,7 @@ f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
     \sup_{\mathbf{x}' \in D} \big\lVert \frac{\partial^{|\mathbf{j}|} \mathbf{f}}{\partial\mathbf{x}^\mathbf{j}}(\mathbf{x}') \big\rVert
 \tag{A.4}\]</span></span> for all <span class="math inline">\(\mathbf{x}\in D\)</span>.</p>
 </div>
-<p>(See <span class="citation" data-cites="Dev">(<a href="references.html#ref-Dev" role="doc-biblioref"><strong>Dev?</strong></a>)</span> for a proof in the case <span class="math inline">\(n=1\)</span> and with an explicit remainder term. The above version then follows by estimating the remainder with its supremum, and taking the maximum over the components of <span class="math inline">\(\mathbf{f}\)</span>. It is possible to obtain an explicit form of the remainder for <span class="math inline">\(n&gt;1\)</span> as well, although not in Lagrange form; but the formula is slightly complicated, and we will not need it.)</p>
+<p>(See <span class="citation" data-cites="Devinatz:1968">(<a href="references.html#ref-Devinatz:1968" role="doc-biblioref">Devinatz 1968, sec. 7.4</a>)</span> for a proof in the case <span class="math inline">\(n=1\)</span> and with an explicit remainder term. The above version then follows by estimating the remainder with its supremum, and taking the maximum over the components of <span class="math inline">\(\mathbf{f}\)</span>. It is possible to obtain an explicit form of the remainder for <span class="math inline">\(n&gt;1\)</span> as well, although not in Lagrange form; but the formula is slightly complicated, and we will not need it.)</p>
 <p>We are interested in the following special cases. First, there is the case where <span class="math inline">\(m=1\)</span>, i.e., <span class="math inline">\(\mathbf{f}\)</span> depends only on one variable. Then the multi-index <span class="math inline">\(\mathbf{j}\)</span> is just a number <span class="math inline">\(j \in \mathbb{N}_0\)</span>, the partial derivatives are ordinary derivatives, and we obtain:</p>
 <div id="thm-taylor1nd" class="theorem">
 <p><span class="theorem-title"><strong>Theorem A.3</strong></span> Let <span class="math inline">\(I\)</span> be an interval, and let <span class="math inline">\(\mathbf{f}\in \mathcal{C}^{k+1}(I,\mathbb{R}^n)\)</span>. For each <span class="math inline">\(a \in I\)</span>, there exists <span class="math inline">\(\mathbf{R}_a : I \to \mathbb{R}^n\)</span> such that <span id="eq-taylor5"><span class="math display">\[
@@ -373,6 +373,9 @@ f(x) = \sum_{j=0}^k \frac{1}{j!} \frac{d^j f}{dx^j}(a) \, (x-a)^j
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-Apostol:1969" class="csl-entry" role="listitem">
 Apostol, T. M. 1969. <em>Calculus, Vol. 1</em>. 2nd ed. Wiley.
+</div>
+<div id="ref-Devinatz:1968" class="csl-entry" role="listitem">
+Devinatz, A. 1968. <em>Advanced Calculus</em>. Holt, Rinehart; Winston.
 </div>
 </div>
 
